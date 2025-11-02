@@ -366,7 +366,7 @@ LocomotorTemplate::LocomotorTemplate()
 	m_wanderAboutPointRadius = 0.0f;
 
 	// TheSuperHackers @feature Ahmed Salah 30/10/2025 Default engine component name
-	m_engineComponentName = "MainEngine";
+	m_engineComponentName = EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME;
 
 	m_rudderCorrectionDegree    = 0.0f;
 	m_rudderCorrectionRate      = 0.0f;
@@ -898,7 +898,7 @@ EngineComponent* Locomotor::getEngineComponent(const Object* obj) const
 	const AsciiString& name = m_template->m_engineComponentName;
 	if (!name.isEmpty())
 		return body->GetComponent<EngineComponent>(name);
-	return body->GetComponent<EngineComponent>("MainEngine");
+	return body->GetComponent<EngineComponent>(EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME);
 }
 
 //-------------------------------------------------------------------------------------------------

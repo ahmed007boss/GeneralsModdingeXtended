@@ -60,8 +60,9 @@ enum BodyDamageType CPP_11(: Int)
 	
 	// TheSuperHackers @feature author 15/01/2025 Component-specific damage states
 	BODY_COMPONENT_ENGINE_DESTROYED,	///< engine component has been destroyed
+	BODY_COMPONENT_ENGINE_DAMAGED,	///< engine component has been damaged
 	BODY_COMPONENT_TURRET_DESTROYED,	///< turret component has been destroyed
-	BODY_COMPONENT_RADAR_DESTROYED,	///< radar component has been destroyed
+	BODY_COMPONENT_TURRET_DAMAGED,	///< turret component has been damaged
 	
 	// TheSuperHackers @feature author 15/01/2025 Specific weapon slot damage states
 	BODY_COMPONENT_WEAPON_A_DESTROYED,	///< weapon slot A component has been destroyed
@@ -73,6 +74,34 @@ enum BodyDamageType CPP_11(: Int)
 	BODY_COMPONENT_WEAPON_G_DESTROYED,	///< weapon slot G component has been destroyed
 	BODY_COMPONENT_WEAPON_H_DESTROYED,	///< weapon slot H component has been destroyed
 
+	BODY_COMPONENT_WEAPON_A_DAMAGED,	///< weapon slot A component has been damaged
+	BODY_COMPONENT_WEAPON_B_DAMAGED,	///< weapon slot B component has been damaged
+	BODY_COMPONENT_WEAPON_C_DAMAGED,	///< weapon slot C component has been damaged
+	BODY_COMPONENT_WEAPON_D_DAMAGED,	///< weapon slot D component has been damaged
+	BODY_COMPONENT_WEAPON_E_DAMAGED,	///< weapon slot E component has been damaged
+	BODY_COMPONENT_WEAPON_F_DAMAGED,	///< weapon slot F component has been damaged
+	BODY_COMPONENT_WEAPON_G_DAMAGED,	///< weapon slot G component has been damaged
+	BODY_COMPONENT_WEAPON_H_DAMAGED,	///< weapon slot H component has been damaged
+
+	BODY_COMPONENT_A_DESTROYED,	///< Component A component has been destroyed
+	BODY_COMPONENT_B_DESTROYED,	///< Component B component has been destroyed
+	BODY_COMPONENT_C_DESTROYED,	///< Component C component has been destroyed
+	BODY_COMPONENT_D_DESTROYED,	///< Component D component has been destroyed
+	BODY_COMPONENT_E_DESTROYED,	///< Component E component has been destroyed
+	BODY_COMPONENT_F_DESTROYED,	///< Component F component has been destroyed
+	BODY_COMPONENT_G_DESTROYED,	///< Component G component has been destroyed
+	BODY_COMPONENT_H_DESTROYED,	///< Component H component has been destroyed
+
+	BODY_COMPONENT_A_DAMAGED,	///< Component A component has been damaged
+	BODY_COMPONENT_B_DAMAGED,	///< Component B component has been damaged
+	BODY_COMPONENT_C_DAMAGED,	///< Component C component has been damaged
+	BODY_COMPONENT_D_DAMAGED,	///< Component D component has been damaged
+	BODY_COMPONENT_E_DAMAGED,	///< Component E component has been damaged
+	BODY_COMPONENT_F_DAMAGED,	///< Component F component has been damaged
+	BODY_COMPONENT_G_DAMAGED,	///< Component G component has been damaged
+	BODY_COMPONENT_H_DAMAGED,	///< Component H component has been damaged
+
+
 	BODYDAMAGETYPE_COUNT
 };
 
@@ -83,9 +112,13 @@ static const char* const TheBodyDamageTypeNames[] =
 	"DAMAGED",
 	"REALLYDAMAGED",
 	"RUBBLE",
+
+
 	"COMPONENT_ENGINE_DESTROYED",
+	"COMPONENT_ENGINE_DAMAGED",
 	"COMPONENT_TURRET_DESTROYED",
-	"COMPONENT_RADAR_DESTROYED",
+	"COMPONENT_TURRET_DAMAGED",
+
 	"COMPONENT_WEAPON_A_DESTROYED",
 	"COMPONENT_WEAPON_B_DESTROYED",
 	"COMPONENT_WEAPON_C_DESTROYED",
@@ -94,6 +127,33 @@ static const char* const TheBodyDamageTypeNames[] =
 	"COMPONENT_WEAPON_F_DESTROYED",
 	"COMPONENT_WEAPON_G_DESTROYED",
 	"COMPONENT_WEAPON_H_DESTROYED",
+
+	"COMPONENT_WEAPON_A_DAMAGED",
+	"COMPONENT_WEAPON_B_DAMAGED",
+	"COMPONENT_WEAPON_C_DAMAGED",
+	"COMPONENT_WEAPON_D_DAMAGED",
+	"COMPONENT_WEAPON_E_DAMAGED",
+	"COMPONENT_WEAPON_F_DAMAGED",
+	"COMPONENT_WEAPON_G_DAMAGED",
+	"COMPONENT_WEAPON_H_DAMAGED",
+
+	"COMPONENT_A_DESTROYED",
+	"COMPONENT_B_DESTROYED",
+	"COMPONENT_C_DESTROYED",
+	"COMPONENT_D_DESTROYED",
+	"COMPONENT_E_DESTROYED",
+	"COMPONENT_F_DESTROYED",
+	"COMPONENT_G_DESTROYED",
+	"COMPONENT_H_DESTROYED",
+
+	"COMPONENT_A_DAMAGED",
+	"COMPONENT_B_DAMAGED",
+	"COMPONENT_C_DAMAGED",
+	"COMPONENT_D_DAMAGED",
+	"COMPONENT_E_DAMAGED",
+	"COMPONENT_F_DAMAGED",
+	"COMPONENT_G_DAMAGED",
+	"COMPONENT_H_DAMAGED",
 
 	NULL
 };

@@ -155,7 +155,7 @@ public:
 
 	// TheSuperHackers @feature author 15/01/2025 Component dependency system
 	std::vector<AsciiString> m_affectedByComponents;			///< List of component names that affect this locomotor's functionality
-	AsciiString								m_engineComponentName;		///< TheSuperHackers @feature Ahmed Salah 30/10/2025 Engine component name (INI), default "MainEngine"
+	AsciiString								m_engineComponentName;		///< TheSuperHackers @feature Ahmed Salah 30/10/2025 Engine component name (INI), default uses EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME
 
 protected:
 

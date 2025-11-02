@@ -9,6 +9,9 @@
 #include "GameLogic/Components/VisionComponent.h"
 #include "GameLogic/Components/ElectronicsComponent.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default radar component name constant definition
+const char* SensorComponent::DEFAULT_RADAR_COMPONENT_NAME = "Radar";
+
 Real SensorComponent::getShroudClearingRange() const
 {
 	const ComponentStatus status = getStatus();
@@ -100,8 +103,12 @@ void SensorComponent::parseSensorComponent(INI* ini, void* instance, void* /*sto
 	ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
 	
 	// Get component name from the first token (e.g., "SensorSuite", "ReconPackage", etc.)
-	AsciiString componentName = ini->getNextToken();
-	if (componentName.isEmpty()) return;
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_RADAR_COMPONENT_NAME;
+	else
+		componentName = token;
 	
 	SensorComponent* sensor = new SensorComponent();
 	sensor->setName(componentName);

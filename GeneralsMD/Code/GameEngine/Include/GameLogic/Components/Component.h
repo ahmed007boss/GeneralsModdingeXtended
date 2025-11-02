@@ -88,6 +88,7 @@ protected:
 	Bool m_forceReturnOnDestroy;				///< Force jet to return to parking when this component is destroyed
 	ValueType m_maxHealthValueType;			///< How maxHealth is calculated (absolute or percentage of main object health)
 	ValueType m_initialHealthValueType;		///< How initialHealth is calculated (absolute or percentage of main object health)
+	BodyDamageType m_damagedDamageType;		///< Damage state to return when damaged (10% - 50% health)
 	BodyDamageType m_destroyedDamageType; 		///< Damage state to return when destroyed
 
 	// Runtime component health tracking
@@ -105,7 +106,7 @@ protected:
 	
 
 public:
-	Component() : m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE) {}
+	Component() : m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_damagedDamageType((BodyDamageType)0), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE) {}
 
 	// Accessors for configuration/state
 	const AsciiString& getName() const { return m_name; }
@@ -126,6 +127,8 @@ public:
 	void setReplacementCost(UnsignedInt c) { m_replacementCost = c; }
 	Bool getForceReturnOnDestroy() const { return m_forceReturnOnDestroy; }
 	void setForceReturnOnDestroy(Bool b) { m_forceReturnOnDestroy = b; }
+	BodyDamageType getDamagedDamageType() const { return m_damagedDamageType; }
+	void setDamagedDamageType(BodyDamageType t) { m_damagedDamageType = t; }
 	BodyDamageType getDestroyedDamageType() const { return m_destroyedDamageType; }
 	void setDestroyedDamageType(BodyDamageType t) { m_destroyedDamageType = t; }
 	

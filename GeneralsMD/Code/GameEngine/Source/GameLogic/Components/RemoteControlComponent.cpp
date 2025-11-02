@@ -7,11 +7,20 @@
 #include "Common/INI.h"
 #include "GameLogic/Module/ActiveBody.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default remote controller component name constant definition
+const char* RemoteControlComponent::DEFAULT_REMOTE_CONTROLLER_COMPONENT_NAME = "RemoteController";
+
 void RemoteControlComponent::parseRemoteControlComponent(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
 {
     ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
-    AsciiString componentName = ini->getNextToken();
-    if (componentName.isEmpty()) return;
+	
+	// Get component name from the first token (optional, defaults to "RemoteController")
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_REMOTE_CONTROLLER_COMPONENT_NAME;
+	else
+		componentName = token;
 
     RemoteControlComponent* component = new RemoteControlComponent();
     component->setName(componentName);

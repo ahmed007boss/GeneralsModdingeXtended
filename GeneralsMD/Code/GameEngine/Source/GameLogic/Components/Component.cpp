@@ -217,7 +217,8 @@ void Component::buildFieldParse(MultiIniFieldParse& p)
 		{ "DamageOnSides", parseComponentDamageOnSides, NULL, 0 },
 		{ "ReplacementCost", INI::parseUnsignedInt, NULL, offsetof(Component, m_replacementCost) },
 		{ "ForceReturnOnDestroy", INI::parseBool, NULL, offsetof(Component, m_forceReturnOnDestroy) },
-		{ "DestroyedDamageType", INI::parseIndexList, TheBodyDamageTypeNames, offsetof(Component, m_destroyedDamageType) },
+		{ "DamagedStatusType", INI::parseIndexList, TheBodyDamageTypeNames, offsetof(Component, m_damagedDamageType) },
+		{ "DestroyedStatusType", INI::parseIndexList, TheBodyDamageTypeNames, offsetof(Component, m_destroyedDamageType) },
 		{ "MaxHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_maxHealthValueType) },
 		{ "InitialHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_initialHealthValueType) },
 		{ "PartiallyFunctionalIcon", INI::parseAsciiString, NULL, offsetof(Component, m_partiallyFunctionalIconName) },
@@ -351,6 +352,7 @@ void Component::copyBaseComponentMembers(Component* dest) const
 	dest->m_forceReturnOnDestroy = m_forceReturnOnDestroy;
 	dest->m_maxHealthValueType = m_maxHealthValueType;
 	dest->m_initialHealthValueType = m_initialHealthValueType;
+	dest->m_damagedDamageType = m_damagedDamageType;
 	dest->m_destroyedDamageType = m_destroyedDamageType;
 	dest->m_currentHealth = m_currentHealth;
 	dest->m_currentMaxHealth = m_currentMaxHealth;
@@ -522,6 +524,9 @@ BodyDamageType Component::calcDamageState(Real componentHealth, Real componentMa
     if (ratio <= 0.1f)
         return m_destroyedDamageType;
 
+	if (ratio <= 0.99f)
+		return m_damagedDamageType;
+
     return BODY_PRISTINE;
 }
 
@@ -621,6 +626,7 @@ void Component::crc( Xfer *xfer )
 
 	// Config affecting behavior (keep CRC stable across save/load)
 	xfer->xferUser(&m_healingType, sizeof(ComponentHealingType));
+	xfer->xferUser(&m_damagedDamageType, sizeof(BodyDamageType));
 	xfer->xferUser(&m_destroyedDamageType, sizeof(BodyDamageType));
 }
 

@@ -19,7 +19,7 @@ class MultiIniFieldParse;
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Electronics component for electronic systems
 //-------------------------------------------------------------------------------------------------
-class ElectronicsComponent : public virtual Component, public IElectronicsComponent
+class ElectronicsComponent : public Component, public IElectronicsComponent
 {
 public:
 	Real m_jammingDamageCap;

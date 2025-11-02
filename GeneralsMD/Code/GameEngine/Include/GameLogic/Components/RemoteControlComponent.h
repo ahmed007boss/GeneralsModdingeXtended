@@ -23,6 +23,9 @@ public:
     // Build field parse: include CommunicationComponent fields, then RC-specific (none for now)
     static void buildFieldParse(MultiIniFieldParse& p);
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default remote controller component name constant
+	static const char* DEFAULT_REMOTE_CONTROLLER_COMPONENT_NAME;
+
     // TheSuperHackers @feature author 15/01/2025 Virtual clone method for polymorphic copying
     virtual Component* clone() const;
 

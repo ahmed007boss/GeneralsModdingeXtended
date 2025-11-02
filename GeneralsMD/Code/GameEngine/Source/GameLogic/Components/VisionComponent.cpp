@@ -12,6 +12,9 @@
 #include "Common/GameType.h"
 #include "GameLogic/Module/ActiveBody.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default vision component name constant definition
+const char* VisionComponent::DEFAULT_VISION_COMPONENT_NAME = "Vision";
+
 Real VisionComponent::getShroudClearingRange() const
 {
 	const ComponentStatus status = getStatus();
@@ -33,9 +36,13 @@ void VisionComponent::parseVisionComponent(INI* ini, void* instance, void* /*sto
 	// instance is actually ActiveBodyModuleData*
 	ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
 	
-	// Get component name from the first token (e.g., "MainSensors", "ThermalVision", etc.)
-	AsciiString componentName = ini->getNextToken();
-	if (componentName.isEmpty()) return;
+	// Get component name from the first token (optional, defaults to "Vision")
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_VISION_COMPONENT_NAME;
+	else
+		componentName = token;
 	
 	VisionComponent* component = new VisionComponent();
 	// Set component name using direct assignment

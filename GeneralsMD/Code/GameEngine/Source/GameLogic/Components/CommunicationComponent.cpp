@@ -12,6 +12,9 @@
 #include "Common/GameType.h"
 #include "GameLogic/Module/ActiveBody.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default communication radio component name constant definition
+const char* CommunicationComponent::DEFAULT_COMMUNICATION_RADIO_COMPONENT_NAME = "CommunicationRadio";
+
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Static parse method for CommunicationComponent inheritance support
 //-------------------------------------------------------------------------------------------------
@@ -20,9 +23,13 @@ void CommunicationComponent::parseCommunicationComponent(INI* ini, void* instanc
 	// instance is actually ActiveBodyModuleData*
 	ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
 	
-	// Get component name from the first token (e.g., "MainRadio", "SatelliteComm", etc.)
-	AsciiString componentName = ini->getNextToken();
-	if (componentName.isEmpty()) return;
+	// Get component name from the first token (optional, defaults to "CommunicationRadio")
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_COMMUNICATION_RADIO_COMPONENT_NAME;
+	else
+		componentName = token;
 	
 	CommunicationComponent* component = new CommunicationComponent();
 	// Set component name using direct assignment

@@ -10,6 +10,7 @@
 #include "Common/AsciiString.h"
 #include "Common/INI.h"
 #include "GameLogic/Damage.h"
+#include "GameLogic/Module/BodyModule.h"
 #include "Component.h"
 
 // Forward declarations
@@ -52,7 +53,12 @@ public:
 						m_maxSpeedDestroyed(0.0f), m_maxSpeedDestroyedValueType(VALUE_TYPE_ABSOLUTE),
 						m_maxTurnRateDestroyed(0.0f), m_maxTurnRateDestroyedValueType(VALUE_TYPE_ABSOLUTE),
 						m_maxAccelerationDestroyed(0.0f), m_maxAccelerationDestroyedValueType(VALUE_TYPE_ABSOLUTE),
-						m_maxLiftDestroyed(0.0f), m_maxLiftDestroyedValueType(VALUE_TYPE_ABSOLUTE) {}
+						m_maxLiftDestroyed(0.0f), m_maxLiftDestroyedValueType(VALUE_TYPE_ABSOLUTE)
+	{
+		// TheSuperHackers @feature Ahmed Salah 15/01/2025 Set default damage status types for engine components
+		m_damagedDamageType = BODY_COMPONENT_ENGINE_DAMAGED;
+		m_destroyedDamageType = BODY_COMPONENT_ENGINE_DESTROYED;
+	}
 
 	// TheSuperHackers @feature Ahmed Salah 30/10/2025 Adjust locomotor max speed based on engine status
 	void calculateComponentMaxSpeed(Real& speed, Real damagedSpeed) const;
@@ -65,6 +71,9 @@ public:
 
 	static void parseEngineComponent(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void buildFieldParse(MultiIniFieldParse& p);
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default main engine component name constant
+	static const char* DEFAULT_MAIN_ENGINE_COMPONENT_NAME;
 
 	// TheSuperHackers @feature author 15/01/2025 Virtual clone method for polymorphic copying
 	virtual Component* clone() const;

@@ -12,6 +12,9 @@
 #include "Common/GameType.h"
 #include "GameLogic/Module/ActiveBody.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default main engine component name constant definition
+const char* EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME = "MainEngine";
+
 //-------------------------------------------------------------------------------------------------
 // Custom parsing functions to set the "has" flags when damaged properties are parsed
 //-------------------------------------------------------------------------------------------------
@@ -405,9 +408,13 @@ void EngineComponent::parseEngineComponent(INI* ini, void* instance, void* /*sto
 	// instance is actually ActiveBodyModuleData*
 	ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
 	
-	// Get component name from the first token (e.g., "MainEngine", "AuxiliaryEngine", etc.)
-	AsciiString componentName = ini->getNextToken();
-	if (componentName.isEmpty()) return;
+	// Get component name from the first token (optional, defaults to "MainEngine")
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_MAIN_ENGINE_COMPONENT_NAME;
+	else
+		componentName = token;
 	
 	EngineComponent* component = new EngineComponent();
 	// Set component name using direct assignment

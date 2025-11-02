@@ -12,6 +12,9 @@
 #include "Common/GameType.h"
 #include "GameLogic/Module/ActiveBody.h"
 
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default power supply component name constant definition
+const char* PowerComponent::DEFAULT_POWER_SUPPLY_COMPONENT_NAME = "PowerSupply";
+
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Static parse method for PowerComponent inheritance support
 //-------------------------------------------------------------------------------------------------
@@ -20,9 +23,13 @@ void PowerComponent::parsePowerComponent(INI* ini, void* instance, void* /*store
 	// instance is actually ActiveBodyModuleData*
 	ActiveBodyModuleData* moduleData = (ActiveBodyModuleData*)instance;
 	
-	// Get component name from the first token (e.g., "MainGenerator", "BackupBattery", etc.)
-	AsciiString componentName = ini->getNextToken();
-	if (componentName.isEmpty()) return;
+	// Get component name from the first token (optional, defaults to "PowerSupply")
+	const char* token = ini->getNextTokenOrNull();
+	AsciiString componentName;
+	if (token == NULL || strlen(token) == 0)
+		componentName = DEFAULT_POWER_SUPPLY_COMPONENT_NAME;
+	else
+		componentName = token;
 	
 	PowerComponent* component = new PowerComponent();
 	// Set component name using direct assignment

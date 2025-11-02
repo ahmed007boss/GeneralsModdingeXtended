@@ -56,6 +56,9 @@ public:
 	static void parseSensorComponent(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void buildFieldParse(MultiIniFieldParse& p);
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Default radar component name constant
+	static const char* DEFAULT_RADAR_COMPONENT_NAME;
+
 	// TheSuperHackers @feature author 15/01/2025 Virtual clone method for polymorphic copying
 	virtual Component* clone() const;
 
