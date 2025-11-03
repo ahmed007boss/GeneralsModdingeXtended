@@ -72,6 +72,7 @@
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/ActiveBody.h"
 #include "GameLogic/Components/Component.h"
+#include "GameLogic/Components/InventoryStorageComponent.h"
 #include "GameLogic/Module/CollideModule.h"
 #include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/CountermeasuresBehavior.h"
@@ -7097,6 +7098,38 @@ Int Object::getTotalInventoryItemCount(const AsciiString& itemName) const
 	}
 	
 	return totalCount;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if inventory item replenishment is restricted by destroyed components
+//-------------------------------------------------------------------------------------------------
+Bool Object::isInventoryReplenishmentRestricted(const AsciiString& itemKey) const
+{
+	// Get BodyModule to access components
+	BodyModuleInterface* body = getBodyModule();
+	if (!body)
+		return FALSE;
+	
+	// GetComponentsOfType is only available on ActiveBody
+	ActiveBody* activeBody = dynamic_cast<ActiveBody*>(body);
+	if (!activeBody)
+		return FALSE;
+	
+	// Get all InventoryStorageComponent instances
+	std::vector<InventoryStorageComponent*> storageComponents = activeBody->GetComponentsOfType<InventoryStorageComponent>();
+	
+	// Check if any destroyed component restricts this item
+	for (std::vector<InventoryStorageComponent*>::const_iterator it = storageComponents.begin();
+		 it != storageComponents.end(); ++it)
+	{
+		InventoryStorageComponent* component = *it;
+		if (component && component->restrictsReplenishmentForItem(itemKey))
+		{
+			return TRUE;
+		}
+	}
+	
+	return FALSE;
 }
 
 //-------------------------------------------------------------------------------------------------

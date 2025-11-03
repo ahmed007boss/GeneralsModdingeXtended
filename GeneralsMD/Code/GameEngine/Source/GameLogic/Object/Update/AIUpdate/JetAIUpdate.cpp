@@ -721,13 +721,26 @@ public:
 
 		if (jet->isEffectivelyDead())
 			return STATE_FAILURE;
+		Locomotor* loco = jetAI->getCurLocomotor();
+		DEBUG_ASSERTCRASH(loco, ("no loco"));
+		
+		// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if takeoff is possible before starting takeoff sequence
+		// Get locomotor template from NORMAL set (not current TAXIING set) for takeoff check
+		if (!m_landing)
+		{
+			const LocomotorTemplate* normalTemplate = jetAI->getNormalLocomotorTemplate();
+			if (normalTemplate && !normalTemplate->canTakeoff(jet))
+			{
+				// Can't take off
+				return STATE_FAILURE;
+			}
+		}
 
 		jetAI->friend_setTakeoffInProgress(!m_landing);
 		jetAI->friend_setLandingInProgress(m_landing);
 		jetAI->friend_setAllowAirLoco(true);
 		jetAI->chooseLocomotorSet(LOCOMOTORSET_NORMAL);
-		Locomotor* loco = jetAI->getCurLocomotor();
-		DEBUG_ASSERTCRASH(loco, ("no loco"));
+		
 		loco->setMaxLift(BIGNUM);
 		m_maxLift = loco->getMaxLift(jet->getBodyModule()->getDamageState());
 		m_maxSpeed = loco->getMaxSpeedForCondition(jet->getBodyModule()->getDamageState());

@@ -30,10 +30,57 @@
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
+#define DEFINE_LOCOMOTORSET_NAMES
+
 #include "Common/Xfer.h"
+#include "Common/INI.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/Module/LocomotorSetUpgrade.h"
 #include "GameLogic/Module/AIUpdate.h"
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+LocomotorSetUpgradeModuleData::LocomotorSetUpgradeModuleData(void)
+{
+	m_upgradeLevel = LOCOMOTORSET_NORMAL_UPGRADED;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Parse and validate locomotor upgrade level from INI
+//-------------------------------------------------------------------------------------------------
+void LocomotorSetUpgradeModuleData::parseUpgradeLevel(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
+{
+	LocomotorSetUpgradeModuleData* data = static_cast<LocomotorSetUpgradeModuleData*>(instance);
+	
+	// Parse the locomotor set type using the standard name list
+	LocomotorSetType set = (LocomotorSetType)INI::scanIndexList(ini->getNextToken(), TheLocomotorSetNames);
+	
+	// Validate that it's one of the allowed values
+	if (set != LOCOMOTORSET_NORMAL &&
+	    set != LOCOMOTORSET_NORMAL_UPGRADED &&
+	    !(set >= LOCOMOTORSET_NORMAL_UPGRADED1 && set <= LOCOMOTORSET_NORMAL_UPGRADED8))
+	{
+		DEBUG_CRASH(("LocomotorSetUpgrade: UpgradeLevel must be LOCOMOTORSET_NORMAL, LOCOMOTORSET_NORMAL_UPGRADED, or LOCOMOTORSET_NORMAL_UPGRADED1-8"));
+		throw INI_INVALID_DATA;
+	}
+	
+	data->m_upgradeLevel = set;
+}
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void LocomotorSetUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
+{
+	UpgradeModuleData::buildFieldParse(p);
+	
+	static const FieldParse dataFieldParse[] =
+	{
+		{ "UpgradeLevel", LocomotorSetUpgradeModuleData::parseUpgradeLevel, NULL, 0 },
+		{ 0, 0, 0, 0 }
+	};
+	
+	p.add(dataFieldParse);
+}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -51,9 +98,10 @@ LocomotorSetUpgrade::~LocomotorSetUpgrade( void )
 //-------------------------------------------------------------------------------------------------
 void LocomotorSetUpgrade::upgradeImplementation( )
 {
+	const LocomotorSetUpgradeModuleData* data = getLocomotorSetUpgradeModuleData();
 	AIUpdateInterface* ai = getObject()->getAIUpdateInterface();
 	if (ai)
-		ai->setLocomotorUpgrade(true);
+		ai->setLocomotorUpgrade(data->m_upgradeLevel);
 }
 
 // ------------------------------------------------------------------------------------------------

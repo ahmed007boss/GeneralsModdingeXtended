@@ -951,6 +951,45 @@ Real Locomotor::getMaxReachableDistance(const Object* obj) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if object can take off (engine component not destroyed and required items available)
+//-------------------------------------------------------------------------------------------------
+Bool LocomotorTemplate::canTakeoff(const Object* obj) const
+{
+	if (!obj)
+		return FALSE;
+
+	// Check if engine component exists and is not destroyed
+	BodyModuleInterface* body = obj->getBodyModule();
+	if (body)
+	{
+		const AsciiString& engineComponentName = m_engineComponentName;
+		EngineComponent* engineComponent = NULL;
+		
+		if (!engineComponentName.isEmpty())
+		{
+			engineComponent = body->GetComponent<EngineComponent>(engineComponentName);
+		}
+		else
+		{
+			// Use default engine component name if not specified
+			engineComponent = body->GetComponent<EngineComponent>(EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME);
+		}
+		
+		if (engineComponent && (engineComponent->isDestroyed() || engineComponent->isUserDisabled()))
+			return FALSE;
+	}
+
+	// Check if required inventory items are sufficient (if consumeItem is configured)
+	if (!m_consumeItem.isEmpty() && m_consumeRate > 0.0f)
+	{
+		if (!obj->hasInventoryItem(m_consumeItem, m_consumeRate))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+//-------------------------------------------------------------------------------------------------
 Real Locomotor::getMaxSpeedForCondition(BodyDamageType condition, const Object* obj) const
 {
 	Real speed;

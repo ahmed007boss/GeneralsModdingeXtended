@@ -113,6 +113,12 @@ UpdateSleepTime AutoSupplyItemBehavior::update()
 	if (!data || data->m_supplyItemKey.isEmpty())
 		return UPDATE_SLEEP_FOREVER;
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if replenishment is restricted by destroyed components
+	if (object->isInventoryReplenishmentRestricted(data->m_supplyItemKey))
+	{
+		return UPDATE_SLEEP(data->m_supplyDelay); // Don't supply if restricted
+	}
+
 	// Check if it's time to supply
 	UnsignedInt currentFrame = TheGameLogic->getFrame();
 	if (currentFrame - m_lastSupplyFrame < data->m_supplyDelay)
@@ -213,6 +219,14 @@ Bool AutoSupplyItemBehavior::canSupplyUnit(Object* targetUnit) const
 	if (!data)
 		return false;
 
+	const Object* object = getObject();
+	if (!object)
+		return false;
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if replenishment is restricted by destroyed components
+	if (object->isInventoryReplenishmentRestricted(data->m_supplyItemKey))
+		return false;
+
 	// Check if target has inventory behavior
 	InventoryBehavior* targetInventory = NULL;
 	for (BehaviorModule** i = targetUnit->getBehaviorModules(); *i; ++i)
@@ -256,6 +270,10 @@ Bool AutoSupplyItemBehavior::supplyUnit(Object* targetUnit)
 
 	const AutoSupplyItemBehaviorModuleData* data = static_cast<const AutoSupplyItemBehaviorModuleData*>(getModuleData());
 	if (!data)
+		return false;
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if replenishment is restricted by destroyed components
+	if (object->isInventoryReplenishmentRestricted(data->m_supplyItemKey))
 		return false;
 
 	// Get target inventory

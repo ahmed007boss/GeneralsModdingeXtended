@@ -74,6 +74,14 @@ enum LocomotorSetType CPP_11(: Int)
 
 	LOCOMOTORSET_NORMAL = 0,
 	LOCOMOTORSET_NORMAL_UPGRADED,
+	LOCOMOTORSET_NORMAL_UPGRADED1,
+	LOCOMOTORSET_NORMAL_UPGRADED2,
+	LOCOMOTORSET_NORMAL_UPGRADED3,
+	LOCOMOTORSET_NORMAL_UPGRADED4,
+	LOCOMOTORSET_NORMAL_UPGRADED5,
+	LOCOMOTORSET_NORMAL_UPGRADED6,
+	LOCOMOTORSET_NORMAL_UPGRADED7,
+	LOCOMOTORSET_NORMAL_UPGRADED8,
 	LOCOMOTORSET_FREEFALL,
 	LOCOMOTORSET_WANDER,
 	LOCOMOTORSET_PANIC,
@@ -98,6 +106,14 @@ static const char *const TheLocomotorSetNames[] =
 {
 	"SET_NORMAL",
 	"SET_NORMAL_UPGRADED",
+	"SET_NORMAL_UPGRADED1",
+	"SET_NORMAL_UPGRADED2",
+	"SET_NORMAL_UPGRADED3",
+	"SET_NORMAL_UPGRADED4",
+	"SET_NORMAL_UPGRADED5",
+	"SET_NORMAL_UPGRADED6",
+	"SET_NORMAL_UPGRADED7",
+	"SET_NORMAL_UPGRADED8",
 	"SET_FREEFALL",
 	"SET_WANDER",
 	"SET_PANIC",
@@ -428,6 +444,7 @@ public:
 	Real getLocomotorDistanceToGoal();
 	const Locomotor *getCurLocomotor() const {return m_curLocomotor;}
 	Locomotor *getCurLocomotor() { return m_curLocomotor; }
+	const LocomotorTemplate* getNormalLocomotorTemplate() const;  ///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Get locomotor template from NORMAL set for takeoff checks
 	LocomotorSetType getCurLocomotorSetType() const { return m_curLocomotorSet; }
 	Bool hasLocomotorForSurface(LocomotorSurfaceType surfaceType);
 
@@ -540,7 +557,7 @@ public:
 	// if we are attacking a position (and NOT an object), return it. otherwise return null.
 	const Coord3D *getCurrentVictimPos( void ) const;
 
-	void setLocomotorUpgrade(Bool set);
+	void setLocomotorUpgrade(LocomotorSetType upgradeSet);  ///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Set locomotor upgrade set type (LOCOMOTORSET_NORMAL = none, LOCOMOTORSET_NORMAL_UPGRADED through LOCOMOTORSET_NORMAL_UPGRADED8)
 
 	// This function is used to notify the unit that it may have a target of opportunity to attack.
 	void wakeUpAndAttemptToTarget( void );
@@ -789,7 +806,7 @@ private:
 	Bool				m_isMoving;									///< True if we are in an AIInternalMoveToState.
 	Bool				m_isBlocked;
 	Bool				m_isBlockedAndStuck;				///< True if we are stuck & need to recompute path.
-	Bool				m_upgradedLocomotors;
+	UnsignedInt			m_upgradedLocomotorLevel;	///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Locomotor upgrade level (0 = none, 1 = UPGRADED, 2 = UPGRADED1, ..., 9 = UPGRADED8)
 	Bool				m_canPathThroughUnits;			///< Can path through units.
 	Bool				m_randomlyOffsetMoodCheck;	///< If true, randomly offset the mood check rate next time, to avoid "spiking" of ai checks
 	Bool				m_isAiDead;									///< TRUE if dead

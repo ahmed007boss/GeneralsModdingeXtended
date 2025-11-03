@@ -283,7 +283,7 @@ AIUpdateInterface::AIUpdateInterface( Thing *thing, const ModuleData* moduleData
 	m_isMoving = FALSE;
 	m_isBlocked = FALSE;
 	m_isBlockedAndStuck = FALSE;
-	m_upgradedLocomotors = FALSE;
+	m_upgradedLocomotorLevel = 0;
 	m_canPathThroughUnits = FALSE;
 	m_randomlyOffsetMoodCheck = FALSE;
 	m_isAiDead = FALSE;
@@ -808,19 +808,53 @@ Real AIUpdateInterface::getCurLocomotorSpeed() const
 }
 
 //=============================================================================
-void AIUpdateInterface::setLocomotorUpgrade(Bool set)
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Set locomotor upgrade set type (LOCOMOTORSET_NORMAL = none, LOCOMOTORSET_NORMAL_UPGRADED through LOCOMOTORSET_NORMAL_UPGRADED8)
+//=============================================================================
+void AIUpdateInterface::setLocomotorUpgrade(LocomotorSetType upgradeSet)
 {
-	m_upgradedLocomotors = set;
-	if (m_curLocomotorSet == LOCOMOTORSET_NORMAL || m_curLocomotorSet == LOCOMOTORSET_NORMAL_UPGRADED)
+	// Convert LocomotorSetType to level (0 = NORMAL, 1 = UPGRADED, 2 = UPGRADED1, ..., 9 = UPGRADED8)
+	UnsignedInt level = 0;
+	if (upgradeSet == LOCOMOTORSET_NORMAL_UPGRADED)
+	{
+		level = 1;
+	}
+	else if (upgradeSet >= LOCOMOTORSET_NORMAL_UPGRADED1 && upgradeSet <= LOCOMOTORSET_NORMAL_UPGRADED8)
+	{
+		level = 2 + (upgradeSet - LOCOMOTORSET_NORMAL_UPGRADED1); // UPGRADED1 = level 2, UPGRADED8 = level 9
+	}
+	else if (upgradeSet == LOCOMOTORSET_NORMAL)
+	{
+		level = 0; // No upgrade
+	}
+	// For any other set type, treat as no upgrade (level = 0)
+	
+	m_upgradedLocomotorLevel = level;
+	
+	// If currently using NORMAL or any UPGRADED set, switch back to NORMAL to trigger upgrade check
+	LocomotorSetType currentSet = m_curLocomotorSet;
+	if (currentSet == LOCOMOTORSET_NORMAL || 
+	    (currentSet >= LOCOMOTORSET_NORMAL_UPGRADED && currentSet <= LOCOMOTORSET_NORMAL_UPGRADED8))
+	{
 		chooseLocomotorSet(LOCOMOTORSET_NORMAL);
+	}
 }
 
 //=============================================================================
 Bool AIUpdateInterface::chooseLocomotorSet(LocomotorSetType wst)
 {
-	DEBUG_ASSERTCRASH(wst != LOCOMOTORSET_NORMAL_UPGRADED, ("never pass LOCOMOTORSET_NORMAL_UPGRADED here"));
-	if (wst == LOCOMOTORSET_NORMAL && m_upgradedLocomotors)
-		wst = LOCOMOTORSET_NORMAL_UPGRADED;
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Never pass UPGRADED values directly - they are auto-selected based on level
+	DEBUG_ASSERTCRASH(wst != LOCOMOTORSET_NORMAL_UPGRADED && 
+		!(wst >= LOCOMOTORSET_NORMAL_UPGRADED1 && wst <= LOCOMOTORSET_NORMAL_UPGRADED8), 
+		("never pass LOCOMOTORSET_NORMAL_UPGRADED* here"));
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Map upgrade level to appropriate enum value
+	if (wst == LOCOMOTORSET_NORMAL && m_upgradedLocomotorLevel > 0)
+	{
+		if (m_upgradedLocomotorLevel == 1)
+			wst = LOCOMOTORSET_NORMAL_UPGRADED;
+		else if (m_upgradedLocomotorLevel <= 9)
+			wst = (LocomotorSetType)(LOCOMOTORSET_NORMAL_UPGRADED1 + (m_upgradedLocomotorLevel - 2));
+	}
 
 	if (wst == m_curLocomotorSet)
 		return TRUE;
@@ -854,6 +888,22 @@ Bool AIUpdateInterface::chooseLocomotorSetExplicit(LocomotorSetType wst)
 		return TRUE;
 	}
 	return FALSE;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Get locomotor template from NORMAL set for takeoff checks
+//-------------------------------------------------------------------------------------------------
+const LocomotorTemplate* AIUpdateInterface::getNormalLocomotorTemplate() const
+{
+	
+	// Otherwise, get the locomotor template from NORMAL set
+	const LocomotorTemplateVector* normalSet = getAIUpdateModuleData()->findLocomotorTemplateVector(LOCOMOTORSET_NORMAL);
+	if (normalSet && !normalSet->empty())
+	{
+		return normalSet->at(0);
+	}
+
+	return NULL;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -5233,7 +5283,7 @@ void AIUpdateInterface::xfer( Xfer *xfer )
 	xfer->xferBool(&m_isSafePath);
 	xfer->xferBool(&m_movementComplete);
 	xfer->xferBool(&m_isSafePath);
-	xfer->xferBool(&m_upgradedLocomotors);
+	xfer->xferUnsignedInt(&m_upgradedLocomotorLevel);
 	xfer->xferBool(&m_canPathThroughUnits);
 	xfer->xferBool(&m_randomlyOffsetMoodCheck);
 	xfer->xferObjectID(&m_repulsor1);

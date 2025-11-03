@@ -1656,6 +1656,39 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 
 		case GUI_COMMAND_REPLENISH_INVENTORY_ITEM:
 		{
+			// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if replenishment is restricted by destroyed components
+			const AsciiString& itemToReplenish = command->getItemToReplenish();
+			
+			if (itemToReplenish.isEmpty())
+			{
+				// Check all items - if any item is restricted, restrict the command
+				InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
+				if (inventoryBehavior)
+				{
+					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
+					if (moduleData)
+					{
+						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
+							 it != moduleData->m_inventoryItems.end(); ++it)
+						{
+							const AsciiString& itemKey = it->first;
+							if (obj->isInventoryReplenishmentRestricted(itemKey))
+							{
+								return COMMAND_RESTRICTED;
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// Check specific item
+				if (obj->isInventoryReplenishmentRestricted(itemToReplenish))
+				{
+					return COMMAND_RESTRICTED;
+				}
+			}
+			
 			// TheSuperHackers @feature author 15/01/2025 Check cost for inventory replenishment using centralized method
 			UnsignedInt totalCost = command->getCostOfExecution(player, obj);
 			

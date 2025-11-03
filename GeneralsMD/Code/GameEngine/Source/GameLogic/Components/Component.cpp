@@ -36,6 +36,7 @@
 #include "GameLogic/Module/ActiveBody.h"
 #include "GameLogic/Components/ElectronicsComponent.h"
 #include "GameClient/Anim2D.h"
+#include "GameLogic/Object.h"
 
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Parse Component max health from INI
@@ -363,6 +364,7 @@ void Component::copyBaseComponentMembers(Component* dest) const
 	dest->m_downedIcon = m_downedIcon;
 	dest->m_userDisabledIcon = m_userDisabledIcon;
 	dest->setUserDisabled(isUserDisabled());
+	dest->m_object = m_object; // Copy object reference
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -407,7 +409,17 @@ Bool Component::setCurrentHealth(Real health)
 	if (health < 0.0f) health = 0.0f;
 	if (health > m_currentMaxHealth) health = m_currentMaxHealth;
 	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if component is transitioning to destroyed state
+	Bool wasDestroyed = isDestroyed();
+	
 	m_currentHealth = health;
+	
+	// Call onComponentDestroyed if component just became destroyed (wasn't destroyed before, but is now)
+	if (!wasDestroyed && isDestroyed())
+	{
+		onComponentDestroyed();
+	}
+	
 	return true;
 }
 
@@ -477,6 +489,15 @@ Bool Component::isDestroyed() const
 	return m_currentHealth <= 0.0f;
 }
 
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Virtual callback when component is destroyed
+//-------------------------------------------------------------------------------------------------
+void Component::onComponentDestroyed()
+{
+	// Default implementation does nothing
+	// Derived classes can override this to perform custom logic when component is destroyed
+}
+
 void Component::initializeHealth(Real mainObjectMaxHealth)
 {
 	// Calculate max health based on its value type
@@ -524,8 +545,9 @@ BodyDamageType Component::calcDamageState(Real componentHealth, Real componentMa
     if (ratio <= 0.1f)
         return m_destroyedDamageType;
 
-	if (ratio <= 0.99f)
-		return m_damagedDamageType;
+    // Consider damaged if health <= 99% but > 10%
+    if (ratio <= 0.99f)
+        return m_damagedDamageType;
 
     return BODY_PRISTINE;
 }

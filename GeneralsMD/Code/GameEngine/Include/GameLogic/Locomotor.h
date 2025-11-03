@@ -152,6 +152,8 @@ public:
 	// TheSuperHackers @feature author 15/01/2025 Component dependency system
 	inline const std::vector<AsciiString>& getAffectedByComponents() const { return m_affectedByComponents; }
 	ComponentStatus getRequiredComponentsStatus(const Object* source) const;
+	
+	Bool canTakeoff(const Object* obj) const;  ///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if object can take off (engine component not destroyed and required items available)
 
 	// TheSuperHackers @feature author 15/01/2025 Component dependency system
 	std::vector<AsciiString> m_affectedByComponents;			///< List of component names that affect this locomotor's functionality

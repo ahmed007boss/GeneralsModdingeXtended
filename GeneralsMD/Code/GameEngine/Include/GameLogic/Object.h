@@ -628,6 +628,9 @@ public:
 
 	// TheSuperHackers @feature author 15/01/2025 Get total count of inventory item including weapon clips
 	Int getTotalInventoryItemCount(const AsciiString& itemName) const;
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if inventory item replenishment is restricted by destroyed components
+	Bool isInventoryReplenishmentRestricted(const AsciiString& itemKey) const;
 
 	void setArmorSetFlag(ArmorSetType ast);
 	void clearArmorSetFlag(ArmorSetType ast);

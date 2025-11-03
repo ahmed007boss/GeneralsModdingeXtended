@@ -20,14 +20,27 @@ class MultiIniFieldParse;
 //-------------------------------------------------------------------------------------------------
 class InventoryStorageComponent : public Component
 {
+protected:
+	AsciiString m_inventoryItem;	///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Inventory item key (empty = affects all items)
+
 public:
-	InventoryStorageComponent() {}
+	InventoryStorageComponent() : m_inventoryItem() {}
 
 	static void parseInventoryStorageComponent(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void buildFieldParse(MultiIniFieldParse& p);
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Accessors for inventory item
+	const AsciiString& getInventoryItem() const { return m_inventoryItem; }
+	void setInventoryItem(const AsciiString& item) { m_inventoryItem = item; }
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if this component restricts replenishment for a specific item
+	Bool restrictsReplenishmentForItem(const AsciiString& itemKey) const;
+
 	// TheSuperHackers @feature author 15/01/2025 Virtual clone method for polymorphic copying
 	virtual Component* clone() const;
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Override onComponentDestroyed to clear inventory items
+	virtual void onComponentDestroyed();
 
 	// Save/Load/CRC hooks
 	virtual void crc( Xfer *xfer );

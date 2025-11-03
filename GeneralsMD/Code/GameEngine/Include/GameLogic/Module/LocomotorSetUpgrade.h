@@ -31,9 +31,27 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "GameLogic/Module/UpgradeModule.h"
+#include "GameLogic/Module/AIUpdate.h"
 
 // FORWARD REFERENCES /////////////////////////////////////////////////////////////////////////////
 class Thing;
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+class LocomotorSetUpgradeModuleData : public UpgradeModuleData
+{
+
+public:
+
+	LocomotorSetUpgradeModuleData(void);
+
+	static void buildFieldParse(MultiIniFieldParse& p);
+	
+	static void parseUpgradeLevel(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
+
+	LocomotorSetType m_upgradeLevel;  ///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Locomotor upgrade level (default = LOCOMOTORSET_NORMAL_UPGRADED)
+
+};
 
 //-------------------------------------------------------------------------------------------------
 /** The default	die module */
@@ -42,7 +60,7 @@ class LocomotorSetUpgrade : public UpgradeModule
 {
 
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE( LocomotorSetUpgrade, "LocomotorSetUpgrade" )
-	MAKE_STANDARD_MODULE_MACRO( LocomotorSetUpgrade );
+	MAKE_STANDARD_MODULE_MACRO_WITH_MODULE_DATA(LocomotorSetUpgrade, LocomotorSetUpgradeModuleData);
 
 public:
 

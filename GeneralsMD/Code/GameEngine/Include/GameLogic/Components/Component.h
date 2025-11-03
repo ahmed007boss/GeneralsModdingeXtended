@@ -40,6 +40,7 @@
 class Xfer;
 class Anim2DTemplate;
 class Anim2D;
+class Object;
 #include <map>
 #include <vector>
 
@@ -95,6 +96,7 @@ protected:
 	Real m_currentHealth;						///< Current health of this component
 	Real m_currentMaxHealth;					///< Current maximum health of this component (calculated from maxHealth)
 	Bool m_userDisabled;
+	Object* m_object;							///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Reference to the object that owns this component
 
 	// TheSuperHackers @feature author 15/01/2025 Component status icons
 	AsciiString m_partiallyFunctionalIconName;	///< Animation icon template name for partially functional status (resolved lazily)
@@ -106,7 +108,7 @@ protected:
 	
 
 public:
-	Component() : m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_damagedDamageType((BodyDamageType)0), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE) {}
+	Component() : m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_damagedDamageType((BodyDamageType)0), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE), m_object(NULL) {}
 
 	// Accessors for configuration/state
 	const AsciiString& getName() const { return m_name; }
@@ -152,6 +154,13 @@ public:
 	Bool heal(Real healing);
 	Bool isDestroyed() const;
 	void initializeHealth(Real mainObjectMaxHealth);
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Object reference accessors
+	Object* getObject() const { return m_object; }
+	void setObject(Object* obj) { m_object = obj; }
+	
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Virtual callback when component is destroyed (can be overridden in derived classes)
+	virtual void onComponentDestroyed();
 	
 	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Determine component-specific damage state by health ratio
 	BodyDamageType calcDamageState(Real componentHealth, Real componentMaxHealth) const;

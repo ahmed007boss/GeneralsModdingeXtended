@@ -248,6 +248,7 @@ ActiveBody::ActiveBody( Thing *thing, const ModuleData* moduleData ) :
 	const ActiveBodyModuleData* data = getActiveBodyModuleData();
 	if (data)
 	{
+		Object* obj = getObject();
 		for (std::vector<Component*>::const_iterator it = data->m_componentsData.begin();
 			 it != data->m_componentsData.end(); ++it)
 		{
@@ -255,11 +256,13 @@ ActiveBody::ActiveBody( Thing *thing, const ModuleData* moduleData ) :
 			{
 				// Use virtual clone() to preserve the actual component type
 				Component* componentCopy = (*it)->clone();
+				// TheSuperHackers @feature Ahmed Salah 15/01/2025 Set object reference on component
+				componentCopy->setObject(obj);
 				m_components.push_back(componentCopy);
 			}
 		}
 	}
-	
+
 	// TheSuperHackers @feature author 15/01/2025 Initialize component health from module data
 	initializeComponentHealth();
 	
@@ -298,13 +301,13 @@ void ActiveBody::setCorrectDamageState()
 	for (std::vector<Component*>::const_iterator it = m_components.begin();
 		 it != m_components.end(); ++it)
 	{
-		const Component* component = *it;
+			const Component* component = *it;
 		if (component && !component->getName().isEmpty())
-		{
-			Real componentHealth = component->getCurrentHealth();
-			Real componentMaxHealth = component->getCurrentMaxHealth();
-			
-			BodyDamageType compState = component->calcDamageState(componentHealth, componentMaxHealth);
+			{
+				Real componentHealth = component->getCurrentHealth();
+				Real componentMaxHealth = component->getCurrentMaxHealth();
+				
+				BodyDamageType compState = component->calcDamageState(componentHealth, componentMaxHealth);			
 			// Use the most severe component damage state
 			if (compState != BODY_PRISTINE)
 			{
@@ -713,7 +716,7 @@ void ActiveBody::attemptDamage( DamageInfo *damageInfo )
 				// Apply Jamming damage to this component using interface
 				Component* component = GetComponent<Component>(componentName);
 				if (component)
-				{
+				{					
 					IElectronicsComponent* ec = dynamic_cast<IElectronicsComponent*>(component);
 					if (ec)
 					{
@@ -1841,13 +1844,13 @@ void ActiveBody::crc( Xfer *xfer )
 	BodyModule::crc( xfer );
 
 	// TheSuperHackers @feature Ahmed Salah 31/10/2025 Include components in body CRC
-	AsciiString marker = "MARKER:Components";
-	xfer->xferAsciiString(&marker);
+		AsciiString marker = "MARKER:Components";
+		xfer->xferAsciiString(&marker);
 	for (std::vector<Component*>::const_iterator it = m_components.begin(); it != m_components.end(); ++it)
-	{
-		if (*it)
 		{
-			(*it)->crc(xfer);
+			if (*it)
+			{
+				(*it)->crc(xfer);
 		}
 	}
 
@@ -1997,10 +2000,10 @@ void ActiveBody::loadPostProcess( void )
 
 	// TheSuperHackers @feature Ahmed Salah 31/10/2025 Forward load post process to components
 	for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
-	{
-		if (*it)
 		{
-			(*it)->loadPostProcess();
+			if (*it)
+			{
+				(*it)->loadPostProcess();
 		}
 	}
 
@@ -2033,9 +2036,9 @@ void ActiveBody::initializeComponentHealth()
 		{
 			Real mainMaxHealth = getMaxHealth();
 			component->initializeHealth(mainMaxHealth);
+	}
 		}
 	}
-}
 
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Get component definitions
