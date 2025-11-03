@@ -1,108 +1,136 @@
 # ActiveBody
 
-ActiveBody provides comprehensive health and damage management for objects that can take damage, be healed, and be destroyed through combat.
+Status: AI-generated, 0/2 reviews
 
 ## Overview
 
-The `ActiveBody` class manages active health systems for objects that can take damage and be destroyed. It handles health tracking, damage states, healing, subdual damage, electronic warfare damage, and visual damage effects. Objects with ActiveBody can be damaged by weapons, healed by repair systems, and transition through different damage states that affect their appearance and functionality.
+The `ActiveBody` module manages health and damage systems for objects that can take damage, be healed, and be destroyed through combat. It handles health tracking, damage states, healing, subdual damage (Zero Hour only), jamming damage (GMX Zero Hour only), and visual damage effects. Objects with ActiveBody can be damaged by weapons, healed by repair systems, and transition through different damage states that affect their appearance and functionality. Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). This is a module added inside `Object` entries.
 
-## Usage
-
-Used by objects that have active health systems, can take damage, and can be destroyed through combat. This is a **body module** that must be embedded within object definitions. Use the [Template](#template) below by copying it into your object definition. Then, customize it as needed, making sure to review any limitations, conditions, or dependencies related to its usage.
-
-**Limitations**:
-- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage
-- Damage states affect visual appearance and particle systems
-- Subdual damage can disable objects without destroying them
-- Electronic warfare damage can jam electronic systems
-- Objects automatically heal subdual and EW damage over time if healing rates are set
-- Damage states are calculated based on global thresholds defined in game data
-- Subdual and EW damage properties are exclusive to Generals Zero Hour (v1.04)
-
-**Conditions**:
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types
-- Veterancy levels can modify maximum health and healing rates
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects
-- **Multiple instances behavior**: Only one ActiveBody instance should exist per object; multiple instances may cause conflicts in health management
-
-**Dependencies**:
-- Requires proper armor and damage type definitions to function correctly
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Usage](#usage)
 - [Properties](#properties)
   - [Health Settings](#health-settings)
   - [Subdual Damage Settings](#subdual-damage-settings)
   - [Electronic Warfare Settings](#electronic-warfare-settings)
-  - [Component Settings](#component-settings)
 - [Enum Value Lists](#enum-value-lists)
 - [Examples](#examples)
+- [Usage](#usage)
 - [Template](#template)
 - [Notes](#notes)
+- [Modder Recommended Use Scenarios](#modder-recommended-use-scenarios)
+- [Source Files](#source-files)
+- [Changes History](#changes-history)
+- [Status](#status)
+- [Reviewers](#reviewers)
 
 ## Properties
 
 ### Health Settings
 
-#### `MaxHealth` *(v1.04)*
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
+#### `MaxHealth`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
 - **Type**: `Real`
-- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction
-- **Default**: `100.0`
+- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction. If `InitialHealth` exceeds `MaxHealth`, the current health will be clamped to `MaxHealth` when health changes occur (via `internalChangeHealth`). Health is automatically clamped to `MaxHealth` as the upper limit and `0.0` as the lower limit during damage and healing operations.
+- **Default**: `0.0`
 - **Example**: `MaxHealth = 500.0`
 
-#### `InitialHealth` *(v1.04)*
+#### `InitialHealth`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
 - **Type**: `Real`
-- **Description**: Starting health points when the object is created. Higher values allow objects to spawn with more health than their maximum, providing temporary damage buffer. Lower values spawn objects at reduced health
-- **Default**: `100.0`
+- **Description**: Starting health points when the object is created. Higher values allow objects to spawn with more health than their maximum, providing temporary damage buffer. Lower values spawn objects at reduced health. The initial health value is set directly during object creation; if it exceeds `MaxHealth`, it will be clamped to `MaxHealth` when the first health change occurs (via `internalChangeHealth`). Health cannot go below `0.0`.
+- **Default**: `0.0`
 - **Example**: `InitialHealth = 500.0`
 
 ### Subdual Damage Settings
 
-#### `SubdualDamageCap` *(v1.04, Generals Zero Hour only)*
+Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
+
+#### `SubdualDamageCap`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
+
 - **Type**: `Real`
-- **Description**: Maximum subdual damage that can accumulate before the object is subdued. Higher values allow objects to absorb more subdual damage before becoming incapacitated. At 0 (default), objects cannot be subdued
+- **Description**: Maximum subdual damage that can accumulate before the object is subdued (disabled). Higher values allow objects to absorb more subdual damage before becoming incapacitated. At 0 (default), objects cannot be subdued (disabled). Subdual damage accumulates separately from normal health damage and can disable objects without destroying them. When subdual damage equals or exceeds `MaxHealth`, the object becomes subdued (disabled).
 - **Default**: `0.0`
 - **Example**: `SubdualDamageCap = 350.0`
 
-#### `SubdualDamageHealRate` *(v1.04, Generals Zero Hour only)*
+#### `SubdualDamageHealRate`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
+
 - **Type**: `UnsignedInt` (milliseconds)
-- **Description**: Time interval between subdual damage healing attempts. Lower values heal subdual damage more frequently, while higher values heal less often. At 0 (default), no automatic subdual healing occurs
+- **Description**: Time interval between subdual damage healing attempts. Lower values heal subdual damage more frequently, while higher values heal less often. At 0 (default), no automatic subdual healing occurs. Subdual damage is healed automatically by the `SubdualDamageHelper` system at the specified interval.
 - **Default**: `0`
 - **Example**: `SubdualDamageHealRate = 500`
 
-#### `SubdualDamageHealAmount` *(v1.04, Generals Zero Hour only)*
+#### `SubdualDamageHealAmount`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
+
 - **Type**: `Real`
-- **Description**: Amount of subdual damage healed per healing interval. Higher values heal more subdual damage per tick, while lower values heal less. At 0 (default), no subdual healing occurs
+- **Description**: Amount of subdual damage healed per healing interval. Higher values heal more subdual damage per tick, while lower values heal less. At 0 (default), no subdual healing occurs. This amount is subtracted from the current subdual damage each time the healing interval elapses.
 - **Default**: `0.0`
 - **Example**: `SubdualDamageHealAmount = 50.0`
 
 ### Electronic Warfare Settings
 
-#### `EWDamageCap` *(v1.04, Generals Zero Hour only)*
-- **Type**: `Real`
-- **Description**: Maximum electronic warfare damage that can accumulate before the object is jammed. Higher values allow objects to absorb more EW damage before becoming electronically disabled. At 0 (default), objects cannot be jammed
-- **Default**: `0.0`
-- **Example**: `EWDamageCap = 200.0`
+Available only in: *(GMX Zero Hour)*
 
-#### `EWDamageHealRate` *(v1.04, Generals Zero Hour only)*
+#### `JammingDamageCap`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `Real`
+- **Description**: Maximum jamming damage that can accumulate before the object is jammed (electronically disabled). Higher values allow objects to absorb more jamming damage before becoming electronically disabled. At 0 (default), objects cannot be jammed. Jamming damage accumulates separately from normal health damage and subdual damage. When jamming damage equals or exceeds `MaxHealth`, the object becomes jammed. Electronic components (ElectronicsComponent, SensorComponent) can also have their own jamming damage caps that contribute to the total effective jamming capacity.
+- **Default**: `0.0`
+- **Example**: `JammingDamageCap = 350.0`
+
+#### `JammingDamageHealRate`
+Available only in: *(GMX Zero Hour)*
+
 - **Type**: `UnsignedInt` (milliseconds)
-- **Description**: Time interval between electronic warfare damage healing attempts. Lower values heal EW damage more frequently, while higher values heal less often. At 0 (default), no automatic EW healing occurs
+- **Description**: Time interval between jamming damage healing attempts. Lower values heal jamming damage more frequently, while higher values heal less often. At 0 (default), no automatic jamming healing occurs. Jamming damage is healed automatically by the `JammingDamageHelper` system at the specified interval. If electronic components have their own healing rates, the system uses the component-based healing rates when components are present.
 - **Default**: `0`
-- **Example**: `EWDamageHealRate = 1000`
+- **Example**: `JammingDamageHealRate = 500`
 
-#### `EWDamageHealAmount` *(v1.04, Generals Zero Hour only)*
+#### `JammingDamageHealAmount`
+Available only in: *(GMX Zero Hour)*
+
 - **Type**: `Real`
-- **Description**: Amount of electronic warfare damage healed per healing interval. Higher values heal more EW damage per tick, while lower values heal less. At 0 (default), no EW healing occurs
+- **Description**: Amount of jamming damage healed per healing interval. Higher values heal more jamming damage per tick, while lower values heal less. At 0 (default), no jamming healing occurs. This amount is subtracted from the current jamming damage each time the healing interval elapses. If electronic components have their own healing amounts, the system sums all component healing amounts instead of using this global value.
 - **Default**: `0.0`
-- **Example**: `EWDamageHealAmount = 25.0`
+- **Example**: `JammingDamageHealAmount = 100.0`
+
+#### `CanBeJammedByDirectJammers`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `Bool`
+- **Description**: Whether this object can be affected by direct jamming weapons. When `Yes`, the object can be jammed by weapons that apply jamming damage directly to the target. When `No`, the object is immune to direct jamming attacks. This flag is checked along with component jamming flags when determining if jamming damage can be applied.
+- **Default**: `No`
+- **Example**: `CanBeJammedByDirectJammers = Yes`
+
+#### `CanBeJammedByAreaJammers`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `Bool`
+- **Description**: Whether this object can be affected by area jamming weapons. When `Yes`, the object can be jammed by weapons that apply jamming damage in an area effect. When `No`, the object is immune to area jamming attacks. This flag is checked along with component jamming flags when determining if jamming damage can be applied.
+- **Default**: `No`
+- **Example**: `CanBeJammedByAreaJammers = Yes`
 
 ### Component Settings
 
-#### `Component` *(v1.04, Generals Zero Hour only)*
-- **Type**: `Component` block
-- **Description**: Defines individual component health systems for detailed damage modeling. Each component can have its own health, healing behavior, and hit side restrictions. Components allow for realistic damage simulation where different parts of an object can be damaged independently
+Available only in: *(GMX Zero Hour)*
+
+ActiveBody supports multiple component types that can be added to objects for detailed damage modeling. Each component type has its own specialized properties while inheriting base component functionality. Components allow for realistic damage simulation where different parts of an object can be damaged independently. Components are parsed from INI and copied to each object instance during construction.
+
+#### `Component`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `Component` block (see [Component documentation](../ObjectComponents/Component.md))
+- **Description**: Base component type for generic component health systems. Use this for components that don't require specialized functionality. Components can be damaged, healed, replaced, and their status affects gameplay systems like movement, weapons, and visual appearance. See [Component documentation](../ObjectComponents/Component.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -114,71 +142,194 @@ Component PRIMARY_WEAPON
 End
 ```
 
-#### Component Properties
+#### `EngineComponent`
+Available only in: *(GMX Zero Hour)*
 
-##### `MaxHealth` *(v1.04, Generals Zero Hour only)*
-- **Type**: `Real`
-- **Description**: Maximum health points for this specific component. Higher values make the component more durable and resistant to damage. This determines the total damage capacity before the component is destroyed
-- **Default**: `0.0`
-- **Example**: `MaxHealth = 100.0`
+- **Type**: `EngineComponent` block (see [EngineComponent documentation](../ObjectComponents/EngineComponent.md))
+- **Description**: Specialized component for engine systems. When destroyed, typically disables vehicle movement. See [EngineComponent documentation](../ObjectComponents/EngineComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+- **Example**: 
+```ini
+EngineComponent MainEngine
+  MaxHealth = 150.0
+  InitialHealth = 150.0
+  ReplacementCost = 500
+End
+```
 
-##### `InitialHealth` *(v1.04, Generals Zero Hour only)*
-- **Type**: `Real`
-- **Description**: Starting health points for this component when the object is created. Higher values allow components to spawn with more health than their maximum, providing temporary damage buffer
-- **Default**: `0.0`
-- **Example**: `InitialHealth = 100.0`
+#### `VisionComponent`
+Available only in: *(GMX Zero Hour)*
 
-##### `HealingType` *(v1.04, Generals Zero Hour only)*
-- **Type**: `ComponentHealingType` (see [ComponentHealingType Values](#componenthealingtype-values) section)
-- **Description**: Defines how this component can be healed. Different healing types control whether components can be fully repaired, partially repaired, or require replacement
-- **Default**: `NORMAL`
-- **Example**: `HealingType = NORMAL`
+- **Type**: `VisionComponent` block (see [VisionComponent documentation](../ObjectComponents/VisionComponent.md))
+- **Description**: Specialized component for vision/sensor systems. When damaged or destroyed, affects unit vision range. See [VisionComponent documentation](../ObjectComponents/VisionComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
 
-##### `DamageOnSides` *(v1.04, Generals Zero Hour only)*
-- **Type**: `HitSideFlags` (see [HitSide Values](#hitside-values) section)
-- **Description**: Specifies which hit sides can damage this component. If not set (empty), the component can be damaged from any hit side. This allows for realistic damage modeling where certain components are only vulnerable from specific angles
-- **Default**: Empty (damageable from all sides)
-- **Example**: `DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP`
+#### `WeaponComponent`
+Available only in: *(GMX Zero Hour)*
 
-##### `ReplacementCost` *(v1.04, Generals Zero Hour only)*
-- **Type**: `UnsignedInt`
-- **Description**: Cost in money to fully replace this component when it's damaged. Higher values make component replacement more expensive. At 0 (default), the component cannot be replaced via the GUI command system
-- **Default**: `0`
-- **Example**: `ReplacementCost = 500`
+- **Type**: `WeaponComponent` block (see [WeaponComponent documentation](../ObjectComponents/WeaponComponent.md))
+- **Description**: Specialized component for weapon systems. When damaged or destroyed, affects weapon functionality. See [WeaponComponent documentation](../ObjectComponents/WeaponComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+
+#### `TurretComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `TurretComponent` block (see [TurretComponent documentation](../ObjectComponents/TurretComponent.md))
+- **Description**: Specialized component for turret systems. When damaged or destroyed, affects turret rotation and weapon aiming. See [TurretComponent documentation](../ObjectComponents/TurretComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+
+#### `ElectronicsComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `ElectronicsComponent` block (see [ElectronicsComponent documentation](../ObjectComponents/ElectronicsComponent.md))
+- **Description**: Specialized component for electronic systems. Supports jamming damage and electronic warfare effects. See [ElectronicsComponent documentation](../ObjectComponents/ElectronicsComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+- **Example**: 
+```ini
+ElectronicsComponent Jammer
+  MaxHealth = 20.0
+  InitialHealth = 20.0
+  ReplacementCost = 200
+  JammingDamageCap = 350
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 100
+  CanBeJammedByDirectJammers = Yes
+End
+```
+
+#### `InventoryStorageComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `InventoryStorageComponent` block (see [InventoryStorageComponent documentation](../ObjectComponents/InventoryStorageComponent.md))
+- **Description**: Specialized component for inventory storage systems. When destroyed, may affect unit's ability to carry inventory items. See [InventoryStorageComponent documentation](../ObjectComponents/InventoryStorageComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+- **Example**: 
+```ini
+InventoryStorageComponent FuelTank
+  MaxHealth = 60.0
+  InitialHealth = 60.0
+  ReplacementCost = 150
+  ForceReturnOnDestroy = Yes
+  InventoryItem = JetFuel
+End
+```
+
+#### `PowerComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `PowerComponent` block (see [PowerComponent documentation](../ObjectComponents/PowerComponent.md))
+- **Description**: Specialized component for power generation systems. When damaged or destroyed, affects power-dependent systems. See [PowerComponent documentation](../ObjectComponents/PowerComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+
+#### `CommunicationComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `CommunicationComponent` block (see [CommunicationComponent documentation](../ObjectComponents/CommunicationComponent.md))
+- **Description**: Specialized component for communication systems. When damaged or destroyed, affects unit communication and coordination abilities. See [CommunicationComponent documentation](../ObjectComponents/CommunicationComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+
+#### `RemoteControlComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `RemoteControlComponent` block (see [RemoteControlComponent documentation](../ObjectComponents/RemoteControlComponent.md))
+- **Description**: Specialized component for remote control systems. When damaged or destroyed, affects remote control functionality. See [RemoteControlComponent documentation](../ObjectComponents/RemoteControlComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+
+#### `JetEngineComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `JetEngineComponent` block (see [JetEngineComponent documentation](../ObjectComponents/JetEngineComponent.md))
+- **Description**: Specialized component for jet engine systems. When destroyed, typically forces aircraft to return to base. See [JetEngineComponent documentation](../ObjectComponents/JetEngineComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+- **Example**: 
+```ini
+JetEngineComponent ENGINE
+  MaxHealth = 100.0
+  InitialHealth = 100.0
+  ReplacementCost = 400
+  ForceReturnOnDestroy = Yes
+End
+```
+
+#### `SensorComponent`
+Available only in: *(GMX Zero Hour)*
+
+- **Type**: `SensorComponent` block (see [SensorComponent documentation](../ObjectComponents/SensorComponent.md))
+- **Description**: Specialized component for sensor/radar systems. When damaged or destroyed, affects detection range and shroud clearing. See [SensorComponent documentation](../ObjectComponents/SensorComponent.md) for complete details, limitations, and usage.
+- **Default**: No components defined
+- **Example**: 
+```ini
+SensorComponent Radar
+  MaxHealth = 10.0
+  InitialHealth = 10.0
+  ReplacementCost = 200
+  JammingDamageCap = 350
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 50
+  CanBeJammedByDirectJammers = Yes
+  ShroudClearingRange = 330.0
+End
+```
 
 ## Enum Value Lists
 
-#### `BodyDamageType` Values *(v1.04)*
-**Source:** [BodyModule.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h#53) - `BodyDamageType` enum definition
+#### `BodyDamageType` Values
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
-- **`BODY_PRISTINE`** *(v1.04)* - Unit should appear in pristine condition
-- **`BODY_DAMAGED`** *(v1.04)* - Unit has been damaged
-- **`BODY_REALLYDAMAGED`** *(v1.04)* - Unit is extremely damaged / nearly destroyed
-- **`BODY_RUBBLE`** *(v1.04)* - Unit has been reduced to rubble/corpse/exploded-hulk, etc
+**Source:** [BodyModule.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h#54) - `BodyDamageType` enum definition; string names from `TheBodyDamageTypeNames[]`
 
-#### `ComponentHealingType` Values *(v1.04, Generals Zero Hour only)*
-**Source:** [Component.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Component.h#40) - `ComponentHealingType` enum definition
+**Retail 1.04 Values** *(available in GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*:
 
-- **`NORMAL`** *(v1.04)* - Can be healed from destroyed to max normally
-- **`PARTIAL_ONLY`** *(v1.04)* - Can be healed if not destroyed to max normally
-- **`PARTIAL_DESTROYED`** *(v1.04)* - Can be healed from destroyed to partially working normally, but to max needs replacement
-- **`PARTIAL_LIMITED`** *(v1.04)* - Can be healed if not destroyed to partially working normally, but to max needs replacement
-- **`REPLACEMENT_ONLY`** *(v1.04)* - Cannot be healed normally, needs replacement
+- **`PRISTINE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit should appear in pristine condition
+- **`DAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been damaged
+- **`REALLYDAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit is extremely damaged / nearly destroyed
+- **`RUBBLE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been reduced to rubble/corpse/exploded-hulk, etc
 
-#### `HitSide` Values *(v1.04)*
-**Source:** [Damage.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Damage.h#188) - `HitSide` enum definition
+**GMX Component-Specific Values** *(available only in GMX Zero Hour)*:
 
-- **`HIT_SIDE_FRONT`** *(v1.04)* - Front side of the object
-- **`HIT_SIDE_BACK`** *(v1.04)* - Back side of the object
-- **`HIT_SIDE_LEFT`** *(v1.04)* - Left side of the object
-- **`HIT_SIDE_RIGHT`** *(v1.04)* - Right side of the object
-- **`HIT_SIDE_TOP`** *(v1.04)* - Top side of the object
-- **`HIT_SIDE_BOTTOM`** *(v1.04)* - Bottom side of the object
-- **`HIT_SIDE_UNKNOWN`** *(v1.04)* - Used when hit side cannot be determined
+- **`COMPONENT_ENGINE_DESTROYED`** *(GMX Zero Hour)* - Engine component has been destroyed
+- **`COMPONENT_ENGINE_DAMAGED`** *(GMX Zero Hour)* - Engine component has been damaged
+- **`COMPONENT_TURRET_DESTROYED`** *(GMX Zero Hour)* - Turret component has been destroyed
+- **`COMPONENT_TURRET_DAMAGED`** *(GMX Zero Hour)* - Turret component has been damaged
+
+- **`COMPONENT_WEAPON_A_DESTROYED`** *(GMX Zero Hour)* - Weapon slot A component has been destroyed
+- **`COMPONENT_WEAPON_B_DESTROYED`** *(GMX Zero Hour)* - Weapon slot B component has been destroyed
+- **`COMPONENT_WEAPON_C_DESTROYED`** *(GMX Zero Hour)* - Weapon slot C component has been destroyed
+- **`COMPONENT_WEAPON_D_DESTROYED`** *(GMX Zero Hour)* - Weapon slot D component has been destroyed
+- **`COMPONENT_WEAPON_E_DESTROYED`** *(GMX Zero Hour)* - Weapon slot E component has been destroyed
+- **`COMPONENT_WEAPON_F_DESTROYED`** *(GMX Zero Hour)* - Weapon slot F component has been destroyed
+- **`COMPONENT_WEAPON_G_DESTROYED`** *(GMX Zero Hour)* - Weapon slot G component has been destroyed
+- **`COMPONENT_WEAPON_H_DESTROYED`** *(GMX Zero Hour)* - Weapon slot H component has been destroyed
+
+- **`COMPONENT_WEAPON_A_DAMAGED`** *(GMX Zero Hour)* - Weapon slot A component has been damaged
+- **`COMPONENT_WEAPON_B_DAMAGED`** *(GMX Zero Hour)* - Weapon slot B component has been damaged
+- **`COMPONENT_WEAPON_C_DAMAGED`** *(GMX Zero Hour)* - Weapon slot C component has been damaged
+- **`COMPONENT_WEAPON_D_DAMAGED`** *(GMX Zero Hour)* - Weapon slot D component has been damaged
+- **`COMPONENT_WEAPON_E_DAMAGED`** *(GMX Zero Hour)* - Weapon slot E component has been damaged
+- **`COMPONENT_WEAPON_F_DAMAGED`** *(GMX Zero Hour)* - Weapon slot F component has been damaged
+- **`COMPONENT_WEAPON_G_DAMAGED`** *(GMX Zero Hour)* - Weapon slot G component has been damaged
+- **`COMPONENT_WEAPON_H_DAMAGED`** *(GMX Zero Hour)* - Weapon slot H component has been damaged
+
+- **`COMPONENT_A_DESTROYED`** *(GMX Zero Hour)* - Component A has been destroyed
+- **`COMPONENT_B_DESTROYED`** *(GMX Zero Hour)* - Component B has been destroyed
+- **`COMPONENT_C_DESTROYED`** *(GMX Zero Hour)* - Component C has been destroyed
+- **`COMPONENT_D_DESTROYED`** *(GMX Zero Hour)* - Component D has been destroyed
+- **`COMPONENT_E_DESTROYED`** *(GMX Zero Hour)* - Component E has been destroyed
+- **`COMPONENT_F_DESTROYED`** *(GMX Zero Hour)* - Component F has been destroyed
+- **`COMPONENT_G_DESTROYED`** *(GMX Zero Hour)* - Component G has been destroyed
+- **`COMPONENT_H_DESTROYED`** *(GMX Zero Hour)* - Component H has been destroyed
+
+- **`COMPONENT_A_DAMAGED`** *(GMX Zero Hour)* - Component A has been damaged
+- **`COMPONENT_B_DAMAGED`** *(GMX Zero Hour)* - Component B has been damaged
+- **`COMPONENT_C_DAMAGED`** *(GMX Zero Hour)* - Component C has been damaged
+- **`COMPONENT_D_DAMAGED`** *(GMX Zero Hour)* - Component D has been damaged
+- **`COMPONENT_E_DAMAGED`** *(GMX Zero Hour)* - Component E has been damaged
+- **`COMPONENT_F_DAMAGED`** *(GMX Zero Hour)* - Component F has been damaged
+- **`COMPONENT_G_DAMAGED`** *(GMX Zero Hour)* - Component G has been damaged
+- **`COMPONENT_H_DAMAGED`** *(GMX Zero Hour)* - Component H has been damaged
 
 ## Examples
 
-### Scout Van with Subdual Resistance
 ```ini
 Body = ActiveBody ModuleTag_02
   MaxHealth = 200.0
@@ -189,7 +340,6 @@ Body = ActiveBody ModuleTag_02
 End
 ```
 
-### Anti-Tank Site
 ```ini
 Body = ActiveBody ModuleTag_02
   MaxHealth = 75.0
@@ -197,143 +347,129 @@ Body = ActiveBody ModuleTag_02
 End
 ```
 
-### Stinger Site with EW Protection
 ```ini
 Body = ActiveBody ModuleTag_02
-  MaxHealth = 500.0
-  InitialHealth = 500.0
-  EWDamageCap = 300.0
-  EWDamageHealRate = 2000
-  EWDamageHealAmount = 30.0
+  MaxHealth = 400
+  InitialHealth = 400
+  SubdualDamageCap = 700
+  SubdualDamageHealRate = 500
+  SubdualDamageHealAmount = 50
+  JammingDamageCap = 350
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 100
+  CanBeJammedByDirectJammers = Yes
 End
 ```
 
-### Command Center with Full Protection
 ```ini
 Body = ActiveBody ModuleTag_02
-  MaxHealth = 1000.0
-  InitialHealth = 1000.0
-  SubdualDamageCap = 800.0
-  SubdualDamageHealRate = 1000
-  SubdualDamageHealAmount = 100.0
-  EWDamageCap = 500.0
-  EWDamageHealRate = 1500
-  EWDamageHealAmount = 75.0
+  MaxHealth = 200
+  InitialHealth = 200
+  SubdualDamageCap = 350
+  SubdualDamageHealRate = 500
+  SubdualDamageHealAmount = 50
 End
 ```
 
-### Tank with Component Damage System
 ```ini
 Body = ActiveBody ModuleTag_02
-  MaxHealth = 500.0
-  InitialHealth = 500.0
-  
-  Component PRIMARY_WEAPON
+  MaxHealth = 185.0
+  InitialHealth = 185.0
+  Component MainEngine
     MaxHealth = 100.0
     InitialHealth = 100.0
-    HealingType = NORMAL
-    DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP
-    ReplacementCost = 300
-  End
-  
-  Component ENGINE
-    MaxHealth = 150.0
-    InitialHealth = 150.0
-    HealingType = PARTIAL_DESTROYED
-    DamageOnSides = HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT
-    ReplacementCost = 500
-  End
-  
-  Component TURRET
-    MaxHealth = 80.0
-    InitialHealth = 80.0
-    HealingType = NORMAL
-    DamageOnSides = HIT_SIDE_TOP
-    ReplacementCost = 200
+    ReplacementCost = 400
+    ForceReturnOnDestroy = Yes
   End
 End
 ```
+
+## Usage
+
+Place under `Body = ActiveBody ModuleTag_XX` inside `Object` entries. In GMX, ActiveBody can also be added to `ObjectExtend` entries. See Template for correct syntax.
+
+**Placement**:
+- **Retail**: ActiveBody can only be added to `Object` entries (ObjectExtend does not exist in Retail).
+- **GMX**: ActiveBody can be added to both `Object` and `ObjectExtend` entries.
+
+Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist per object. If multiple body modules are added to the same object, the game will crash with a "Duplicate bodies" assertion error during object creation. This restriction applies regardless of `ModuleTag` names - the object can only have one body module total.
+
+**Limitations**:
+- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
+- If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth), the current health will be clamped to [MaxHealth](#maxhealth) when the first health change occurs. Health cannot go below `0.0` or above [MaxHealth](#maxhealth).
+- Subdual damage can disable objects without destroying them when subdual damage equals or exceeds [MaxHealth](#maxhealth). Subdual damage properties are exclusive to Generals Zero Hour (Retail Zero Hour 1.04) and GMX (both Generals and Zero Hour).
+- Jamming damage can jam electronic systems and components when jamming damage equals or exceeds [MaxHealth](#maxhealth). Jamming damage properties are GMX Zero Hour only.
+- Objects automatically heal subdual and jamming damage over time if healing rates and amounts are set. The healing is handled by helper systems that run at the specified intervals.
+- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](../ObjectComponents/Component.md) for component-specific limitations and requirements.
+
+**Conditions**:
+- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Health is reduced when weapons deal damage, and damage states are updated based on health percentage.
+- Veterancy levels can modify maximum health and healing rates through upgrade systems.
+- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects. Armor modifies incoming damage before it is applied to health.
+- Damage states are calculated based on global thresholds defined in game data and affect visual appearance and particle systems.
+- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). Components interact with weapons, locomotor (see [Locomotor](../Locomotor.md)), healing systems, GUI commands, prerequisites, and behaviors. See [Component documentation](../ObjectComponents/Component.md) for component-specific conditions and interactions.
+- **ObjectExtend (GMX only)**: When ActiveBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's ActiveBody module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
+- **ObjectReskin (both Retail and GMX)**: ObjectReskin uses the same module system as Object. Adding ActiveBody to an ObjectReskin entry with the same `ModuleTag` name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.
+
+**Dependencies**:
+- Requires proper armor and damage type definitions to function correctly. ActiveBody relies on armor systems to modify incoming damage before it is applied to health.
 
 ## Template
 
 ```ini
 Body = ActiveBody ModuleTag_XX
-  ; Health Settings
-  MaxHealth = 500.0               ; // maximum health points *(v1.04)*
-  InitialHealth = 500.0           ; // starting health points *(v1.04)*
+  MaxHealth = 0.0                 ; // maximum health points *(GMX, Retail 1.04)*
+  InitialHealth = 0.0             ; // starting health points *(GMX, Retail 1.04)*
 
-  ; Subdual Damage Settings (Generals Zero Hour only)
-  SubdualDamageCap = 0.0          ; // maximum subdual damage before subdual *(v1.04, Generals Zero Hour only)*
-  SubdualDamageHealRate = 0       ; // milliseconds between subdual damage healing *(v1.04, Generals Zero Hour only)*
-  SubdualDamageHealAmount = 0.0   ; // amount of subdual damage healed per interval *(v1.04, Generals Zero Hour only)*
+  SubdualDamageCap = 0.0          ; // maximum subdual damage before subdual *(GMX Zero Hour, Retail Zero Hour 1.04)*
+  SubdualDamageHealRate = 0       ; // milliseconds between subdual damage healing *(GMX Zero Hour, Retail Zero Hour 1.04)*
+  SubdualDamageHealAmount = 0.0   ; // amount of subdual damage healed per interval *(GMX Zero Hour, Retail Zero Hour 1.04)*
 
-  ; Electronic Warfare Settings (Generals Zero Hour only)
-  EWDamageCap = 0.0               ; // maximum EW damage before jamming *(v1.04, Generals Zero Hour only)*
-  EWDamageHealRate = 0            ; // milliseconds between EW damage healing *(v1.04, Generals Zero Hour only)*
-  EWDamageHealAmount = 0.0        ; // amount of EW damage healed per interval *(v1.04, Generals Zero Hour only)*
+  JammingDamageCap = 0.0          ; // maximum jamming damage before jamming *(GMX Zero Hour only)*
+  JammingDamageHealRate = 0       ; // milliseconds between jamming damage healing *(GMX Zero Hour only)*
+  JammingDamageHealAmount = 0.0   ; // amount of jamming damage healed per interval *(GMX Zero Hour only)*
+  CanBeJammedByDirectJammers = No ; // whether object can be jammed by direct jammers *(GMX Zero Hour only)*
+  CanBeJammedByAreaJammers = No   ; // whether object can be jammed by area jammers *(GMX Zero Hour only)*
 
-  ; Component Settings (Generals Zero Hour only)
-  ; Component COMPONENT_NAME
-  ;   MaxHealth = 100.0            ; // maximum health for this component *(v1.04, Generals Zero Hour only)*
-  ;   InitialHealth = 100.0        ; // starting health for this component *(v1.04, Generals Zero Hour only)*
-  ;   HealingType = NORMAL         ; // how this component can be healed *(v1.04, Generals Zero Hour only)*
-  ;   DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP ; // which hit sides can damage this component *(v1.04, Generals Zero Hour only)*
-  ;   ReplacementCost = 0          ; // cost to replace this component when damaged *(v1.04, Generals Zero Hour only)*
-  ; End
+  ; Components can be added here (GMX Zero Hour only, see Component documentation)
 End
 ```
 
 ## Notes
 
-- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage
-- Damage states affect visual appearance and particle systems
-- Subdual damage can disable objects without destroying them
-- Electronic warfare damage can jam electronic systems
-- Objects automatically heal subdual and EW damage over time if healing rates are set
-- Damage states are calculated based on global thresholds defined in game data
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types
-- Veterancy levels can modify maximum health and healing rates
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects
-- **Component System**: Individual components can be damaged independently, affecting object functionality (weapons, movement, etc.)
-- **Component Replacement**: Damaged components can be replaced via GUI commands if `ReplacementCost` is set
-- **Hit Side Restrictions**: Components can be configured to only take damage from specific hit sides for realistic damage modeling
-- **Component Healing Types**: Different components can have different healing behaviors (normal, partial only, replacement only, etc.)
-- **Model State Updates**: Component replacement automatically updates visual model states to reflect component status
+- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
+- Damage states are calculated based on global thresholds and updated automatically when health changes.
+- Subdual damage can disable objects without destroying them (Zero Hour only). Subdual damage accumulates separately from normal health damage.
+- Jamming damage can jam electronic systems and components (GMX Zero Hour only). Jamming damage accumulates separately from normal health damage and subdual damage.
+- Objects automatically heal subdual and jamming damage over time if healing rates and amounts are set. The healing is handled by helper systems that run at the specified intervals.
+- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Armor modifies incoming damage before it is applied to health.
+- Veterancy levels can modify maximum health and healing rates through upgrade systems.
+- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects.
+- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](../ObjectComponents/Component.md) and individual component documentation files for component-specific notes and details.
 
-## Component Replacement System
+## Modder Recommended Use Scenarios
 
-The component damage system includes a GUI-based replacement system that allows players to repair damaged components:
-
-### **GUI Command Integration**
-- **Command Type**: `GUI_COMMAND_REPLACE_COMPONENT` - Available in command button definitions
-- **Component Targeting**: Can target specific components or all damaged components
-- **Cost Calculation**: Automatically calculates replacement costs based on component `ReplacementCost` values
-- **Multi-Object Support**: Works with multiple selected objects simultaneously
-
-### **Command Button Properties**
-- **`ComponentName`**: Specifies which component to replace (empty = all damaged components)
-- **Cost Display**: Shows replacement cost in tooltips with "not enough money" warnings
-- **Availability**: Button is disabled when no damaged components exist or player lacks sufficient funds
-
-### **Replacement Process**
-1. **Cost Check**: Verifies player has sufficient money for replacement
-2. **Component Healing**: Sets component health to maximum value
-3. **Model Update**: Updates visual model state to reflect component repair
-4. **Money Deduction**: Deducts replacement cost from player's money
-
-### **Usage in Command Buttons**
-```ini
-CommandButton = Command_ReplaceEngine
-  Command = REPLACE_COMPONENT
-  ComponentName = ENGINE
-  TextLabel = "Replace Engine"
-  ButtonImage = "ReplaceEngineButton"
-End
-```
+(pending modder review)
 
 ## Source Files
 
-**Base Class:** [`BodyModule`](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h)
+**Base Class:** [BodyModule](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h) (GMX Zero Hour), [BodyModule](../../Generals/Code/GameEngine/Include/GameLogic/Module/BodyModule.h) (GMX Generals)
 
-- Header: [`GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h`](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h)
-- Source: [`GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp`](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp)
+- Header (GMX Zero Hour): [ActiveBody.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h)
+- Source (GMX Zero Hour): [ActiveBody.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp)
+- Header (GMX Generals): [ActiveBody.h](../../Generals/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h)
+- Source (GMX Generals): [ActiveBody.cpp](../../Generals/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp)
+
+## Changes History
+
+- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with proper version flags, cross-usage research, accurate property documentation, complete BodyDamageType enum (48 values), and comprehensive component system documentation.
+
+## Status
+
+- Documentation Status: AI-generated
+- Last Updated: 16/12/2025 by AI
+- Certification: 0/2 reviews
+
+### Reviewers
+
+- (pending)
