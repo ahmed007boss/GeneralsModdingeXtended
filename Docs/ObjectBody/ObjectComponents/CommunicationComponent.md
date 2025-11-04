@@ -1,4 +1,4 @@
-# CommunicationComponent *(GMX)*
+# <span style="color:#5bbcff; font-weight:bold;">CommunicationComponent</span> *(GMX)*
 
 Status: AI-generated, 0/2 reviews
 
@@ -387,10 +387,10 @@ Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to
 Multiple component instances can be added to the same body. Each component operates independently with its own health tracking and jamming damage. Component names must be unique within the same body.
 
 **Placement**:
-- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), [HiveStructureBody](../ObjectModules/HiveStructureBody.md).
+- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), [HiveStructureBody](../HiveStructureBody.md).
 
 **Limitations**:
-- Requires one of the following body modules: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), or [HiveStructureBody](../ObjectModules/HiveStructureBody.md); components cannot exist outside a body module block.
+- Requires one of the following body modules: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), or [HiveStructureBody](../HiveStructureBody.md); components cannot exist outside a body module block.
 - Component names must be unique within the same body. If multiple components share the same name, systems that look up components by name (weapons via `PrimaryComponentDamage`/`SecondaryComponentDamage`, locomotor via `AffectedByComponents`/`EngineComponentName`, GUI commands, prerequisites) will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.
 - Name is optional for this type. If the name token is omitted/empty, a default name of `CommunicationRadio` is automatically assigned. If a name is explicitly provided, it must be unique within the same body.
 - If [MaxHealth](#maxhealth) is 0 or negative, the component does not function and cannot be damaged, healed, or accessed by any systems.
@@ -461,7 +461,11 @@ End
 
 ## Changes History
 
-- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with all inherited Component and ElectronicsComponent properties, proper version flags, complete enum lists (48 BodyDamageType values), jamming properties documentation, module placement rules, correct linking, and default name handling.
+- GMX Zero Hour — Adds CommunicationComponent (new GMX-only component type).
+
+## Document Log
+
+- 16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (inherited properties, version flags, enums, jamming, placement, links, defaults).
 
 ## Status
 

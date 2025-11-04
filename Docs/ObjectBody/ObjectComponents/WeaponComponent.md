@@ -1,9 +1,9 @@
-# InventoryStorageComponent *(GMX)*
+# WeaponComponent *(GMX)*
 
 Status: AI-generated, 0/2 reviews
 
 ## Overview
-InventoryStorageComponent models inventory storage systems (e.g., fuel tanks, cargo bays) attached via body modules. When destroyed, it clears stored inventory items and can restrict inventory item replenishment. InventoryStorageComponent inherits all properties from [Component](Component.md) and adds inventory storage properties. This is a module added inside `Object` entries.
+WeaponComponent models weapon assemblies attached via body modules. When damaged or destroyed, it can affect weapon functionality. WeaponComponent inherits all properties from [Component](Component.md) and adds no additional properties. This is a module added inside `Object` entries.
 
 Available only in: *(GMX Zero Hour)*
 
@@ -15,7 +15,6 @@ Available only in: *(GMX Zero Hour)*
   - [Replacement Settings](#replacement-settings)
   - [Visual Appearance Settings](#visual-appearance-settings)
   - [Status Icon Settings](#status-icon-settings)
-  - [Storage Settings](#storage-settings)
 - [Enum Value Lists](#enum-value-lists)
 - [Examples](#examples)
 - [Usage](#usage)
@@ -37,18 +36,18 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Maximum health for this inventory storage component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
+- **Description**: Maximum health for this weapon component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
 - **Default**: `0.0`
-- **Example**: `MaxHealth = 60.0` or `MaxHealth = 50%`
+- **Example**: `MaxHealth = 80.0` or `MaxHealth = 50%`
 
 <a id="initialhealth"></a>
 #### `InitialHealth`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Starting health for this inventory storage component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
+- **Description**: Starting health for this weapon component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
 - **Default**: `0.0`
-- **Example**: `InitialHealth = 60.0` or `InitialHealth = 50%`
+- **Example**: `InitialHealth = 80.0` or `InitialHealth = 50%`
 
 <a id="maxhealthvaluetype"></a>
 #### `MaxHealthValueType`
@@ -76,7 +75,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `ComponentHealingType` (see [ComponentHealingType Values](#componenthealingtype-values))
-- **Description**: Controls how the inventory storage component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
+- **Description**: Controls how the weapon component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
 - **Default**: `NORMAL`
 - **Example**: `HealingType = NORMAL`
 - **Available Values**: see [ComponentHealingType Values](#componenthealingtype-values)
@@ -86,9 +85,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `HitSideFlags` (list of [HitSide Values](#hitside-values))
-- **Description**: Which hit sides can damage this inventory storage component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
+- **Description**: Which hit sides can damage this weapon component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
 - **Default**: Empty (all sides)
-- **Example**: `DamageOnSides = HIT_SIDE_BACK HIT_SIDE_BOTTOM` or `DamageOnSides = HIT_SIDE_LEFT HIT_SIDE_RIGHT`
+- **Example**: `DamageOnSides = HIT_SIDE_FRONT` or `DamageOnSides = HIT_SIDE_TOP HIT_SIDE_BACK`
 - **Available Values**: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM` (see [HitSide Values](#hitside-values) for full enum list)
 
 ### Replacement Settings
@@ -99,18 +98,18 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `UnsignedInt`
-- **Description**: Money cost to fully replace this inventory storage component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
+- **Description**: Money cost to fully replace this weapon component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
 - **Default**: `0`
-- **Example**: `ReplacementCost = 150`
+- **Example**: `ReplacementCost = 200`
 
 <a id="forcereturnondestroy"></a>
 #### `ForceReturnOnDestroy`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Bool`
-- **Description**: Whether the unit should be forced to return to base when this inventory storage component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior. Often used for fuel tanks on aircraft to force return when fuel storage is destroyed.
+- **Description**: Whether the unit should be forced to return to base when this weapon component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior.
 - **Default**: `No`
-- **Example**: `ForceReturnOnDestroy = Yes`
+- **Example**: `ForceReturnOnDestroy = No`
 
 ### Visual Appearance Settings
 Available only in: *(GMX Zero Hour)*
@@ -120,9 +119,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the inventory storage component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
+- **Description**: Body damage state to set when the weapon component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
 - **Default**: `0` (no change)
-- **Example**: `DamagedStatusType = DAMAGED`
+- **Example**: `DamagedStatusType = DAMAGED` or `DamagedStatusType = COMPONENT_WEAPON_A_DAMAGED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
 
 <a id="destroyedstatustype"></a>
@@ -130,9 +129,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the inventory storage component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
+- **Description**: Body damage state to set when the weapon component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
 - **Default**: `0` (no change)
-- **Example**: `DestroyedStatusType = REALLYDAMAGED`
+- **Example**: `DestroyedStatusType = REALLYDAMAGED` or `DestroyedStatusType = COMPONENT_WEAPON_A_DESTROYED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
 
 ### Status Icon Settings
@@ -143,39 +142,27 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when inventory storage component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when weapon component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `PartiallyFunctionalIcon = StorageDamagedIcon`
+- **Example**: `PartiallyFunctionalIcon = WeaponDamagedIcon`
 
 <a id="downedicon"></a>
 #### `DownedIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when inventory storage component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when weapon component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `DownedIcon = StorageDestroyedIcon`
+- **Example**: `DownedIcon = WeaponDestroyedIcon`
 
 <a id="userdisabledicon"></a>
 #### `UserDisabledIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when inventory storage component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when weapon component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `UserDisabledIcon = StorageDisabledIcon`
-
-### Storage Settings
-Available only in: *(GMX Zero Hour)*
-
-<a id="inventoryitem"></a>
-#### `InventoryItem`
-Available only in: *(GMX Zero Hour)*
-
-- **Type**: `AsciiString`
-- **Description**: Name of the inventory item type this storage component is associated with. When the component is destroyed, stored items are cleared and replenishment may be restricted. If empty (default), the component affects all inventory items when destroyed (clears all items and restricts replenishment for all items). If set to a specific item name, the component only affects that specific item type when destroyed (clears only that item and restricts replenishment only for that item). References an inventory item defined in [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) configuration.
-- **Default**: Empty (affects all items)
-- **Example**: `InventoryItem = JetFuel` or `InventoryItem = Ammunition`
+- **Example**: `UserDisabledIcon = WeaponDisabledIcon`
 
 ## Enum Value Lists
 
@@ -264,103 +251,100 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 ## Examples
 
 ```ini
-InventoryStorageComponent FuelTank
-  MaxHealth = 60.0
-  InitialHealth = 60.0
+WeaponComponent PrimaryWeapon
+  MaxHealth = 80.0
+  InitialHealth = 80.0
   HealingType = NORMAL
-  ReplacementCost = 150
-  ForceReturnOnDestroy = Yes
-  InventoryItem = JetFuel
+  ReplacementCost = 200
 End
 ```
 
 ```ini
-InventoryStorageComponent CargoBay
+WeaponComponent MainGun
   MaxHealth = 100.0
   InitialHealth = 100.0
   HealingType = PARTIAL_ONLY
-  DamageOnSides = HIT_SIDE_BACK HIT_SIDE_BOTTOM
-  ReplacementCost = 200
-  InventoryItem = Ammunition
+  DamageOnSides = HIT_SIDE_FRONT
+  ReplacementCost = 300
+  DamagedStatusType = COMPONENT_WEAPON_A_DAMAGED
+  DestroyedStatusType = COMPONENT_WEAPON_A_DESTROYED
 End
 ```
 
 ```ini
-InventoryStorageComponent MainStorage
+WeaponComponent SecondaryWeapon
   MaxHealth = 50%
   InitialHealth = 50%
   HealingType = NORMAL
-  ReplacementCost = 180
+  ReplacementCost = 150
   ForceReturnOnDestroy = No
-  PartiallyFunctionalIcon = StorageDamagedIcon
-  DownedIcon = StorageDestroyedIcon
-  InventoryItem = Supplies
+  PartiallyFunctionalIcon = WeaponDamagedIcon
+  DownedIcon = WeaponDestroyedIcon
 End
 ```
 
 ```ini
-InventoryStorageComponent UniversalStorage
-  MaxHealth = 80.0
-  InitialHealth = 80.0
+WeaponComponent MissileLauncher
+  MaxHealth = 60.0
+  InitialHealth = 60.0
   HealingType = REPLACEMENT_ONLY
   ReplacementCost = 250
+  DamageOnSides = HIT_SIDE_TOP HIT_SIDE_BACK
   DamagedStatusType = DAMAGED
   DestroyedStatusType = REALLYDAMAGED
-  InventoryItem =
 End
 ```
 
 ```ini
-InventoryStorageComponent FuelTankPrimary
-  MaxHealth = 70.0
-  InitialHealth = 70.0
+WeaponComponent Cannon
+  MaxHealth = 120.0
+  InitialHealth = 120.0
   HealingType = NORMAL
-  DamageOnSides = HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT
-  ReplacementCost = 160
+  DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP
+  ReplacementCost = 400
   ForceReturnOnDestroy = Yes
-  PartiallyFunctionalIcon = FuelTankDamagedIcon
-  DownedIcon = FuelTankDestroyedIcon
-  UserDisabledIcon = FuelTankDisabledIcon
-  InventoryItem = JetFuel
+  DamagedStatusType = COMPONENT_WEAPON_B_DAMAGED
+  DestroyedStatusType = COMPONENT_WEAPON_B_DESTROYED
+  PartiallyFunctionalIcon = CannonDamagedIcon
+  DownedIcon = CannonDestroyedIcon
+  UserDisabledIcon = CannonDisabledIcon
 End
 ```
 
 ## Usage
-Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make inventory storage systems damageable, healable, replaceable, and affect inventory item storage and replenishment. See Template for correct syntax.
+Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make weapon systems damageable, healable, replaceable, and usable in weapon functionality systems. See Template for correct syntax.
 
-Multiple component instances can be added to the same body. Each component operates independently with its own health tracking and inventory item association. Component names must be unique within the same body.
+Multiple component instances can be added to the same body. Each component operates independently with its own health tracking. Component names must be unique within the same body.
 
 **Placement**:
-- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), [HiveStructureBody](../ObjectModules/HiveStructureBody.md).
+- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), [HiveStructureBody](../HiveStructureBody.md).
 
 **Limitations**:
-- Requires one of the following body modules: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), or [HiveStructureBody](../ObjectModules/HiveStructureBody.md); components cannot exist outside a body module block.
+- Requires one of the following body modules: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), or [HiveStructureBody](../HiveStructureBody.md); components cannot exist outside a body module block.
 - Component names must be unique within the same body. If multiple components share the same name, systems that look up components by name (weapons via `PrimaryComponentDamage`/`SecondaryComponentDamage`, locomotor via `AffectedByComponents`/`EngineComponentName`, GUI commands, prerequisites) will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.
 - Name is required for this type. If the name token is omitted/empty, the component is skipped during parsing and not added to the body.
 - If [MaxHealth](#maxhealth) is 0 or negative, the component does not function and cannot be damaged, healed, or accessed by any systems.
 - [InitialHealth](#initialhealth) is automatically clamped during component initialization: if it exceeds [MaxHealth](#maxhealth), it is set to [MaxHealth](#maxhealth); if negative, it is set to `0.0`. This clamping occurs when the object is created.
-- When the component is destroyed, stored inventory items are automatically cleared. If [InventoryItem](#inventoryitem) is empty, all inventory items are cleared. If [InventoryItem](#inventoryitem) has a value, only that specific item type is cleared.
 
 **Conditions**:
 - To receive damage from weapons, the weapon must list this component by name in `PrimaryComponentDamage` or `SecondaryComponentDamage` (see [Weapon](../Weapon.md)). If not listed, weapons will not damage this component.
 - For [AutoHealBehavior](../ObjectBehaviorsModules/AutoHealBehavior.md) to heal this component, the behavior must have `ComponentHealingAmount` set. Component healing respects this component's [HealingType](#healingtype) setting, which may restrict healing based on component health state.
 - If this component's name is listed in `LocomotorTemplate.AffectedByComponents` (see [Locomotor](../Locomotor.md) documentation), component status (damaged/destroyed) can reduce movement capabilities (speed/turn/accel). If not listed, component status has no effect on movement.
+- If this component's name is set as `WeaponTemplate.ComponentName` (see [Weapon](../Weapon.md) documentation), the weapon will check this component's status to determine if the weapon slot is functional. When the component is damaged (10% - 50% health) or destroyed (0% - 10% health), the weapon may be disabled or have reduced functionality depending on game logic. If `ComponentName` is empty or not set, weapon functionality is not affected by component status.
 - Component status (damaged/destroyed) affects object visual appearance via [DamagedStatusType](#damagedstatustype)/[DestroyedStatusType](#destroyedstatustype) settings, which control the body damage state displayed on the model. The damage state is determined based on component health ratio.
 - Component status icons are displayed in the GUI health bar area when the component is damaged, destroyed, or user-disabled. Icons reference animation templates defined in [Animation2d](../Animation2d.md) configuration.
-- If [ForceReturnOnDestroy](#forcereturnondestroy) is `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). This is often used for fuel tanks on aircraft to force return when fuel storage is destroyed.
+- If [ForceReturnOnDestroy](#forcereturnondestroy) is `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)).
 - Component status can be checked by the prerequisite system for command button availability (e.g., requiring component to exist, be working, or be disabled) (see `ObjectPrerequisite` in docs when available).
 - Components can be replaced via command buttons using `COMMAND_REPLACE_COMPONENT` (see [CommandButton](../CommandButton.md)), or toggled on/off via a component toggle command, if configured. Replacement requires [ReplacementCost](#replacementcost) > 0.
 - Components can be restored by [ParkingPlaceBehavior](../ObjectBehaviorsModules/ParkingPlaceBehavior.md) if the behavior's restore list includes this component's name, or by crate interactions that restore damaged components.
-- When the component is destroyed, stored inventory items are automatically cleared. If [InventoryItem](#inventoryitem) is empty, all inventory items are cleared. If [InventoryItem](#inventoryitem) has a value, only that specific item type is cleared.
-- When the component is destroyed, inventory item replenishment is restricted. If [InventoryItem](#inventoryitem) is empty, replenishment is restricted for all inventory items. If [InventoryItem](#inventoryitem) has a value, replenishment is restricted only for that specific item type. This prevents replenishment of items when their storage component is destroyed.
 
 **Dependencies**:
-- None. This component can function independently as a health-bearing part with replacement capabilities and inventory storage effects. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements. However, for the component to affect inventory items, the object must have [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) configured with inventory items that match [InventoryItem](#inventoryitem) (or any items if [InventoryItem](#inventoryitem) is empty).
+- None. This component can function independently as a health-bearing part with replacement capabilities. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements. However, for the weapon component to affect weapon functionality, the weapon must reference this component via `WeaponTemplate.ComponentName` (see [Weapon](../Weapon.md) documentation).
 
 ## Template
 
 ```ini
-InventoryStorageComponent NAME
+WeaponComponent NAME
   MaxHealth = 0.0                 ; // maximum health (absolute or percentage with %) *(GMX Zero Hour)*
   InitialHealth = 0.0             ; // starting health (absolute or percentage with %) *(GMX Zero Hour)*
   MaxHealthValueType = ABSOLUTE   ; // how MaxHealth is calculated *(GMX Zero Hour)*
@@ -374,19 +358,16 @@ InventoryStorageComponent NAME
   PartiallyFunctionalIcon =       ; // icon template name for partially functional status *(GMX Zero Hour)*
   DownedIcon =                    ; // icon template name for downed status *(GMX Zero Hour)*
   UserDisabledIcon =              ; // icon template name for user disabled status *(GMX Zero Hour)*
-  InventoryItem =                 ; // name of inventory item type (empty = affects all items) *(GMX Zero Hour)*
 End
 ```
 
 **Note**: `NAME` is required for this component type. If omitted/empty, the component is skipped during parsing and not added to the body.
 
 ## Notes
-- Inventory storage components represent storage systems that can be damaged and affect inventory item storage and replenishment.
-- When the component is destroyed, stored inventory items are automatically cleared. If [InventoryItem](#inventoryitem) is empty, all inventory items are cleared. If [InventoryItem](#inventoryitem) has a value, only that specific item type is cleared.
-- When the component is destroyed, inventory item replenishment is restricted. If [InventoryItem](#inventoryitem) is empty, replenishment is restricted for all inventory items (prevents all item replenishment). If [InventoryItem](#inventoryitem) has a value, replenishment is restricted only for that specific item type. This prevents replenishment of items when their storage component is destroyed.
-- Use [InventoryItem](#inventoryitem) to link the component to a specific inventory item type. Leave it empty to affect all inventory items when destroyed.
-- Use [ForceReturnOnDestroy](#forcereturnondestroy) = `Yes` for critical storage like fuel tanks on aircraft to force return when fuel storage is destroyed.
+- Weapon components represent weapon assemblies that can be damaged and affect weapon functionality.
+- For the weapon component to affect weapon functionality, the weapon must reference this component via `WeaponTemplate.ComponentName` (see [Weapon](../Weapon.md) documentation). When the component is damaged or destroyed, the weapon may be disabled or have reduced functionality.
 - Component names must be unique within the same body to avoid lookup conflicts in systems that reference components by name (weapons, locomotor, GUI commands, prerequisites).
+- Use descriptive component names (e.g., `PrimaryWeapon`, `MainGun`, `MissileLauncher`, `Cannon`) to match weapon `ComponentName` references.
 
 ## Modder Recommended Use Scenarios
 
@@ -396,12 +377,12 @@ End
 
 **Base Class:** [Component](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/Component.h)
 
-- Header: [InventoryStorageComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/InventoryStorageComponent.h)
-- Source: [InventoryStorageComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/InventoryStorageComponent.cpp)
+- Header: [WeaponComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/WeaponComponent.h)
+- Source: [WeaponComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/WeaponComponent.cpp)
 
 ## Changes History
 
-- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with all inherited Component properties, proper version flags, complete enum lists (48 BodyDamageType values), inventory storage properties documentation, module placement rules, correct linking, and required name handling.
+- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with all inherited Component properties, proper version flags, complete enum lists (48 BodyDamageType values), module placement rules, correct linking, and required name handling.
 
 ## Status
 

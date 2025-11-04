@@ -1,9 +1,9 @@
-# EngineComponent *(GMX)*
+# <span style="color:#5bbcff; font-weight:bold;">JetEngineComponent</span> *(GMX)*
 
 Status: AI-generated, 0/2 reviews
 
 ## Overview
-EngineComponent models ground vehicle engine subsystems attached via body modules. It supports movement performance penalties when damaged or destroyed, affecting locomotor speed, turn rate, acceleration, and lift. EngineComponent inherits all properties from [Component](Component.md) and adds movement performance properties. This is a module added inside `Object` entries.
+JetEngineComponent models jet engine subsystems attached via body modules. It supports movement performance penalties when damaged or destroyed, affecting locomotor speed, turn rate, acceleration, and lift for aircraft. JetEngineComponent inherits all properties from [EngineComponent](EngineComponent.md) (which includes all properties from [Component](Component.md)) and adds no additional properties. This is a module added inside `Object` entries.
 
 Available only in: *(GMX Zero Hour)*
 
@@ -37,18 +37,18 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Maximum health for this engine component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
+- **Description**: Maximum health for this jet engine component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
 - **Default**: `0.0`
-- **Example**: `MaxHealth = 150.0` or `MaxHealth = 50%`
+- **Example**: `MaxHealth = 100.0` or `MaxHealth = 50%`
 
 <a id="initialhealth"></a>
 #### `InitialHealth`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Starting health for this engine component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
+- **Description**: Starting health for this jet engine component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
 - **Default**: `0.0`
-- **Example**: `InitialHealth = 150.0` or `InitialHealth = 50%`
+- **Example**: `InitialHealth = 100.0` or `InitialHealth = 50%`
 
 <a id="maxhealthvaluetype"></a>
 #### `MaxHealthValueType`
@@ -76,7 +76,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `ComponentHealingType` (see [ComponentHealingType Values](#componenthealingtype-values))
-- **Description**: Controls how the engine component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
+- **Description**: Controls how the jet engine component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
 - **Default**: `NORMAL`
 - **Example**: `HealingType = NORMAL`
 - **Available Values**: see [ComponentHealingType Values](#componenthealingtype-values)
@@ -86,9 +86,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `HitSideFlags` (list of [HitSide Values](#hitside-values))
-- **Description**: Which hit sides can damage this engine component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
+- **Description**: Which hit sides can damage this jet engine component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
 - **Default**: Empty (all sides)
-- **Example**: `DamageOnSides = HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT` or `DamageOnSides = HIT_SIDE_FRONT`
+- **Example**: `DamageOnSides = HIT_SIDE_BACK` or `DamageOnSides = HIT_SIDE_LEFT HIT_SIDE_RIGHT`
 - **Available Values**: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM` (see [HitSide Values](#hitside-values) for full enum list)
 
 ### Replacement Settings
@@ -99,16 +99,16 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `UnsignedInt`
-- **Description**: Money cost to fully replace this engine component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
+- **Description**: Money cost to fully replace this jet engine component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
 - **Default**: `0`
-- **Example**: `ReplacementCost = 500`
+- **Example**: `ReplacementCost = 400`
 
 <a id="forcereturnondestroy"></a>
 #### `ForceReturnOnDestroy`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Bool`
-- **Description**: Whether the unit should be forced to return to base when this engine component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior.
+- **Description**: Whether the unit should be forced to return to base when this jet engine component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior. Typically set to `Yes` for jet engines to force return when engine is destroyed.
 - **Default**: `No`
 - **Example**: `ForceReturnOnDestroy = Yes`
 
@@ -120,7 +120,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the engine component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range. If not set, defaults to `COMPONENT_ENGINE_DAMAGED` (set in constructor).
+- **Description**: Body damage state to set when the jet engine component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range. If not set, defaults to `COMPONENT_ENGINE_DAMAGED` (set in constructor).
 - **Default**: `COMPONENT_ENGINE_DAMAGED`
 - **Example**: `DamagedStatusType = DAMAGED` or `DamagedStatusType = COMPONENT_ENGINE_DAMAGED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
@@ -130,7 +130,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the engine component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range. If not set, defaults to `COMPONENT_ENGINE_DESTROYED` (set in constructor).
+- **Description**: Body damage state to set when the jet engine component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range. If not set, defaults to `COMPONENT_ENGINE_DESTROYED` (set in constructor).
 - **Default**: `COMPONENT_ENGINE_DESTROYED`
 - **Example**: `DestroyedStatusType = REALLYDAMAGED` or `DestroyedStatusType = COMPONENT_ENGINE_DESTROYED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
@@ -143,39 +143,39 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when engine component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when jet engine component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `PartiallyFunctionalIcon = EngineDamagedIcon`
+- **Example**: `PartiallyFunctionalIcon = JetEngineDamagedIcon`
 
 <a id="downedicon"></a>
 #### `DownedIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when engine component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when jet engine component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `DownedIcon = EngineDestroyedIcon`
+- **Example**: `DownedIcon = JetEngineDestroyedIcon`
 
 <a id="userdisabledicon"></a>
 #### `UserDisabledIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when engine component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when jet engine component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `UserDisabledIcon = EngineDisabledIcon`
+- **Example**: `UserDisabledIcon = JetEngineDisabledIcon`
 
 ### Movement Performance Settings
 Available only in: *(GMX Zero Hour)*
 
-These properties control how the engine component affects movement when damaged or destroyed. When the locomotor references this component via `EngineComponentName` (see [Locomotor](../Locomotor.md) documentation), these values are used to adjust movement performance based on component status.
+These properties control how the jet engine component affects movement when damaged or destroyed. When the locomotor references this component via `EngineComponentName` (see [Locomotor](../Locomotor.md) documentation), these values are used to adjust movement performance based on component status.
 
 <a id="maxspeeddamaged"></a>
 #### `MaxSpeedDamaged`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor speed)
-- **Description**: Maximum speed when the engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `50.0`) or percentage of locomotor's `MaxSpeedDamaged` (e.g., `80%`). If percentage is used (contains `%` suffix), [MaxSpeedDamagedValueType](#maxspeeddamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `MaxSpeedDamaged` value. This property is optional - if omitted, the locomotor's default damaged speed is used.
+- **Description**: Maximum speed when the jet engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `50.0`) or percentage of locomotor's `MaxSpeedDamaged` (e.g., `80%`). If percentage is used (contains `%` suffix), [MaxSpeedDamagedValueType](#maxspeeddamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `MaxSpeedDamaged` value. This property is optional - if omitted, the locomotor's default damaged speed is used.
 - **Default**: `0.0` (not set, uses locomotor default)
 - **Example**: `MaxSpeedDamaged = 50.0` or `MaxSpeedDamaged = 80%`
 
@@ -193,7 +193,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor turn rate)
-- **Description**: Maximum turn rate when the engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `90.0`) or percentage of locomotor's `MaxTurnRateDamaged` (e.g., `75%`). If percentage is used (contains `%` suffix), [MaxTurnRateDamagedValueType](#maxturnratedamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `MaxTurnRateDamaged` value. This property is optional - if omitted, the locomotor's default damaged turn rate is used.
+- **Description**: Maximum turn rate when the jet engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `90.0`) or percentage of locomotor's `MaxTurnRateDamaged` (e.g., `75%`). If percentage is used (contains `%` suffix), [MaxTurnRateDamagedValueType](#maxturnratedamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `MaxTurnRateDamaged` value. This property is optional - if omitted, the locomotor's default damaged turn rate is used.
 - **Default**: `0.0` (not set, uses locomotor default)
 - **Example**: `MaxTurnRateDamaged = 90.0` or `MaxTurnRateDamaged = 75%`
 
@@ -211,7 +211,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor acceleration)
-- **Description**: Maximum acceleration when the engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `0.5`) or percentage of locomotor's `AccelerationDamaged` (e.g., `60%`). If percentage is used (contains `%` suffix), [MaxAccelerationDamagedValueType](#maxaccelerationdamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `AccelerationDamaged` value. This property is optional - if omitted, the locomotor's default damaged acceleration is used.
+- **Description**: Maximum acceleration when the jet engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `0.5`) or percentage of locomotor's `AccelerationDamaged` (e.g., `60%`). If percentage is used (contains `%` suffix), [MaxAccelerationDamagedValueType](#maxaccelerationdamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `AccelerationDamaged` value. This property is optional - if omitted, the locomotor's default damaged acceleration is used.
 - **Default**: `0.0` (not set, uses locomotor default)
 - **Example**: `MaxAccelerationDamaged = 0.5` or `MaxAccelerationDamaged = 60%`
 
@@ -229,7 +229,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor lift)
-- **Description**: Maximum lift when the engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `0.3`) or percentage of locomotor's `LiftDamaged` (e.g., `70%`). If percentage is used (contains `%` suffix), [MaxLiftDamagedValueType](#maxliftdamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `LiftDamaged` value. This property is optional - if omitted, the locomotor's default damaged lift is used. Only applicable for aircraft locomotor types.
+- **Description**: Maximum lift when the jet engine component is damaged (10% - 50% health, partially functional status). Can be specified as absolute value (e.g., `0.3`) or percentage of locomotor's `LiftDamaged` (e.g., `70%`). If percentage is used (contains `%` suffix), [MaxLiftDamagedValueType](#maxliftdamagedvaluetype) is automatically set to `PERCENTAGE` during parsing. If not set, the locomotor uses its own `LiftDamaged` value. This property is optional - if omitted, the locomotor's default damaged lift is used. Only applicable for aircraft locomotor types.
 - **Default**: `0.0` (not set, uses locomotor default)
 - **Example**: `MaxLiftDamaged = 0.3` or `MaxLiftDamaged = 70%`
 
@@ -247,7 +247,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor speed)
-- **Description**: Maximum speed when the engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `10.0`) or percentage of locomotor's `MaxSpeed` (e.g., `20%`). If percentage is used (contains `%` suffix), [MaxSpeedDestroyedValueType](#maxspeeddestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, movement speed is reduced to this value. This property is required for engine components that affect movement.
+- **Description**: Maximum speed when the jet engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `10.0`) or percentage of locomotor's `MaxSpeed` (e.g., `20%`). If percentage is used (contains `%` suffix), [MaxSpeedDestroyedValueType](#maxspeeddestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, movement speed is reduced to this value. This property is required for jet engine components that affect movement.
 - **Default**: `0.0`
 - **Example**: `MaxSpeedDestroyed = 10.0` or `MaxSpeedDestroyed = 20%`
 
@@ -265,7 +265,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor turn rate)
-- **Description**: Maximum turn rate when the engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `30.0`) or percentage of locomotor's `MaxTurnRate` (e.g., `25%`). If percentage is used (contains `%` suffix), [MaxTurnRateDestroyedValueType](#maxturnratedestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, turn rate is reduced to this value. This property is required for engine components that affect movement.
+- **Description**: Maximum turn rate when the jet engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `30.0`) or percentage of locomotor's `MaxTurnRate` (e.g., `25%`). If percentage is used (contains `%` suffix), [MaxTurnRateDestroyedValueType](#maxturnratedestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, turn rate is reduced to this value. This property is required for jet engine components that affect movement.
 - **Default**: `0.0`
 - **Example**: `MaxTurnRateDestroyed = 30.0` or `MaxTurnRateDestroyed = 25%`
 
@@ -283,7 +283,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor acceleration)
-- **Description**: Maximum acceleration when the engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `0.1`) or percentage of locomotor's `Acceleration` (e.g., `15%`). If percentage is used (contains `%` suffix), [MaxAccelerationDestroyedValueType](#maxaccelerationdestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, acceleration is reduced to this value. This property is required for engine components that affect movement.
+- **Description**: Maximum acceleration when the jet engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `0.1`) or percentage of locomotor's `Acceleration` (e.g., `15%`). If percentage is used (contains `%` suffix), [MaxAccelerationDestroyedValueType](#maxaccelerationdestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, acceleration is reduced to this value. This property is required for jet engine components that affect movement.
 - **Default**: `0.0`
 - **Example**: `MaxAccelerationDestroyed = 0.1` or `MaxAccelerationDestroyed = 15%`
 
@@ -301,7 +301,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of locomotor lift)
-- **Description**: Maximum lift when the engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `0.05`) or percentage of locomotor's `Lift` (e.g., `10%`). If percentage is used (contains `%` suffix), [MaxLiftDestroyedValueType](#maxliftdestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, lift is reduced to this value. This property is required for engine components that affect movement. Only applicable for aircraft locomotor types.
+- **Description**: Maximum lift when the jet engine component is destroyed (0% - 10% health, downed status). Can be specified as absolute value (e.g., `0.05`) or percentage of locomotor's `Lift` (e.g., `10%`). If percentage is used (contains `%` suffix), [MaxLiftDestroyedValueType](#maxliftdestroyedvaluetype) is automatically set to `PERCENTAGE` during parsing. When the engine is destroyed, lift is reduced to this value. This property is required for jet engine components that affect movement. Only applicable for aircraft locomotor types.
 - **Default**: `0.0`
 - **Example**: `MaxLiftDestroyed = 0.05` or `MaxLiftDestroyed = 10%`
 
@@ -401,39 +401,47 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 ## Examples
 
 ```ini
-EngineComponent
-  MaxHealth = 150.0
-  InitialHealth = 150.0
-  HealingType = NORMAL
-  ReplacementCost = 500
-  MaxSpeedDestroyed = 10.0
-  MaxTurnRateDestroyed = 30.0
-  MaxAccelerationDestroyed = 0.1
-End
-```
-
-```ini
-EngineComponent MainEngine
-  MaxHealth = 200.0
-  InitialHealth = 200.0
-  HealingType = PARTIAL_ONLY
-  DamageOnSides = HIT_SIDE_BACK
-  ReplacementCost = 600
-  ForceReturnOnDestroy = Yes
-  MaxSpeedDamaged = 80%
-  MaxTurnRateDamaged = 75%
-  MaxSpeedDestroyed = 20%
-  MaxTurnRateDestroyed = 25%
-  MaxAccelerationDestroyed = 15%
-End
-```
-
-```ini
-EngineComponent JetEngine
+JetEngineComponent
   MaxHealth = 100.0
   InitialHealth = 100.0
   HealingType = NORMAL
-  ReplacementCost = 800
+  ReplacementCost = 400
+  ForceReturnOnDestroy = Yes
+  MaxSpeedDestroyed = 10.0
+  MaxTurnRateDestroyed = 30.0
+  MaxAccelerationDestroyed = 0.1
+  MaxLiftDestroyed = 0.05
+End
+```
+
+```ini
+JetEngineComponent MainEngine
+  MaxHealth = 120.0
+  InitialHealth = 120.0
+  HealingType = PARTIAL_ONLY
+  DamageOnSides = HIT_SIDE_BACK
+  ReplacementCost = 500
+  ForceReturnOnDestroy = Yes
+  MaxSpeedDamaged = 80%
+  MaxTurnRateDamaged = 75%
+  MaxAccelerationDamaged = 70%
+  MaxLiftDamaged = 75%
+  MaxSpeedDestroyed = 15%
+  MaxTurnRateDestroyed = 25%
+  MaxAccelerationDestroyed = 20%
+  MaxLiftDestroyed = 10%
+End
+```
+
+```ini
+JetEngineComponent LeftEngine
+  MaxHealth = 100.0
+  InitialHealth = 100.0
+  HealingType = NORMAL
+  ReplacementCost = 400
+  ForceReturnOnDestroy = Yes
+  PartiallyFunctionalIcon = EngineDamagedIcon
+  DownedIcon = EngineDestroyedIcon
   MaxSpeedDamaged = 60.0
   MaxSpeedDamagedValueType = ABSOLUTE
   MaxTurnRateDamaged = 90.0
@@ -447,13 +455,12 @@ End
 ```
 
 ```ini
-EngineComponent PropellerEngine
+JetEngineComponent JetEngine
   MaxHealth = 50%
   InitialHealth = 50%
   HealingType = REPLACEMENT_ONLY
-  ReplacementCost = 400
-  PartiallyFunctionalIcon = EngineDamagedIcon
-  DownedIcon = EngineDestroyedIcon
+  ReplacementCost = 600
+  ForceReturnOnDestroy = Yes
   MaxSpeedDamaged = 70%
   MaxTurnRateDamaged = 80%
   MaxAccelerationDamaged = 65%
@@ -466,15 +473,18 @@ End
 ```
 
 ```ini
-EngineComponent BackupEngine
-  MaxHealth = 80.0
-  InitialHealth = 80.0
+JetEngineComponent PrimaryJet
+  MaxHealth = 150.0
+  InitialHealth = 150.0
   HealingType = NORMAL
   DamageOnSides = HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT
-  ReplacementCost = 300
+  ReplacementCost = 800
   ForceReturnOnDestroy = Yes
   DamagedStatusType = COMPONENT_ENGINE_DAMAGED
   DestroyedStatusType = COMPONENT_ENGINE_DESTROYED
+  PartiallyFunctionalIcon = JetEngineDamagedIcon
+  DownedIcon = JetEngineDestroyedIcon
+  UserDisabledIcon = JetEngineDisabledIcon
   MaxSpeedDestroyed = 5.0
   MaxTurnRateDestroyed = 20.0
   MaxAccelerationDestroyed = 0.05
@@ -483,20 +493,20 @@ End
 ```
 
 ## Usage
-Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make engine systems damageable, healable, replaceable, and affect movement performance. See Template for correct syntax.
+Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make jet engine systems damageable, healable, replaceable, and affect movement performance for aircraft. See Template for correct syntax.
 
 Multiple component instances can be added to the same body. Each component operates independently with its own health tracking and movement performance effects. Component names must be unique within the same body.
 
 **Placement**:
-- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), [HiveStructureBody](../ObjectModules/HiveStructureBody.md).
+- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), [HiveStructureBody](../HiveStructureBody.md).
 
 **Limitations**:
-- Requires one of the following body modules: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), or [HiveStructureBody](../ObjectModules/HiveStructureBody.md); components cannot exist outside a body module block.
+- Requires one of the following body modules: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), or [HiveStructureBody](../HiveStructureBody.md); components cannot exist outside a body module block.
 - Component names must be unique within the same body. If multiple components share the same name, systems that look up components by name (weapons via `PrimaryComponentDamage`/`SecondaryComponentDamage`, locomotor via `AffectedByComponents`/`EngineComponentName`, GUI commands, prerequisites) will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.
 - Name is optional for this type. If the name token is omitted/empty, a default name of `MainEngine` is automatically assigned. If a name is explicitly provided, it must be unique within the same body.
 - If [MaxHealth](#maxhealth) is 0 or negative, the component does not function and cannot be damaged, healed, or accessed by any systems.
 - [InitialHealth](#initialhealth) is automatically clamped during component initialization: if it exceeds [MaxHealth](#maxhealth), it is set to [MaxHealth](#maxhealth); if negative, it is set to `0.0`. This clamping occurs when the object is created.
-- Movement performance properties ([MaxSpeedDestroyed](#maxspeeddestroyed), [MaxTurnRateDestroyed](#maxturnratedestroyed), [MaxAccelerationDestroyed](#maxaccelerationdestroyed), [MaxLiftDestroyed](#maxliftdestroyed)) must be set for the engine component to affect movement when destroyed. If not set, destroyed engine components do not affect movement performance.
+- Movement performance properties ([MaxSpeedDestroyed](#maxspeeddestroyed), [MaxTurnRateDestroyed](#maxturnratedestroyed), [MaxAccelerationDestroyed](#maxaccelerationdestroyed), [MaxLiftDestroyed](#maxliftdestroyed)) must be set for the jet engine component to affect movement when destroyed. If not set, destroyed jet engine components do not affect movement performance.
 - Movement performance properties for damaged state ([MaxSpeedDamaged](#maxspeeddamaged), [MaxTurnRateDamaged](#maxturnratedamaged), [MaxAccelerationDamaged](#maxaccelerationdamaged), [MaxLiftDamaged](#maxliftdamaged)) are optional - if not set, the locomotor uses its own default damaged performance values.
 
 **Conditions**:
@@ -504,23 +514,23 @@ Multiple component instances can be added to the same body. Each component opera
 - For [AutoHealBehavior](../ObjectBehaviorsModules/AutoHealBehavior.md) to heal this component, the behavior must have `ComponentHealingAmount` set. Component healing respects this component's [HealingType](#healingtype) setting, which may restrict healing based on component health state.
 - If this component's name is listed in `LocomotorTemplate.AffectedByComponents` (see [Locomotor](../Locomotor.md) documentation), component status (damaged/destroyed) can reduce movement capabilities (speed/turn/accel). If not listed, component status has no effect on movement.
 - If this component's name is set as `LocomotorTemplate.EngineComponentName` (see [Locomotor](../Locomotor.md) documentation), the locomotor will check this component's status and use the component's movement performance properties ([MaxSpeedDamaged](#maxspeeddamaged), [MaxSpeedDestroyed](#maxspeeddestroyed), etc.) to adjust movement capabilities. If `EngineComponentName` is empty, the locomotor defaults to looking for a component named `MainEngine`. If the component is not found, movement performance is not affected.
-- When the engine component is damaged (10% - 50% health), the locomotor uses [MaxSpeedDamaged](#maxspeeddamaged), [MaxTurnRateDamaged](#maxturnratedamaged), [MaxAccelerationDamaged](#maxaccelerationdamaged), and [MaxLiftDamaged](#maxliftdamaged) if set. If not set, the locomotor uses its own default damaged performance values.
-- When the engine component is destroyed (0% - 10% health) or user-disabled, the locomotor uses [MaxSpeedDestroyed](#maxspeeddestroyed), [MaxTurnRateDestroyed](#maxturnratedestroyed), [MaxAccelerationDestroyed](#maxaccelerationdestroyed), and [MaxLiftDestroyed](#maxliftdestroyed). These values must be set for the engine component to affect movement when destroyed.
+- When the jet engine component is damaged (10% - 50% health), the locomotor uses [MaxSpeedDamaged](#maxspeeddamaged), [MaxTurnRateDamaged](#maxturnratedamaged), [MaxAccelerationDamaged](#maxaccelerationdamaged), and [MaxLiftDamaged](#maxliftdamaged) if set. If not set, the locomotor uses its own default damaged performance values.
+- When the jet engine component is destroyed (0% - 10% health) or user-disabled, the locomotor uses [MaxSpeedDestroyed](#maxspeeddestroyed), [MaxTurnRateDestroyed](#maxturnratedestroyed), [MaxAccelerationDestroyed](#maxaccelerationdestroyed), and [MaxLiftDestroyed](#maxliftdestroyed). These values must be set for the jet engine component to affect movement when destroyed.
 - Component status (damaged/destroyed) affects object visual appearance via [DamagedStatusType](#damagedstatustype)/[DestroyedStatusType](#destroyedstatustype) settings, which control the body damage state displayed on the model. The damage state is determined based on component health ratio. By default, [DamagedStatusType](#damagedstatustype) is set to `COMPONENT_ENGINE_DAMAGED` and [DestroyedStatusType](#destroyedstatustype) is set to `COMPONENT_ENGINE_DESTROYED` (set in constructor).
 - Component status icons are displayed in the GUI health bar area when the component is damaged, destroyed, or user-disabled. Icons reference animation templates defined in [Animation2d](../Animation2d.md) configuration.
-- If [ForceReturnOnDestroy](#forcereturnondestroy) is `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)).
+- If [ForceReturnOnDestroy](#forcereturnondestroy) is `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). This is typically set to `Yes` for jet engines to force return when engine is destroyed.
 - Component status can be checked by the prerequisite system for command button availability (e.g., requiring component to exist, be working, or be disabled) (see `ObjectPrerequisite` in docs when available).
 - Components can be replaced via command buttons using `COMMAND_REPLACE_COMPONENT` (see [CommandButton](../CommandButton.md)), or toggled on/off via a component toggle command, if configured. Replacement requires [ReplacementCost](#replacementcost) > 0.
 - Components can be restored by [ParkingPlaceBehavior](../ObjectBehaviorsModules/ParkingPlaceBehavior.md) if the behavior's restore list includes this component's name, or by crate interactions that restore damaged components.
-- For aircraft, the locomotor checks if the engine component is destroyed or user-disabled before allowing takeoff (see `LocomotorTemplate.canTakeoff`). If the engine is destroyed or disabled, the aircraft cannot take off.
+- For aircraft, the locomotor checks if the jet engine component is destroyed or user-disabled before allowing takeoff (see `LocomotorTemplate.canTakeoff`). If the engine is destroyed or disabled, the aircraft cannot take off.
 
 **Dependencies**:
-- None. This component can function independently as a health-bearing part with replacement capabilities and movement performance effects. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements. However, for the engine component to affect movement performance, the locomotor must reference this component via `LocomotorTemplate.EngineComponentName` (see [Locomotor](../Locomotor.md) documentation).
+- None. This component can function independently as a health-bearing part with replacement capabilities and movement performance effects. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements. However, for the jet engine component to affect movement performance, the locomotor must reference this component via `LocomotorTemplate.EngineComponentName` (see [Locomotor](../Locomotor.md) documentation).
 
 ## Template
 
 ```ini
-EngineComponent NAME
+JetEngineComponent NAME
   MaxHealth = 0.0                 ; // maximum health (absolute or percentage with %) *(GMX Zero Hour)*
   InitialHealth = 0.0             ; // starting health (absolute or percentage with %) *(GMX Zero Hour)*
   MaxHealthValueType = ABSOLUTE   ; // how MaxHealth is calculated *(GMX Zero Hour)*
@@ -556,14 +566,15 @@ End
 **Note**: If `NAME` is omitted, the component is automatically assigned the default name `MainEngine`.
 
 ## Notes
-- Engine components are specialized components for vehicle propulsion systems that affect movement performance when damaged or destroyed.
-- Movement performance properties use percentage values relative to the locomotor's base performance values. For example, `MaxSpeedDestroyed = 20%` means the vehicle moves at 20% of the locomotor's `MaxSpeed` when the engine is destroyed.
+- Jet engine components are specialized engine components for aircraft propulsion systems that affect movement performance when damaged or destroyed.
+- Movement performance properties use percentage values relative to the locomotor's base performance values. For example, `MaxSpeedDestroyed = 20%` means the aircraft moves at 20% of the locomotor's `MaxSpeed` when the engine is destroyed.
 - The damaged performance properties ([MaxSpeedDamaged](#maxspeeddamaged), etc.) are optional - if not set, the locomotor uses its own default damaged performance values (`LocomotorTemplate.MaxSpeedDamaged`, etc.).
-- The destroyed performance properties ([MaxSpeedDestroyed](#maxspeeddestroyed), etc.) are required for the engine component to affect movement when destroyed. If not set (0.0), destroyed engine components do not affect movement performance.
+- The destroyed performance properties ([MaxSpeedDestroyed](#maxspeeddestroyed), etc.) are required for the jet engine component to affect movement when destroyed. If not set (0.0), destroyed jet engine components do not affect movement performance.
 - [MaxLiftDamaged](#maxliftdamaged) and [MaxLiftDestroyed](#maxliftdestroyed) are only applicable for aircraft locomotor types (e.g., `JetLocomotor`, `HelicopterLocomotor`).
-- For the engine component to affect movement performance, the locomotor must reference this component via `LocomotorTemplate.EngineComponentName` (see [Locomotor](../Locomotor.md) documentation). If `EngineComponentName` is empty, the locomotor defaults to looking for a component named `MainEngine`.
-- If the name token is omitted, the component is automatically assigned the default name `MainEngine`. This makes it easy to add a default engine component without specifying a name, and the locomotor will automatically find it if `EngineComponentName` is empty.
+- For the jet engine component to affect movement performance, the locomotor must reference this component via `LocomotorTemplate.EngineComponentName` (see [Locomotor](../Locomotor.md) documentation). If `EngineComponentName` is empty, the locomotor defaults to looking for a component named `MainEngine`.
+- If the name token is omitted, the component is automatically assigned the default name `MainEngine`. This makes it easy to add a default jet engine component without specifying a name, and the locomotor will automatically find it if `EngineComponentName` is empty.
 - By default, [DamagedStatusType](#damagedstatustype) is set to `COMPONENT_ENGINE_DAMAGED` and [DestroyedStatusType](#destroyedstatustype) is set to `COMPONENT_ENGINE_DESTROYED` in the constructor. These defaults can be overridden by explicitly setting the properties.
+- Use multiple jet engine components for multi-engine aircraft to model partial failures (e.g., one engine destroyed reduces performance, but aircraft can still fly with remaining engines).
 
 ## Modder Recommended Use Scenarios
 
@@ -571,14 +582,18 @@ End
 
 ## Source Files
 
-**Base Class:** [Component](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/Component.h)
+**Base Class:** [EngineComponent](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/EngineComponent.h)
 
-- Header: [EngineComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/EngineComponent.h)
-- Source: [EngineComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/EngineComponent.cpp)
+- Header: [JetEngineComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/JetEngineComponent.h)
+- Source: [JetEngineComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/JetEngineComponent.cpp)
 
 ## Changes History
 
-- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with all inherited Component properties, proper version flags, complete enum lists (48 BodyDamageType values), movement performance properties documentation, module placement rules, correct linking, and default name handling.
+- GMX Zero Hour — Adds JetEngineComponent (new GMX-only component type for aircraft movement effects).
+
+## Document Log
+
+- 16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (inherited properties, enums, movement properties, placement, links, defaults).
 
 ## Status
 

@@ -1,9 +1,9 @@
-# SensorComponent *(GMX)*
+# <span style="color:#5bbcff; font-weight:bold;">RemoteControlComponent</span> *(GMX)*
 
 Status: AI-generated, 0/2 reviews
 
 ## Overview
-SensorComponent models radar and sensor hardware attached via body modules. It combines vision capabilities (shroud clearing) with electronics capabilities (jamming damage). SensorComponent inherits all properties from [Component](Component.md) and implements `IVisionComponent` and `IElectronicsComponent` interfaces, adding vision and jamming damage properties. This is a module added inside `Object` entries.
+RemoteControlComponent models remote control subsystems attached via body modules. It supports jamming damage separate from the main object's health and jamming damage. RemoteControlComponent inherits all properties from [CommunicationComponent](CommunicationComponent.md) (which includes all properties from [ElectronicsComponent](ElectronicsComponent.md) and [Component](Component.md)) and adds jamming damage capabilities. This is a module added inside `Object` entries.
 
 Available only in: *(GMX Zero Hour)*
 
@@ -15,7 +15,6 @@ Available only in: *(GMX Zero Hour)*
   - [Replacement Settings](#replacement-settings)
   - [Visual Appearance Settings](#visual-appearance-settings)
   - [Status Icon Settings](#status-icon-settings)
-  - [Vision Settings](#vision-settings)
   - [Jamming Settings](#jamming-settings)
 - [Enum Value Lists](#enum-value-lists)
 - [Examples](#examples)
@@ -38,7 +37,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Maximum health for this sensor component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
+- **Description**: Maximum health for this remote control component. Higher values increase durability. Can be specified as absolute value (e.g., `100.0`) or percentage of main object's max health (e.g., `50%`). If percentage is used (contains `%` suffix), [MaxHealthValueType](#maxhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health.
 - **Default**: `0.0`
 - **Example**: `MaxHealth = 100.0` or `MaxHealth = 50%`
 
@@ -47,7 +46,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real` (can include `%` suffix for percentage of main object health)
-- **Description**: Starting health for this sensor component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
+- **Description**: Starting health for this remote control component when the object is created. Can be specified as absolute value or percentage of main object's max health. If percentage is used (contains `%` suffix), [InitialHealthValueType](#initialhealthvaluetype) is automatically set to `PERCENTAGE` during parsing. At initialization, percentage values are calculated as a percentage of the main object's max health. Automatically clamped to [MaxHealth](#maxhealth) and `0.0` during component initialization when the object is created.
 - **Default**: `0.0`
 - **Example**: `InitialHealth = 100.0` or `InitialHealth = 50%`
 
@@ -77,7 +76,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `ComponentHealingType` (see [ComponentHealingType Values](#componenthealingtype-values))
-- **Description**: Controls how the sensor component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
+- **Description**: Controls how the remote control component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. `NORMAL` allows full healing from destroyed to max. `PARTIAL_ONLY` prevents healing when destroyed. `PARTIAL_DESTROYED` allows healing from destroyed only to partially working (50%). `PARTIAL_LIMITED` allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. `REPLACEMENT_ONLY` prevents all normal healing and requires GUI replacement.
 - **Default**: `NORMAL`
 - **Example**: `HealingType = NORMAL`
 - **Available Values**: see [ComponentHealingType Values](#componenthealingtype-values)
@@ -87,9 +86,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `HitSideFlags` (list of [HitSide Values](#hitside-values))
-- **Description**: Which hit sides can damage this sensor component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
+- **Description**: Which hit sides can damage this remote control component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with "HIT_SIDE_" prefix: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM`. Note: `HIT_SIDE_UNKNOWN` exists in the enum but is not parseable for this property.
 - **Default**: Empty (all sides)
-- **Example**: `DamageOnSides = HIT_SIDE_TOP` or `DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_BACK`
+- **Example**: `DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP` or `DamageOnSides = HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT`
 - **Available Values**: `HIT_SIDE_FRONT`, `HIT_SIDE_BACK`, `HIT_SIDE_LEFT`, `HIT_SIDE_RIGHT`, `HIT_SIDE_TOP`, `HIT_SIDE_BOTTOM` (see [HitSide Values](#hitside-values) for full enum list)
 
 ### Replacement Settings
@@ -100,16 +99,16 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `UnsignedInt`
-- **Description**: Money cost to fully replace this sensor component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
+- **Description**: Money cost to fully replace this remote control component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.
 - **Default**: `0`
-- **Example**: `ReplacementCost = 200`
+- **Example**: `ReplacementCost = 300`
 
 <a id="forcereturnondestroy"></a>
 #### `ForceReturnOnDestroy`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Bool`
-- **Description**: Whether the unit should be forced to return to base when this sensor component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior.
+- **Description**: Whether the unit should be forced to return to base when this remote control component is destroyed. When `Yes`, aircraft will automatically return to base when this component is destroyed (checked by [JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)). When `No`, component destruction does not trigger return behavior.
 - **Default**: `No`
 - **Example**: `ForceReturnOnDestroy = Yes`
 
@@ -121,9 +120,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the sensor component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
+- **Description**: Body damage state to set when the remote control component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
 - **Default**: `0` (no change)
-- **Example**: `DamagedStatusType = DAMAGED`
+- **Example**: `DamagedStatusType = DAMAGED` or `DamagedStatusType = COMPONENT_ENGINE_DAMAGED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
 
 <a id="destroyedstatustype"></a>
@@ -131,9 +130,9 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `BodyDamageType` (see [BodyDamageType Values](#bodydamagetype-values))
-- **Description**: Body damage state to set when the sensor component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
+- **Description**: Body damage state to set when the remote control component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the [BodyDamageType Values](#bodydamagetype-values) or leave empty/unset (0) for no visual change. The damage state is applied to the main object's body when component health falls within this range.
 - **Default**: `0` (no change)
-- **Example**: `DestroyedStatusType = REALLYDAMAGED`
+- **Example**: `DestroyedStatusType = REALLYDAMAGED` or `DestroyedStatusType = COMPONENT_ENGINE_DESTROYED`
 - **Available Values**: see [BodyDamageType Values](#bodydamagetype-values)
 
 ### Status Icon Settings
@@ -144,57 +143,27 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when sensor component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when remote control component is partially functional (10% - 50% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `PartiallyFunctionalIcon = SensorDamagedIcon`
+- **Example**: `PartiallyFunctionalIcon = ComponentDamagedIcon`
 
 <a id="downedicon"></a>
 #### `DownedIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when sensor component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when remote control component is downed (0% - 10% health). References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `DownedIcon = SensorDestroyedIcon`
+- **Example**: `DownedIcon = ComponentDestroyedIcon`
 
 <a id="userdisabledicon"></a>
 #### `UserDisabledIcon`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `AsciiString` (see [Animation2d](../Animation2d.md))
-- **Description**: Animation icon template name displayed in GUI when sensor component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
+- **Description**: Animation icon template name displayed in GUI when remote control component is user-disabled. References an animation template defined in [Animation2d](../Animation2d.md) configuration.
 - **Default**: Empty (no icon)
-- **Example**: `UserDisabledIcon = SensorDisabledIcon`
-
-### Vision Settings
-Available only in: *(GMX Zero Hour)*
-
-<a id="shroudclearingrange"></a>
-#### `ShroudClearingRange`
-Available only in: *(GMX Zero Hour)*
-
-- **Type**: `Real`
-- **Description**: Vision range for shroud clearing when this sensor component is fully functional (50% - 100% health). Higher values provide better detection range. The effective range is reduced when the component is damaged or destroyed based on [PartiallyFunctionalShroudClearingRange](#partiallyfunctionalshroudclearingrange) and [DisabledShroudClearingRange](#disabledshroudclearingrange) settings.
-- **Default**: `0.0`
-- **Example**: `ShroudClearingRange = 330.0`
-
-<a id="partiallyfunctionalshroudclearingrange"></a>
-#### `PartiallyFunctionalShroudClearingRange`
-Available only in: *(GMX Zero Hour)*
-
-- **Type**: `Real`
-- **Description**: Vision range for shroud clearing when this sensor component is partially functional (10% - 50% health). If set to a value >= 0.0, this range is used when the component is damaged. If set to -1.0 (default) or not set, [ShroudClearingRange](#shroudclearingrange) is used when the component is damaged. Higher values provide better detection range when damaged.
-- **Default**: `-1.0` (uses `ShroudClearingRange`)
-- **Example**: `PartiallyFunctionalShroudClearingRange = 200.0`
-
-<a id="disabledshroudclearingrange"></a>
-#### `DisabledShroudClearingRange`
-Available only in: *(GMX Zero Hour)*
-
-- **Type**: `Real`
-- **Description**: Vision range for shroud clearing when this sensor component is disabled (0% - 10% health, downed status, or user-disabled). When the component is destroyed or disabled, this range is used. Higher values provide better detection range when disabled. At 0.0 (default), the component provides no shroud clearing when disabled.
-- **Default**: `0.0`
-- **Example**: `DisabledShroudClearingRange = 50.0`
+- **Example**: `UserDisabledIcon = ComponentDisabledIcon`
 
 ### Jamming Settings
 Available only in: *(GMX Zero Hour)*
@@ -204,7 +173,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real`
-- **Description**: Maximum jamming damage that can accumulate on this sensor component before it is fully jammed. Higher values allow components to absorb more jamming damage. When jamming damage reaches this cap, the component becomes electronically disabled (status becomes downed). Jamming damage is separate from normal health damage and affects component functionality independently. Component status calculation includes jamming damage effects - a component can be downed due to jamming damage even if health is above 10%.
+- **Description**: Maximum jamming damage that can accumulate on this remote control component before it is fully jammed. Higher values allow components to absorb more jamming damage. When jamming damage reaches this cap, the component becomes electronically disabled (status becomes downed). Jamming damage is separate from normal health damage and affects component functionality independently.
 - **Default**: `0.0`
 - **Example**: `JammingDamageCap = 350.0`
 
@@ -213,7 +182,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `UnsignedInt` (milliseconds)
-- **Description**: Time interval between jamming damage healing attempts for this sensor component. Lower values heal jamming damage more frequently, while higher values heal less often. At 0 (default), no automatic jamming healing occurs. Healing occurs every `JammingDamageHealRate` milliseconds, restoring [JammingDamageHealAmount](#jammingdamagehealamount) jamming damage per interval.
+- **Description**: Time interval between jamming damage healing attempts for this remote control component. Lower values heal jamming damage more frequently, while higher values heal less often. At 0 (default), no automatic jamming healing occurs. Healing occurs every `JammingDamageHealRate` milliseconds, restoring [JammingDamageHealAmount](#jammingdamagehealamount) jamming damage per interval.
 - **Default**: `0`
 - **Example**: `JammingDamageHealRate = 500`
 
@@ -222,17 +191,17 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real`
-- **Description**: Amount of jamming damage healed per healing interval for this sensor component. Higher values heal more jamming damage per tick, while lower values heal less. At 0 (default), no jamming healing occurs. Healing occurs every [JammingDamageHealRate](#jammingdamagehealrate) milliseconds, restoring this amount of jamming damage per interval.
+- **Description**: Amount of jamming damage healed per healing interval for this remote control component. Higher values heal more jamming damage per tick, while lower values heal less. At 0 (default), no jamming healing occurs. Healing occurs every [JammingDamageHealRate](#jammingdamagehealrate) milliseconds, restoring this amount of jamming damage per interval.
 - **Default**: `0.0`
-- **Example**: `JammingDamageHealAmount = 50.0`
+- **Example**: `JammingDamageHealAmount = 100.0`
 
 <a id="canbejammedbydirectjammers"></a>
 #### `CanBeJammedByDirectJammers`
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Bool`
-- **Description**: Whether this sensor component can be affected by direct jamming weapons. When `Yes`, the component can be jammed by weapons that apply jamming damage directly (e.g., jamming weapons targeting this component). When `No`, the component is immune to direct jamming attacks. This does not affect area jamming (see [CanBeJammedByAreaJammers](#canbejammedbyareajammers)).
-- **Default**: `No`
+- **Description**: Whether this remote control component can be affected by direct jamming weapons. When `Yes`, the component can be jammed by weapons that apply jamming damage directly (e.g., jamming weapons targeting this component). When `No`, the component is immune to direct jamming attacks. This does not affect area jamming (see [CanBeJammedByAreaJammers](#canbejammedbyareajammers)).
+- **Default**: `Yes`
 - **Example**: `CanBeJammedByDirectJammers = Yes`
 
 <a id="canbejammedbyareajammers"></a>
@@ -240,8 +209,8 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Bool`
-- **Description**: Whether this sensor component can be affected by area jamming weapons. When `Yes`, the component can be jammed by weapons that apply jamming damage in an area (e.g., area jamming effects). When `No`, the component is immune to area jamming attacks. This does not affect direct jamming (see [CanBeJammedByDirectJammers](#canbejammedbydirectjammers)).
-- **Default**: `No`
+- **Description**: Whether this remote control component can be affected by area jamming weapons. When `Yes`, the component can be jammed by weapons that apply jamming damage in an area (e.g., area jamming effects). When `No`, the component is immune to area jamming attacks. This does not affect direct jamming (see [CanBeJammedByDirectJammers](#canbejammedbydirectjammers)).
+- **Default**: `Yes`
 - **Example**: `CanBeJammedByAreaJammers = Yes`
 
 ## Enum Value Lists
@@ -331,13 +300,12 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 ## Examples
 
 ```ini
-SensorComponent
-  MaxHealth = 10.0
-  InitialHealth = 10.0
+RemoteControlComponent
+  MaxHealth = 40.0
+  InitialHealth = 40.0
   HealingType = NORMAL
-  ReplacementCost = 200
-  ShroudClearingRange = 330.0
-  JammingDamageCap = 350.0
+  ReplacementCost = 100
+  JammingDamageCap = 300.0
   JammingDamageHealRate = 500
   JammingDamageHealAmount = 50.0
   CanBeJammedByDirectJammers = Yes
@@ -346,98 +314,87 @@ End
 ```
 
 ```ini
-SensorComponent Radar
-  MaxHealth = 20.0
-  InitialHealth = 20.0
-  HealingType = PARTIAL_ONLY
-  DamageOnSides = HIT_SIDE_TOP
-  ReplacementCost = 300
-  ShroudClearingRange = 400.0
-  PartiallyFunctionalShroudClearingRange = 250.0
-  DisabledShroudClearingRange = 100.0
-  JammingDamageCap = 500.0
-  JammingDamageHealRate = 1000
-  JammingDamageHealAmount = 75.0
+RemoteControlComponent Controller
+  MaxHealth = 35.0
+  InitialHealth = 35.0
+  HealingType = NORMAL
+  ReplacementCost = 150
+  ForceReturnOnDestroy = Yes
+  JammingDamageCap = 350.0
+  JammingDamageHealRate = 600
+  JammingDamageHealAmount = 70.0
   CanBeJammedByDirectJammers = Yes
-  CanBeJammedByAreaJammers = No
+  CanBeJammedByAreaJammers = Yes
 End
 ```
 
 ```ini
-SensorComponent MainSensor
+RemoteControlComponent RCSystem
   MaxHealth = 50%
   InitialHealth = 50%
-  HealingType = NORMAL
-  ReplacementCost = 400
-  ForceReturnOnDestroy = Yes
-  PartiallyFunctionalIcon = SensorDamagedIcon
-  DownedIcon = SensorDestroyedIcon
-  ShroudClearingRange = 500.0
-  PartiallyFunctionalShroudClearingRange = 300.0
-  DisabledShroudClearingRange = 50.0
-  JammingDamageCap = 600.0
+  HealingType = PARTIAL_ONLY
+  DamageOnSides = HIT_SIDE_TOP
+  ReplacementCost = 200
+  DamagedStatusType = DAMAGED
+  DestroyedStatusType = REALLYDAMAGED
+  JammingDamageCap = 400.0
   JammingDamageHealRate = 750
-  JammingDamageHealAmount = 100.0
+  JammingDamageHealAmount = 80.0
   CanBeJammedByDirectJammers = No
   CanBeJammedByAreaJammers = Yes
 End
 ```
 
 ```ini
-SensorComponent ReconPackage
-  MaxHealth = 15.0
-  InitialHealth = 15.0
+RemoteControlComponent RemoteLink
+  MaxHealth = 30.0
+  InitialHealth = 30.0
   HealingType = REPLACEMENT_ONLY
-  ReplacementCost = 250
-  DamagedStatusType = DAMAGED
-  DestroyedStatusType = REALLYDAMAGED
-  ShroudClearingRange = 200.0
-  DisabledShroudClearingRange = 0.0
+  ReplacementCost = 120
+  PartiallyFunctionalIcon = RemoteDamagedIcon
+  DownedIcon = RemoteDestroyedIcon
   JammingDamageCap = 250.0
   JammingDamageHealRate = 0
   JammingDamageHealAmount = 0.0
   CanBeJammedByDirectJammers = Yes
-  CanBeJammedByAreaJammers = Yes
+  CanBeJammedByAreaJammers = No
 End
 ```
 
 ```ini
-SensorComponent LongRangeSensor
-  MaxHealth = 30.0
-  InitialHealth = 30.0
+RemoteControlComponent DroneController
+  MaxHealth = 45.0
+  InitialHealth = 45.0
   HealingType = NORMAL
-  DamageOnSides = HIT_SIDE_TOP HIT_SIDE_FRONT
-  ReplacementCost = 500
+  DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP
+  ReplacementCost = 180
   ForceReturnOnDestroy = Yes
-  PartiallyFunctionalIcon = SensorDamagedIcon
-  DownedIcon = SensorDestroyedIcon
-  UserDisabledIcon = SensorDisabledIcon
-  ShroudClearingRange = 600.0
-  PartiallyFunctionalShroudClearingRange = 400.0
-  DisabledShroudClearingRange = 150.0
+  PartiallyFunctionalIcon = DroneControllerDamagedIcon
+  DownedIcon = DroneControllerDestroyedIcon
+  UserDisabledIcon = DroneControllerDisabledIcon
   JammingDamageCap = 450.0
   JammingDamageHealRate = 500
-  JammingDamageHealAmount = 80.0
+  JammingDamageHealAmount = 90.0
   CanBeJammedByDirectJammers = Yes
   CanBeJammedByAreaJammers = Yes
 End
 ```
 
 ## Usage
-Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make sensor systems damageable, healable, replaceable, and provide vision/shroud clearing capabilities with jamming damage support. See Template for correct syntax.
+Place under a body module (e.g., `Body = ActiveBody`, `Body = StructureBody`) to make remote control systems damageable, healable, replaceable, and susceptible to jamming damage. See Template for correct syntax.
 
-Multiple component instances can be added to the same body. Each component operates independently with its own health tracking, vision range, and jamming damage. Component names must be unique within the same body.
+Multiple component instances can be added to the same body. Each component operates independently with its own health tracking and jamming damage. Component names must be unique within the same body.
 
 **Placement**:
-- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), [HiveStructureBody](../ObjectModules/HiveStructureBody.md).
+- Components can only be added to `Body` entries. The following body modules support components: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), [HiveStructureBody](../HiveStructureBody.md).
 
 **Limitations**:
-- Requires one of the following body modules: [ActiveBody](../ObjectModules/ActiveBody.md), [StructureBody](../ObjectModules/StructureBody.md), [UndeadBody](../ObjectModules/UndeadBody.md), [ImmortalBody](../ObjectModules/ImmortalBody.md), [HighlanderBody](../ObjectModules/HighlanderBody.md), or [HiveStructureBody](../ObjectModules/HiveStructureBody.md); components cannot exist outside a body module block.
+- Requires one of the following body modules: [ActiveBody](../ActiveBody.md), [StructureBody](../StructureBody.md), [UndeadBody](../UndeadBody.md), [ImmortalBody](../ImmortalBody.md), [HighlanderBody](../HighlanderBody.md), or [HiveStructureBody](../HiveStructureBody.md); components cannot exist outside a body module block.
 - Component names must be unique within the same body. If multiple components share the same name, systems that look up components by name (weapons via `PrimaryComponentDamage`/`SecondaryComponentDamage`, locomotor via `AffectedByComponents`/`EngineComponentName`, GUI commands, prerequisites) will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.
-- Name is optional for this type. If the name token is omitted/empty, a default name of `Radar` is automatically assigned. If a name is explicitly provided, it must be unique within the same body.
+- Name is optional for this type. If the name token is omitted/empty, a default name of `RemoteController` is automatically assigned. If a name is explicitly provided, it must be unique within the same body.
 - If [MaxHealth](#maxhealth) is 0 or negative, the component does not function and cannot be damaged, healed, or accessed by any systems.
 - [InitialHealth](#initialhealth) is automatically clamped during component initialization: if it exceeds [MaxHealth](#maxhealth), it is set to [MaxHealth](#maxhealth); if negative, it is set to `0.0`. This clamping occurs when the object is created.
-- Jamming damage on sensor components is separate from normal health damage and affects component functionality independently. When jamming damage reaches [JammingDamageCap](#jammingdamagecap), the component becomes electronically disabled (status becomes downed), even if health damage is minimal. Component status calculation includes jamming damage effects - a component can be downed due to jamming damage even if health is above 10%.
+- Jamming damage on remote control components is separate from normal health damage and affects component functionality independently. When jamming damage reaches [JammingDamageCap](#jammingdamagecap), the component becomes electronically disabled even if health damage is minimal.
 
 **Conditions**:
 - To receive damage from weapons, the weapon must list this component by name in `PrimaryComponentDamage` or `SecondaryComponentDamage` (see [Weapon](../Weapon.md)). If not listed, weapons will not damage this component.
@@ -449,17 +406,16 @@ Multiple component instances can be added to the same body. Each component opera
 - Component status can be checked by the prerequisite system for command button availability (e.g., requiring component to exist, be working, or be disabled) (see `ObjectPrerequisite` in docs when available).
 - Components can be replaced via command buttons using `COMMAND_REPLACE_COMPONENT` (see [CommandButton](../CommandButton.md)), or toggled on/off via a component toggle command, if configured. Replacement requires [ReplacementCost](#replacementcost) > 0.
 - Components can be restored by [ParkingPlaceBehavior](../ObjectBehaviorsModules/ParkingPlaceBehavior.md) if the behavior's restore list includes this component's name, or by crate interactions that restore damaged components.
-- The effective shroud clearing range depends on component status: fully functional (50% - 100% health) uses [ShroudClearingRange](#shroudclearingrange), partially functional (10% - 50% health) uses [PartiallyFunctionalShroudClearingRange](#partiallyfunctionalshroudclearingrange) if set (>= 0.0), otherwise uses [ShroudClearingRange](#shroudclearingrange), and disabled (0% - 10% health, downed, or user-disabled) uses [DisabledShroudClearingRange](#disabledshroudclearingrange). The object's effective shroud clearing range is the maximum of all sensor components' effective ranges.
 - Jamming damage on this component is separate from main object jamming damage and is managed independently via [JammingDamageCap](#jammingdamagecap), [JammingDamageHealRate](#jammingdamagehealrate), and [JammingDamageHealAmount](#jammingdamagehealamount). When jamming damage reaches [JammingDamageCap](#jammingdamagecap), the component becomes electronically disabled (status becomes downed), even if health damage is minimal. Component status calculation includes jamming damage effects - a component can be downed due to jamming damage even if health is above 10%.
 - Component jamming damage can be affected by jamming weapons depending on [CanBeJammedByDirectJammers](#canbejammedbydirectjammers) and [CanBeJammedByAreaJammers](#canbejammedbyareajammers) settings. When `No`, the component is immune to that type of jamming attack.
 
 **Dependencies**:
-- None. This component can function independently as a health-bearing part with replacement capabilities, vision capabilities, and jamming damage support. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements.
+- None. This component can function independently as a health-bearing part with replacement capabilities and jamming damage support. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements.
 
 ## Template
 
 ```ini
-SensorComponent NAME
+RemoteControlComponent NAME
   MaxHealth = 0.0                 ; // maximum health (absolute or percentage with %) *(GMX Zero Hour)*
   InitialHealth = 0.0             ; // starting health (absolute or percentage with %) *(GMX Zero Hour)*
   MaxHealthValueType = ABSOLUTE   ; // how MaxHealth is calculated *(GMX Zero Hour)*
@@ -473,28 +429,23 @@ SensorComponent NAME
   PartiallyFunctionalIcon =       ; // icon template name for partially functional status *(GMX Zero Hour)*
   DownedIcon =                    ; // icon template name for downed status *(GMX Zero Hour)*
   UserDisabledIcon =              ; // icon template name for user disabled status *(GMX Zero Hour)*
-  ShroudClearingRange = 0.0       ; // vision range when fully functional *(GMX Zero Hour)*
-  PartiallyFunctionalShroudClearingRange = -1.0 ; // vision range when damaged (>= 0.0 = use this, -1.0 = use ShroudClearingRange) *(GMX Zero Hour)*
-  DisabledShroudClearingRange = 0.0 ; // vision range when disabled *(GMX Zero Hour)*
   JammingDamageCap = 0.0          ; // maximum jamming damage before jamming *(GMX Zero Hour)*
   JammingDamageHealRate = 0       ; // milliseconds between jamming damage healing *(GMX Zero Hour)*
   JammingDamageHealAmount = 0.0   ; // amount of jamming damage healed per interval *(GMX Zero Hour)*
-  CanBeJammedByDirectJammers = No ; // whether component can be jammed by direct jammers *(GMX Zero Hour)*
-  CanBeJammedByAreaJammers = No ; // whether component can be jammed by area jammers *(GMX Zero Hour)*
+  CanBeJammedByDirectJammers = Yes ; // whether component can be jammed by direct jammers *(GMX Zero Hour)*
+  CanBeJammedByAreaJammers = Yes ; // whether component can be jammed by area jammers *(GMX Zero Hour)*
 End
 ```
 
-**Note**: If `NAME` is omitted, the component is automatically assigned the default name `Radar`.
+**Note**: If `NAME` is omitted, the component is automatically assigned the default name `RemoteController`.
 
 ## Notes
-- Sensor components combine vision capabilities (shroud clearing) with electronics capabilities (jamming damage).
-- The effective shroud clearing range depends on component status. When multiple sensor components exist on the same object, the object's effective shroud clearing range is the maximum of all sensor components' effective ranges.
-- [PartiallyFunctionalShroudClearingRange](#partiallyfunctionalshroudclearingrange) defaults to -1.0, which means it uses [ShroudClearingRange](#shroudclearingrange) when the component is damaged. Set it to a value >= 0.0 to use a different range when damaged.
-- Jamming damage on sensor components is separate from main object jamming damage and affects component functionality independently.
+- Remote control components are specialized communication components for remote control systems.
+- Jamming damage on remote control components is separate from main object jamming damage and affects component functionality independently.
 - When jamming damage reaches [JammingDamageCap](#jammingdamagecap), the component becomes electronically disabled (status becomes downed), even if health damage is minimal. Component status calculation includes jamming damage effects - a component can be downed due to jamming damage even if health is above 10%.
 - Use [CanBeJammedByDirectJammers](#canbejammedbydirectjammers) and [CanBeJammedByAreaJammers](#canbejammedbyareajammers) to control which jamming types can affect this component. Set both to `No` for complete jamming immunity.
 - Jamming damage healing occurs automatically every [JammingDamageHealRate](#jammingdamagehealrate) milliseconds (if set), restoring [JammingDamageHealAmount](#jammingdamagehealamount) jamming damage per interval.
-- If the name token is omitted, the component is automatically assigned the default name `Radar`. This makes it easy to add a default sensor component without specifying a name.
+- If the name token is omitted, the component is automatically assigned the default name `RemoteController`. This makes it easy to add a default remote control component without specifying a name.
 
 ## Modder Recommended Use Scenarios
 
@@ -502,16 +453,18 @@ End
 
 ## Source Files
 
-**Base Class:** [Component](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/Component.h)
+**Base Class:** [CommunicationComponent](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/CommunicationComponent.h)
 
-**Implements:** `IVisionComponent`, `IElectronicsComponent` interfaces
-
-- Header: [SensorComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/SensorComponent.h)
-- Source: [SensorComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/SensorComponent.cpp)
+- Header: [RemoteControlComponent.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/RemoteControlComponent.h)
+- Source: [RemoteControlComponent.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/RemoteControlComponent.cpp)
 
 ## Changes History
 
-- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with all inherited Component properties, proper version flags, complete enum lists (48 BodyDamageType values), vision properties (ShroudClearingRange, PartiallyFunctionalShroudClearingRange, DisabledShroudClearingRange), jamming properties documentation, module placement rules, correct linking, and default name handling.
+- GMX Zero Hour — Adds RemoteControlComponent (new GMX-only component type for remote control systems).
+
+## Document Log
+
+- 16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (inherited properties, enums, jamming, placement, links, defaults).
 
 ## Status
 

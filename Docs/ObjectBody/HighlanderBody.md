@@ -1,10 +1,10 @@
-# ActiveBody
+# HighlanderBody
 
 Status: AI-generated, 0/2 reviews
 
 ## Overview
 
-The `ActiveBody` module manages health and damage systems for objects that can take damage, be healed, and be destroyed through combat. It handles health tracking, damage states, healing, subdual damage (Zero Hour only), jamming damage (GMX Zero Hour only), and visual damage effects. Objects with ActiveBody can be damaged by weapons, healed by repair systems, and transition through different damage states that affect their appearance and functionality. Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). This is a module added inside `Object` entries.
+The `HighlanderBody` module is a specialized body module that makes objects nearly invulnerable to normal damage while still allowing them to be destroyed by unresistable damage types. Objects with HighlanderBody can take damage normally according to their armor, but their health is clamped to never go below 1 point unless the damage is unresistable. This creates "immortal" objects that can only be destroyed by special weapons or abilities. HighlanderBody inherits all properties from ActiveBody and adds no additional properties. This is a module added inside `Object` entries.
 
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
@@ -15,6 +15,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
   - [Health Settings](#health-settings)
   - [Subdual Damage Settings](#subdual-damage-settings)
   - [Electronic Warfare Settings](#electronic-warfare-settings)
+  - [Component Settings](#component-settings)
 - [Enum Value Lists](#enum-value-lists)
 - [Examples](#examples)
 - [Usage](#usage)
@@ -76,7 +77,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
 - **Default**: `0.0`
 - **Example**: `SubdualDamageHealAmount = 50.0`
 
-### Electronic Warfare Settings
+### <span style="color:#5bbcff; font-weight:bold;">Electronic Warfare Settings</span>
 
 Available only in: *(GMX Zero Hour)*
 
@@ -120,33 +121,24 @@ Available only in: *(GMX Zero Hour)*
 - **Default**: `No`
 - **Example**: `CanBeJammedByAreaJammers = Yes`
 
-### Component Settings
+### <span style="color:#5bbcff; font-weight:bold;">Component Settings</span>
 
 Available only in: *(GMX Zero Hour)*
 
-ActiveBody supports multiple component types that can be added to objects for detailed damage modeling. Each component type has its own specialized properties while inheriting base component functionality. Components allow for realistic damage simulation where different parts of an object can be damaged independently. Components are parsed from INI and copied to each object instance during construction.
+HighlanderBody supports multiple component types that can be added to objects for detailed damage modeling. Each component type has its own specialized properties while inheriting base component functionality. Components allow for realistic damage simulation where different parts of an object can be damaged independently. Components are parsed from INI and copied to each object instance during construction.
 
 #### `Component`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `Component` block (see [Component documentation](../ObjectComponents/Component.md))
-- **Description**: Base component type for generic component health systems. Use this for components that don't require specialized functionality. Components can be damaged, healed, replaced, and their status affects gameplay systems like movement, weapons, and visual appearance. See [Component documentation](../ObjectComponents/Component.md) for complete details, limitations, and usage.
+- **Type**: `Component` block (see [Component documentation](ObjectComponents/Component.md))
+- **Description**: Base component type for generic component health systems. Use this for components that don't require specialized functionality. Components can be damaged, healed, replaced, and their status affects gameplay systems like movement, weapons, and visual appearance. See [Component documentation](ObjectComponents/Component.md) for complete details, limitations, and usage.
 - **Default**: No components defined
-- **Example**: 
-```ini
-Component PRIMARY_WEAPON
-  MaxHealth = 100.0
-  InitialHealth = 100.0
-  HealingType = NORMAL
-  DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP
-End
-```
 
 #### `EngineComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `EngineComponent` block (see [EngineComponent documentation](../ObjectComponents/EngineComponent.md))
-- **Description**: Specialized component for engine systems. When destroyed, typically disables vehicle movement. See [EngineComponent documentation](../ObjectComponents/EngineComponent.md) for complete details, limitations, and usage.
+- **Type**: `EngineComponent` block (see [EngineComponent documentation](ObjectComponents/EngineComponent.md))
+- **Description**: Specialized component for engine systems. When destroyed, typically disables vehicle movement. See [EngineComponent documentation](ObjectComponents/EngineComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -160,29 +152,54 @@ End
 #### `VisionComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `VisionComponent` block (see [VisionComponent documentation](../ObjectComponents/VisionComponent.md))
-- **Description**: Specialized component for vision/sensor systems. When damaged or destroyed, affects unit vision range. See [VisionComponent documentation](../ObjectComponents/VisionComponent.md) for complete details, limitations, and usage.
+- **Type**: `VisionComponent` block (see [VisionComponent documentation](ObjectComponents/VisionComponent.md))
+- **Description**: Specialized component for vision/sensor systems. When damaged or destroyed, affects unit vision range. See [VisionComponent documentation](ObjectComponents/VisionComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+VisionComponent Optics
+  MaxHealth = 50.0
+  InitialHealth = 50.0
+  ReplacementCost = 300
+  ShroudClearingRange = 400.0
+End
+```
 
 #### `WeaponComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `WeaponComponent` block (see [WeaponComponent documentation](../ObjectComponents/WeaponComponent.md))
-- **Description**: Specialized component for weapon systems. When damaged or destroyed, affects weapon functionality. See [WeaponComponent documentation](../ObjectComponents/WeaponComponent.md) for complete details, limitations, and usage.
+- **Type**: `WeaponComponent` block (see [WeaponComponent documentation](ObjectComponents/WeaponComponent.md))
+- **Description**: Specialized component for weapon systems. When damaged or destroyed, affects weapon functionality. See [WeaponComponent documentation](ObjectComponents/WeaponComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+WeaponComponent MainGun
+  MaxHealth = 200.0
+  InitialHealth = 200.0
+  ReplacementCost = 600
+End
+```
 
 #### `TurretComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `TurretComponent` block (see [TurretComponent documentation](../ObjectComponents/TurretComponent.md))
-- **Description**: Specialized component for turret systems. When damaged or destroyed, affects turret rotation and weapon aiming. See [TurretComponent documentation](../ObjectComponents/TurretComponent.md) for complete details, limitations, and usage.
+- **Type**: `TurretComponent` block (see [TurretComponent documentation](ObjectComponents/TurretComponent.md))
+- **Description**: Specialized component for turret systems. When damaged or destroyed, affects turret rotation and weapon aiming. See [TurretComponent documentation](ObjectComponents/TurretComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+TurretComponent Turret
+  MaxHealth = 150.0
+  InitialHealth = 150.0
+  ReplacementCost = 450
+End
+```
 
 #### `ElectronicsComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `ElectronicsComponent` block (see [ElectronicsComponent documentation](../ObjectComponents/ElectronicsComponent.md))
-- **Description**: Specialized component for electronic systems. Supports jamming damage and electronic warfare effects. See [ElectronicsComponent documentation](../ObjectComponents/ElectronicsComponent.md) for complete details, limitations, and usage.
+- **Type**: `ElectronicsComponent` block (see [ElectronicsComponent documentation](ObjectComponents/ElectronicsComponent.md))
+- **Description**: Specialized component for electronic systems. Supports jamming damage and electronic warfare effects. See [ElectronicsComponent documentation](ObjectComponents/ElectronicsComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -200,8 +217,8 @@ End
 #### `InventoryStorageComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `InventoryStorageComponent` block (see [InventoryStorageComponent documentation](../ObjectComponents/InventoryStorageComponent.md))
-- **Description**: Specialized component for inventory storage systems. When destroyed, may affect unit's ability to carry inventory items. See [InventoryStorageComponent documentation](../ObjectComponents/InventoryStorageComponent.md) for complete details, limitations, and usage.
+- **Type**: `InventoryStorageComponent` block (see [InventoryStorageComponent documentation](ObjectComponents/InventoryStorageComponent.md))
+- **Description**: Specialized component for inventory storage systems. When destroyed, may affect unit's ability to carry inventory items. See [InventoryStorageComponent documentation](ObjectComponents/InventoryStorageComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -217,29 +234,62 @@ End
 #### `PowerComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `PowerComponent` block (see [PowerComponent documentation](../ObjectComponents/PowerComponent.md))
-- **Description**: Specialized component for power generation systems. When damaged or destroyed, affects power-dependent systems. See [PowerComponent documentation](../ObjectComponents/PowerComponent.md) for complete details, limitations, and usage.
+- **Type**: `PowerComponent` block (see [PowerComponent documentation](ObjectComponents/PowerComponent.md))
+- **Description**: Specialized component for power generation systems. When damaged or destroyed, affects power-dependent systems. See [PowerComponent documentation](ObjectComponents/PowerComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+PowerComponent PowerSupply
+  MaxHealth = 80.0
+  InitialHealth = 80.0
+  ReplacementCost = 350
+  JammingDamageCap = 400.0
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 75.0
+End
+```
 
 #### `CommunicationComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `CommunicationComponent` block (see [CommunicationComponent documentation](../ObjectComponents/CommunicationComponent.md))
-- **Description**: Specialized component for communication systems. When damaged or destroyed, affects unit communication and coordination abilities. See [CommunicationComponent documentation](../ObjectComponents/CommunicationComponent.md) for complete details, limitations, and usage.
+- **Type**: `CommunicationComponent` block (see [CommunicationComponent documentation](ObjectComponents/CommunicationComponent.md))
+- **Description**: Specialized component for communication systems. When damaged or destroyed, affects unit communication and coordination abilities. See [CommunicationComponent documentation](ObjectComponents/CommunicationComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+CommunicationComponent CommunicationRadio
+  MaxHealth = 40.0
+  InitialHealth = 40.0
+  ReplacementCost = 250
+  JammingDamageCap = 400.0
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 80.0
+End
+```
 
 #### `RemoteControlComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `RemoteControlComponent` block (see [RemoteControlComponent documentation](../ObjectComponents/RemoteControlComponent.md))
-- **Description**: Specialized component for remote control systems. When damaged or destroyed, affects remote control functionality. See [RemoteControlComponent documentation](../ObjectComponents/RemoteControlComponent.md) for complete details, limitations, and usage.
+- **Type**: `RemoteControlComponent` block (see [RemoteControlComponent documentation](ObjectComponents/RemoteControlComponent.md))
+- **Description**: Specialized component for remote control systems. When damaged or destroyed, affects remote control functionality. See [RemoteControlComponent documentation](ObjectComponents/RemoteControlComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
+- **Example**: 
+```ini
+RemoteControlComponent RemoteController
+  MaxHealth = 30.0
+  InitialHealth = 30.0
+  ReplacementCost = 200
+  JammingDamageCap = 500.0
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 100.0
+End
+```
 
 #### `JetEngineComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `JetEngineComponent` block (see [JetEngineComponent documentation](../ObjectComponents/JetEngineComponent.md))
-- **Description**: Specialized component for jet engine systems. When destroyed, typically forces aircraft to return to base. See [JetEngineComponent documentation](../ObjectComponents/JetEngineComponent.md) for complete details, limitations, and usage.
+- **Type**: `JetEngineComponent` block (see [JetEngineComponent documentation](ObjectComponents/JetEngineComponent.md))
+- **Description**: Specialized component for jet engine systems. When destroyed, typically forces aircraft to return to base. See [JetEngineComponent documentation](ObjectComponents/JetEngineComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -254,8 +304,8 @@ End
 #### `SensorComponent`
 Available only in: *(GMX Zero Hour)*
 
-- **Type**: `SensorComponent` block (see [SensorComponent documentation](../ObjectComponents/SensorComponent.md))
-- **Description**: Specialized component for sensor/radar systems. When damaged or destroyed, affects detection range and shroud clearing. See [SensorComponent documentation](../ObjectComponents/SensorComponent.md) for complete details, limitations, and usage.
+- **Type**: `SensorComponent` block (see [SensorComponent documentation](ObjectComponents/SensorComponent.md))
+- **Description**: Specialized component for sensor/radar systems. When damaged or destroyed, affects detection range and shroud clearing. See [SensorComponent documentation](ObjectComponents/SensorComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
@@ -331,9 +381,19 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 ## Examples
 
 ```ini
-Body = ActiveBody ModuleTag_02
-  MaxHealth = 200.0
-  InitialHealth = 200.0
+Body = HighlanderBody ModuleTag_01
+  MaxHealth = 1000.0
+  InitialHealth = 1000.0
+  SubdualDamageCap = 0.0
+  SubdualDamageHealRate = 0
+  SubdualDamageHealAmount = 0.0
+End
+```
+
+```ini
+Body = HighlanderBody ModuleTag_02
+  MaxHealth = 5000.0
+  InitialHealth = 5000.0
   SubdualDamageCap = 350.0
   SubdualDamageHealRate = 500
   SubdualDamageHealAmount = 50.0
@@ -341,40 +401,35 @@ End
 ```
 
 ```ini
-Body = ActiveBody ModuleTag_02
-  MaxHealth = 75.0
-  InitialHealth = 75.0
-End
-```
-
-```ini
-Body = ActiveBody ModuleTag_02
-  MaxHealth = 400
-  InitialHealth = 400
-  SubdualDamageCap = 700
-  SubdualDamageHealRate = 500
-  SubdualDamageHealAmount = 50
-  JammingDamageCap = 350
+Body = HighlanderBody ModuleTag_03
+  MaxHealth = 400.0
+  InitialHealth = 400.0
+  JammingDamageCap = 350.0
   JammingDamageHealRate = 500
-  JammingDamageHealAmount = 100
+  JammingDamageHealAmount = 100.0
   CanBeJammedByDirectJammers = Yes
 End
 ```
 
 ```ini
-Body = ActiveBody ModuleTag_02
-  MaxHealth = 200
-  InitialHealth = 200
-  SubdualDamageCap = 350
+Body = HighlanderBody ModuleTag_04
+  MaxHealth = 200.0
+  InitialHealth = 200.0
+  SubdualDamageCap = 700.0
   SubdualDamageHealRate = 500
-  SubdualDamageHealAmount = 50
+  SubdualDamageHealAmount = 50.0
+  JammingDamageCap = 350.0
+  JammingDamageHealRate = 500
+  JammingDamageHealAmount = 100.0
+  CanBeJammedByDirectJammers = Yes
+  CanBeJammedByAreaJammers = Yes
 End
 ```
 
 ```ini
-Body = ActiveBody ModuleTag_02
-  MaxHealth = 185.0
-  InitialHealth = 185.0
+Body = HighlanderBody ModuleTag_05
+  MaxHealth = 750.0
+  InitialHealth = 750.0
   Component MainEngine
     MaxHealth = 100.0
     InitialHealth = 100.0
@@ -386,38 +441,39 @@ End
 
 ## Usage
 
-Place under `Body = ActiveBody ModuleTag_XX` inside `Object` entries. In GMX, ActiveBody can also be added to `ObjectExtend` entries. See Template for correct syntax.
+Place under `Body = HighlanderBody ModuleTag_XX` inside `Object` entries. In GMX, HighlanderBody can also be added to `ObjectExtend` entries. See Template for correct syntax.
 
 **Placement**:
-- **Retail**: ActiveBody can only be added to `Object` entries (ObjectExtend does not exist in Retail).
-- **GMX**: ActiveBody can be added to both `Object` and `ObjectExtend` entries.
+- **Retail**: HighlanderBody can only be added to `Object` entries (ObjectExtend does not exist in Retail).
+- **GMX**: HighlanderBody can be added to both `Object` and `ObjectExtend` entries.
 
-Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist per object. If multiple body modules are added to the same object, the game will crash with a "Duplicate bodies" assertion error during object creation. This restriction applies regardless of `ModuleTag` names - the object can only have one body module total.
+Only one body module (ActiveBody, InactiveBody, StructureBody, HighlanderBody, etc.) can exist per object. If multiple body modules are added to the same object, the game will crash with a "Duplicate bodies" assertion error during object creation. This restriction applies regardless of `ModuleTag` names - the object can only have one body module total.
 
 **Limitations**:
-- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
-- If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth), the current health will be clamped to [MaxHealth](#maxhealth) when the first health change occurs. Health cannot go below `0.0` or above [MaxHealth](#maxhealth).
-- Subdual damage can disable objects without destroying them when subdual damage equals or exceeds [MaxHealth](#maxhealth). Subdual damage properties are exclusive to Generals Zero Hour (Retail Zero Hour 1.04) and GMX (both Generals and Zero Hour).
-- Jamming damage can jam electronic systems and components when jamming damage equals or exceeds [MaxHealth](#maxhealth). Jamming damage properties are GMX Zero Hour only.
-- Objects automatically heal subdual and jamming damage over time if healing rates and amounts are set. The healing is handled by helper systems that run at the specified intervals.
-- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](../ObjectComponents/Component.md) for component-specific limitations and requirements.
+- HighlanderBody prevents death from normal damage types by clamping health to a minimum of 1 point. Only unresistable damage can reduce health below 1 point and cause death.
+- ActiveBody automatically manages damage states ([BodyDamageType Values](#bodydamagetype-values) such as PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
+- If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth), the current health will be clamped to [MaxHealth](#maxhealth) when the first health change occurs. Health cannot go below `1.0` for normal damage (or `0.0` for unresistable damage).
+- [SubdualDamageCap](#subdualdamagecap) can disable objects without destroying them when subdual damage equals or exceeds [MaxHealth](#maxhealth). Subdual damage properties are exclusive to Generals Zero Hour (Retail Zero Hour 1.04) and GMX (both Generals and Zero Hour).
+- [JammingDamageCap](#jammingdamagecap) can jam electronic systems and components when jamming damage equals or exceeds [MaxHealth](#maxhealth). Jamming damage properties are GMX Zero Hour only.
+- Objects automatically heal subdual and jamming damage over time if [SubdualDamageHealRate](#subdualdamagehealrate), [SubdualDamageHealAmount](#subdualdamagehealamount), [JammingDamageHealRate](#jammingdamagehealrate), and [JammingDamageHealAmount](#jammingdamagehealamount) are set. The healing is handled by helper systems that run at the specified intervals.
+- Components can be added to HighlanderBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](ObjectComponents/Component.md) for component-specific limitations and requirements.
 
 **Conditions**:
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Health is reduced when weapons deal damage, and damage states are updated based on health percentage.
+- Objects with HighlanderBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Health is reduced when weapons deal damage, but normal damage cannot reduce health below 1 point. Only unresistable damage can kill HighlanderBody objects.
 - Veterancy levels can modify maximum health and healing rates through upgrade systems.
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects. Armor modifies incoming damage before it is applied to health.
-- Damage states are calculated based on global thresholds defined in game data and affect visual appearance and particle systems.
-- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). Components interact with weapons, locomotor (see [Locomotor](../Locomotor.md)), healing systems, GUI commands, prerequisites, and behaviors. See [Component documentation](../ObjectComponents/Component.md) for component-specific conditions and interactions.
-- **ObjectExtend (GMX only)**: When ActiveBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's ActiveBody module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
-- **ObjectReskin (both Retail and GMX)**: ObjectReskin uses the same module system as Object. Adding ActiveBody to an ObjectReskin entry with the same `ModuleTag` name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.
+- HighlanderBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects. Armor modifies incoming damage before it is applied to health.
+- Damage states are calculated based on global thresholds defined in game data and affect visual appearance and particle systems. Objects can still show damage states even though they cannot die from normal damage.
+- Components can be added to HighlanderBody for detailed damage modeling (GMX Zero Hour only). Components interact with weapons, locomotor (see [Locomotor](../Locomotor.md)), healing systems, GUI commands, prerequisites, and behaviors. See [Component documentation](ObjectComponents/Component.md) for component-specific conditions and interactions.
+- **ObjectExtend (GMX only)**: When HighlanderBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's HighlanderBody module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
+- **ObjectReskin (both Retail and GMX)**: ObjectReskin uses the same module system as Object. Adding HighlanderBody to an ObjectReskin entry with the same `ModuleTag` name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.
 
 **Dependencies**:
-- Requires proper armor and damage type definitions to function correctly. ActiveBody relies on armor systems to modify incoming damage before it is applied to health.
+- Requires proper armor and damage type definitions to function correctly. HighlanderBody relies on armor systems to modify incoming damage before it is applied to health. The unresistable damage type must be properly defined for the death mechanism to work.
 
 ## Template
 
 ```ini
-Body = ActiveBody ModuleTag_XX
+Body = HighlanderBody ModuleTag_XX
   MaxHealth = 0.0                 ; // maximum health points *(GMX, Retail 1.04)*
   InitialHealth = 0.0             ; // starting health points *(GMX, Retail 1.04)*
 
@@ -437,15 +493,12 @@ End
 
 ## Notes
 
-- ActiveBody automatically manages damage states (PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
-- Damage states are calculated based on global thresholds and updated automatically when health changes.
-- Subdual damage can disable objects without destroying them (Zero Hour only). Subdual damage accumulates separately from normal health damage.
-- Jamming damage can jam electronic systems and components (GMX Zero Hour only). Jamming damage accumulates separately from normal health damage and subdual damage.
-- Objects automatically heal subdual and jamming damage over time if healing rates and amounts are set. The healing is handled by helper systems that run at the specified intervals.
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Armor modifies incoming damage before it is applied to health.
-- Veterancy levels can modify maximum health and healing rates through upgrade systems.
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects.
-- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](../ObjectComponents/Component.md) and individual component documentation files for component-specific notes and details.
+- HighlanderBody objects can take damage normally but cannot die from normal damage types. Health is automatically clamped to minimum 1 point for normal damage.
+- Only unresistable damage can reduce health below 1 point and cause death. This creates "immortal" objects that can only be destroyed by special weapons or abilities.
+- All damage calculations, armor, and status effects work normally. Objects still show damage states ([BodyDamageType Values](#bodydamagetype-values)) and visual effects even though they cannot die from normal damage.
+- Useful for creating hero units, special objectives, or indestructible objects that require special weapons to destroy.
+- The name references the "Highlander" concept of near-immortality ("there can be only one").
+- Components can be added to HighlanderBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](ObjectComponents/Component.md) and individual component documentation files for component-specific notes and details.
 
 ## Modder Recommended Use Scenarios
 
@@ -453,16 +506,20 @@ End
 
 ## Source Files
 
-**Base Class:** [BodyModule](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h) (GMX Zero Hour), [BodyModule](../../Generals/Code/GameEngine/Include/GameLogic/Module/BodyModule.h) (GMX Generals)
+**Base Class:** [ActiveBody](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h) (GMX Zero Hour), [ActiveBody](../../Generals/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h) (GMX Generals)
 
-- Header (GMX Zero Hour): [ActiveBody.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h)
-- Source (GMX Zero Hour): [ActiveBody.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp)
-- Header (GMX Generals): [ActiveBody.h](../../Generals/Code/GameEngine/Include/GameLogic/Module/ActiveBody.h)
-- Source (GMX Generals): [ActiveBody.cpp](../../Generals/Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp)
+- Header (GMX Zero Hour): [HighlanderBody.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/HighlanderBody.h)
+- Source (GMX Zero Hour): [HighlanderBody.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBody.cpp)
+- Header (GMX Generals): [HighlanderBody.h](../../Generals/Code/GameEngine/Include/GameLogic/Module/HighlanderBody.h)
+- Source (GMX Generals): [HighlanderBody.cpp](../../Generals/Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBody.cpp)
 
 ## Changes History
 
-- 16/12/2025 — AI — Complete reconstruction based on updated instruction file with proper version flags, cross-usage research, accurate property documentation, complete BodyDamageType enum (48 values), and comprehensive component system documentation.
+- GMX Zero Hour — Adds Electronic Warfare (Jamming) options and component system support to HighlanderBody.
+
+## Document Log
+
+- 16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (version flags, ActiveBody property inclusion, BodyDamageType completeness, structure).
 
 ## Status
 
