@@ -37,7 +37,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
 - **Type**: `Real`
-- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction. If `InitialHealth` exceeds `MaxHealth`, the current health will be clamped to `MaxHealth` when health changes occur (via `internalChangeHealth`). Health is automatically clamped to `MaxHealth` as the upper limit and `0.0` as the lower limit during damage and healing operations.
+- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction. If `InitialHealth` exceeds `MaxHealth`, the current health will be clamped to `MaxHealth` when the first health change occurs. Health is automatically clamped to `MaxHealth` as the upper limit and `0.0` as the lower limit during damage and healing operations.
 - **Default**: `0.0`
 - **Example**: `MaxHealth = 500.0`
 
@@ -45,7 +45,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
 - **Type**: `Real`
-- **Description**: Starting health points when the object is created. Higher values allow objects to spawn with more health than their maximum, providing temporary damage buffer. Lower values spawn objects at reduced health. The initial health value is set directly during object creation; if it exceeds `MaxHealth`, it will be clamped to `MaxHealth` when the first health change occurs (via `internalChangeHealth`). Health cannot go below `0.0`.
+- **Description**: Starting health points when the object is created. Higher values allow objects to spawn with more health than their maximum, providing temporary damage buffer. Lower values spawn objects at reduced health. The initial health value is set directly during object creation; if it exceeds `MaxHealth`, it will be clamped to `MaxHealth` when the first health change occurs. Health cannot go below `0.0`.
 - **Default**: `0.0`
 - **Example**: `InitialHealth = 500.0`
 
@@ -519,7 +519,7 @@ End
 
 ## Document Log
 
-- 16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (version flags, ActiveBody property inclusion, BodyDamageType completeness, structure).
+- 16/12/2025 — AI — Initial document created.
 
 ## Status
 

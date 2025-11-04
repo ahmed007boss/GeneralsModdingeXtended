@@ -46,13 +46,13 @@ Place as a child block in features that need to check player inventory/tech prog
 ### Units and OR Groups
 
 - `PlayerObjectExists` (alias of: `Object`)
-  - Type: Object name or list of object names (see [Object](../Object.md)); sequential entries may be OR-grouped
-  - Description: Player must own the required units (with OR grouping applied).
+  - Type: Object name or list of object names (see [Object](../Object.md))
+  - Description: Player must own the listed object(s). Multiple names on the same line are OR; repeating this line creates additional checks combined by AND. If an object name is misspelled or doesn't exist, results are unpredictable — always use exact object names.
   - Default: none
-  - Example: `PlayerObjectExists = AmericaWarFactory`
+  - Example: `PlayerObjectExists = WarFactory Barracks`
 - `PlayerObjectNotExist`
   - Type: List of [Object](../Object.md) names
-  - Description: Player must NOT own any of the listed units (with OR grouping applied to conflict groups).
+  - Description: Player must NOT own any of the listed units (with OR grouping applied to conflict groups). If an object name is misspelled or doesn't exist, results are unpredictable — always use exact object names.
   - Default: none
   - Example: `PlayerObjectNotExist = ChinaNuclearMissile`
 
@@ -60,22 +60,22 @@ Place as a child block in features that need to check player inventory/tech prog
 
 - `PlayerScienceExists` (alias of: `Science`)
   - Type: Science name or list of science names (see [Science documentation](../Science.md))
-  - Description: All listed sciences must be owned.
+  - Description: All listed sciences must be owned. If a science name is wrong or doesn't exist, the game will stop at load with an error — use exact science names.
   - Default: none
   - Example: `PlayerScienceExists = SCIENCE_TechLevel2`
 - `PlayerScienceNotExist`
   - Type: Science name or list (see [Science documentation](../Science.md))
-  - Description: None of the listed sciences may be owned.
+  - Description: None of the listed sciences may be owned. If a science name is wrong or doesn't exist, the game will stop at load with an error — use exact science names.
   - Default: none
   - Example: `PlayerScienceNotExist = SCIENCE_SuperweaponGeneral`
 - `PlayerUpgradeExist`
   - Type: Upgrade name or list (see [Upgrade](../Upgrade.md))
-  - Description: All listed upgrades must be owned.
+  - Description: All listed upgrades must be owned. If an upgrade name is wrong or doesn't exist, the game will stop at load with an error — use exact upgrade names.
   - Default: none
   - Example: `PlayerUpgradeExist = Upgrade_CompositeArmor`
 - `PlayerUpgradeNotExist`
   - Type: Upgrade name or list (see [Upgrade](../Upgrade.md))
-  - Description: None of the listed upgrades may be owned.
+  - Description: None of the listed upgrades may be owned. If an upgrade name is wrong or doesn't exist, the game will stop at load with an error — use exact upgrade names.
   - Default: none
   - Example: `PlayerUpgradeNotExist = Upgrade_StealthComposites`
 
@@ -150,24 +150,24 @@ End
 ```ini
 PlayerPrerequisite
   ; Units and OR groups
-  PlayerObjectExists = ObjectName
-  PlayerObjectNotExist = ObjectName
+  PlayerObjectExists = ObjectName           ; player must own (OR within line)
+  PlayerObjectNotExist = ObjectName         ; player must NOT own (OR within line)
 
   ; Sciences and Upgrades
-  PlayerScienceExists = ScienceName
-  PlayerScienceNotExist = ScienceName
-  PlayerUpgradeExist = UpgradeName
-  PlayerUpgradeNotExist = UpgradeName
+  PlayerScienceExists = ScienceName         ; player must own these sciences
+  PlayerScienceNotExist = ScienceName       ; player must NOT own these sciences
+  PlayerUpgradeExist = UpgradeName          ; player must own these upgrades
+  PlayerUpgradeNotExist = UpgradeName       ; player must NOT own these upgrades
 
   ; KindOf
-  PlayerKindOfObjectExists = KINDOF_NAME
-  PlayerObjectKindOfNotExist = KINDOF_NAME
+  PlayerKindOfObjectExists = KINDOF_NAME    ; must own at least one of KindOf
+  PlayerObjectKindOfNotExist = KINDOF_NAME  ; must own none of KindOf
 
   ; KindOf counts
-  PlayerMinCountKindOfObjectExist = KINDOF_A 4 KINDOF_B 3
-  PlayerMaxCountKindOfObjectExist = KINDOF_A 10
-  PlayerMinCountKindOfObjectWithLevelExist = KINDOF_A LEVEL_VETERAN 2
-  PlayerMaxCountKindOfObjectWithLevelExist = KINDOF_B LEVEL_ELITE 1
+  PlayerMinCountKindOfObjectExist = KINDOF_A 4 KINDOF_B 3            ; ≥ count for any pair
+  PlayerMaxCountKindOfObjectExist = KINDOF_A 10                      ; fail if ≥ count for any
+  PlayerMinCountKindOfObjectWithLevelExist = KINDOF LEVEL 2          ; ≥ count with level
+  PlayerMaxCountKindOfObjectWithLevelExist = KINDOF LEVEL 1          ; fail if ≥ count with level
 End
 ```
 

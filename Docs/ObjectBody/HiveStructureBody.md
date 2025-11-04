@@ -1,84 +1,102 @@
-# HiveStructureBody
+# <span style="color:#5bbcff; font-weight:bold;">HiveStructureBody</span>
 
-Structure body module that propagates damage to slaves when available, otherwise absorbs or takes the damage itself.
+Status: AI-generated, 0/2 reviews
 
 ## Overview
 
-HiveStructureBody is a specialized structure body module that can redirect incoming damage to slave objects (created by SpawnBehavior) or contained objects (via ContainModule) instead of taking the damage itself. When no slaves are available, it can either absorb the damage completely or take it normally. This creates a "hive mind" effect where the main structure is protected by its minions.
+The `HiveStructureBody` module redirects specified damage types from the structure to its slave objects (via [SpawnBehavior](../ObjectBehaviorsModules/SpawnBehavior.md)) or to contained objects (via [ContainModule](../ObjectModules/ContainModule.md)) when they are present. If no slaves/contained objects exist, it can optionally absorb (swallow) certain damage types instead of taking them normally. This creates a "hive" effect that protects the main structure.
 
-HiveStructureBody must be embedded within object definitions and cannot be used as a standalone object template.
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Usage](#usage)
+  - [Limitations](#limitations)
+  - [Conditions](#conditions)
+  - [Dependencies](#dependencies)
+- [Properties](#properties)
+  - [Damage Propagation](#damage-propagation)
+- [Examples](#examples)
+- [Template](#template)
+- [Notes](#notes)
+- [Source Files](#source-files)
+- [Changes History](#changes-history)
+- [Document Log](#document-log)
+- [Status](#status)
+- [Reviewers](#reviewers)
 
 ## Usage
 
-Used by structures that should redirect incoming damage to slave objects or contained objects instead of taking the damage themselves. This is a **body module** that must be embedded within object definitions. Use the [Template](#template) below by copying it into your object definition. Then, customize it as needed, making sure to review any limitations, conditions, or dependencies related to its usage.
+Place under `Body = HiveStructureBody ModuleTag_XX` inside [Object](../Object.md) entries. See [Template](#template) for correct syntax.
 
 **Limitations**:
-- Requires either a SpawnBehavior module or ContainModule to function
-- Can only propagate damage to existing slave/contained objects
-- Damage propagation only works for specified damage types
-- Only one body module per object
+- Requires [SpawnBehavior](../ObjectBehaviorsModules/SpawnBehavior.md) or [ContainModule](../ObjectModules/ContainModule.md) to redirect damage.
+- Only redirects or swallows the damage types listed in properties; other types behave normally.
+- Only one body module may exist per object (ActiveBody/StructureBody/ImmortalBody/etc.).
 
 **Conditions**:
-- Multiple instances behavior: Multiple HiveStructureBody modules cannot exist - only one body module per object
-- Always active once assigned to an object
-- Damage propagation requires active slaves or contained objects
-- Creates a "hive mind" effect where the main structure is protected by its minions
+- Always active once added to an object.
+- Damage redirection requires at least one slave/contained object; otherwise, swallow rules may apply.
+- Objects with HiveStructureBody can be targeted by [Weapon](../Weapon.md); armor (see [Armor](../Armor.md)) applies before redirection/swallowing.
+- **ObjectExtend (GMX only)**: Adding HiveStructureBody in `ObjectExtend` with the same `ModuleTag` name replaces the base object's body module.
+- **ObjectReskin (both Retail and GMX)**: Adding a body module with the same `ModuleTag` name causes a duplicate-module error (no automatic replacement).
 
 **Dependencies**:
-- Requires SpawnBehavior module or ContainModule for slave/contained object access
-- Inherits all properties and functionality from StructureBody
-- Depends on proper damage type flag definitions
+- [SpawnBehavior](../ObjectBehaviorsModules/SpawnBehavior.md) and/or [ContainModule](../ObjectModules/ContainModule.md) to supply slaves/contained objects.
+- Valid damage type names (see [DamageType](../DamageType.md)).
+- Inherits health/visual-state behavior from [StructureBody](./StructureBody.md) / [ActiveBody](./ActiveBody.md).
 
 ## Properties
 
 ### Damage Propagation
 
-#### `PropagateDamageTypesToSlavesWhenExisting` *(v1.04)*
-- **Type**: `DamageTypeFlags` (bit flags)
-- **Description**: Damage types that should be redirected to slave/contained objects when they are available. When set, incoming damage of these types is transferred to the closest slave/contained object. When empty (default), no damage propagation occurs
+#### `PropagateDamageTypesToSlavesWhenExisting`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
+- **Type**: `DamageTypeFlags` (see [DamageType](../DamageType.md))
+- **Description**: Redirect these damage types to the closest slave/contained object when present. Empty means no redirection. Use valid damage type names; invalid names will fail to parse.
 - **Default**: `0` (none)
 - **Example**: `PropagateDamageTypesToSlavesWhenExisting = EXPLOSION BALLISTIC`
 
-#### `SwallowDamageTypesIfSlavesNotExisting` *(v1.04)*
-- **Type**: `DamageTypeFlags` (bit flags)
-- **Description**: Damage types that should be completely absorbed when no slaves/contained objects are available. When set, these damage types are negated and cause no effect. When empty (default), all damage is taken normally when no slaves exist
+#### `SwallowDamageTypesIfSlavesNotExisting`
+Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
+
+- **Type**: `DamageTypeFlags` (see [DamageType](../DamageType.md))
+- **Description**: When no slaves/contained objects exist, completely absorb these damage types (no effect on the structure). Empty means damage is taken normally. Use valid damage type names; invalid names will fail to parse.
 - **Default**: `0` (none)
 - **Example**: `SwallowDamageTypesIfSlavesNotExisting = EXPLOSION`
 
 ## Examples
 
-### Hive Structure with Explosion Protection
 ```ini
 Body = HiveStructureBody ModuleTag_01
-  ; Inherited from StructureBody/ActiveBody
+  ; Health (from StructureBody/ActiveBody)
   MaxHealth = 2000.0
   InitialHealth = 2000.0
-  
+
   ; Damage Propagation
   PropagateDamageTypesToSlavesWhenExisting = EXPLOSION BALLISTIC
   SwallowDamageTypesIfSlavesNotExisting = EXPLOSION
 End
 
-Behavior = SpawnBehavior ModuleTag_02
+Behavior = SpawnBehavior ModuleTag_Slaves
   SpawnNumber = 3
   SpawnReplaceDelay = 10000
-  SpawnUpgrade = Upgrade_HiveSpawn
 End
 ```
 
-### Transport with Damage Redirection
 ```ini
-Body = HiveStructureBody ModuleTag_03
-  ; Inherited from StructureBody/ActiveBody
+Body = HiveStructureBody ModuleTag_Transport
   MaxHealth = 1500.0
   InitialHealth = 1500.0
-  
-  ; Damage Propagation
+
+  ; Redirect ballistic damage to contained units; do not swallow
   PropagateDamageTypesToSlavesWhenExisting = BALLISTIC
   SwallowDamageTypesIfSlavesNotExisting = 0
 End
 
-Module = ContainModule ModuleTag_04
+Module = ContainModule ModuleTag_Contain
   Max = 5
   Initial = 0
 End
@@ -88,38 +106,48 @@ End
 
 ```ini
 Body = HiveStructureBody ModuleTag_XX
-  ; Inherits all StructureBody/ActiveBody properties
-  MaxHealth = 100.0                  ; // maximum health points *(v1.04)*
-  InitialHealth = 100.0              ; // starting health points *(v1.04)*
-
-  ; Subdual Damage Settings (Generals Zero Hour only)
-  SubdualDamageCap = 0.0             ; // maximum subdual damage *(v1.04, Generals Zero Hour only)*
-  SubdualDamageHealRate = 0          ; // subdual damage heal rate *(v1.04, Generals Zero Hour only)*
-  SubdualDamageHealAmount = 0.0      ; // subdual damage heal amount *(v1.04, Generals Zero Hour only)*
-
-  ; Electronic Warfare Settings (Generals Zero Hour only)
-  EWDamageCap = 0.0                  ; // maximum electronic warfare damage *(v1.04, Generals Zero Hour only)*
-  EWDamageHealRate = 0               ; // electronic warfare damage heal rate *(v1.04, Generals Zero Hour only)*
-  EWDamageHealAmount = 0.0           ; // electronic warfare damage heal amount *(v1.04, Generals Zero Hour only)*
+  ; Inherits health/state from StructureBody/ActiveBody
+  MaxHealth = 100.0                       ; // maximum health *(GMX, Retail 1.04)*
+  InitialHealth = 100.0                   ; // starting health *(GMX, Retail 1.04)*
 
   ; Damage Propagation
-  PropagateDamageTypesToSlavesWhenExisting = 0 ; // damage types to redirect to slaves *(v1.04)*
-  SwallowDamageTypesIfSlavesNotExisting = 0    ; // damage types to absorb when no slaves *(v1.04)*
+  PropagateDamageTypesToSlavesWhenExisting = 0  ; // redirect these types to slaves/contained *(GMX, Retail 1.04)*
+  SwallowDamageTypesIfSlavesNotExisting = 0     ; // absorb these types if no slaves/contained *(GMX, Retail 1.04)*
 End
 ```
 
 ## Notes
 
-- HiveStructureBody requires either SpawnBehavior or ContainModule to function properly
-- Damage propagation only occurs when slaves/contained objects are available
-- The closest slave/contained object to the damage source receives the damage
-- Damage absorption (swallowing) only occurs when no slaves exist and the damage type matches
-- If no slaves exist and damage type doesn't match swallow criteria, damage is taken normally
-- Creates interesting tactical scenarios where destroying slaves makes the hive vulnerable
+- Redirection chooses the closest eligible slave/contained object for the listed damage types.
+- Swallowing applies only when there are no available slave/contained objects.
+- Armor and resistances apply before redirection/swallowing.
+- Use valid [DamageType](../DamageType.md) names; invalid names will abort parsing.
+- Only one body module is allowed per object; multiple bodies cause a startup assertion.
+- Recommended for hive-like structures protected by spawned drones or garrisoned units.
 
 ## Source Files
 
-**Base Class:** [`StructureBody`](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/StructureBody.h)
+**Base Class:** [StructureBody](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/StructureBody.h) (GMX Zero Hour), [StructureBody](../../Generals/Code/GameEngine/Include/GameLogic/Module/StructureBody.h) (GMX Generals)
 
-- Header: [`GeneralsMD/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h`](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h)
-- Source: [`GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp`](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp)
+- Header (GMX Zero Hour): [GeneralsMD/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h)
+- Source (GMX Zero Hour): [GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp](../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp)
+- Header (GMX Generals): [Generals/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h](../../Generals/Code/GameEngine/Include/GameLogic/Module/HiveStructureBody.h)
+- Source (GMX Generals): [Generals/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp](../../Generals/Code/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp)
+
+## Changes History
+
+- GMX — Adds HiveStructureBody (damage redirection/swallowing for structures).
+
+## Document Log
+
+- 16/12/2025 — AI — Initial document created.
+
+## Status
+
+- Documentation Status: AI-generated
+- Last Updated: 16/12/2025 by AI
+- Certification: 0/2 reviews
+
+### Reviewers
+
+- (pending)
