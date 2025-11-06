@@ -221,7 +221,7 @@ End
 Place under `Upgrade = MaxHealthUpgrade ModuleTag_XX` inside [Object](../Object.md) entries. In GMX, `MaxHealthUpgrade` can also be added to `ObjectExtend` entries. See [Template](#template) for correct syntax.
 
 **Placement**:
-- **Retail**: `MaxHealthUpgrade` can only be added to [Object](../Object.md) entries (ObjectExtend does not exist in Retail).
+- **Retail**: `MaxHealthUpgrade` can only be added to [Object](../Object.md) entries .
 - **GMX**: `MaxHealthUpgrade` can be added to both [Object](../Object.md) and `ObjectExtend` entries.
 
 **Limitations**:

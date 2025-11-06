@@ -36,7 +36,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
 - **Type**: `Real`
-- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction. If `InitialHealth` exceeds `MaxHealth`, the current health will be clamped to `MaxHealth` when health changes occur (via `internalChangeHealth`). Health is automatically clamped to `MaxHealth` as the upper limit and `0.0` as the lower limit during damage and healing operations.
+- **Description**: Maximum health points the object can have. Higher values make objects more durable and resistant to damage. This determines the total damage capacity before destruction. If `InitialHealth` exceeds `MaxHealth`, the current health will be clamped to `MaxHealth` during health operations. Health is automatically clamped to `MaxHealth` as the upper limit and `0.0` as the lower limit during damage and healing operations.
 - **Default**: `0.0`
 - **Example**: `MaxHealth = 500.0`
 
@@ -44,7 +44,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
 - **Type**: `Real`
-- **Description**: Starting health points when the object is created. Higher values allow objects to spawn with more health than their maximum, providing temporary damage buffer. Lower values spawn objects at reduced health. The initial health value is set directly during object creation; if it exceeds `MaxHealth`, it will be clamped to `MaxHealth` when the first health change occurs (via `internalChangeHealth`). Health cannot go below `0.0`.
+- **Description**: Starting health points when the object is created. Lower values spawn objects at reduced health. If `InitialHealth` exceeds `MaxHealth`, the health will be clamped to `MaxHealth` during health operations. Health cannot go below `0.0` during normal operations.
 - **Default**: `0.0`
 - **Example**: `InitialHealth = 500.0`
 
@@ -56,7 +56,7 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
 Available in: *(GMX Generals, GMX Zero Hour, Retail Zero Hour 1.04)*
 
 - **Type**: `Real`
-- **Description**: Maximum subdual damage that can accumulate before the object is subdued (disabled). Higher values allow objects to absorb more subdual damage before becoming incapacitated. At 0 (default), objects cannot be subdued (disabled). Subdual damage accumulates separately from normal health damage and can disable objects without destroying them. When subdual damage equals or exceeds `MaxHealth`, the object becomes subdued (disabled).
+- **Description**: Maximum subdual damage that can accumulate before the object is subdued (disabled). Higher values allow objects to absorb more subdual damage before becoming incapacitated. At 0 (default), objects cannot be subdued (disabled). Subdual damage accumulates separately from normal health damage and can disable objects without destroying them. When subdual damage equals or exceeds `MaxHealth`, the object becomes subdued (disabled). Only subdual damage types affect this cap: `SUBDUAL_MISSILE`, `SUBDUAL_VEHICLE`, `SUBDUAL_BUILDING`, and `SUBDUAL_UNRESISTABLE` (see [DamageType documentation](../DamageType.md)).
 - **Default**: `0.0`
 - **Example**: `SubdualDamageCap = 350.0`
 
@@ -84,7 +84,7 @@ Available only in: *(GMX Zero Hour)*
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `Real`
-- **Description**: Maximum jamming damage that can accumulate before the object is jammed (electronically disabled). Higher values allow objects to absorb more jamming damage before becoming electronically disabled. At 0 (default), objects cannot be jammed. Jamming damage accumulates separately from normal health damage and subdual damage. When jamming damage equals or exceeds `MaxHealth`, the object becomes jammed. Electronic components (ElectronicsComponent, SensorComponent) can also have their own jamming damage caps that contribute to the total effective jamming capacity.
+- **Description**: Maximum jamming damage that can accumulate before the object is jammed (electronically disabled). Higher values allow objects to absorb more jamming damage before becoming electronically disabled. At 0 (default), objects cannot be jammed. Jamming damage accumulates separately from normal health damage and subdual damage. When jamming damage equals or exceeds `MaxHealth`, the object becomes jammed. Only jamming damage types affect this cap: `ELECTRONIC_JAMMING` and `JAMMING_UNRESISTABLE` (see [DamageType documentation](../DamageType.md)). Electronic components (ElectronicsComponent, SensorComponent) can also have their own jamming damage caps that contribute to the total effective jamming capacity. **Note**: At least one of `CanBeJammedByDirectJammers` or `CanBeJammedByAreaJammers` must be enabled for the jamming system to function; otherwise, no jamming damage will occur regardless of the cap value.
 - **Default**: `0.0`
 - **Example**: `JammingDamageCap = 350.0`
 
@@ -124,7 +124,7 @@ Available only in: *(GMX Zero Hour)*
 
 Available only in: *(GMX Zero Hour)*
 
-ActiveBody supports multiple component types that can be added to objects for detailed damage modeling. Each component type has its own specialized properties while inheriting base component functionality. Components allow for realistic damage simulation where different parts of an object can be damaged independently. Components are parsed from INI and copied to each object instance during construction.
+ActiveBody supports multiple component types that can be added to objects for detailed damage modeling. Each component type has its own specialized properties while inheriting base component functionality. Components allow for realistic damage simulation where different parts of an object can be damaged independently.
 
 #### `Component`
 Available only in: *(GMX Zero Hour)*
@@ -134,11 +134,11 @@ Available only in: *(GMX Zero Hour)*
 - **Default**: No components defined
 - **Example**: 
 ```ini
-Component PRIMARY_WEAPON
-  MaxHealth = 100.0
-  InitialHealth = 100.0
+Component MineSweeper
+  MaxHealth = 50.0
+  InitialHealth = 50.0
   HealingType = NORMAL
-  DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_TOP
+  DamageOnSides = HIT_SIDE_FRONT HIT_SIDE_BOTTOM
 End
 ```
 
@@ -279,11 +279,11 @@ End
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `RemoteControlComponent` block (see [RemoteControlComponent documentation](ObjectComponents/RemoteControlComponent.md))
-- **Description**: Specialized component for remote control systems. When damaged or destroyed, affects remote control functionality. See [RemoteControlComponent documentation](ObjectComponents/RemoteControlComponent.md) for complete details, limitations, and usage.
+- **Description**: Specialized component for remote control systems. When damaged or destroyed, affects remote control functionality. This component can be hacked by enemy units, transferring control. See [RemoteControlComponent documentation](ObjectComponents/RemoteControlComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
-RemoteControlComponent RemoteController
+RemoteControlComponent DroneRemoteController
   MaxHealth = 30.0
   InitialHealth = 30.0
   ReplacementCost = 200
@@ -297,11 +297,11 @@ End
 Available only in: *(GMX Zero Hour)*
 
 - **Type**: `JetEngineComponent` block (see [JetEngineComponent documentation](ObjectComponents/JetEngineComponent.md))
-- **Description**: Specialized component for jet engine systems. When destroyed, typically forces aircraft to return to base. See [JetEngineComponent documentation](ObjectComponents/JetEngineComponent.md) for complete details, limitations, and usage.
+- **Description**: Specialized component for jet engine systems. When destroyed, typically forces aircraft to return to base and forces helicopters to land. See [JetEngineComponent documentation](ObjectComponents/JetEngineComponent.md) for complete details, limitations, and usage.
 - **Default**: No components defined
 - **Example**: 
 ```ini
-JetEngineComponent ENGINE
+JetEngineComponent JetEngine
   MaxHealth = 100.0
   InitialHealth = 100.0
   ReplacementCost = 400
@@ -338,10 +338,12 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 
 **Retail 1.04 Values** *(available in GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*:
 
-- **`PRISTINE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit should appear in pristine condition
-- **`DAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been damaged
-- **`REALLYDAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit is extremely damaged / nearly destroyed
-- **`RUBBLE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been reduced to rubble/corpse/exploded-hulk, etc
+Damage states are calculated based on health percentage thresholds defined in [GameData](../GameData.md) (typically `UnitDamagedThreshold` = 50-70% and `UnitReallyDamagedThreshold` = 10-35%):
+
+- **`PRISTINE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit appears in pristine condition (health > `UnitDamagedThreshold`, typically > 50-70%)
+- **`DAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been damaged (health between `UnitReallyDamagedThreshold` and `UnitDamagedThreshold`, typically 10-35% to 50-70%)
+- **`REALLYDAMAGED`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit is extremely damaged / nearly destroyed (health between 0% and `UnitReallyDamagedThreshold`, typically 0% to 10-35%)
+- **`RUBBLE`** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* - Unit has been reduced to rubble/corpse/exploded-hulk (health = 0%)
 
 **GMX Component-Specific Values** *(available only in GMX Zero Hour)*:
 
@@ -368,23 +370,23 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 - **`COMPONENT_WEAPON_G_DAMAGED`** *(GMX Zero Hour)* - Weapon slot G component has been damaged
 - **`COMPONENT_WEAPON_H_DAMAGED`** *(GMX Zero Hour)* - Weapon slot H component has been damaged
 
-- **`COMPONENT_A_DESTROYED`** *(GMX Zero Hour)* - Component A has been destroyed
-- **`COMPONENT_B_DESTROYED`** *(GMX Zero Hour)* - Component B has been destroyed
-- **`COMPONENT_C_DESTROYED`** *(GMX Zero Hour)* - Component C has been destroyed
-- **`COMPONENT_D_DESTROYED`** *(GMX Zero Hour)* - Component D has been destroyed
-- **`COMPONENT_E_DESTROYED`** *(GMX Zero Hour)* - Component E has been destroyed
-- **`COMPONENT_F_DESTROYED`** *(GMX Zero Hour)* - Component F has been destroyed
-- **`COMPONENT_G_DESTROYED`** *(GMX Zero Hour)* - Component G has been destroyed
-- **`COMPONENT_H_DESTROYED`** *(GMX Zero Hour)* - Component H has been destroyed
+- **`COMPONENT_A_DESTROYED`** *(GMX Zero Hour)* - User-defined component A has been destroyed 
+- **`COMPONENT_B_DESTROYED`** *(GMX Zero Hour)* - User-defined component B has been destroyed 
+- **`COMPONENT_C_DESTROYED`** *(GMX Zero Hour)* - User-defined component C has been destroyed 
+- **`COMPONENT_D_DESTROYED`** *(GMX Zero Hour)* - User-defined component D has been destroyed 
+- **`COMPONENT_E_DESTROYED`** *(GMX Zero Hour)* - User-defined component E has been destroyed 
+- **`COMPONENT_F_DESTROYED`** *(GMX Zero Hour)* - User-defined component F has been destroyed 
+- **`COMPONENT_G_DESTROYED`** *(GMX Zero Hour)* - User-defined component G has been destroyed 
+- **`COMPONENT_H_DESTROYED`** *(GMX Zero Hour)* - User-defined component H has been destroyed 
 
-- **`COMPONENT_A_DAMAGED`** *(GMX Zero Hour)* - Component A has been damaged
-- **`COMPONENT_B_DAMAGED`** *(GMX Zero Hour)* - Component B has been damaged
-- **`COMPONENT_C_DAMAGED`** *(GMX Zero Hour)* - Component C has been damaged
-- **`COMPONENT_D_DAMAGED`** *(GMX Zero Hour)* - Component D has been damaged
-- **`COMPONENT_E_DAMAGED`** *(GMX Zero Hour)* - Component E has been damaged
-- **`COMPONENT_F_DAMAGED`** *(GMX Zero Hour)* - Component F has been damaged
-- **`COMPONENT_G_DAMAGED`** *(GMX Zero Hour)* - Component G has been damaged
-- **`COMPONENT_H_DAMAGED`** *(GMX Zero Hour)* - Component H has been damaged
+- **`COMPONENT_A_DAMAGED`** *(GMX Zero Hour)* - User-defined component A has been damaged 
+- **`COMPONENT_B_DAMAGED`** *(GMX Zero Hour)* - User-defined component B has been damaged 
+- **`COMPONENT_C_DAMAGED`** *(GMX Zero Hour)* - User-defined component C has been damaged 
+- **`COMPONENT_D_DAMAGED`** *(GMX Zero Hour)* - User-defined component D has been damaged 
+- **`COMPONENT_E_DAMAGED`** *(GMX Zero Hour)* - User-defined component E has been damaged 
+- **`COMPONENT_F_DAMAGED`** *(GMX Zero Hour)* - User-defined component F has been damaged 
+- **`COMPONENT_G_DAMAGED`** *(GMX Zero Hour)* - User-defined component G has been damaged 
+- **`COMPONENT_H_DAMAGED`** *(GMX Zero Hour)* - User-defined component H has been damaged 
 
 ## Examples
 
@@ -444,33 +446,32 @@ End
 
 ## Usage
 
-Place under `Body = ActiveBody ModuleTag_XX` inside `Object` entries. In GMX, ActiveBody can also be added to `ObjectExtend` entries. See Template for correct syntax.
+Place under `Body = ActiveBody ModuleTag_XX` inside `Object` entries. In GMX, ActiveBody can also be added to `ObjectExtend` entries. See [Template](#template) for correct syntax.
 
 **Placement**:
-- **Retail**: ActiveBody can only be added to `Object` entries (ObjectExtend does not exist in Retail).
+- **Retail**: ActiveBody can only be added to `Object` entries .
 - **GMX**: ActiveBody can be added to both `Object` and `ObjectExtend` entries.
 
 Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist per object. If multiple body modules are added to the same object, the game will crash with a "Duplicate bodies" assertion error during object creation. This restriction applies regardless of `ModuleTag` names - the object can only have one body module total.
 
 **Limitations**:
-- ActiveBody automatically manages damage states ([BodyDamageType Values](#bodydamagetype-values) such as PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
-- If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth), the current health will be clamped to [MaxHealth](#maxhealth) when the first health change occurs. Health cannot go below `0.0` or above [MaxHealth](#maxhealth).
+- ActiveBody automatically manages damage states ([BodyDamageType Values](#bodydamagetype-values)) based on health percentage thresholds defined in [GameData](../GameData.md). Damage states affect visual appearance and particle systems.
+- If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth), the health will be clamped to [MaxHealth](#maxhealth) during health operations. Health cannot go below `0.0` or above [MaxHealth](#maxhealth).
 - [SubdualDamageCap](#subdualdamagecap) can disable objects without destroying them when subdual damage equals or exceeds [MaxHealth](#maxhealth). Subdual damage properties are exclusive to Generals Zero Hour (Retail Zero Hour 1.04) and GMX (both Generals and Zero Hour).
-- [JammingDamageCap](#jammingdamagecap) can jam electronic systems and components when jamming damage equals or exceeds [MaxHealth](#maxhealth). Jamming damage properties are GMX Zero Hour only.
-- Objects automatically heal subdual and jamming damage over time if [SubdualDamageHealRate](#subdualdamagehealrate), [SubdualDamageHealAmount](#subdualdamagehealamount), [JammingDamageHealRate](#jammingdamagehealrate), and [JammingDamageHealAmount](#jammingdamagehealamount) are set. The healing is handled by helper systems that run at the specified intervals.
+- [JammingDamageCap](#jammingdamagecap) can jam electronic systems and components when jamming damage equals or exceeds [MaxHealth](#maxhealth). Jamming damage properties are GMX Zero Hour only. At least one of `CanBeJammedByDirectJammers` or `CanBeJammedByAreaJammers` must be enabled for jamming to function.
+- Objects automatically heal subdual and jamming damage over time if healing properties are set. The healing is handled by helper systems that run at the specified intervals.
 - Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](ObjectComponents/Component.md) for component-specific limitations and requirements.
 
-- **Conditions**:
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Health is reduced when weapons deal damage, and damage states are updated based on health percentage.
-- Veterancy levels can modify maximum health and healing rates through upgrade systems.
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects. Armor modifies incoming damage before it is applied to health.
-- Damage states are calculated based on global thresholds defined in game data and affect visual appearance and particle systems.
+**Conditions**:
+- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Health is reduced when weapons deal damage, and damage states are updated based on health percentage thresholds (see [BodyDamageType Values](#bodydamagetype-values) for percentage ranges).
+- Veterancy levels can modify maximum health and healing rates through the veterancy bonus system (see [GameData](../GameData.md) for veterancy health bonuses).
 - Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). Components interact with weapons, locomotor (see [Locomotor](../Locomotor.md)), healing systems, GUI commands, prerequisites, and behaviors. See [Component documentation](ObjectComponents/Component.md) for component-specific conditions and interactions.
 - **ObjectExtend (GMX only)**: When ActiveBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's ActiveBody module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
 - **ObjectReskin (both Retail and GMX)**: ObjectReskin uses the same module system as Object. Adding ActiveBody to an ObjectReskin entry with the same `ModuleTag` name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.
 
 **Dependencies**:
 - Requires proper armor and damage type definitions to function correctly. ActiveBody relies on armor systems to modify incoming damage before it is applied to health.
+- Objects with ActiveBody can be healed by [AutoHealBehavior](../ObjectBehaviorsModules/AutoHealBehavior.md). AutoHealBehavior heals main health and, when [ComponentHealingAmount](../ObjectBehaviorsModules/AutoHealBehavior.md#componenthealingamount) is set (GMX Zero Hour only), can also heal components. Component healing respects each component's [HealingType](ObjectComponents/Component.md#healingtype) setting.
 
 ## Template
 
@@ -495,17 +496,13 @@ End
 
 ## Notes
 
-- ActiveBody automatically manages damage states ([BodyDamageType Values](#bodydamagetype-values) such as PRISTINE, DAMAGED, REALLYDAMAGED, RUBBLE) based on health percentage thresholds defined in game data. Damage states affect visual appearance and particle systems.
-- Damage states are calculated based on global thresholds and updated automatically when [MaxHealth](#maxhealth) changes.
-- Subdual damage can disable objects without destroying them (Zero Hour only). Subdual damage accumulates separately from normal health damage and is limited by [SubdualDamageCap](#subdualdamagecap).
-- Jamming damage can jam electronic systems and components (GMX Zero Hour only). Jamming damage accumulates separately from normal health damage and subdual damage and is limited by [JammingDamageCap](#jammingdamagecap).
-- Objects automatically heal subdual and jamming damage over time if [SubdualDamageHealRate](#subdualdamagehealrate), [SubdualDamageHealAmount](#subdualdamagehealamount), [JammingDamageHealRate](#jammingdamagehealrate), and [JammingDamageHealAmount](#jammingdamagehealamount) are set. The healing is handled by helper systems that run at the specified intervals.
-- Objects with ActiveBody can be targeted by weapons (see [Weapon documentation](../Weapon.md)) and affected by damage types. Armor modifies incoming damage before it is applied to health.
-- Veterancy levels can modify maximum health and healing rates through upgrade systems.
-- ActiveBody integrates with armor systems (see [Armor documentation](../Armor.md)) and damage effects.
-- Components can be added to ActiveBody for detailed damage modeling (GMX Zero Hour only). See [Component documentation](ObjectComponents/Component.md) and individual component documentation files for component-specific notes and details.
+- Damage states ([BodyDamageType Values](#bodydamagetype-values)) are updated automatically when [MaxHealth](#maxhealth) changes.
+- Subdual damage types that affect this system: `SUBDUAL_MISSILE`, `SUBDUAL_VEHICLE`, `SUBDUAL_BUILDING`, and `SUBDUAL_UNRESISTABLE` (see [DamageType documentation](../DamageType.md)).
+- Jamming damage types that affect this system: `ELECTRONIC_JAMMING` and `JAMMING_UNRESISTABLE` (see [DamageType documentation](../DamageType.md)).
 
 ## Modder Recommended Use Scenarios
+
+- ActiveBody is the most common body type, used by most units such as vehicles, infantry, and aircraft. It provides the standard health and damage management system that most objects in the game rely on.
 
 (pending modder review)
 
