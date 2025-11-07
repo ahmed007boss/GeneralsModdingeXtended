@@ -170,7 +170,7 @@ Available in: *(GMX Zero Hour, Retail Zero Hour 1.04 only)*
 
 #### `RequestAssistRange` *(v1.04)*
 - **Type**: `Real`
-- **Description**: Range within which other units will be called to assist in attacks
+- **Description**: Range (in world units) within which other units with the same weapon will be called to assist in attacking the same target. When a unit with this weapon acquires a target, it broadcasts a request for assistance to other units within this range. Units that receive the request and can target the same enemy will join the attack, creating coordinated fire. This allows multiple units to focus fire on a single target, increasing damage output. The range is measured from the requesting unit's position. If set to 0, the weapon does not request assistance from other units. This property is useful for coordinating attacks from groups of units.
 - **Example**: `RequestAssistRange = 100.0`
 
 ### Firing Mechanics
@@ -221,17 +221,17 @@ Available in: *(GMX Zero Hour, Retail Zero Hour 1.04 only)*
 
 #### `WeaponSpeed` *(v1.04)*
 - **Type**: `Real` (distance per second)
-- **Description**: Speed of the projectile or damage travel
+- **Description**: Speed (in world units per second) at which the projectile travels from the firing point to its target. For projectile weapons, this determines how fast the [`ProjectileObject`](#projectileobject) moves through the air. For instant-hit weapons (no projectile), this property may affect damage delivery timing. Higher values make projectiles travel faster, reducing the time to impact but potentially making them harder to intercept. This property works in combination with [`AttackRange`](#attackrange) to determine the effective engagement range. If [`MinWeaponSpeed`](#minweaponspeed) is also specified, the weapon speed varies between the minimum and maximum values.
 - **Example**: `WeaponSpeed = 1000.0`
 
 #### `MinWeaponSpeed` *(v1.04)*
 - **Type**: `Real` (distance per second)
-- **Description**: Minimum speed for variable-speed weapons
+- **Description**: Minimum speed (in world units per second) for variable-speed weapons. When specified along with [`WeaponSpeed`](#weaponspeed), the weapon's projectile speed varies randomly between this minimum value and the maximum [`WeaponSpeed`](#weaponspeed) value for each shot. This creates unpredictable projectile speeds, making the weapon harder to intercept or dodge. The speed is randomly selected when the projectile is created. If this is 0 or not specified, the weapon uses a constant speed equal to [`WeaponSpeed`](#weaponspeed). This property only has an effect if [`WeaponSpeed`](#weaponspeed) is greater than 0.
 - **Example**: `MinWeaponSpeed = 500.0`
 
 #### `ScaleWeaponSpeed` *(v1.04)*
 - **Type**: `Bool`
-- **Description**: Whether weapon speed scales with range (for lobbed projectiles)
+- **Description**: Whether the weapon's projectile speed scales with the distance to the target. When enabled, the projectile speed is adjusted based on the [`AttackRange`](#attackrange) to ensure the projectile reaches the target in a consistent time regardless of distance. This creates a lobbed trajectory effect where projectiles fired at longer ranges travel faster to maintain the same flight time. This is useful for artillery weapons or mortars that should have consistent flight times. When disabled, the projectile travels at a constant [`WeaponSpeed`](#weaponspeed) regardless of range. This property only affects projectile weapons with a [`ProjectileObject`](#projectileobject).
 - **Example**: `ScaleWeaponSpeed = Yes`
 
 #### `WeaponRecoil` *(v1.04)*
@@ -248,7 +248,7 @@ Available in: *(GMX Zero Hour, Retail Zero Hour 1.04 only)*
 
 #### `ProjectileDetonationFX` *(v1.04)*
 - **Type**: `FXList` (per veterancy level)
-- **Description**: Visual effects played when projectile hits target
+- **Description**: Visual effects (FXList) that are played when the projectile from this weapon impacts its target or detonates. These effects are displayed at the impact point and provide visual feedback for the weapon's damage delivery. The effects are played when the projectile collides with a target, hits terrain, or reaches its detonation point. If you need different effects for different veterancy levels, use [`VeterancyProjectileDetonationFX`](#veterancyprojectiledetonationfx) instead. The FXList can contain multiple effects that play simultaneously or in sequence.
 - **Example**: `ProjectileDetonationFX = FX_ExplosionLarge`
 
 #### `FireSound` *(v1.04)*
@@ -263,17 +263,17 @@ Available in: *(GMX Zero Hour, Retail Zero Hour 1.04 only)*
 
 #### `FireOCL` *(v1.04)*
 - **Type**: `ObjectCreationList` (per veterancy level)
-- **Description**: Objects created when weapon fires
+- **Description**: ObjectCreationList that specifies objects to be created at the weapon's firing point when the weapon fires. These objects are spawned at the muzzle or firing location and can include muzzle flashes, shell casings, smoke puffs, or other visual objects that enhance the weapon's firing effect. The objects are created every time the weapon fires and are positioned relative to the firing unit. If you need different objects for different veterancy levels, use [`VeterancyFireOCL`](#veterancyfireocl) instead. The ObjectCreationList can create multiple objects simultaneously.
 - **Example**: `FireOCL = OCL_MuzzleFlash`
 
 #### `ProjectileDetonationOCL` *(v1.04)*
 - **Type**: `ObjectCreationList` (per veterancy level)
-- **Description**: Objects created when projectile detonates
+- **Description**: ObjectCreationList that specifies objects to be created when the projectile from this weapon impacts its target or detonates. These objects are spawned at the impact point and can include debris, fragments, smoke clouds, or other visual objects that enhance the weapon's impact effect. The objects are created when the projectile collides with a target, hits terrain, or reaches its detonation point. If you need different objects for different veterancy levels, use [`VeterancyProjectileDetonationOCL`](#veterancyprojectiledetonationocl) instead. The ObjectCreationList can create multiple objects simultaneously.
 - **Example**: `ProjectileDetonationOCL = OCL_ExplosionDebris`
 
 #### `ProjectileExhaust` *(v1.04)*
 - **Type**: `ParticleSystemTemplate` (per veterancy level)
-- **Description**: Particle effects for projectile exhaust trail
+- **Description**: Particle system template that creates a visual trail or exhaust effect behind the projectile as it travels. The particle system is attached to the projectile object and continuously emits particles along the projectile's flight path, creating effects like smoke trails, fire trails, or energy streams. The particles are rendered in real-time and provide visual feedback for the projectile's movement. If you need different effects for different veterancy levels, use [`VeterancyProjectileExhaust`](#veterancyprojectileexhaust) instead. The particle system continues until the projectile detonates or is destroyed.
 - **Example**: `ProjectileExhaust = PS_TankShellTrail`
 
 #### `VeterancyFireFX` *(v1.04)*
@@ -413,25 +413,25 @@ End
 
 #### `ScatterRadius` *(v1.04)*
 - **Type**: `Real`
-- **Description**: Maximum random offset radius (in world units) applied to the intended impact point to simulate weapon inaccuracy. When the weapon fires, the actual impact point is randomly offset from the target position by up to this radius in any direction. This creates a circular area of potential impact. This scatter is applied to all targets. If this is 0, there is no random scatter (weapon is perfectly accurate). Scatter is useful for simulating artillery, mortars, or low-accuracy weapons. The scatter is applied in addition to any `ScatterRadiusVsInfantry` when targeting infantry.
+- **Description**: Maximum random offset radius (in world units) applied to the intended impact point to simulate weapon inaccuracy. When the weapon fires, the actual impact point is randomly offset from the target position by up to this radius in any direction. This creates a circular area of potential impact. This scatter is applied to all targets. If this is 0, there is no random scatter (weapon is perfectly accurate). Scatter is useful for simulating artillery, mortars, or low-accuracy weapons. The scatter is applied in addition to any [`ScatterRadiusVsInfantry`](#scatterradiusvsinfantry) when targeting infantry.
 - **Default**: `0.0`
 - **Example**: `ScatterRadius = 5.0`
 
 #### `ScatterTargetScalar` *(v1.04)*
 - **Type**: `Real`
-- **Description**: Multiplier applied to the coordinates specified in `ScatterTarget` entries. This allows you to scale preset scatter target offsets without redefining all the coordinates. A value of 1.0 uses the scatter targets at their defined scale. Values greater than 1.0 increase the scatter spread, values less than 1.0 decrease it. This only affects weapons that use `ScatterTarget` entries; it has no effect if `ScatterTarget` is not used.
+- **Description**: Multiplier applied to the coordinates specified in [`ScatterTarget`](#scattertarget) entries. This allows you to scale preset scatter target offsets without redefining all the coordinates. A value of 1.0 uses the scatter targets at their defined scale. Values greater than 1.0 increase the scatter spread, values less than 1.0 decrease it. This only affects weapons that use [`ScatterTarget`](#scattertarget) entries; it has no effect if [`ScatterTarget`](#scattertarget) is not used.
 - **Default**: `0.0`
 - **Example**: `ScatterTargetScalar = 1.0`
 
 #### `ScatterRadiusVsInfantry` *(v1.04)*
 - **Type**: `Real`
-- **Description**: Additional random scatter radius (in world units) applied specifically when the target is infantry. This extra inaccuracy is added to the base `ScatterRadius` when targeting infantry units, simulating the difficulty of hitting small, mobile targets. If the target is not infantry, only `ScatterRadius` applies. This allows weapons to be more accurate against vehicles/buildings but less accurate against infantry. If this is 0, there is no extra scatter against infantry (only base `ScatterRadius` applies).
+- **Description**: Additional random scatter radius (in world units) applied specifically when the target is infantry. This extra inaccuracy is added to the base [`ScatterRadius`](#scatterradius) when targeting infantry units, simulating the difficulty of hitting small, mobile targets. If the target is not infantry, only [`ScatterRadius`](#scatterradius) applies. This allows weapons to be more accurate against vehicles/buildings but less accurate against infantry. If this is 0, there is no extra scatter against infantry (only base [`ScatterRadius`](#scatterradius) applies).
 - **Default**: `0.0`
 - **Example**: `ScatterRadiusVsInfantry = 10.0`
 
 #### `DamageDealtAtSelfPosition` *(v1.04)*
 - **Type**: `Bool`
-- **Description**: When enabled, the damage epicenter is the firing unit's current position rather than the target's position. This causes all radius damage calculations to originate from the shooter, not the impact point. This is essential for suicide weapons (like car bombs) where the explosion should occur at the attacker's location. When disabled (default), damage originates from the target position (for direct hits) or the projectile impact point (for projectile weapons). This property affects both primary and secondary damage radius calculations.
+- **Description**: When enabled, the damage epicenter is the firing unit's current position rather than the target's position. This causes all radius damage calculations to originate from the shooter, not the impact point. This is essential for suicide weapons (like car bombs) where the explosion should occur at the attacker's location. When disabled (default), damage originates from the target position (for direct hits) or the projectile impact point (for projectile weapons). This property affects both [`PrimaryDamageRadius`](#primarydamageradius) and [`SecondaryDamageRadius`](#secondarydamageradius) calculations.
 - **Default**: `No`
 - **Example**: `DamageDealtAtSelfPosition = Yes`
 
@@ -463,17 +463,17 @@ End
 
 #### `ContinuousFireOne` *(v1.04)*
 - **Type**: `Int`
-- **Description**: Number of consecutive shots needed to gain ContinuousFire property
+- **Description**: Number of consecutive shots that must be fired before the weapon enters the first continuous fire mode. Once this many shots have been fired in succession, the weapon gains enhanced firing properties (typically faster firing rate or reduced [`DelayBetweenShots`](#delaybetweenshots)). The continuous fire mode persists as long as the weapon continues firing, and resets when firing stops for longer than [`ContinuousFireCoast`](#continuousfirecoast). This allows weapons to "warm up" and fire faster after sustained use. If set to 0, the weapon never enters continuous fire mode. This property works in combination with [`ContinuousFireTwo`](#continuousfiretwo) to create multiple stages of continuous fire.
 - **Example**: `ContinuousFireOne = 5`
 
 #### `ContinuousFireTwo` *(v1.04)*
 - **Type**: `Int`
-- **Description**: Number of consecutive shots needed to gain ContinuousFireTwo property
+- **Description**: Number of consecutive shots that must be fired before the weapon enters the second continuous fire mode (enhanced continuous fire). This is a higher tier of continuous fire that activates after [`ContinuousFireOne`](#continuousfireone) has been reached. Once this many shots have been fired in succession, the weapon gains even more enhanced firing properties. The continuous fire mode persists as long as the weapon continues firing, and resets when firing stops for longer than [`ContinuousFireCoast`](#continuousfirecoast). This allows weapons to have multiple "warm up" stages with progressively better performance. If set to 0, the weapon never enters the second continuous fire mode. This value must be greater than [`ContinuousFireOne`](#continuousfireone) to have any effect.
 - **Example**: `ContinuousFireTwo = 10`
 
 #### `ContinuousFireCoast` *(v1.04)*
 - **Type**: `UnsignedInt` (milliseconds)
-- **Description**: Time after stopping fire before continuous fire mode ends
+- **Description**: Time (in milliseconds) after the weapon stops firing before the continuous fire mode (activated by [`ContinuousFireOne`](#continuousfireone) and [`ContinuousFireTwo`](#continuousfiretwo)) ends and resets. If the weapon stops firing for longer than this duration, the continuous fire counter resets to 0 and the weapon must fire the required number of shots again to re-enter continuous fire mode. This creates a "cooldown" period where the weapon loses its enhanced firing properties if not used continuously. Lower values make the continuous fire mode reset quickly, while higher values allow brief pauses in firing without losing the continuous fire benefits. If set to 0, continuous fire mode resets immediately when firing stops.
 - **Example**: `ContinuousFireCoast = 1000`
 
 ### Laser and Stream Properties
