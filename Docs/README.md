@@ -1,3 +1,7 @@
+layout: page
+title: "PAGE-TITLE"
+permalink: /index
+
 ## Generals Modding Documentation Guide
 
 Status: AI-generated, 0/2 reviews
