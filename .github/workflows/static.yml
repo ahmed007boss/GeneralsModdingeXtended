@@ -1,25 +1,18 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy Jekyll site from Docs to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -34,16 +27,19 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # or latest supported by GitHub Pages
+          ruby-version: '3.1'
           bundler-cache: true
+          working-directory: Docs  # 👈 tells bundler where to look for Gemfile
 
-      - name: Install Jekyll and dependencies
+      - name: Install dependencies
+        working-directory: Docs  # 👈 run everything from inside Docs
         run: |
           gem install bundler
           bundle install
 
       - name: Build Jekyll site
-        run: bundle exec jekyll build --source Docs --destination ./_site
+        working-directory: Docs
+        run: bundle exec jekyll build --destination ../_site  # output to repo root/_site
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -51,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './_site'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
