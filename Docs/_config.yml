@@ -22,8 +22,8 @@ title: Generals Modding eXtended Documentation
 email: info@generalsmodding.com
 description: >- # this means to ignore newlines until "baseurl:"
   Documentation for Generals Modding eXtended.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "https://ahmed007boss.github.io/GeneralsModdingeXtended/" # the subpath of your site, e.g. /blog
+url: "https://ahmed007boss.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ahmed007boss
 github_username:  ahmed007boss
 
