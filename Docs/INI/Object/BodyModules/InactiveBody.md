@@ -4,33 +4,16 @@ Status: AI-generated, 0/2 reviews
 
 ## Overview
 
-The `InactiveBody` module provides an indestructible body system for objects that cannot be damaged or affected by normal game mechanics. Objects with InactiveBody are marked as "effectively dead" and bypass most health and damage calculations. These objects have no health system and ignore all damage and healing attempts except unresistable damage, which can trigger death modules. This behavior is commonly used for decorative objects, terrain features, and objects that should not interact with the damage system.
+The `InactiveBody` module provides an indestructible body system for objects that cannot be damaged or affected by normal game mechanics. Objects with InactiveBody are marked as "effectively dead" and bypass most health and damage calculations. These objects have no health system and ignore all damage and healing attempts except unresistable damage, which can trigger death modules. This behavior is commonly used for decorative objects, terrain features, and objects that should not interact with the damage system. This is a module added inside `Object` entries.
 
 Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Usage](#usage)
-  - [Limitations](#limitations)
-  - [Conditions](#conditions)
-  - [Dependencies](#dependencies)
-- [Properties](#properties)
-- [Examples](#examples)
-- [Template](#template)
-- [Notes](#notes)
-- [Source Files](#source-files)
-- [Changes History](#changes-history)
-- [Document Log](#document-log)
-- [Status](#status)
-- [Reviewers](#reviewers)
-
 ## Usage
 
-Used by objects that should be indestructible and unaffected by damage, such as decorative objects, terrain features, or special objects that should not interact with the damage system. This is a **body module** that must be embedded within object definitions. Use the [Template](#template) below by copying it into your object definition. Then, customize it as needed, making sure to review any limitations, conditions, or dependencies related to its usage.
+Place under `Body = InactiveBody ModuleTag_XX` inside `Object` entries. In GMX, InactiveBody can also be added to `ObjectExtend` entries. See [Template](#template) for correct syntax.
 
 **Placement**:
-- **Retail**: InactiveBody can only be added to `Object` entries (ObjectExtend does not exist in Retail).
+- **Retail**: InactiveBody can only be added to `Object` entries.
 - **GMX**: InactiveBody can be added to both `Object` and `ObjectExtend` entries.
 
 Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist per object. If multiple body modules are added to the same object, the game will crash with a "Duplicate bodies" assertion error during object creation. This restriction applies regardless of `ModuleTag` names - the object can only have one body module total.
@@ -44,7 +27,6 @@ Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist p
 - Cannot be used on prerequisite objects (`IsPrerequisite = Yes`); the game will crash with an assertion if attempted.
 - No veterancy interactions - veterancy level changes are ignored.
 - No armor interactions - armor set flags cannot be modified or tested.
-- No component support (GMX Zero Hour only).
 - Health modifications from upgrades, veterancy, or difficulty scaling have no effect.
 
 **Conditions**:
@@ -62,21 +44,39 @@ Only one body module (ActiveBody, InactiveBody, StructureBody, etc.) can exist p
 - Damage state is always `BODY_PRISTINE` and cannot be changed.
 - Veterancy bonuses and upgrades that modify health do not affect InactiveBody objects.
 - Armor set flags cannot be modified or tested (no armor interactions).
-- Component support is not available (GMX Zero Hour only).
 - Script actions can remove InactiveBody objects using unresistable damage type. Scripts that check health will receive `0.0`.
 - Objects can be removed via selling if DieModules are present.
 - Contain systems (garrisons, transports) can remove contained InactiveBody objects with unresistable damage when containers are destroyed, if DieModules are present.
 - **Prerequisite restriction**: Objects with `IsPrerequisite = Yes` cannot use InactiveBody. The game will crash with an assertion if this combination is attempted.
-- **ObjectExtend (GMX only)**: When InactiveBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's body module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
+- **ObjectExtend (GMX only)**: When InactiveBody is added to an `ObjectExtend` entry with the same `ModuleTag` name as the base object, the base object's InactiveBody module is automatically replaced. ObjectExtend automatically clears modules with matching `ModuleTag` names when adding new modules.
 - **ObjectReskin (both Retail and GMX)**: ObjectReskin uses the same module system as Object. Adding InactiveBody to an ObjectReskin entry with the same `ModuleTag` name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.
 
 **Dependencies**:
 - Requires the object system to function correctly.
 - Compatible with DieModules - unresistable damage can trigger death modules for object removal.
+- Objects with InactiveBody cannot be healed by [AutoHealBehavior](../ObjectBehaviorsModules/AutoHealBehavior.md). InactiveBody has no health system and all healing attempts are ignored.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Usage](#usage)
+  - [Limitations](#limitations)
+  - [Conditions](#conditions)
+  - [Dependencies](#dependencies)
+- [Properties](#properties)
+- [Examples](#examples)
+- [Template](#template)
+- [Notes](#notes)
+- [Modder Recommended Use Scenarios](#modder-recommended-use-scenarios)
+- [Source Files](#source-files)
+- [Changes History](#changes-history)
+- [Document Log](#document-log)
+- [Status](#status)
+- [Reviewers](#reviewers)
 
 ## Properties
 
-InactiveBody has no INI-parsable properties. All health, damage, and armor functionality is disabled or bypassed.
+InactiveBody has no additional properties beyond those inherited from BodyModule.
 
 ## Examples
 
@@ -102,7 +102,7 @@ End
 
 ```ini
 Body = InactiveBody ModuleTag_XX
-  ; No additional properties - InactiveBody has no INI-parsable properties
+  ; No additional properties - uses base BodyModule properties
 End
 ```
 
@@ -119,7 +119,10 @@ End
 - Damage estimation returns `0.0` for all damage types except unresistable damage, allowing AI and weapon systems to recognize that InactiveBody objects cannot be damaged normally.
 - Commonly used for decorative objects, terrain features, and objects that should not interact with the damage system.
 - Objects can still be removed through other means (like special powers, script commands using unresistable damage, or DieModules triggered by unresistable damage).
-- Only one body module is allowed per object; multiple bodies cause a startup assertion.
+
+## Modder Recommended Use Scenarios
+
+- InactiveBody is used by objects that are not damageable like FireFieldSmall and MultiplayerBeacon which should not be killed.
 
 ## Source Files
 
@@ -132,7 +135,7 @@ End
 
 ## Changes History
 
-*(No GMX-specific changes - InactiveBody exists in Retail 1.04)*
+- v1.04 — Adds InactiveBody (indestructible body system for decorative objects).
 
 ## Document Log
 

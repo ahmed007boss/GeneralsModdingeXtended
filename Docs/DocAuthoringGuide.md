@@ -468,7 +468,7 @@ When scanning, search for patterns: the entity name, property strings, and metho
 Place under `[ModuleType] = [ModuleName] ModuleTag_XX` inside `Object` entries. In GMX, [ModuleName] can also be added to `ObjectExtend` entries. See Template for correct syntax.
 
 **Placement**:
-- **Retail**: [ModuleName] can only be added to `Object` entries (ObjectExtend does not exist in Retail).
+- **Retail**: [ModuleName] can only be added to `Object` entries .
 - **GMX**: [ModuleName] can be added to both `Object` and `ObjectExtend` entries.
 
 [Additional restrictions for special module types - e.g., "Only one body module can exist per object..."]
@@ -653,6 +653,18 @@ Available in: *(version information)* or Available only in: *(version informatio
 - List every value with individual inline version flags and a short description.
 - **CRITICAL**: Enum section header uses new-line format (as shown above), but enum values in the list use inline format: `*(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*` or `*(GMX Generals, GMX Zero Hour)*` or `*(GMX)*`.
 - If there is a corresponding string array, ensure order matches the enum declaration.
+
+z #### Special Enum Documentation Files
+**CRITICAL**: Some enums have their own dedicated documentation files and should NOT have their details listed in the Enum Value Lists section of other documents. Instead, link to the dedicated enum documentation file.
+
+The following enums have their own documentation files:
+- **`KindOfMaskType`** (KindOf) - See [KindOf documentation](KindOf.md)
+- **`ModelConditionFlagType`** (ModelConditionFlags) - See [ModelConditionFlagType documentation](ModelConditionFlagType.md)
+
+**For new documentation**: When documenting a property that uses one of these enums, do NOT include the enum value list in your document's `## Enum Value Lists` section. Instead:
+- In the property's `Type` field, link to the enum documentation: `KindOfMaskType` (see [KindOf documentation](KindOf.md)) or `ModelConditionFlagType` (see [ModelConditionFlagType documentation](ModelConditionFlagType.md))
+- In the property description, reference the enum documentation when needed
+- Remove any enum value list sections for these enums from your document
 
 ### Versioning Rules (Mandatory)
 - **CRITICAL**: Version information must be on a NEW LINE for properties, enums, enum sections, and major sections — NOT inline in headers.
