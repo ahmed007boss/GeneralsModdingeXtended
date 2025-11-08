@@ -58,4 +58,4 @@ cmake-build-*/
 .ninja_deps
 .ninja_log
 build.ninja
-Docs/Gemfile
+Docs/Gemfile.lock
