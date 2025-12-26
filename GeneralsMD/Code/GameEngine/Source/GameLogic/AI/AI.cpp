@@ -716,10 +716,9 @@ Object *AI::findClosestEnemy(const Object *me, Real range,
       }
     }
 
-    Real distSqr = ThePartitionManager->getDistanceSquared(
-        me, theEnemy, FROM_BOUNDINGSPHERE_2D);
+    Real distSqr = ThePartitionManager->getDistanceSquared(me, theEnemy, FROM_BOUNDINGSPHERE_2D);
     Real dist = sqrt(distSqr);
-    Int modifier = dist / TheAI->getAiData()->m_attackPriorityDistanceModifier;
+    Int modifier = dist / getAiData()->m_attackPriorityDistanceModifier;
     Int modPriority = curPriority - modifier;
     if (modPriority < 1)
       modPriority = 1;

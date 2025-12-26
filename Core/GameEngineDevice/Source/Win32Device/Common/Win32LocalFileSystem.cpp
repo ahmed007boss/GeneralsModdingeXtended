@@ -139,7 +139,7 @@ void Win32LocalFileSystem::getFileListInDirectory(const AsciiString& currentDire
 
 	while (!done)	{
 		if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-				(strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))) {
+				(strcmp(findData.cFileName, ".") != 0 && strcmp(findData.cFileName, "..") != 0)) {
 			// if we haven't already, add this filename to the list.
 				// a stl set should only allow one copy of each filename
 				AsciiString newFilename;
@@ -165,7 +165,7 @@ void Win32LocalFileSystem::getFileListInDirectory(const AsciiString& currentDire
 
 		while (!done) {
 			if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					(strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, ".."))) {
+					(strcmp(findData.cFileName, ".") != 0 && strcmp(findData.cFileName, "..") != 0)) {
 
 					AsciiString tempsearchstr;
 					tempsearchstr.concat(currentDirectory);
@@ -206,7 +206,7 @@ Bool Win32LocalFileSystem::getFileInfo(const AsciiString& filename, FileInfo *fi
 
 Bool Win32LocalFileSystem::createDirectory(AsciiString directory)
 {
-	if ((directory.getLength() > 0) && (directory.getLength() < _MAX_DIR)) {
+	if ((!directory.isEmpty()) && (directory.getLength() < _MAX_DIR)) {
 		return (CreateDirectory(directory.str(), NULL) != 0);
 	}
 	return FALSE;

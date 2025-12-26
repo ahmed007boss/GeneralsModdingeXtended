@@ -1482,8 +1482,8 @@ Font3DDataClass* WW3DAssetManager::Get_Font3DData(const char* name)
 	WWPROFILE("WW3DAssetManager::Get_Font3DData");
 	// loop through and see if the Font3D we are looking for has already been
 	// allocated and thus we can just return it.
-	for (SLNode<Font3DDataClass>* node = Font3DDatas.Head(); node; node = node->Next()) {
-		if (!stricmp(name, node->Data()->Name)) {
+	for (	SLNode<Font3DDataClass> *node = Font3DDatas.Head(); node; node = node->Next()) {
+		if (stricmp(name, node->Data()->Name) == 0) {
 			node->Data()->Add_Ref();
 			return node->Data();
 		}

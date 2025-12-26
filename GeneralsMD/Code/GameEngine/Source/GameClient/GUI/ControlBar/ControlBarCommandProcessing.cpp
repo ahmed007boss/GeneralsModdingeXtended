@@ -219,7 +219,7 @@ CBCommandStatus ControlBar::processCommandUI( GameWindow *control,
 
 	// if the button is flashing, tell it to stop flashing
 	actualCommandButton->setFlashCount(0);
-	TheControlBar->setFlash( FALSE );
+	setFlash( FALSE );
 
 	if( actualCommandButton->getCommandType() != GUI_COMMAND_EXIT_CONTAINER )
 	{

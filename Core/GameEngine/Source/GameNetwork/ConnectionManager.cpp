@@ -1714,7 +1714,7 @@ PlayerLeaveCode ConnectionManager::disconnectPlayer(Int slot) {
 
 	UnicodeString unicodeName;
 	unicodeName = getPlayerName(slot);
-	if (unicodeName.getLength() > 0 && m_connections[slot]) {
+	if (!unicodeName.isEmpty() && m_connections[slot]) {
 		TheInGameUI->message("Network:PlayerLeftGame", unicodeName.str());
 
 		// People are boneheads. Also play a sound
@@ -1771,6 +1771,7 @@ void ConnectionManager::quitGame() {
 	// Need to do the NetDisconnectPlayerCommandMsg creation and sending here.
 	NetDisconnectPlayerCommandMsg *disconnectMsg = newInstance(NetDisconnectPlayerCommandMsg);
 	disconnectMsg->setDisconnectSlot(m_localSlot);
+	disconnectMsg->setDisconnectFrame(TheGameLogic->getFrame());
 	disconnectMsg->setPlayerID(m_localSlot);
 	if (DoesCommandRequireACommandID(disconnectMsg->getNetCommandType())) {
 		disconnectMsg->setID(GenerateNextCommandID());

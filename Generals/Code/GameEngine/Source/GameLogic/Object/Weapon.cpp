@@ -886,11 +886,7 @@ UnsignedInt WeaponTemplate::fireWeaponTemplate
 
 		// TheSuperHackers @todo: Remove hardcoded KINDOF_MINE check and apply PlayFXWhenStealthed = Yes to the mine weapons instead.
 
-		Drawable* outerDrawable = sourceObj->getOuterObject()->getDrawable();
-		const Bool isVisible = outerDrawable && outerDrawable->isVisible();
-
-		if (!isVisible																				// if user watching cannot see us
-			&& sourceObj->testStatus(OBJECT_STATUS_STEALTHED)		// if unit is stealthed (like a Pathfinder)
+		if (!sourceObj->isLogicallyVisible()									// if user watching cannot see us
 			&& !sourceObj->isKindOf(KINDOF_MINE)								// and not a mine (which always do the FX, even if hidden)...
 			&& !isPlayFXWhenStealthed()													// and not a weapon marked to playwhenstealthed
 			)
@@ -1447,7 +1443,7 @@ WeaponStore::~WeaponStore()
 //-------------------------------------------------------------------------------------------------
 void WeaponStore::handleProjectileDetonation(const WeaponTemplate* wt, const Object *source, const Coord3D* pos, WeaponBonusConditionFlags extraBonusFlags)
 {
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
+	Weapon* w = allocateNewWeapon(wt, PRIMARY_WEAPON);
 	w->loadAmmoNow(source);
 	w->fireProjectileDetonationWeapon(source, pos, extraBonusFlags);
 	deleteInstance(w);
@@ -1458,7 +1454,7 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object
 {
 	if (wt == NULL)
 		return;
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
+	Weapon* w = allocateNewWeapon(wt, PRIMARY_WEAPON);
 	w->loadAmmoNow(source);
 	w->fireWeapon(source, pos);
 	deleteInstance(w);
@@ -1470,7 +1466,7 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object
 	//CRCDEBUG_LOG(("WeaponStore::createAndFireTempWeapon() for %s", DescribeObject(source)));
 	if (wt == NULL)
 		return;
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
+	Weapon* w = allocateNewWeapon(wt, PRIMARY_WEAPON);
 	w->loadAmmoNow(source);
 	w->fireWeapon(source, target);
 	deleteInstance(w);
