@@ -43,11 +43,22 @@ GMX follows **semantic versioning** (`MAJOR.MINOR.PATCH`):
 - **Minor releases** (`1.3.0`) → New modding features, backwards compatible.  
 - **Major releases** (`2.0.0`) → Breaking changes or when retail compatibility is dropped.  
 
-Each GMX release notes the **upstream sync point** (e.g., “Includes GeneralsGameCode v0.9.4”).  
+Each GMX release notes the **upstream sync point** (e.g., "Includes GeneralsGameCode v0.9.4").  
 
 ---
 
-## Reporting Bugs  
+### Dependency management
+
+The repository uses a vcpkg manifest (`vcpkg.json`) paired with a lockfile (`vcpkg-lock.json`). When you add or upgrade
+dependencies, run `vcpkg install --x-manifest-root . --triplet <triplet>` with `VCPKG_FEATURE_FLAGS=versions` so the
+lockfile picks up the new versions and include the updated lockfile in your change. GitHub Actions consumes these ports
+through `VCPKG_BINARY_SOURCES=clear;files,<workspace>/vcpkg-bincache,readwrite` (paired with an `actions/cache` entry for
+that folder), so the first CI build warms the cache and subsequent builds pull prebuilt binaries instead of
+re-compiling everything.
+
+---
+
+## Reporting Bugs
 
 GMX only tracks **bugs related to modding features, APIs, and tools**.  
 

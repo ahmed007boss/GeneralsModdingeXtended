@@ -26,7 +26,7 @@
 // The part of a Player's brain that holds the communal Passenger list of all tunnels.
 // Author: Graham Smallwood, March, 2002
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameState.h"
 #include "Common/GlobalData.h"
@@ -257,7 +257,7 @@ void TunnelTracker::destroyObject( Object *obj, void * )
 
 // ------------------------------------------------------------------------
 	// heal all the objects within the tunnel system using the iterateContained function
-#if RETAIL_COMPATIBLE_BUG || RETAIL_COMPATIBLE_CRC
+#if PRESERVE_RETAIL_BEHAVIOR || RETAIL_COMPATIBLE_CRC
 void TunnelTracker::healObjects(Real frames)
 {
 	iterateContained(healObject, &frames, FALSE);
@@ -281,7 +281,7 @@ void TunnelTracker::healObject( Object *obj, void *frames)
 {
 
 	//get the number of frames to heal
-#if RETAIL_COMPATIBLE_BUG || RETAIL_COMPATIBLE_CRC
+#if PRESERVE_RETAIL_BEHAVIOR || RETAIL_COMPATIBLE_CRC
 	Real *framesForFullHeal = (Real*)frames;
 #else
 	UnsignedInt* framesForFullHeal = (UnsignedInt*)frames;
@@ -415,7 +415,7 @@ void TunnelTracker::loadPostProcess( void )
 {
 
 	// sanity, the contain list should be empty until we post process the id list
-	if( m_containList.size() != 0 )
+	if( !m_containList.empty() )
 	{
 
 		DEBUG_CRASH(( "TunnelTracker::loadPostProcess - m_containList should be empty but is not" ));

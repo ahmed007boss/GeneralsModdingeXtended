@@ -47,7 +47,7 @@
 //-----------------------------------------------------------------------------
 //         Includes
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/ActionManager.h"
 #include "Common/DiscreteCircle.h"
@@ -82,7 +82,6 @@
 
 #ifdef RTS_DEBUG
 //#include "GameClient/InGameUI.h"	// for debugHints
-#include "Common/PlayerList.h"
 #endif
 
 #ifdef PM_CACHE_TERRAIN_HEIGHT
@@ -1226,10 +1225,7 @@ void CellAndObjectIntersection::removeAllCoverage()
 //-----------------------------------------------------------------------------
 PartitionCell::PartitionCell()
 {
-	//Added By Sadullah Nader
-	//Initializations inserted
 	m_cellX = m_cellY = 0;
-	//
 	m_firstCoiInCell = NULL;
 	m_coiCount = 0;
 #ifdef PM_CACHE_TERRAIN_HEIGHT
@@ -4693,7 +4689,7 @@ void PartitionManager::xfer( Xfer *xfer )
 			// have to remove this assert, because during load there is a setTeam call for each guy on a sub-team, and that results
 			// in a queued unlook, so we actually have stuff in here at the start.  I am fairly certain that setTeam should wait
 			// until loadPostProcess, but I ain't gonna change it now.
-//			DEBUG_ASSERTCRASH(m_pendingUndoShroudReveals.size() == 0, ("At load, we appear to not be in a reset state.") );
+//			DEBUG_ASSERTCRASH(m_pendingUndoShroudReveals.empty(), ("At load, we appear to not be in a reset state.") );
 
 			// I have to split this up though, since on Load I need to make new instances.
 			for( Int infoIndex = 0; infoIndex < queueSize; infoIndex++ )

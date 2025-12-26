@@ -27,7 +27,7 @@
 // Author: John Ahlquist, Nov. 2001
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioAffect.h"
 #include "Common/AudioHandleSpecialValues.h"
@@ -2550,11 +2550,10 @@ void ScriptActions::doDisplayCinematicText(const AsciiString& displayText, const
 
 	// get the font name
 	AsciiString fontName = AsciiString::TheEmptyString;
-	char buf[256];
-	char *c;
-	strcpy(buf, fontType.str());
+
 	// TheSuperHackers @fix xezon 22/03/2025 Fixes potential buffer overrun via prior c!='\0' test.
-	for( c = buf; *c != '\0'; c++ )
+	const char* c = fontType.str();
+	for (; *c != '\0'; c++)
 	{
 		if( *c != ' ' && *c++ != '-' )
 			fontName.concat(c);
@@ -4924,7 +4923,7 @@ void ScriptActions::doMoveUnitTowardsNearest( const AsciiString& unitName, const
 		return;
 	}
 
-	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
+	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType, FALSE);
 	if (!templ) {
 		return;
 	}
@@ -4959,7 +4958,7 @@ void ScriptActions::doMoveTeamTowardsNearest( const AsciiString& teamName, const
 		return;
 	}
 
-	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType);
+	const ThingTemplate *templ = TheThingFactory->findTemplate(objectType, FALSE);
 	if (!templ) {
 		return;
 	}
@@ -5448,7 +5447,7 @@ void ScriptActions::doTeamUseCommandButtonOnNearestObjectType( const AsciiString
 		return;
 	}
 
-	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType);
+	const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(objectType, FALSE);
 	if (!thingTemplate) {
 		return;
 	}

@@ -29,7 +29,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/BuildAssistant.h"
 #include "Common/GlobalData.h"
@@ -53,7 +53,6 @@
 #include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/CreateModule.h"
 #include "GameLogic/Module/ProductionUpdate.h"
-#include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/ParkingPlaceBehavior.h"
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////

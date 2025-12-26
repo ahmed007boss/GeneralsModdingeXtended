@@ -29,7 +29,7 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #define DEFINE_ANIM_2D_MODE_NAMES
 #include "Common/RandomValue.h"
 #include "Common/Xfer.h"
@@ -295,16 +295,9 @@ const Image* Anim2DTemplate::getFrame( UnsignedShort frameNumber ) const
 // ------------------------------------------------------------------------------------------------
 Anim2D::Anim2D( Anim2DTemplate *animTemplate, Anim2DCollection *collectionSystem )
 {
-
 	// sanity
 	DEBUG_ASSERTCRASH( animTemplate != NULL, ("Anim2D::Anim2D - NULL template") );
-
-	//Added By Sadullah Nader
-	//Initialization
-
 	m_currentFrame = 0;
-
-	//
 
 	// set the template
 	m_template = animTemplate;
@@ -323,8 +316,6 @@ Anim2D::Anim2D( Anim2DTemplate *animTemplate, Anim2DCollection *collectionSystem
 	m_maxFrame = m_template->getNumFrames() - 1;
 	m_framesBetweenUpdates = m_template->getNumFramesBetweenUpdates();
 
-	//added by Sadullah Nader
-	// initializing pointers to NULL, and clearing Frame counters before
 	// we register ourselves to the System
 	m_collectionSystemNext = NULL;
 	m_collectionSystemPrev = NULL;
@@ -335,8 +326,6 @@ Anim2D::Anim2D( Anim2DTemplate *animTemplate, Anim2DCollection *collectionSystem
 	m_collectionSystem = collectionSystem;
 	if( m_collectionSystem )
 		m_collectionSystem->registerAnimation( this );
-
-
 }
 
 // ------------------------------------------------------------------------------------------------

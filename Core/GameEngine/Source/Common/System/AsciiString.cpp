@@ -42,14 +42,14 @@
 //
 //-----------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/CriticalSection.h"
 
 
 // -----------------------------------------------------
 
- AsciiString AsciiString::TheEmptyString;
+/*static*/ const AsciiString AsciiString::TheEmptyString;
 
 //-----------------------------------------------------------------------------
 inline char* skipSeps(char* p, const char* seps)
@@ -483,57 +483,25 @@ void AsciiString::format_va(const char* format, va_list args)
 // -----------------------------------------------------
 Bool AsciiString::startsWith(const char* p) const
 {
-	if (*p == 0)
-		return true;	// everything starts with the empty string
-
-	int lenThis = getLength();
-	int lenThat = strlen(p);
-	if (lenThis < lenThat)
-		return false;	// that must be smaller than this
-
-	return strncmp(peek(), p, lenThat) == 0;
+	return m_data && ::startsWith(peek(), p);
 }
 
 // -----------------------------------------------------
 Bool AsciiString::startsWithNoCase(const char* p) const
 {
-	if (*p == 0)
-		return true;	// everything starts with the empty string
-
-	int lenThis = getLength();
-	int lenThat = strlen(p);
-	if (lenThis < lenThat)
-		return false;	// that must be smaller than this
-
-	return strnicmp(peek(), p, lenThat) == 0;
+	return m_data && ::startsWithNoCase(peek(), p);
 }
 
 // -----------------------------------------------------
 Bool AsciiString::endsWith(const char* p) const
 {
-	if (*p == 0)
-		return true;	// everything ends with the empty string
-
-	int lenThis = getLength();
-	int lenThat = strlen(p);
-	if (lenThis < lenThat)
-		return false;	// that must be smaller than this
-
-	return strncmp(peek() + lenThis - lenThat, p, lenThat) == 0;
+	return m_data && ::endsWith(peek(), p);
 }
 
 // -----------------------------------------------------
 Bool AsciiString::endsWithNoCase(const char* p) const
 {
-	if (*p == 0)
-		return true;	// everything ends with the empty string
-
-	int lenThis = getLength();
-	int lenThat = strlen(p);
-	if (lenThis < lenThat)
-		return false;	// that must be smaller than this
-
-	return strnicmp(peek() + lenThis - lenThat, p, lenThat) == 0;
+	return m_data && ::endsWithNoCase(peek(), p);
 }
 
 //-----------------------------------------------------------------------------

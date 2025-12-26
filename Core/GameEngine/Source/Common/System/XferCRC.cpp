@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/XferCRC.h"
 #include "Common/XferDeepCRC.h"
@@ -42,10 +42,7 @@ XferCRC::XferCRC( void )
 {
 
 	m_xferMode = XFER_CRC;
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_crc = 0;
-	//
 }
 
 //-------------------------------------------------------------------------------------------------

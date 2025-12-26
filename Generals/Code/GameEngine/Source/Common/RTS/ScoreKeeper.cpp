@@ -53,7 +53,7 @@
 //-----------------------------------------------------------------------------
 // USER INCLUDES //////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameState.h"
 #include "Common/KindOf.h"
@@ -102,10 +102,7 @@ void ScoreKeeper::reset( Int playerIdx )
 	m_totalMoneyEarned = m_totalMoneySpent = 0;
 	m_totalUnitsLost = m_totalUnitsBuilt = 0;
 	m_totalBuildingsLost = m_totalBuildingsBuilt = 0;
-	//Added By Sadullah Nader
-	//Initializtion(s) inserted
 	m_totalFactionBuildingsCaptured = m_totalTechBuildingsCaptured = 0;
-	//
 	m_currentScore = 0;
 	m_objectsBuilt.clear();
 	m_objectsCaptured.clear();

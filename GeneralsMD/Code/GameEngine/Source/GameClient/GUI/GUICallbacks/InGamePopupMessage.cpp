@@ -50,7 +50,7 @@
 //-----------------------------------------------------------------------------
 // USER INCLUDES //////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GlobalData.h"
 #include "Common/NameKeyGenerator.h"
@@ -89,12 +89,12 @@ static Bool pause = FALSE;
 void InGamePopupMessageInit( WindowLayout *layout, void *userData )
 {
 
-	parentID = TheNameKeyGenerator->nameToKey(AsciiString("InGamePopupMessage.wnd:InGamePopupMessageParent"));
+	parentID = TheNameKeyGenerator->nameToKey("InGamePopupMessage.wnd:InGamePopupMessageParent");
 	parent = TheWindowManager->winGetWindowFromId(NULL, parentID);
 
-	staticTextMessageID = TheNameKeyGenerator->nameToKey(AsciiString("InGamePopupMessage.wnd:StaticTextMessage"));
+	staticTextMessageID = TheNameKeyGenerator->nameToKey("InGamePopupMessage.wnd:StaticTextMessage");
 	staticTextMessage = TheWindowManager->winGetWindowFromId(parent, staticTextMessageID);
-	buttonOkID = TheNameKeyGenerator->nameToKey(AsciiString("InGamePopupMessage.wnd:ButtonOk"));
+	buttonOkID = TheNameKeyGenerator->nameToKey("InGamePopupMessage.wnd:ButtonOk");
 	buttonOk = TheWindowManager->winGetWindowFromId(parent, buttonOkID);
 
 	PopupMessageData *pMData = TheInGameUI->getPopupMessageData();

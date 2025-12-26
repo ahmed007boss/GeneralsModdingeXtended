@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #define DEFINE_DAMAGE_NAMES
 #define DEFINE_DEATH_NAMES
 
@@ -127,6 +127,7 @@ static const BlockParse theTypeTable[] =
 	{ "Video",							INI::parseVideoDefinition },
 	{ "WaterSet",						INI::parseWaterSettingDefinition },
 	{ "WaterTransparency",	INI::parseWaterTransparencyDefinition},
+	{ "Weather",	INI::parseWeatherDefinition},
 	{ "Weapon",							INI::parseWeaponTemplateDefinition },
 	{ "WebpageURL",					INI::parseWebpageURLDefinition },
 	{ "HeaderTemplate",			INI::parseHeaderTemplateDefinition },
@@ -404,6 +405,7 @@ UnsignedInt INI::load( AsciiString filename, INILoadType loadType, Xfer *pXfer )
 				if (parse)
 				{
 					#ifdef DEBUG_CRASHING
+					static_assert(ARRAY_SIZE(m_curBlockStart) >= ARRAY_SIZE(m_buffer), "Incorrect array size");
 					strcpy(m_curBlockStart, m_buffer);
 					#endif
 					try {
@@ -776,7 +778,7 @@ AsciiString INI::getNextQuotedAsciiString()
 			Bool done=FALSE;
 			if ((strLen=strlen(token)) > 1)
 			{
-				strcpy(buff, &token[1]);	//skip the starting quote
+				strlcpy(buff, &token[1], ARRAY_SIZE(buff));	//skip the starting quote
 				//Check for end of quoted string.  Checking here fixes cases where quoted string on same line with other data.
 				if (buff[strLen-2]=='"')	//skip ending quote if present
 				{	buff[strLen-2]='\0';
@@ -825,7 +827,7 @@ AsciiString INI::getNextAsciiString()
 
 			if (strlen(token) > 1)
 			{
-				strcpy(buff, &token[1]);
+				strlcpy(buff, &token[1], ARRAY_SIZE(buff));
 			}
 
 			token = getNextToken(getSepsQuote());
@@ -871,7 +873,7 @@ void INI::parseMappedImage( INI *ini, void * /*instance*/, void *store, const vo
 	if( TheMappedImageCollection )
 	{
 		typedef const Image* ConstImagePtr;
-		*(ConstImagePtr*)store = TheMappedImageCollection->findImageByName( AsciiString( token ) );
+		*(ConstImagePtr*)store = TheMappedImageCollection->findImageByName( token );
 	}
 
 	//KM: If we are in the worldbuilder, we want to parse commandbuttons for informational purposes,
@@ -1376,7 +1378,7 @@ void INI::parseUpgradeTemplate( INI* ini, void * /*instance*/, void *store, cons
 		throw ERROR_BUG;
 	}
 
-	const UpgradeTemplate *uu = TheUpgradeCenter->findUpgrade( AsciiString( token ) );
+	const UpgradeTemplate *uu = TheUpgradeCenter->findUpgrade( token );
 	DEBUG_ASSERTCRASH( uu || stricmp( token, "None" ) == 0, ("Upgrade %s not found!",token) );
 
 	typedef const UpgradeTemplate* ConstUpgradeTemplatePtr;

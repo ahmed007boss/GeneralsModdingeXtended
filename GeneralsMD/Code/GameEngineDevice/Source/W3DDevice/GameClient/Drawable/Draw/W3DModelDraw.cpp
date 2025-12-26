@@ -278,9 +278,15 @@ static const char *TerrainDecalTextureName[TERRAIN_DECAL_MAX]=
 	"EXHordeB",//enthusiastic vehicle
 	"EXHordeB_UP", //enthusiastic vehicle with nationalism
 	"EXJunkCrate",//Marks a crate as special
+#if RTS_GENERALS && RETAIL_COMPATIBLE_XFER_SAVE
+	"", //dummy entry for TERRAIN_DECAL_NONE
 	"EXHordeC_UP", //enthusiastic with fanaticism
 	"EXChemSuit", //Marks a unit as having chemical suit on
-	"",	//dummy entry for TERRAIN_DECAL_NONE
+#else
+	"EXHordeC_UP", //enthusiastic with fanaticism
+	"EXChemSuit", //Marks a unit as having chemical suit on
+	"", //dummy entry for TERRAIN_DECAL_NONE
+#endif
 	"" //dummy entry for TERRAIN_DECAL_SHADOW_TEXTURE
 };
 
@@ -641,7 +647,7 @@ void ModelConditionInfo::validateCachedBones(RenderObjClass* robj, Real scale, c
 	// if we have any animations in this state, always choose the first, since the animations
 	// vary on a per-client basis.
 	HAnimClass* animToUse;
-	if (m_animations.size() > 0)
+	if (!m_animations.empty())
 	{
 		animToUse = m_animations.front().getAnimHandle();	// return an AddRef'ed handle
 	}
@@ -1516,8 +1522,10 @@ void W3DModelDrawModuleData::parseConditionState(INI* ini, void *instance, void 
 
 		case PARSE_TRANSITION:
 		{
-		  AsciiString firstNm = ini->getNextToken(); firstNm.toLower();
-		  AsciiString secondNm = ini->getNextToken(); secondNm.toLower();
+			AsciiString firstNm = ini->getNextToken();
+			AsciiString secondNm = ini->getNextToken();
+			firstNm.toLower();
+			secondNm.toLower();
 			NameKeyType firstKey = NAMEKEY(firstNm);
 			NameKeyType secondKey = NAMEKEY(secondNm);
 
@@ -1649,7 +1657,7 @@ void W3DModelDrawModuleData::parseConditionState(INI* ini, void *instance, void 
 				throw INI_INVALID_DATA;
 			}
 
-			DEBUG_ASSERTCRASH(info.m_conditionsYesVec.size() == 0, ("*** ASSET ERROR: nonempty m_conditionsYesVec.size(), see srj"));
+			DEBUG_ASSERTCRASH(info.m_conditionsYesVec.empty(), ("*** ASSET ERROR: nonempty m_conditionsYesVec.size(), see srj"));
 			info.m_conditionsYesVec.clear();
 			info.m_conditionsYesVec.push_back(conditionsYes);
 		}
@@ -1937,7 +1945,7 @@ void W3DModelDraw::allocateShadows(void)
 		&& m_isFirstDrawModule)
 	{	
 		Shadow::ShadowTypeInfo shadowInfo;
-		strcpy(shadowInfo.m_ShadowName, tmplate->getShadowTextureName().str());
+		strlcpy(shadowInfo.m_ShadowName, tmplate->getShadowTextureName().str(), ARRAY_SIZE(shadowInfo.m_ShadowName));
 		DEBUG_ASSERTCRASH(shadowInfo.m_ShadowName[0] != '\0', ("this should be validated in ThingTemplate now"));
 		shadowInfo.allowUpdates			= FALSE;		//shadow image will never update
 		shadowInfo.allowWorldAlign	= TRUE;	//shadow image will wrap around world objects
@@ -2831,9 +2839,9 @@ void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
 	//decalInfo.m_type = SHADOW_ADDITIVE_DECAL;//temporary kluge to test graphics
 
 	if (type == TERRAIN_DECAL_SHADOW_TEXTURE)
-		strcpy(decalInfo.m_ShadowName,tmplate->getShadowTextureName().str());
+		strlcpy(decalInfo.m_ShadowName, tmplate->getShadowTextureName().str(), ARRAY_SIZE(decalInfo.m_ShadowName));
 	else
-		strcpy(decalInfo.m_ShadowName,TerrainDecalTextureName[type]);
+		strlcpy(decalInfo.m_ShadowName, TerrainDecalTextureName[type], ARRAY_SIZE(decalInfo.m_ShadowName));
 	decalInfo.m_sizeX = tmplate->getShadowSizeX();
 	decalInfo.m_sizeY = tmplate->getShadowSizeY();
 	decalInfo.m_offsetX = tmplate->getShadowOffsetX();
@@ -3155,7 +3163,7 @@ void W3DModelDraw::setModelState(const ModelConditionInfo* newState)
 		if (m_renderObject && TheW3DShadowManager && tmplate->getShadowType() != SHADOW_NONE && m_isFirstDrawModule)
 		{	
 			Shadow::ShadowTypeInfo shadowInfo;
-			strcpy(shadowInfo.m_ShadowName, tmplate->getShadowTextureName().str());
+			strlcpy(shadowInfo.m_ShadowName, tmplate->getShadowTextureName().str(), ARRAY_SIZE(shadowInfo.m_ShadowName));
 			DEBUG_ASSERTCRASH(shadowInfo.m_ShadowName[0] != '\0', ("this should be validated in ThingTemplate now"));
 			shadowInfo.allowUpdates			= FALSE;		//shadow image will never update
 			shadowInfo.allowWorldAlign	= TRUE;	//shadow image will wrap around world objects
@@ -3542,7 +3550,7 @@ Int W3DModelDraw::getPristineBonePositionsForConditionState(
 	for (; i <= endIndex; ++i)
 	{
 		if (i == 0)
-			strcpy(buffer, boneNamePrefix);
+			strlcpy(buffer, boneNamePrefix, ARRAY_SIZE(buffer));
 		else
 			sprintf(buffer, "%s%02d", boneNamePrefix, i);
 
@@ -3699,7 +3707,7 @@ Int W3DModelDraw::getCurrentBonePositions(
 	for (; i <= endIndex; ++i)
 	{
 		if (i == 0)
-			strcpy(buffer, boneNamePrefix);
+			strlcpy(buffer, boneNamePrefix, ARRAY_SIZE(buffer));
 		else
 			sprintf(buffer, "%s%02d", boneNamePrefix, i);
 
@@ -3890,8 +3898,8 @@ void W3DModelDraw::setAnimationLoopDuration(UnsignedInt numFrames)
 */
 void W3DModelDraw::setAnimationCompletionTime(UnsignedInt numFrames)
 {
-	if (m_curState != NULL && m_curState->m_transitionSig != NO_TRANSITION && m_curState->m_animations.size() > 0 &&
-			m_nextState != NULL && m_nextState->m_transitionSig == NO_TRANSITION && m_nextState->m_animations.size() > 0)
+	if (m_curState != NULL && m_curState->m_transitionSig != NO_TRANSITION && !m_curState->m_animations.empty() &&
+			m_nextState != NULL && m_nextState->m_transitionSig == NO_TRANSITION && !m_nextState->m_animations.empty())
 	{
 		// we have a transition; split up the time suitably.
 		// note that this is just a guess, and assumes that the states

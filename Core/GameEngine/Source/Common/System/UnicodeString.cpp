@@ -42,14 +42,14 @@
 //
 //-----------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/CriticalSection.h"
 
 
 // -----------------------------------------------------
 
- UnicodeString UnicodeString::TheEmptyString;
+/*static*/ const UnicodeString UnicodeString::TheEmptyString;
 
 // -----------------------------------------------------
 #ifdef RTS_DEBUG
@@ -431,6 +431,30 @@ void UnicodeString::format_va(const WideChar* format, va_list args)
 	}
 }
 
+// -----------------------------------------------------
+Bool UnicodeString::startsWith(const WideChar* p) const
+{
+	return m_data && ::startsWith(peek(), p);
+}
+
+// -----------------------------------------------------
+Bool UnicodeString::startsWithNoCase(const WideChar* p) const
+{
+	return m_data && ::startsWithNoCase(peek(), p);
+}
+
+// -----------------------------------------------------
+Bool UnicodeString::endsWith(const WideChar* p) const
+{
+	return m_data && ::endsWith(peek(), p);
+}
+
+// -----------------------------------------------------
+Bool UnicodeString::endsWithNoCase(const WideChar* p) const
+{
+	return m_data && ::endsWithNoCase(peek(), p);
+}
+
 //-----------------------------------------------------------------------------
 Bool UnicodeString::nextToken(UnicodeString* tok, UnicodeString delimiters)
 {
@@ -438,7 +462,7 @@ Bool UnicodeString::nextToken(UnicodeString* tok, UnicodeString delimiters)
 		return false;
 
 	if (delimiters.isEmpty())
-		delimiters = UnicodeString(L" \t\n\r");
+		delimiters = L" \t\n\r";
 
 	Int offset;
 

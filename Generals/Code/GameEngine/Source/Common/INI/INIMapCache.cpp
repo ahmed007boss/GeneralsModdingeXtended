@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Lib/BaseType.h"
 #include "Common/INI.h"
@@ -131,6 +131,7 @@ void INI::parseMapCacheDefinition( INI* ini )
 
 	md.m_extent = mdr.m_extent;
 	md.m_isOfficial = mdr.m_isOfficial != 0;
+	md.m_doesExist = TRUE;
 	md.m_isMultiplayer = mdr.m_isMultiplayer != 0;
 	md.m_numPlayers = mdr.m_numPlayers;
 	md.m_filesize = mdr.m_filesize;

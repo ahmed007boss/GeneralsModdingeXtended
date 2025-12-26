@@ -27,7 +27,7 @@
 // Desc:   A chance to create a crate on death according to certain condition checks
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/PlayerList.h"
 #include "Common/Player.h"
@@ -179,7 +179,7 @@ Object *CreateCrateDie::createCrate( CrateTemplate const *currentCrateData )
 	// CreationChance is used for the success of this block, but this block can have any number of potential actual crates
 	Real multipleCratePick = GameLogicRandomValueReal( 0, 1 );
 	Real multipleCrateRunningTotal = 0;
-	AsciiString crateName = "";
+	AsciiString crateName;
 
 	for( crateCreationEntryConstIterator iter = currentCrateData->m_possibleCrates.begin();
 				iter != currentCrateData->m_possibleCrates.end();

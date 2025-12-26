@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_TERRAIN_TYPE_NAMES
 
@@ -139,7 +139,7 @@ TerrainType *TerrainTypeCollection::newTerrain( AsciiString name )
 	terrain = newInstance(TerrainType);
 
 	// copy default values from the default terrain entry
-	TerrainType *defaultTerrain = findTerrain( AsciiString( "DefaultTerrain" ) );
+	TerrainType *defaultTerrain = findTerrain( "DefaultTerrain" );
 	if( defaultTerrain )
 		*terrain = *defaultTerrain;
 /*

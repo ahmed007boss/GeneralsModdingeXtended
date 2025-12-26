@@ -248,14 +248,6 @@ void WW3D::Set_NPatches_Level(unsigned level)
 	NPatchesLevel = level;
 }
 
-void WW3D::Set_Thumbnail_Enabled (bool b)
-{
-	if (ThumbnailEnabled!=b) {
-		ThumbnailEnabled = b;
-		_Invalidate_Textures();
-	}
-}
-
 /***********************************************************************************************
  * WW3D::Init -- Initialize the WW3D Library                                                   *
  *                                                                                             *
@@ -775,7 +767,7 @@ void WW3D::Set_Texture_Filter(int texture_filter)
 	if (texture_filter<0) texture_filter=0;
 	if (texture_filter>TextureFilterClass::TEXTURE_FILTER_ANISOTROPIC) texture_filter=TextureFilterClass::TEXTURE_FILTER_ANISOTROPIC;
 	TextureFilter=texture_filter;
-	TextureFilterClass::_Init_Filters();
+	TextureFilterClass::_Init_Filters((TextureFilterClass::TextureFilterMode)TextureFilter);
 }
 
 
@@ -826,7 +818,7 @@ WW3DErrorType WW3D::Begin_Render(bool clear,bool clearz,const Vector3 & color, f
 	LastFrameMemoryFrees=WWMemoryLogClass::Get_Free_Count();
 	WWMemoryLogClass::Reset_Counters();
 
-	TextureLoader::Update();
+	TextureLoader::Update(network_callback);
 //	TextureClass::_Reset_Time_Stamp();
 	DynamicVBAccessClass::_Reset(true);
 	DynamicIBAccessClass::_Reset(true);
@@ -851,7 +843,7 @@ WW3DErrorType WW3D::Begin_Render(bool clear,bool clearz,const Vector3 & color, f
 		vp.Y = 0;
 		vp.Width = width;
 		vp.Height = height;
-		vp.MinZ = 0.0f;;
+		vp.MinZ = 0.0f;
 		vp.MaxZ = 1.0f;
 		DX8Wrapper::Set_Viewport(&vp);
 		DX8Wrapper::Clear(clear, clearz, color, dest_alpha);
@@ -1499,7 +1491,7 @@ void WW3D::Make_Screen_Shot( const char * filename_base , const float gamma, con
  *=============================================================================================*/
 void WW3D::Start_Movie_Capture( const char * filename_base, float frame_rate )
 {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	if (IsCapturing) {
 		Stop_Movie_Capture();
 	}
@@ -1542,7 +1534,7 @@ void WW3D::Start_Movie_Capture( const char * filename_base, float frame_rate )
  *=============================================================================================*/
 void WW3D::Stop_Movie_Capture( void )
 {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	if (IsCapturing) {
 		IsCapturing = false;
 		WWDEBUG_SAY(( "Stoping Movie" ));
@@ -1700,7 +1692,7 @@ bool WW3D::Is_Movie_Ready()
  *=============================================================================================*/
 void WW3D::Update_Movie_Capture( void )
 {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	WWASSERT( IsCapturing);
 	WWPROFILE("WW3D::Update_Movie_Capture");
 	WWDEBUG_SAY(( "Updating"));
@@ -1777,7 +1769,7 @@ void WW3D::Update_Movie_Capture( void )
  *=============================================================================================*/
 float	WW3D::Get_Movie_Capture_Frame_Rate( void )
 {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	if (IsCapturing) {
 		return Movie->GetFrameRate();
 	}

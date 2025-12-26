@@ -188,7 +188,7 @@ public:
 	inline Int getConditionsYesCount() const { return 1; }
 	inline const WeaponSetFlags& getNthConditionsYes(Int i) const { return m_types; }
 #if defined(RTS_DEBUG)
-	inline AsciiString getDescription() const { return AsciiString("ArmorTemplateSet"); }
+	inline AsciiString getDescription() const { return "ArmorTemplateSet"; }
 #endif
 };
 

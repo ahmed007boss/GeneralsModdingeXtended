@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_DAMAGE_NAMES
 #define DEFINE_DEATH_NAMES
@@ -884,9 +884,13 @@ UnsignedInt WeaponTemplate::fireWeaponTemplate
 
 		Bool handled;
 
-		if(!sourceObj->isLocallyControlled()									// if user watching is not controller and
-			&&  sourceObj->testStatus(OBJECT_STATUS_STEALTHED)	// if unit is stealthed (like a Pathfinder)
-			&& !sourceObj->testStatus(OBJECT_STATUS_DETECTED)		// but not detected...
+		// TheSuperHackers @todo: Remove hardcoded KINDOF_MINE check and apply PlayFXWhenStealthed = Yes to the mine weapons instead.
+
+		Drawable* outerDrawable = sourceObj->getOuterObject()->getDrawable();
+		const Bool isVisible = outerDrawable && outerDrawable->isVisible();
+
+		if (!isVisible																				// if user watching cannot see us
+			&& sourceObj->testStatus(OBJECT_STATUS_STEALTHED)		// if unit is stealthed (like a Pathfinder)
 			&& !sourceObj->isKindOf(KINDOF_MINE)								// and not a mine (which always do the FX, even if hidden)...
 			&& !isPlayFXWhenStealthed()													// and not a weapon marked to playwhenstealthed
 			)
@@ -1099,7 +1103,7 @@ UnsignedInt WeaponTemplate::fireWeaponTemplate
 void WeaponTemplate::trimOldHistoricDamage() const
 {
 	UnsignedInt expirationDate = TheGameLogic->getFrame() - TheGlobalData->m_historicDamageLimit;
-	while (m_historicDamage.size() > 0)
+	while (!m_historicDamage.empty())
 	{
 		HistoricWeaponDamageInfo& h = m_historicDamage.front();
 		if (h.frame <= expirationDate)
@@ -1473,12 +1477,22 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object
 }
 
 //-------------------------------------------------------------------------------------------------
-const WeaponTemplate *WeaponStore::findWeaponTemplate( AsciiString name ) const
+const WeaponTemplate *WeaponStore::findWeaponTemplate( const AsciiString& name ) const
 {
-	if (stricmp(name.str(), "None") == 0)
+	if (name.compareNoCase("None") == 0)
 		return NULL;
 	const WeaponTemplate * wt = findWeaponTemplatePrivate( TheNameKeyGenerator->nameToKey( name ) );
-	DEBUG_ASSERTCRASH(wt != NULL, ("Weapon %s not found!",name.str()));
+	DEBUG_ASSERTCRASH(wt != NULL, ("Weapon %s not found!",name));
+	return wt;
+}
+
+//-------------------------------------------------------------------------------------------------
+const WeaponTemplate *WeaponStore::findWeaponTemplate( const char* name ) const
+{
+	if (stricmp(name, "None") == 0)
+		return NULL;
+	const WeaponTemplate * wt = findWeaponTemplatePrivate( TheNameKeyGenerator->nameToKey( name ) );
+	DEBUG_ASSERTCRASH(wt != NULL, ("Weapon %s not found!",name));
 	return wt;
 }
 
@@ -2457,7 +2471,7 @@ Bool Weapon::privateFireWeapon(
 			m_numShotsForCurBarrel = m_template->getShotsPerBarrel();
 		}
 
-		if( m_scatterTargetsUnused.size() )
+		if( !m_scatterTargetsUnused.empty() )
 		{
 			// If I have a set scatter pattern, I need to offset the target by a random pick from that pattern
 			if( victimObj )

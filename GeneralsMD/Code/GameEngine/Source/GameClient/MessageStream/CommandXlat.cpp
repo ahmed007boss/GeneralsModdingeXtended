@@ -26,7 +26,7 @@
 // Translate raw input events into tactical commands
 // Author: Michael S. Booth, February 2001
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "stdlib.h"				// VC++ wants this here, or gives compile error...
 
@@ -960,8 +960,8 @@ void findCommandCenterOrMostExpensiveBuilding(Object* obj, void* vccl)
 
 static void viewCommandCenter( void )
 {
-	Player* localPlayer = TheControlBar->getCurrentlyViewedPlayer();
-	if (!localPlayer)
+	Player* localPlayer = rts::getObservedOrLocalPlayer();
+	if (!localPlayer->isPlayerActive())
 		return;
 
 	CommandCenterLocator ccl;
@@ -1002,8 +1002,8 @@ void amIAHero(Object* obj, void* heroHolder)
 
 static Object *iNeedAHero( void )
 {
-	Player* localPlayer = TheControlBar->getCurrentlyViewedPlayer();
-	if (!localPlayer)
+	Player* localPlayer = rts::getObservedOrLocalPlayer();
+	if (!localPlayer->isPlayerActive())
 		return NULL;
 
 	HeroHolder heroHolder;
@@ -3422,7 +3422,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
 				Bool hide = false;
 				if (TheWindowManager)
 				{
-					Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+					Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 					GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 
 					if (window)
@@ -3474,6 +3474,10 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
 			DEBUG_ASSERTCRASH(TheInGameUI->isCameraRotatingLeft(), ("Clearing rotate camera left, but it's already clear!"));
 			TheInGameUI->setCameraRotateLeft( false );
 			break;
+		case GameMessage::MSG_META_ALT_CAMERA_ROTATE_LEFT:
+			if (TheTacticalView->isCameraMovementFinished())
+				TheTacticalView->rotateCamera(-1.0f / 8.0f, 500, 100, 400);
+			break;
 		case GameMessage::MSG_META_BEGIN_CAMERA_ROTATE_RIGHT:
 			DEBUG_ASSERTCRASH(!TheInGameUI->isCameraRotatingRight(), ("Setting rotate camera right, but it's already set!"));
 			TheInGameUI->setCameraRotateRight( true );
@@ -3481,6 +3485,10 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
 		case GameMessage::MSG_META_END_CAMERA_ROTATE_RIGHT:
 			DEBUG_ASSERTCRASH(TheInGameUI->isCameraRotatingRight(), ("Clearing rotate camera right, but it's already clear!"));
 			TheInGameUI->setCameraRotateRight( false );
+			break;
+		case GameMessage::MSG_META_ALT_CAMERA_ROTATE_RIGHT:
+			if (TheTacticalView->isCameraMovementFinished())
+				TheTacticalView->rotateCamera(1.0f / 8.0f, 500, 100, 400);
 			break;
 		case GameMessage::MSG_META_BEGIN_CAMERA_ZOOM_IN:
 			DEBUG_ASSERTCRASH(!TheInGameUI->isCameraZoomingIn(), ("Setting zoom camera in, but it's already set!"));
@@ -4260,7 +4268,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
 /*
 			if (TheWindowManager && TheNameKeyGenerator)
 			{
-				GameWindow *motd = TheWindowManager->winGetWindowFromId(NULL, (Int)TheNameKeyGenerator->nameToKey(AsciiString("MOTD.wnd:MOTD")));
+				GameWindow *motd = TheWindowManager->winGetWindowFromId(NULL, (Int)TheNameKeyGenerator->nameToKey("MOTD.wnd:MOTD"));
 				if (motd)
 					motd->winHide(!motd->winIsHidden());
 			}*/
@@ -4309,7 +4317,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
 				Bool hide = false;
 				if (TheWindowManager)
 				{
-					Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+					Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 					GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 
 					if (window)

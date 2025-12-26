@@ -44,7 +44,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameClient/GUICallbacks.h"
 #include "GameClient/GameWindowManager.h"
@@ -69,7 +69,7 @@ void PopupCommunicatorInit( WindowLayout *layout, void *userData )
 	TheWindowManager->winSetModal( parent );
 
 	// get ids for our children controls
-	buttonOkID = TheNameKeyGenerator->nameToKey( AsciiString("PopupCommunicator.wnd:ButtonOk") );
+	buttonOkID = TheNameKeyGenerator->nameToKey( "PopupCommunicator.wnd:ButtonOk" );
 	buttonOk = TheWindowManager->winGetWindowFromId( parent, buttonOkID );
 
 }

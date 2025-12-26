@@ -47,7 +47,7 @@
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioEventRTS.h"
 #include "Common/Language.h"
@@ -727,7 +727,7 @@ WindowMsgHandledType GadgetListBoxInput( GameWindow *window, UnsignedInt msg,
 									continue;
 								for(j = 0; j < TheKeyboard->MAX_KEY_STATES; ++j)
 								{
-									if(dString->getText().getCharAt(0) == TheKeyboard->getPrintableKey(mData1, j))
+									if(dString->getText().getCharAt(0) == TheKeyboard->getPrintableKey((KeyDefType)mData1, j))
 									{
 										list->selectPos = position;
 										Int prevPos = getListboxTopEntry(list);
@@ -2205,7 +2205,7 @@ Int GadgetListBoxAddEntryText( GameWindow *listbox,
 	if (!listbox)
 		return -1;
 	if (text.isEmpty())
-		text = UnicodeString(L" ");
+		text = L" ";
 	Int index;
 	AddMessageStruct addInfo;
 	addInfo.row = row;

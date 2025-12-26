@@ -170,6 +170,7 @@ class Mouse : public SubsystemInterface
 		CursorCaptureBlockReason_NoInit,
 		CursorCaptureBlockReason_Paused,
 		CursorCaptureBlockReason_Unfocused,
+		CursorCaptureBlockReadon_CursorIsOutside,
 
 		CursorCaptureBlockReason_Count
 	};
@@ -303,17 +304,21 @@ public:
 	virtual void setRedrawMode(RedrawMode mode)	{m_currentRedrawMode=mode;} ///<set cursor drawing method.
 	virtual RedrawMode getRedrawMode(void) { return m_currentRedrawMode; } //get cursor drawing method
 	virtual void setVisibility(Bool visible) { m_visible = visible; } // set visibility for load screens, etc
-	inline Bool getVisibility(void) { return m_visible; } // get visibility state
+	Bool getVisibility(void) { return m_visible; } // get visibility state
 
 	void drawTooltip( void );					///< draw the tooltip text
 	void drawCursorText( void );			///< draw the mouse cursor text
 	Int getCursorIndex( const AsciiString& name );
 	void resetTooltipDelay( void );
 
-	virtual void loseFocus();
-	virtual void regainFocus();
+	virtual void loseFocus(); ///< called when window has lost focus
+	virtual void regainFocus(); ///< called when window has regained focus
 
-	void mouseNotifyResolutionChange(void);
+	void onCursorMovedOutside(); ///< called when cursor has left game window
+	void onCursorMovedInside(); ///< called when cursor has entered game window
+	Bool isCursorInside() const; ///< true if the mouse is located inside the game window
+
+	void onResolutionChanged(void);
 	void onGameModeChanged(GameMode prev, GameMode next);
 	void onGamePaused(Bool paused);
 

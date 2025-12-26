@@ -27,7 +27,7 @@
 // Desc:   Update will create and monitor a group of spawned units and replace as needed
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameState.h"
 #include "Common/ThingFactory.h"
@@ -67,10 +67,7 @@ SpawnBehavior::SpawnBehavior( Thing *thing, const ModuleData* moduleData )
 	//looping back to the beginning
 
 	m_framesToWait = 0;
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_firstBatchCount = 0;
-	//
 	if( md->m_isOneShotData )
 		m_oneShotCountdown = md->m_spawnNumberData;
 	else
@@ -533,14 +530,14 @@ Object *SpawnBehavior::reclaimOrphanSpawn( void )
 	//
 
 	OrphanData orphanData;
-	AsciiString prevName = "";
+	AsciiString prevName;
 	for (std::vector<AsciiString>::const_iterator tempName = md->m_spawnTemplateNameData.begin();
 			tempName != md->m_spawnTemplateNameData.end();
 			++tempName)
 	{
 		if (prevName.compare(*tempName)) // the list may have redundancy, this will skip some of it
 			continue;
-		orphanData.m_matchTemplate = TheThingFactory->findTemplate( *tempName );;
+		orphanData.m_matchTemplate = TheThingFactory->findTemplate( *tempName );
 		orphanData.m_source = getObject();
 		orphanData.m_closest = NULL;
 		orphanData.m_closestDistSq = BIG_DISTANCE;
@@ -854,7 +851,7 @@ void SpawnBehavior::computeAggregateStates(void)
 				SlavedUpdateInterface* sdu = (*update)->getSlavedUpdateInterface();
 				if (sdu != NULL)
 				{
-					m_selfTaskingSpawnCount += ( sdu->isSelfTasking());;
+					m_selfTaskingSpawnCount += ( sdu->isSelfTasking());
 					break;
 				}
 			}

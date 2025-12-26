@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameAudio.h"
 #include "Common/GlobalData.h"
@@ -61,13 +61,10 @@
 //-------------------------------------------------------------------------------------------------
 HelicopterSlowDeathBehaviorModuleData::HelicopterSlowDeathBehaviorModuleData( void )
 {
-	//Added By Sadullah Nader
-	//Initializations missing and needed
 	m_attachParticleBone.clear();
 	m_bladeBone.clear();
 	m_bladeObjectName.clear();
 	m_finalRubbleObject.clear();
-	//
 
 	m_spiralOrbitTurnRate = 0.0f;
 	m_spiralOrbitForwardSpeed = 0.0f;

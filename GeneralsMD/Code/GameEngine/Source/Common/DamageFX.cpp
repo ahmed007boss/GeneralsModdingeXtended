@@ -282,11 +282,10 @@ DamageFXStore::~DamageFXStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-const DamageFX *DamageFXStore::findDamageFX(AsciiString name) const
+const DamageFX *DamageFXStore::findDamageFX(NameKeyType namekey) const
 {
-	NameKeyType namekey = TheNameKeyGenerator->nameToKey(name);
-  DamageFXMap::const_iterator it = m_dfxmap.find(namekey);
-  if (it == m_dfxmap.end())
+	DamageFXMap::const_iterator it = m_dfxmap.find(namekey);
+	if (it == m_dfxmap.end())
 	{
 		return NULL;
 	}
@@ -294,6 +293,18 @@ const DamageFX *DamageFXStore::findDamageFX(AsciiString name) const
 	{
 		return &(*it).second;
 	}
+}
+
+//-------------------------------------------------------------------------------------------------
+const DamageFX *DamageFXStore::findDamageFX(const AsciiString& name) const
+{
+	return findDamageFX(TheNameKeyGenerator->nameToKey(name));
+}
+
+//-------------------------------------------------------------------------------------------------
+const DamageFX *DamageFXStore::findDamageFX(const char* name) const
+{
+	return findDamageFX(TheNameKeyGenerator->nameToKey(name));
 }
 
 //-------------------------------------------------------------------------------------------------

@@ -27,7 +27,7 @@
 // Desc:      Basic mouse interactions
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Debug.h"
 #include "Common/MessageStream.h"
@@ -64,6 +64,7 @@ const char *const Mouse::CursorCaptureBlockReasonNames[] = {
 	"CursorCaptureBlockReason_NoInit",
 	"CursorCaptureBlockReason_Paused",
 	"CursorCaptureBlockReason_Unfocused",
+	"CursorCaptureBlockReason_CursorIsOutside",
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -423,15 +424,12 @@ Bool Mouse::isClick(const ICoord2D *anchor, const ICoord2D *dest, UnsignedInt pr
 //-------------------------------------------------------------------------------------------------
 CursorInfo::CursorInfo( void )
 {
-	// Added Sadullah Nader
-	// Initializations missing and needed
 
 	cursorName.clear();
 	cursorText.clear();
 	cursorTextColor.red = cursorTextColor.green = cursorTextColor.blue = 0;
 	cursorTextDropColor.red = cursorTextDropColor.blue = cursorTextDropColor.green = 0;
 
-	//
 	textureName.clear();
 	imageName.clear();
 	W3DModelName.clear();
@@ -458,13 +456,9 @@ Mouse::Mouse( void )
 	m_numAxes = 0;
 	m_forceFeedback = FALSE;
 
-	//Added By Sadullah Nader
-	//Initializations missing and needed
 	m_dragTolerance = 0;
 	m_dragTolerance3D = 0;
 	m_dragToleranceMS = 0;
-	//
-
 	//m_tooltipString.clear();	// redundant
 	m_displayTooltip = FALSE;
 	m_tooltipDisplayString = NULL;
@@ -567,7 +561,7 @@ the Win32 version of the mouse (by preloading resources before D3D device is cre
 void Mouse::parseIni(void)
 {
 	INI ini;
-	ini.loadFileDirectory( AsciiString( "Data\\INI\\Mouse" ), INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory( "Data\\INI\\Mouse", INI_LOAD_OVERWRITE, NULL );
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -582,7 +576,7 @@ void Mouse::init( void )
 	m_numButtons = 2;  // by default just have 2 buttons
 	m_numAxes = 2;  // by default a normal mouse moves in a 2d plane
 	m_forceFeedback = FALSE;
-	mouseNotifyResolutionChange();
+	onResolutionChanged();
 	m_tooltipString.clear();	// redundant
 	m_displayTooltip = FALSE;
 
@@ -614,7 +608,7 @@ void Mouse::init( void )
 //-------------------------------------------------------------------------------------------------
 /** Tell mouse system display resolution changed. */
 //-------------------------------------------------------------------------------------------------
-void Mouse::mouseNotifyResolutionChange( void )
+void Mouse::onResolutionChanged( void )
 {
 	if(m_tooltipDisplayString)
 		TheDisplayStringManager->freeDisplayString(m_tooltipDisplayString);
@@ -1042,6 +1036,24 @@ void Mouse::regainFocus()
 }
 
 // ------------------------------------------------------------------------------------------------
+void Mouse::onCursorMovedOutside()
+{
+	blockCapture(CursorCaptureBlockReadon_CursorIsOutside);
+}
+
+// ------------------------------------------------------------------------------------------------
+void Mouse::onCursorMovedInside()
+{
+	unblockCapture(CursorCaptureBlockReadon_CursorIsOutside);
+}
+
+// ------------------------------------------------------------------------------------------------
+Bool Mouse::isCursorInside() const
+{
+	return (m_captureBlockReasonBits & (1 << CursorCaptureBlockReadon_CursorIsOutside)) == 0;
+}
+
+// ------------------------------------------------------------------------------------------------
 void Mouse::initCapture()
 {
 	OptionPreferences prefs;
@@ -1344,7 +1356,7 @@ void Mouse::setCursor( MouseCursor cursor )
 										 &(cursorInfo->cursorTextColor),
 										 &(cursorInfo->cursorTextDropColor) );
 		else
-			setMouseText( UnicodeString( L"" ), NULL, NULL );
+			setMouseText( L"", NULL, NULL );
 
 	}
 

@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #include "Common/GameState.h"
 #include "Common/Team.h"
 #include "Common/ThingFactory.h"
@@ -1316,13 +1316,8 @@ Team::Team(TeamPrototype *proto, TeamID id ) :
 	m_curUnits(0),
 	m_wasIdle(false)
 {
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_created = FALSE;
-
-	//
 	m_commonAttackTarget = INVALID_ID;
-
 	// allocate new relation map pools
 	m_playerRelations = newInstance(PlayerRelationMap);
 	m_teamRelations = newInstance(TeamRelationMap);

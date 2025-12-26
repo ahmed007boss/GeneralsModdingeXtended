@@ -26,7 +26,7 @@
 // The implementation of the Display class
 // Author: Michael S. Booth, March 2001
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameClient/Display.h"
 #include "GameClient/Mouse.h"
@@ -64,11 +64,8 @@ Display::Display()
 	m_elapsedCopywriteTime = 0;
 	m_copyrightDisplayString = NULL;
 
-	// Added by Sadullah Nader
-	// Initializations missing and needed
 	m_currentlyPlayingMovie.clear();
 	m_letterBoxFadeStartTime = 0;
-	// End Add
 }
 
 /**

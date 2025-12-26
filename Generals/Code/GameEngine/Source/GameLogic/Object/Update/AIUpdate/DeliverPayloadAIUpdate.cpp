@@ -25,7 +25,7 @@
 // DeliverPayloadAIUpdate.cpp ////////////
 // Author: Graham Smallwood, March 2002
 // Desc:   State machine that controls the approach and deployment of airborne cargo
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_WEAPONSLOTTYPE_NAMES
 
@@ -115,23 +115,15 @@ DeliverPayloadAIUpdate::DeliverPayloadAIUpdate( Thing *thing, const ModuleData* 
 	m_visibleItemsDelivered = 0;
 	m_deliveryDecal.clear();
 	m_previousDistanceSqr = 0;
-
 	m_freeToExit = FALSE;
 	m_acceptingCommands = TRUE;
-
-	// Added By Sadullah Nader
-	// Initialization missing and needed
-
 	m_diveState = DIVESTATE_PREDIVE;
-
-	// End Add
 }
 
 //-------------------------------------------------------------------------------------------------
 DeliverPayloadAIUpdate::~DeliverPayloadAIUpdate( void )
 {
 	m_deliveryDecal.clear();
-
 	deleteInstance(m_deliverPayloadStateMachine);
 }
 
@@ -689,7 +681,7 @@ StateReturnType DeliveringState::update() // Kick a dude out every so often
 		return STATE_FAILURE;
 
 	const ContainedItemsList* items = owner->getContain() ? owner->getContain()->getContainedItemsList() : NULL;
-	if( (!items || !items->size()) && ai->getVisibleItemsDelivered() == ai->getData()->m_visibleNumBones )
+	if( (!items || items->empty()) && ai->getVisibleItemsDelivered() == ai->getData()->m_visibleNumBones )
 	{
 		//We are out of payload to drop AND our visible payload is empty. It's possible for deliverers to
 		//have one or the other or even both.

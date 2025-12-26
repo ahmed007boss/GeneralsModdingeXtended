@@ -27,7 +27,7 @@
 // Desc:       Access to our representation for fonts
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameClient/GameFont.h"
 
@@ -178,6 +178,13 @@ void FontLibrary::reset( void )
 //-------------------------------------------------------------------------------------------------
 GameFont *FontLibrary::getFont( AsciiString name, Int pointSize, Bool bold )
 {
+	// sanity check the size - anything over 100 is probably wrong. -MW
+	// TheSuperHackers @fix Now also no longer creates fonts with zero size.
+	if (pointSize < 1 || pointSize > 100)
+	{
+		return NULL;
+	}
+
 	GameFont *font;
 
 	// search for font in list

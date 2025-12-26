@@ -26,7 +26,7 @@
 // Turret behavior implementation
 // Author: Steven Johnson, April 2002
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_WEAPONSLOTTYPE_NAMES
 
@@ -280,15 +280,9 @@ TurretAI::TurretAI(Object* owner, const TurretAIData* data, WhichTurretType tur)
 	m_enabled(!data->m_initiallyDisabled),
 	m_firesWhileTurning(data->m_firesWhileTurning),
 	m_isForceAttacking(false),
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_victimInitialTeam(NULL)
-	//
 {
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_continuousFireExpirationFrame = -1;
-	//
 	if (!m_data)
 	{
 		DEBUG_CRASH(("TurretAI MUST have ModuleData"));

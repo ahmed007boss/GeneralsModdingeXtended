@@ -28,13 +28,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #define DEFINE_WEAPONCONDITIONMAP
 #include "Common/BitFlagsIO.h"
 #include "Common/BuildAssistant.h"
 #include "Common/Dict.h"
 #include "Common/GameEngine.h"
 #include "Common/GameState.h"
+#include "Common/GameUtility.h"
 #include "Common/ModuleFactory.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
@@ -212,11 +213,8 @@ Object::Object( const ThingTemplate *tt, const ObjectStatusMaskType &objectStatu
 	Int i, modIdx;
 	AsciiString modName;
 
-	//Added By Sadullah Nader
-	//Initializations inserted
 	m_formationOffset.x = m_formationOffset.y = 0.0f;
 	m_iPos.zero();
-	//
 	for( i = 0; i < DISABLED_COUNT; i++ )
 	{
 		m_disabledTillFrame[ i ] = NEVER;
@@ -667,9 +665,9 @@ Int Object::getTransportSlotCount() const
 	return count;
 }
 
-Object* Object::getEnclosingContainedBy()
+const Object* Object::getEnclosingContainedBy() const
 {
-	for (Object* child = this, *container = getContainedBy(); container; child = container, container = container->getContainedBy())
+	for (const Object* child = this, *container = getContainedBy(); container; child = container, container = container->getContainedBy())
 	{
 		ContainModuleInterface* containModule = container->getContain();
 		if (containModule && containModule->isEnclosingContainerFor(child))
@@ -677,6 +675,14 @@ Object* Object::getEnclosingContainedBy()
 	}
 
 	return NULL;
+}
+
+const Object* Object::getOuterObject() const
+{
+	if (const Object* enclosing = getEnclosingContainedBy())
+		return enclosing;
+
+	return this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1541,6 +1547,14 @@ Color Object::getNightIndicatorColor() const
 Bool Object::isLocallyControlled() const
 {
 	return getControllingPlayer() == ThePlayerList->getLocalPlayer();
+}
+
+//=============================================================================
+// Object::isLocallyViewed
+//=============================================================================
+Bool Object::isLocallyViewed() const
+{
+	return getControllingPlayer() == rts::getObservedOrLocalPlayer();
 }
 
 //=============================================================================
@@ -2821,12 +2835,13 @@ void Object::onVeterancyLevelChanged( VeterancyLevel oldLevel, VeterancyLevel ne
 			break;
 	}
 
+	Drawable* outerDrawable = getOuterObject()->getDrawable();
+
 	Bool doAnimation = provideFeedback
 		&& newLevel > oldLevel
 		&& !isKindOf(KINDOF_IGNORED_IN_GUI)
-		&& (isLocallyControlled()
-			|| !testStatus(OBJECT_STATUS_STEALTHED)
-			|| testStatus(OBJECT_STATUS_DETECTED));
+		&& outerDrawable
+		&& outerDrawable->isVisible();
 
 	if( doAnimation && TheGameLogic->getDrawIconUI() )
 	{
@@ -2923,7 +2938,7 @@ Bool Object::isAbleToAttack() const
 			{
 				//The turret is enable, meaning we have an enabled weapon. Quit.
 				anyEnabled = TRUE;
-				break;;
+				break;
 			}
 		}
 		if( anyWeapon && !anyEnabled )
@@ -4092,7 +4107,7 @@ void Object::onDie( DamageInfo *damageInfo )
 	deathSound.setPlayerIndex( index );
 	TheAudio->addAudioEvent(&deathSound);
 
-	if (isLocallyControlled() && !selfInflicted) // wasLocallyControlled? :-)
+	if (isLocallyViewed() && !selfInflicted) // wasLocallyViewed? :-)
 	{
 		if (isKindOf(KINDOF_STRUCTURE) && isKindOf(KINDOF_MP_COUNT_FOR_VICTORY))
 		{
@@ -5424,10 +5439,8 @@ void Object::goInvulnerable( UnsignedInt time )
 // ------------------------------------------------------------------------------------------------
 RadarPriorityType Object::getRadarPriority( void ) const
 {
-	RadarPriorityType priority = RADAR_PRIORITY_INVALID;
-
 	// first, get the priority at the thing template level
-	priority = getTemplate()->getDefaultRadarPriority();
+	RadarPriorityType priority = getTemplate()->getDefaultRadarPriority();
 
 	//
 	// there are some objects that we want to show up on the radar when they have

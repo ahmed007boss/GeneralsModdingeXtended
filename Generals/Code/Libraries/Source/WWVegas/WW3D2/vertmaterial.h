@@ -38,7 +38,6 @@
 
 #include "always.h"
 
-#include "refcount.h"
 #include "vector3.h"
 #include "w3d_file.h"
 #include "meshbuild.h"
@@ -204,7 +203,7 @@ public:
 	/*
 	** CRC, used by the loading code to build a list of the unique materials
 	*/
-	inline unsigned long Get_CRC(void) const
+	unsigned long Get_CRC(void) const
 	{
 		if (CRCDirty) {
 			CRC=Compute_CRC();

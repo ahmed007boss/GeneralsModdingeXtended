@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/CRCDebug.h"
 #include "Common/FramePacer.h"
@@ -311,9 +311,6 @@ void GameLogic::clearGameData( Bool showScoreScreen )
 // ------------------------------------------------------------------------------------------------
 void GameLogic::prepareNewGame( GameMode gameMode, GameDifficulty diff, Int rankPoints )
 {
-	//Added By Sadullah Nader
-	//Fix for loading game scene
-
 	//Kris: Commented this out, but leaving it around incase it bites us later. I cleaned up the
 	//      nomenclature. Look for setLoadingMap() and setLoadingSave()
 	//setGameLoading(TRUE);
@@ -1933,7 +1930,7 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 
 			// place the sound for putting a building down
 
-			static AudioEventRTS placeBuilding(AsciiString("PlaceBuilding"));
+			static AudioEventRTS placeBuilding("PlaceBuilding");
 			placeBuilding.setObjectID(constructorObject->getID());
 			TheAudio->addAudioEvent( &placeBuilding );
 

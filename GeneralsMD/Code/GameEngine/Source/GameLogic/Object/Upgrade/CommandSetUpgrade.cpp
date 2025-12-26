@@ -26,7 +26,7 @@
 // Author: Graham Smallwood, September 2002
 // Desc:	 UpgradeModule that sets a new override string for Command Set look ups
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Xfer.h"
 #include "Common/Player.h"
@@ -78,7 +78,7 @@ void CommandSetUpgrade::upgradeImplementation( )
 {
 	Object *obj = getObject();
 
-	const char * upgradeAlt = getCommandSetUpgradeModuleData()->m_triggerAlt.str();
+	const AsciiString& upgradeAlt = getCommandSetUpgradeModuleData()->m_triggerAlt;
 	const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade( upgradeAlt );
 
 	if (upgradeTemplate)

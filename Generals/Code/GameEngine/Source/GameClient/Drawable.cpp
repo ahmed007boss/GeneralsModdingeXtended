@@ -27,7 +27,7 @@
 // Author: Michael S. Booth, March 2001
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioEventInfo.h"
 #include "Common/AudioSettings.h"
@@ -316,11 +316,8 @@ Drawable::Drawable( const ThingTemplate *thingTemplate, DrawableStatusBits statu
 	// assign status bits before anything else can be done
 	m_status = statusBits;
 
-	// Added By Sadullah Nader
-	// Initialization missing and needed
 	m_nextDrawable = NULL;
 	m_prevDrawable = NULL;
-	//
 
 	// register drawable with the GameClient ... do this first before we start doing anything
 	// complex that uses any of the drawable data so that we have and ID!!  It's ok to initialize
@@ -330,17 +327,12 @@ Drawable::Drawable( const ThingTemplate *thingTemplate, DrawableStatusBits statu
 
 	Int i;
 
-	// Added By Sadullah Nader
-	// Initialization missing and needed
 	m_flashColor = 0;
 	m_selected = '\0';
-	//
 
 	m_expirationDate = 0;  // 0 == never expires
 
 	m_lastConstructDisplayed = -1.0f;
-
-	//Added By Sadullah Nader
 	//Fix for the building percent
 	m_constructDisplayString = TheDisplayStringManager->newDisplayString();
 	m_constructDisplayString->setFont(TheFontLibrary->getFont(TheInGameUI->getDrawableCaptionFontName(),
@@ -2273,7 +2265,7 @@ Bool Drawable::drawsAnyUIText( void )
 		return FALSE;
 
 	const Object *obj = getObject();
-	if ( !obj || obj->getControllingPlayer() != TheControlBar->getCurrentlyViewedPlayer())
+	if ( !obj || obj->getControllingPlayer() != rts::getObservedOrLocalPlayer())
 		return FALSE;
 
 	Player *owner = obj->getControllingPlayer();
@@ -2422,7 +2414,7 @@ void Drawable::drawAmmo( const IRegion2D *healthBarRegion )
 	if (!(
 				TheGlobalData->m_showObjectHealth &&
 				(isSelected() || (TheInGameUI && (TheInGameUI->getMousedOverDrawableID() == getID()))) &&
-				obj->getControllingPlayer() == TheControlBar->getCurrentlyViewedPlayer()
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer()
 			))
 		return;
 
@@ -2480,7 +2472,7 @@ void Drawable::drawContained( const IRegion2D *healthBarRegion )
 	if (!(
 				TheGlobalData->m_showObjectHealth &&
 				(isSelected() || (TheInGameUI && (TheInGameUI->getMousedOverDrawableID() == getID()))) &&
-				obj->getControllingPlayer() == TheControlBar->getCurrentlyViewedPlayer()
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer()
 			))
 		return;
 
@@ -2953,7 +2945,7 @@ void Drawable::drawBombed(const IRegion2D* healthBarRegion)
 	UnsignedInt now = TheGameLogic->getFrame();
 
 	if( obj->testWeaponSetFlag( WEAPONSET_CARBOMB ) &&
-				obj->getControllingPlayer() == TheControlBar->getCurrentlyViewedPlayer())
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer())
 	{
 		if( !getIconInfo()->m_icon[ ICON_CARBOMB ] )
 			getIconInfo()->m_icon[ ICON_CARBOMB ] = newInstance(Anim2D)( s_animationTemplates[ ICON_CARBOMB ], TheAnim2DCollection );

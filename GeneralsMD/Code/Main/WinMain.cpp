@@ -67,12 +67,15 @@
 #include "resource.h"
 
 #include <rts/profile.h>
+#ifdef RTS_ENABLE_CRASHDUMP
+#include "Common/MiniDumper.h"
+#endif
 
 
 // GLOBALS ////////////////////////////////////////////////////////////////////
 HINSTANCE ApplicationHInstance = NULL;  ///< our application instance
 HWND ApplicationHWnd = NULL;  ///< our application window handle
-Win32Mouse *TheWin32Mouse= NULL;  ///< for the WndProc() only
+Win32Mouse *TheWin32Mouse = NULL;  ///< for the WndProc() only
 DWORD TheMessageTime = 0;	///< For getting the time that a message was posted from Windows.
 
 const Char *g_strFile = "data\\Generals.str";
@@ -318,51 +321,51 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 		{
 			//-------------------------------------------------------------------------
 			case WM_NCHITTEST:
-			// Prevent the user from selecting the menu in fullscreen mode
-            if( !TheGlobalData->m_windowed )
-                return HTCLIENT;
-            break;
+				// Prevent the user from selecting the menu in fullscreen mode
+				if( !TheGlobalData->m_windowed )
+					return HTCLIENT;
+				break;
 
 			//-------------------------------------------------------------------------
 			case WM_POWERBROADCAST:
-            switch( wParam )
-            {
-                #ifndef PBT_APMQUERYSUSPEND
-                    #define PBT_APMQUERYSUSPEND 0x0000
-                #endif
-                case PBT_APMQUERYSUSPEND:
-                    // At this point, the app should save any data for open
-                    // network connections, files, etc., and prepare to go into
-                    // a suspended mode.
-                    return TRUE;
+				switch( wParam )
+				{
+					#ifndef PBT_APMQUERYSUSPEND
+						#define PBT_APMQUERYSUSPEND 0x0000
+					#endif
+					case PBT_APMQUERYSUSPEND:
+						// At this point, the app should save any data for open
+						// network connections, files, etc., and prepare to go into
+						// a suspended mode.
+						return TRUE;
 
-                #ifndef PBT_APMRESUMESUSPEND
-                    #define PBT_APMRESUMESUSPEND 0x0007
-                #endif
-                case PBT_APMRESUMESUSPEND:
-                    // At this point, the app should recover any data, network
-                    // connections, files, etc., and resume running from when
-                    // the app was suspended.
-                    return TRUE;
-            }
-            break;
+					#ifndef PBT_APMRESUMESUSPEND
+						#define PBT_APMRESUMESUSPEND 0x0007
+					#endif
+					case PBT_APMRESUMESUSPEND:
+						// At this point, the app should recover any data, network
+						// connections, files, etc., and resume running from when
+						// the app was suspended.
+						return TRUE;
+				}
+				break;
 			//-------------------------------------------------------------------------
 			case WM_SYSCOMMAND:
-            // Prevent moving/sizing and power loss in fullscreen mode
-            switch( wParam )
-            {
-                case SC_KEYMENU:
-                    // TheSuperHackers @bugfix Mauller 10/05/2025 Always handle this command to prevent halting the game when left Alt is pressed.
-                    return 1;
-                case SC_MOVE:
-                case SC_SIZE:
-                case SC_MAXIMIZE:
-                case SC_MONITORPOWER:
-                    if( !TheGlobalData->m_windowed )
-                        return 1;
-                    break;
-            }
-            break;
+				// Prevent moving/sizing and power loss in fullscreen mode
+				switch( wParam )
+				{
+					case SC_KEYMENU:
+						// TheSuperHackers @bugfix Mauller 10/05/2025 Always handle this command to prevent halting the game when left Alt is pressed.
+						return 1;
+					case SC_MOVE:
+					case SC_SIZE:
+					case SC_MAXIMIZE:
+					case SC_MONITORPOWER:
+						if( !TheGlobalData->m_windowed )
+							return 1;
+						break;
+				}
+				break;
 
 			case WM_QUERYENDSESSION:
 			{
@@ -372,42 +375,24 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 
 			// ------------------------------------------------------------------------
 			case WM_CLOSE:
-			if (!TheGameEngine->getQuitting())
-			{
-				//user is exiting without using the menus
+				if (!TheGameEngine->getQuitting())
+				{
+					//user is exiting without using the menus
 
-				//This method didn't work in cinematics because we don't process messages.
-				//But it's the cleanest way to exit that's similar to using menus.
-				TheMessageStream->appendMessage(GameMessage::MSG_META_DEMO_INSTANT_QUIT);
+					//This method didn't work in cinematics because we don't process messages.
+					//But it's the cleanest way to exit that's similar to using menus.
+					TheMessageStream->appendMessage(GameMessage::MSG_META_DEMO_INSTANT_QUIT);
 
-				//This method used to disable quitting.  We just put up the options screen instead.
-				//TheMessageStream->appendMessage(GameMessage::MSG_META_OPTIONS);
+					//This method used to disable quitting.  We just put up the options screen instead.
+					//TheMessageStream->appendMessage(GameMessage::MSG_META_OPTIONS);
 
-				//This method works everywhere but isn't as clean at shutting down.
-				//TheGameEngine->checkAbnormalQuitting();	//old way to log disconnections for ALT-F4
-				//TheGameEngine->reset();
-				//TheGameEngine->setQuitting(TRUE);
-				//_exit(EXIT_SUCCESS);
+					//This method works everywhere but isn't as clean at shutting down.
+					//TheGameEngine->checkAbnormalQuitting();	//old way to log disconnections for ALT-F4
+					//TheGameEngine->reset();
+					//TheGameEngine->setQuitting(TRUE);
+					//_exit(EXIT_SUCCESS);
+				}
 				return 0;
-			}
-
-			// ------------------------------------------------------------------------
-			case WM_SETFOCUS:
-			{
-
-				//
-				// reset the state of our keyboard cause we haven't been paying
-				// attention to the keys while focus was away
-				//
-				if( TheKeyboard )
-					TheKeyboard->resetKeys();
-
-				if (TheMouse)
-					TheMouse->regainFocus();
-
-				break;
-
-			}
 
 			//-------------------------------------------------------------------------
 			case WM_MOVE:
@@ -431,14 +416,37 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 				break;
 			}
 
-			//-------------------------------------------------------------------------
-			case WM_KILLFOCUS:
+			// ------------------------------------------------------------------------
+			case WM_SETFOCUS:
 			{
-				if (TheKeyboard )
+				//
+				// reset the state of our keyboard cause we haven't been paying
+				// attention to the keys while focus was away
+				//
+				if (TheKeyboard)
 					TheKeyboard->resetKeys();
 
 				if (TheMouse)
+					TheMouse->regainFocus();
+
+				break;
+			}
+
+			//-------------------------------------------------------------------------
+			case WM_KILLFOCUS:
+			{
+				if (TheKeyboard)
+					TheKeyboard->resetKeys();
+
+				if (TheMouse)
+				{
 					TheMouse->loseFocus();
+
+					if (TheMouse->isCursorInside())
+					{
+						TheMouse->onCursorMovedOutside();
+					}
+				}
 
 				break;
 			}
@@ -461,13 +469,15 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 						TheGameEngine->setIsActive(isWinMainActive);
 
 					if (isWinMainActive)
-					{	//restore mouse cursor to our custom version.
+					{
+						//restore mouse cursor to our custom version.
 						if (TheWin32Mouse)
 							TheWin32Mouse->setCursor(TheWin32Mouse->getMouseCursor());
 					}
 				}
 				return 0;
 			}
+
 			//-------------------------------------------------------------------------
 			case WM_ACTIVATE:
 			{
@@ -488,7 +498,6 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 						TheMouse->refreshCursorCapture();
 				}
 				break;
-
 			}
 
 			//-------------------------------------------------------------------------
@@ -498,21 +507,13 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 
 				switch( key )
 				{
-
-					//---------------------------------------------------------------------
 					case VK_ESCAPE:
 					{
-
 						PostQuitMessage( 0 );
 						break;
-
 					}
-
-
 				}
-
 				return 0;
-
 			}
 
 			//-------------------------------------------------------------------------
@@ -528,17 +529,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			case WM_RBUTTONUP:
 			case WM_RBUTTONDBLCLK:
 			{
-
 				if( TheWin32Mouse )
 					TheWin32Mouse->addWin32Event( message, wParam, lParam, TheMessageTime );
 
 				return 0;
-
 			}
 
 			//-------------------------------------------------------------------------
 			case 0x020A: // WM_MOUSEWHEEL
 			{
+				if( TheWin32Mouse == NULL )
+					return 0;
+
 				long x = (long) LOWORD(lParam);
 				long y = (long) HIWORD(lParam);
 				RECT rect;
@@ -548,32 +550,42 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 				if( x < rect.left || x > rect.right || y < rect.top || y > rect.bottom )
 					return 0;
 
-				if( TheWin32Mouse )
-					TheWin32Mouse->addWin32Event( message, wParam, lParam, TheMessageTime );
-
+				TheWin32Mouse->addWin32Event( message, wParam, lParam, TheMessageTime );
 				return 0;
-
 			}
-
 
 			//-------------------------------------------------------------------------
 			case WM_MOUSEMOVE:
 			{
+				if( TheWin32Mouse == NULL )
+					return 0;
+
+				// ignore when window is not active
+				if( !isWinMainActive )
+					return 0;
+
 				Int x = (Int)LOWORD( lParam );
 				Int y = (Int)HIWORD( lParam );
 				RECT rect;
-//				Int keys = wParam;
 
 				// ignore when outside of client area
 				GetClientRect( ApplicationHWnd, &rect );
 				if( x < rect.left || x > rect.right || y < rect.top || y > rect.bottom )
+				{
+					if ( TheMouse->isCursorInside() )
+					{
+						TheMouse->onCursorMovedOutside();
+					}
 					return 0;
+				}
 
-				if( TheWin32Mouse )
-					TheWin32Mouse->addWin32Event( message, wParam, lParam, TheMessageTime );
+				if( !TheMouse->isCursorInside() )
+				{
+					TheMouse->onCursorMovedInside();
+				}
 
+				TheWin32Mouse->addWin32Event( message, wParam, lParam, TheMessageTime );
 				return 0;
-
 			}
 
 			//-------------------------------------------------------------------------
@@ -763,6 +775,16 @@ static CriticalSection critSec1, critSec2, critSec3, critSec4, critSec5;
 static LONG WINAPI UnHandledExceptionFilter( struct _EXCEPTION_POINTERS* e_info )
 {
 	DumpExceptionInfo( e_info->ExceptionRecord->ExceptionCode, e_info );
+#ifdef RTS_ENABLE_CRASHDUMP
+	if (TheMiniDumper && TheMiniDumper->IsInitialized())
+	{
+		// Create both minimal and full memory dumps
+		TheMiniDumper->TriggerMiniDumpForException(e_info, DumpType_Minimal);
+		TheMiniDumper->TriggerMiniDumpForException(e_info, DumpType_Full);
+	}
+
+	MiniDumper::shutdownMiniDumper();
+#endif
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
@@ -847,6 +869,10 @@ Int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 //#endif
 
 		CommandLine::parseCommandLineForStartup();
+#ifdef RTS_ENABLE_CRASHDUMP
+		// Initialize minidump facilities - requires TheGlobalData so performed after parseCommandLineForStartup
+		MiniDumper::initMiniDumper(TheGlobalData->getPath_UserData());
+#endif
 
 		// register windows class and create application window
 		if(!TheGlobalData->m_headless && initializeAppWindows(hInstance, nCmdShow, TheGlobalData->m_windowed) == false)
@@ -916,6 +942,9 @@ Int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	}
 
+#ifdef RTS_ENABLE_CRASHDUMP
+	MiniDumper::shutdownMiniDumper();
+#endif
 	TheUnicodeStringCriticalSection = NULL;
 	TheDmaCriticalSection = NULL;
 	TheMemoryPoolCriticalSection = NULL;

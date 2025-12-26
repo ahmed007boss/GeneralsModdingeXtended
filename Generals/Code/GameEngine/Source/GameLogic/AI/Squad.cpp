@@ -36,7 +36,7 @@
 /* Revision History:                                                         */
 /*		4/19/2002 : Initial creation                                          */
 /*---------------------------------------------------------------------------*/
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameLogic/Squad.h"
 
@@ -233,7 +233,7 @@ void Squad::xfer( Xfer *xfer )
 	{
 
 		// the cached objects list should be empty
-		if( m_objectsCached.size() != 0 )
+		if( !m_objectsCached.empty() )
 		{
 
 			DEBUG_CRASH(( "Squad::xfer - m_objectsCached should be emtpy, but is not" ));

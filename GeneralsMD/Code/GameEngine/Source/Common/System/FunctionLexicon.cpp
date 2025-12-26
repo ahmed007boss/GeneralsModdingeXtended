@@ -28,7 +28,7 @@
 //						 and assign callbacks
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/FunctionLexicon.h"
 #include "GameClient/GameWindow.h"
@@ -395,7 +395,7 @@ void FunctionLexicon::loadTable( TableEntry *table,
 	{
 
 		// assign key from name key based on name provided in table
-		entry->key = TheNameKeyGenerator->nameToKey( AsciiString(entry->name) );
+		entry->key = TheNameKeyGenerator->nameToKey( entry->name );
 
 		// next table entry please
 		entry++;

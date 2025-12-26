@@ -25,7 +25,7 @@
 // AI.cpp
 // The Artificial Intelligence system
 // Author: Michael S. Booth, November 2000
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/CRCDebug.h"
 #include "Common/GameState.h"
@@ -324,7 +324,7 @@ void AI::reset( void )
 	}
 
 #if RETAIL_COMPATIBLE_AIGROUP
-	while (m_groupList.size())
+	while (!m_groupList.empty())
 	{
 		AIGroup *groupToRemove = m_groupList.front();
 		if (groupToRemove)
@@ -937,15 +937,12 @@ m_infantryPathfindDiameter(6),
 m_vehiclePathfindDiameter(6),
 m_supplyCenterSafeRadius(250),
 m_rebuildDelaySeconds(10),
-//Added By Sadullah Nader
-//Initialization(s) inserted
 m_distanceRequiresGroup(0.0f),
 m_sideBuildLists(NULL),
 m_structuresPoorMod(0.0f),
 m_teamWealthyMod(0.0f),
 m_aiDozerBoredRadiusModifier(2.0),
 m_aiCrushesInfantry(true)
-//
 {
 }
 

@@ -109,12 +109,19 @@
 	#define MSGW3DNEWARRAY(MSG)			new( MSG, 0 )
 	#define W3DNEW									new("W3D_" __FILE__, 0)
 	#define W3DNEWARRAY							new("W3A_" __FILE__, 0)
+
+	#define NEW_REF( C, P )					( (C*)RefCountClass::Set_Ref_Owner( W3DNEW C P, __FILE__, __LINE__ ) )
+	#define SET_REF_OWNER( P )			( RefCountClass::Set_Ref_Owner( P, __FILE__, __LINE__ ) )
 #else
 	#define MSGW3DNEW(MSG)					new
 	#define MSGW3DNEWARRAY(MSG)			new
 	#define W3DNEW									new
 	#define W3DNEWARRAY							new
+
+	#define NEW_REF( C, P )					( W3DNEW C P )
+	#define SET_REF_OWNER( P )			P
 #endif
+
 
 // ----------------------------------------------------------------------------
 extern void* createW3DMemPool(const char *poolName, int allocationSize);
@@ -137,7 +144,7 @@ private: \
 		return The##ARGCLASS##Pool; \
 	} \
 protected: \
-	virtual int glueEnforcer() const { return sizeof(this); } \
+	virtual void glueEnforcer() const { } \
 public: \
 	inline void* operator new(size_t s) { return allocateFromW3DMemPool(getClassMemoryPool(), s); } \
 	inline void operator delete(void *p) { freeFromW3DMemPool(getClassMemoryPool(), p); } \
@@ -155,7 +162,7 @@ private:
 	}
 protected:
 	// we never call this; it is present to cause compile errors in descendent classes
-	virtual int glueEnforcer() const = 0;
+	virtual void glueEnforcer() const = 0;
 public:
 	virtual ~W3DMPO() { /* nothing */ }
 };
@@ -167,6 +174,9 @@ public:
 	#define MSGW3DNEWARRAY(MSG)			new
 	#define W3DNEW									new
 	#define W3DNEWARRAY							new
+
+	#define NEW_REF( C, P )					( W3DNEW C P )
+	#define SET_REF_OWNER( P )			P
 
 	#define W3DMPO_GLUE(ARGCLASS)
 
@@ -187,7 +197,7 @@ public:
 ** Define the MIN and MAX macros.
 ** NOTE: Joe used to #include <minmax.h> in the various compiler header files.  This
 ** header defines 'min' and 'max' macros which conflict with the surrender code so
-** I'm relpacing all occurances of 'min' and 'max with 'MIN' and 'MAX'.  For code which
+** I'm replacing all occurrences of 'min' and 'max with 'MIN' and 'MAX'.  For code which
 ** is out of our domain (e.g. Max sdk) I'm declaring template functions for 'min' and 'max'
 */
 #define NOMINMAX

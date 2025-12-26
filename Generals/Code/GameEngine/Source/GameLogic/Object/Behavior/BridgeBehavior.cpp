@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Radar.h"
 #include "Common/ThingFactory.h"
@@ -365,7 +365,7 @@ void BridgeBehavior::resolveFX( void )
 				DEBUG_CRASH(( "OCL list '%s' not found", name.str() ));
 
 			name = bridgeTemplate->getRepairedToFXString( (BodyDamageType)bodyState, i );
-			m_repairToFX[ bodyState ][ i ] = TheFXListStore->findFXList( name.str() );;
+			m_repairToFX[ bodyState ][ i ] = TheFXListStore->findFXList( name.str() );
 			if( name.isEmpty() == FALSE && m_repairToFX[ bodyState ][ i ] == NULL )
 				DEBUG_CRASH(( "FX list '%s' not found", name.str() ));
 
@@ -1451,7 +1451,7 @@ void BridgeBehavior::xfer( Xfer *xfer )
 	{
 
 		// read all object IDs
-		DEBUG_ASSERTCRASH( m_scaffoldObjectIDList.size() == 0,
+		DEBUG_ASSERTCRASH( m_scaffoldObjectIDList.empty(),
 											 ("BridgeBehavior::xfer - scaffold object list should be empty") );
 		for( Int i = 0; i < scaffoldObjectCount; ++i )
 		{

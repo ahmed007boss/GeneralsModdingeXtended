@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/ThingFactory.h"
 #include "Common/ThingTemplate.h"
@@ -134,7 +134,7 @@ ThingTemplate *ThingFactory::newTemplate( const AsciiString& name )
 	newTemplate = newInstance(ThingTemplate);
 
 	// if the default template is present, get it and copy over any data to the new template
-	const ThingTemplate *defaultT = findTemplate( AsciiString( "DefaultThingTemplate" ) );
+	const ThingTemplate *defaultT = findTemplate( "DefaultThingTemplate", FALSE );
 	if( defaultT )
 	{
 
@@ -265,7 +265,7 @@ const ThingTemplate *ThingFactory::findByTemplateID( UnsignedShort id )
 //-------------------------------------------------------------------------------------------------
 /** Return the template with the matching database name */
 //-------------------------------------------------------------------------------------------------
-ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name )
+ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name, Bool check )
 {
 	ThingTemplateHashMapIt tIt = m_templateHashMap.find(name);
 
@@ -276,7 +276,7 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name )
 #ifdef LOAD_TEST_ASSETS
 	if (!strncmp(name.str(), TEST_STRING, strlen(TEST_STRING)))
 	{
-		ThingTemplate *tmplate = newTemplate( AsciiString( "Un-namedTemplate" ) );
+		ThingTemplate *tmplate = newTemplate( "Un-namedTemplate" );
 
 		// load the values
 		tmplate->initForLTA( name );
@@ -292,7 +292,10 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name )
 
 #endif
 
-	//DEBUG_LOG(("*** Object template %s not found",name.str()));
+	if( check && name.isNotEmpty() )
+	{
+		DEBUG_CRASH( ("Failed to find thing template %s (case sensitive) This issue has a chance of crashing after you ignore it!", name.str() ) );
+	}
 	return NULL;
 
 }
@@ -372,7 +375,7 @@ AsciiString TheThingTemplateBeingParsedName;
 #endif
 
 	// find existing item if present
-	ThingTemplate *thingTemplate = TheThingFactory->findTemplateInternal( name );
+	ThingTemplate *thingTemplate = TheThingFactory->findTemplateInternal( name, FALSE );
 	if( !thingTemplate )
 	{
 		// no item is present, create a new one

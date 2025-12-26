@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameClient/WindowLayout.h"
 #include "GameClient/MapUtil.h"
@@ -67,7 +67,7 @@ static WindowLayout *gameInfoWindowLayout = NULL;
 void CreateLANGameInfoWindow( GameWindow *sizeAndPosWin )
 {
 	if( !gameInfoWindowLayout )
-		gameInfoWindowLayout = TheWindowManager->winCreateLayout( AsciiString( "Menus/GameInfoWindow.wnd" ) );
+		gameInfoWindowLayout = TheWindowManager->winCreateLayout( "Menus/GameInfoWindow.wnd" );
 
 	gameInfoWindowLayout->runInit();
 	gameInfoWindowLayout->bringForward();

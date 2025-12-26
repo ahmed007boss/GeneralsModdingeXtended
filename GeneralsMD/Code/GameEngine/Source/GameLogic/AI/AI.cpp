@@ -26,7 +26,7 @@
 // AI.cpp
 // The Artificial Intelligence system
 // Author: Michael S. Booth, November 2000
-#include "PreRTS.h" // This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/CRCDebug.h"
 #include "Common/GameState.h"
@@ -346,15 +346,18 @@ void AI::reset(void) {
   }
 
 #if RETAIL_COMPATIBLE_AIGROUP
-  while (m_groupList.size()) {
-    AIGroup *groupToRemove = m_groupList.front();
-    if (groupToRemove) {
-      destroyGroup(groupToRemove);
-    } else {
-      m_groupList.pop_front(); // NULL group, just kill from list.  Shouldn't
-                               // really happen, but just in case.
-    }
-  }
+	while (!m_groupList.empty())
+	{
+		AIGroup *groupToRemove = m_groupList.front();
+		if (groupToRemove)
+		{
+			destroyGroup(groupToRemove);
+		}
+		else
+		{
+			m_groupList.pop_front(); // NULL group, just kill from list.  Shouldn't really happen, but just in case.
+		}
+	}
 #else
   DEBUG_ASSERTCRASH(m_groupList.empty(),
                     ("AI::m_groupList is expected empty already"));

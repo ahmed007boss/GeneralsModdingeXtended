@@ -430,7 +430,7 @@ int INIClass::Load(Straw & ffile)
 			if (ptr != NULL) *ptr = '\0';
 			strtrim(buffer);
 			char section[64];
-			strcpy(section, buffer);
+			strlcpy(section, buffer, ARRAY_SIZE(section));
 
 			/*
 			**	Read in the entries of this section.
@@ -2284,8 +2284,8 @@ void INIClass::DuplicateCRCError(const char *message, const char *section, const
 	OutputDebugString(buffer);
 	assert(0);
 
-#ifdef NDEBUG
-#ifdef _WINDOWS
+#ifdef RTS_RELEASE
+#ifdef _WIN32
 	MessageBox(0, buffer, "Duplicate CRC in INI file.", MB_ICONSTOP | MB_OK);
 #endif
 #endif

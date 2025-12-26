@@ -46,7 +46,7 @@
 //-----------------------------------------------------------------------------
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 //-----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ void CreditsMenuInit( WindowLayout *layout, void *userData )
 	TheCredits->load();
 	TheCredits->init();
 
-	parentMainMenuID = TheNameKeyGenerator->nameToKey( AsciiString("CreditsMenu.wnd:ParentCreditsWindow") );
+	parentMainMenuID = TheNameKeyGenerator->nameToKey( "CreditsMenu.wnd:ParentCreditsWindow" );
 	parentMainMenu = TheWindowManager->winGetWindowFromId( NULL, parentMainMenuID );
 
 
@@ -99,7 +99,7 @@ void CreditsMenuInit( WindowLayout *layout, void *userData )
 
 
 	TheAudio->removeAudioEvent( AHSV_StopTheMusicFade );
-	AudioEventRTS event( AsciiString( "Credits" ) );
+	AudioEventRTS event( "Credits" );
 	event.setShouldFade( TRUE );
 	TheAudio->addAudioEvent( &event );
 

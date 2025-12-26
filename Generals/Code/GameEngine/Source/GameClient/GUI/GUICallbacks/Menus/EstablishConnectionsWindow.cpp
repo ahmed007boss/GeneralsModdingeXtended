@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 ///// EstablishConnectionsWindow.cpp /////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 #include "GameClient/GameWindowManager.h"
@@ -126,7 +126,7 @@ static void showGameSpyQMUnderlyingGUIElements( Bool show )
 }
 
 static void InitEstablishConnectionsDialog( void ) {
-	buttonQuitID = TheNameKeyGenerator->nameToKey( AsciiString("EstablishConnectionsScreen.wnd:ButtonQuit") );
+	buttonQuitID = TheNameKeyGenerator->nameToKey( "EstablishConnectionsScreen.wnd:ButtonQuit" );
 	buttonQuitWindow = TheWindowManager->winGetWindowFromId(NULL, buttonQuitID);
 }
 
