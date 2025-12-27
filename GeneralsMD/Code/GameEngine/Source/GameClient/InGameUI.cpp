@@ -877,6 +877,13 @@ const FieldParse InGameUI::s_fieldParseTable[] =
 	{ "SuperweaponScatterAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_SUPERWEAPON_SCATTER_AREA] ) },
 
 	{ "GuardAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_GUARD_AREA] ) },
+	{ "RaidAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_AREA] ) },
+	{ "RaidTanksAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_TANKS_AREA] ) },
+	{ "RaidBuildingsAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_BUILDINGS_AREA] ) },
+	{ "RaidDefencesAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_DEFENCES_AREA] ) },
+	{ "RaidArtilleryAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_ARTILLERY_AREA] ) },
+	{ "RaidAntiAirAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_ANTIAIR_AREA] ) },
+
 	{ "EmergencyRepairRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_EMERGENCY_REPAIR] ) },
 
 	{ "ParticleCannonRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[	RADIUSCURSOR_PARTICLECANNON] ) },
@@ -1364,6 +1371,14 @@ void InGameUI::setRadiusCursor(RadiusCursorType cursorType, const SpecialPowerTe
 			radius = w ? w->getContinueAttackRange() : 0.0f;
 			break;
 		case RADIUSCURSOR_GUARD_AREA:
+			radius = AIGuardMachine::getStdGuardRange(obj);
+			break;
+		case RADIUSCURSOR_RAID_AREA:
+		case RADIUSCURSOR_RAID_TANKS_AREA:
+		case RADIUSCURSOR_RAID_BUILDINGS_AREA:
+		case RADIUSCURSOR_RAID_DEFENCES_AREA:
+		case RADIUSCURSOR_RAID_ARTILLERY_AREA:
+		case RADIUSCURSOR_RAID_ANTIAIR_AREA:
 			radius = AIGuardMachine::getStdGuardRange(obj);
 			break;
 		case RADIUSCURSOR_FRIENDLY_SPECIALPOWER:
