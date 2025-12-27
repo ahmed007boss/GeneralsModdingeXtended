@@ -550,6 +550,7 @@ End
 - **`RAID_DEFENCES_AREA`** *(GMX Upcoming)* - Raid defences area radius cursor
 - **`RAID_ARTILLERY_AREA`** *(GMX Upcoming)* - Raid artillery area radius cursor
 - **`RAID_ANTIAIR_AREA`** *(GMX Upcoming)* - Raid anti-air area radius cursor
+- **`RAID_AIR_AREA`** *(GMX Upcoming)* - Raid air area radius cursor
 
 #### CommandOption Enum Values
 

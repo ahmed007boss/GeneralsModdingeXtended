@@ -883,6 +883,7 @@ const FieldParse InGameUI::s_fieldParseTable[] =
 	{ "RaidDefencesAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_DEFENCES_AREA] ) },
 	{ "RaidArtilleryAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_ARTILLERY_AREA] ) },
 	{ "RaidAntiAirAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_ANTIAIR_AREA] ) },
+	{ "RaidAirAreaRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_RAID_AIR_AREA] ) },
 
 	{ "EmergencyRepairRadiusCursor", RadiusDecalTemplate::parseRadiusDecalTemplate, NULL, offsetof( InGameUI, m_radiusCursors[RADIUSCURSOR_EMERGENCY_REPAIR] ) },
 
@@ -1379,6 +1380,7 @@ void InGameUI::setRadiusCursor(RadiusCursorType cursorType, const SpecialPowerTe
 		case RADIUSCURSOR_RAID_DEFENCES_AREA:
 		case RADIUSCURSOR_RAID_ARTILLERY_AREA:
 		case RADIUSCURSOR_RAID_ANTIAIR_AREA:
+		case RADIUSCURSOR_RAID_AIR_AREA:
 			radius = AIGuardMachine::getStdGuardRange(obj);
 			break;
 		case RADIUSCURSOR_FRIENDLY_SPECIALPOWER:
