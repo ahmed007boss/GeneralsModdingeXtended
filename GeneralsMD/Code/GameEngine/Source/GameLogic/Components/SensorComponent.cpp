@@ -26,6 +26,20 @@ Real SensorComponent::getShroudClearingRange() const
 	return m_shroudClearingRange;
 }
 
+Real SensorComponent::getVisionRange() const
+{
+	const ComponentStatus status = getStatus();
+	if (status == COMPONENT_STATUS_DOWNED || status == COMPONENT_STATUS_USER_DISABLED)
+	{
+		return m_visionRangeDisabled;
+	}
+	if (status == COMPONENT_STATUS_PARTIALLY_FUNCTIONAL)
+	{
+		return (m_visionRangePartial >= 0.0f) ? m_visionRangePartial : m_visionRange;
+	}
+	return m_visionRange;
+}
+
 Bool SensorComponent::setCurrentJammingDamage(Real damage)
 {
 	if (damage < 0.0f) damage = 0.0f;
@@ -136,6 +150,9 @@ void SensorComponent::buildFieldParse(MultiIniFieldParse& p)
 		{ "ShroudClearingRange", INI::parseReal, NULL, offsetof(SensorComponent, m_shroudClearingRange) },
 		{ "PartiallyFunctionalShroudClearingRange", INI::parseReal, NULL, offsetof(SensorComponent, m_shroudClearingRangePartial) },
 		{ "DisabledShroudClearingRange", INI::parseReal, NULL, offsetof(SensorComponent, m_shroudClearingRangeDisabled) },
+		{ "VisionRange", INI::parseReal, NULL, offsetof(SensorComponent, m_visionRange) },
+		{ "PartiallyFunctionalVisionRange", INI::parseReal, NULL, offsetof(SensorComponent, m_visionRangePartial) },
+		{ "DisabledVisionRange", INI::parseReal, NULL, offsetof(SensorComponent, m_visionRangeDisabled) },
 		{ 0, 0, 0, 0 }
 	};
 	p.add(sensorVisionFieldParse);
@@ -168,6 +185,9 @@ Component* SensorComponent::clone() const
 	copy->m_shroudClearingRange = m_shroudClearingRange;
 	copy->m_shroudClearingRangePartial = m_shroudClearingRangePartial;
 	copy->m_shroudClearingRangeDisabled = m_shroudClearingRangeDisabled;
+	copy->m_visionRange = m_visionRange;
+	copy->m_visionRangePartial = m_visionRangePartial;
+	copy->m_visionRangeDisabled = m_visionRangeDisabled;
 	copy->m_jammingDamageCap = m_jammingDamageCap;
 	copy->m_jammingDamageHealRate = m_jammingDamageHealRate;
 	copy->m_jammingDamageHealAmount = m_jammingDamageHealAmount;

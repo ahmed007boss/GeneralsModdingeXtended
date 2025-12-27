@@ -5426,10 +5426,37 @@ void Object::unshroud()
 //-------------------------------------------------------------------------------------------------
 Real Object::getVisionRange() const
 {
+	Real visionRange = m_visionRange;
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Aggregate vision range from Vision components (includes Sensor)
+	const ActiveBody* activeBody = static_cast<const ActiveBody*>(getBodyModule());
+	if (activeBody)
+	{
+		// Collect all components and consider those implementing IVisionComponent; take the largest effective range
+		std::vector<Component*> comps = activeBody->GetComponentsOfType<Component>();
+		for (std::vector<Component*>::const_iterator it = comps.begin(); it != comps.end(); ++it)
+		{
+			IVisionComponent* vc = dynamic_cast<IVisionComponent*>(*it);
+			if (vc)
+			{
+				Real r = vc->getVisionRange();
+				if (r > visionRange)
+					visionRange = r;
+			}
+		}
+	}
+
+	if (getStatusBits().test(OBJECT_STATUS_UNDER_CONSTRUCTION))
+	{
+		//structures under construction have limited vision range.  For now, base it
+		//on the geometry extents so the structure can only see itself.
+		visionRange = getGeometryInfo().getBoundingCircleRadius();
+	}
+
 #if defined(RTS_DEBUG)
 	if (TheGlobalData->m_debugVisibility)
 	{
-		Vector3 pos(m_visionRange, 0, 0);
+		Vector3 pos(visionRange, 0, 0);
 		for (int i = 0; i < TheGlobalData->m_debugVisibilityTileCount; ++i)
 		{
 			pos.Rotate_Z(1.0f * i / TheGlobalData->m_debugVisibilityTileCount * 2 * PI);
@@ -5441,7 +5468,7 @@ Real Object::getVisionRange() const
 		}
 	}
 #endif
-	return m_visionRange;
+	return visionRange;
 }
 
 //-------------------------------------------------------------------------------------------------
