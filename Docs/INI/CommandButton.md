@@ -531,17 +531,25 @@ End
 
 #### RadiusCursorType Values
 
-**Source:** [ControlBar.h](../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h) - `RadiusCursorType` enum definition
+**Source:** [InGameUI.h](../GeneralsMD/Code/GameEngine/Include/GameClient/InGameUI.h) - `RadiusCursorType` enum definition
 
-- **`RADIUSCURSOR_NONE`** *(v1.04)* - No radius cursor
-- **`RADIUSCURSOR_ATTACK_DAMAGE_AREA`** *(v1.04)* - Attack damage area radius cursor
-- **`RADIUSCURSOR_ATTACK_SCATTER_AREA`** *(v1.04)* - Attack scatter area radius cursor
-- **`RADIUSCURSOR_ATTACK_CONTINUE_AREA`** *(v1.04)* - Attack continue area radius cursor
-- **`RADIUSCURSOR_GUARD_AREA`** *(v1.04)* - Guard area radius cursor
-- **`RADIUSCURSOR_EMERGENCY_REPAIR`** *(v1.04)* - Emergency repair radius cursor
-- **`RADIUSCURSOR_FRIENDLY_SPECIALPOWER`** *(v1.04)* - Friendly special power radius cursor
-- **`RADIUSCURSOR_OFFENSIVE_SPECIALPOWER`** *(v1.04)* - Offensive special power radius cursor
-- **`RADIUSCURSOR_SUPERWEAPON_SCATTER_AREA`** *(v1.04)* - Superweapon scatter area radius cursor
+**Configuration:** Radius cursor types are configured in `InGameUI.ini` using properties like `RaidAreaRadiusCursor`, `RaidTanksAreaRadiusCursor`, `RaidDefencesAreaRadiusCursor`, etc. Each cursor type can have its own visual appearance and behavior defined in the INI file.
+
+- **`NONE`** *(v1.04)* - No radius cursor
+- **`ATTACK_DAMAGE_AREA`** *(v1.04)* - Attack damage area radius cursor
+- **`ATTACK_SCATTER_AREA`** *(v1.04)* - Attack scatter area radius cursor
+- **`ATTACK_CONTINUE_AREA`** *(v1.04)* - Attack continue area radius cursor
+- **`GUARD_AREA`** *(v1.04)* - Guard area radius cursor
+- **`EMERGENCY_REPAIR`** *(v1.04)* - Emergency repair radius cursor
+- **`FRIENDLY_SPECIALPOWER`** *(v1.04)* - Friendly special power radius cursor
+- **`OFFENSIVE_SPECIALPOWER`** *(v1.04)* - Offensive special power radius cursor
+- **`SUPERWEAPON_SCATTER_AREA`** *(v1.04)* - Superweapon scatter area radius cursor
+- **`RAID_AREA`** *(GMX Upcoming)*  - Raid area radius cursor
+- **`RAID_TANKS_AREA`** *(GMX Upcoming)*  - Raid tanks area radius cursor
+- **`RAID_BUILDINGS_AREA`** *(GMX Upcoming)*  - Raid buildings area radius cursor
+- **`RAID_DEFENCES_AREA`** *(GMX Upcoming)* - Raid defences area radius cursor
+- **`RAID_ARTILLERY_AREA`** *(GMX Upcoming)* - Raid artillery area radius cursor
+- **`RAID_ANTIAIR_AREA`** *(GMX Upcoming)* - Raid anti-air area radius cursor
 
 #### CommandOption Enum Values
 
