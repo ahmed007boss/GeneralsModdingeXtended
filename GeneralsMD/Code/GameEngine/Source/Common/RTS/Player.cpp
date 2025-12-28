@@ -58,7 +58,7 @@
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
 #include "Common/PlayerTemplate.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Radar.h"
 #include "Common/ResourceGatheringManager.h"
 #include "Common/Team.h"
@@ -2928,7 +2928,7 @@ Bool Player::canBuild(const ThingTemplate *tmplate) const
 		Bool prereqsOK = true;
 		for (Int i = 0; i < tmplate->getPrereqCount(); i++)
 		{
-			const ProductionPrerequisite *pre = tmplate->getNthPrereq(i);
+			const PlayerPrerequisite *pre = tmplate->getNthPrereq(i);
 			if (pre->isSatisfied(this) == false )
 				prereqsOK = false;
 		}

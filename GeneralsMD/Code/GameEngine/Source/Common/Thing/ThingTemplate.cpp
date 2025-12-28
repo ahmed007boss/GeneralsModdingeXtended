@@ -51,7 +51,7 @@
 #include "Common/ModuleFactory.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Radar.h"
 #include "Common/RandomValue.h"
 #include "Common/Science.h"
@@ -685,7 +685,7 @@ void ThingTemplate::parseIntList(INI* ini, void* instance, void* store, const vo
 void ThingTemplate::parsePrerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
 	ThingTemplate* self = (ThingTemplate*)instance;
-	ProductionPrerequisite::parsePrerequisites(ini, &self->m_prereqInfo, store, userData);
+	PlayerPrerequisite::parsePrerequisites(ini, &self->m_prereqInfo, store, userData);
 }
 
 

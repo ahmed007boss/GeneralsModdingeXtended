@@ -57,7 +57,7 @@
 #include "GameClient/GameText.h"
 
 //-----------------------------------------------------------------------------
-ObjectPrerequisite::ObjectPrerequisite()
+ObjectPrerequisite::ObjectPrerequisite() : m_namesResolved(false)
 {
 	init();
 }
@@ -111,6 +111,8 @@ void ObjectPrerequisite::init()
 	m_objectItemStorageFull.clear();
 	m_objectItemStorageNotFull.clear();
 	m_objectItemStorageEmpty.clear();
+	
+	m_namesResolved = false;	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Initialize resolution flag
 }
 
 //=============================================================================
@@ -234,6 +236,12 @@ void ObjectPrerequisite::resolveNames()
 //-----------------------------------------------------------------------------
 Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 {
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Lazy initialization: resolve names if not already resolved
+	if (!m_namesResolved)
+	{
+		const_cast<ObjectPrerequisite*>(this)->resolveNames();
+		m_namesResolved = true;
+	}
 	
 	if (!object)
 		return false;
@@ -1515,11 +1523,6 @@ void ObjectPrerequisite::parseObjectPrerequisites(INI* ini, void* instance, void
 
 	ini->initFromINI(prereqVector, myFieldParse);
 
-	// Resolve prerequisite names now
-	for (size_t i = 0; i < prereqVector->size(); ++i)
-	{
-		(*prereqVector)[i].resolveNames();
-	}
 }
 
 //-------------------------------------------------------------------------------------------------

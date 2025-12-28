@@ -43,7 +43,7 @@
 #include "Common/PlayerList.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Module/CreateModule.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "GameClient/GameClient.h"
 #include "GameClient/Drawable.h"
 #include "Common/INI.h"

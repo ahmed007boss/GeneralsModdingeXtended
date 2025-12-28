@@ -84,6 +84,7 @@ void PlayerPrerequisite::init()
 	m_prereqMaxCountKindOfUnitsNames.clear();
 	m_prereqMinCountKindOfUnitsWithLevelNames.clear();
 	m_prereqMaxCountKindOfUnitsWithLevelNames.clear();
+	m_namesResolved = false;	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Initialize resolution flag
 }
 
 //=============================================================================
@@ -217,6 +218,13 @@ const ThingTemplate* PlayerPrerequisite::getExistingBuildFacilityTemplate(const 
 //-----------------------------------------------------------------------------
 Bool PlayerPrerequisite::isSatisfied(const Player* player) const
 {
+	//TheSuperHackers @feature Ahmed Salah 15/01/2025 Lazy initialization: resolve names if not already resolved
+	if (!m_namesResolved)
+	{
+		const_cast<PlayerPrerequisite*>(this)->resolveNames();
+		m_namesResolved = true;
+	}
+
 	Int i;
 
 	if (!player)
@@ -605,30 +613,38 @@ UnicodeString PlayerPrerequisite::getRequiresList(const Player* player) const
 			if (orRequirements[i])
 			{
 				unit = m_prereqUnits[i - 1].unit;
-				unitName = unit->getDisplayName();
-				unitName.concat(L" ");
-				unitName.concat(TheGameText->fetch("CONTROLBAR:OrRequirement", NULL));
-				unitName.concat(L" ");
-				requiresList.concat(unitName);
+				// TheSuperHackers @bugfix Ahmed Salah 15/01/2025 Check unit not null before using
+				if (unit)
+				{
+					unitName = unit->getDisplayName();
+					unitName.concat(L" ");
+					unitName.concat(TheGameText->fetch("CONTROLBAR:OrRequirement", NULL));
+					unitName.concat(L" ");
+					requiresList.concat(unitName);
+				}
 			}
 
 			// get the requirement and then its name
 			unit = m_prereqUnits[i].unit;
-			unitName = unit->getDisplayName();
+			// TheSuperHackers @bugfix Ahmed Salah 15/01/2025 Check unit not null before using
+			if (unit)
+			{
+				unitName = unit->getDisplayName();
 
-			// gets command button, and then modifies unitName
-			//CommandButton *cmdButton = TheControlBar->findCommandButton(unit->getName());
-			//if (cmdButton)
-				//unitName.translate(TheGameText->fetch(cmdButton->m_textLabel.str()));
+				// gets command button, and then modifies unitName
+				//CommandButton *cmdButton = TheControlBar->findCommandButton(unit->getName());
+				//if (cmdButton)
+					//unitName.translate(TheGameText->fetch(cmdButton->m_textLabel.str()));
 
-			// format name appropriately with 'returns' if necessary
-			if (firstRequirement)
-				firstRequirement = false;
-			else
-				unitName.concat(L"\n");
+				// format name appropriately with 'returns' if necessary
+				if (firstRequirement)
+					firstRequirement = false;
+				else
+					unitName.concat(L"\n");
 
-			// add it to the list
-			requiresList.concat(unitName);
+				// add it to the list
+				requiresList.concat(unitName);
+			}
 		}
 	}
 
@@ -1170,12 +1186,6 @@ void PlayerPrerequisite::parsePrerequisites(INI* ini, void* instance, void* stor
 	}
 
 	ini->initFromINI(prereqVector, myFieldParse);
-
-	// Resolve prerequisite names now so later const accesses don't need to mutate state (if enabled)
-	for (size_t i = 0; i < prereqVector->size(); ++i)
-	{
-		(*prereqVector)[i].resolveNames();
-	}
 
 }
 

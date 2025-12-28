@@ -39,7 +39,7 @@
 #include "Common/KindOf.h"
 #include "Common/ModuleFactory.h"
 #include "Common/Overridable.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Science.h"
 #include "Common/UnicodeString.h"
 
@@ -53,7 +53,7 @@ class AIUpdateModuleData;
 class Image;
 class Object;
 class Drawable;
-class ProductionPrerequisite;
+class PlayerPrerequisite;
 struct FieldParse;
 class Player;
 class INI;
@@ -635,7 +635,7 @@ public:
 #endif
 		return m_prereqInfo.size();
 	}
-	const ProductionPrerequisite *getNthPrereq(Int i) const { return &m_prereqInfo[i]; }
+	const PlayerPrerequisite *getNthPrereq(Int i) const { return &m_prereqInfo[i]; }
 
 	/**
 		return the BuildFacilityTemplate, if any.
@@ -784,7 +784,7 @@ private:
 	typedef SparseMatchFinder<ArmorTemplateSet, ArmorSetFlags, SparseMatchFinderFlags_NoCopy> ArmorTemplateSetFinder;
 
 	// ---- STL-sized things
-	std::vector<ProductionPrerequisite>	m_prereqInfo;				///< the unit Prereqs for this tech
+	std::vector<PlayerPrerequisite>	m_prereqInfo;				///< the unit Prereqs for this tech
 	std::vector<AsciiString>						m_buildVariations;	/**< if we build a unit of this type via script or ui, randomly choose one
 																														of these templates instead. (doesn't apply to MapObject-created items) */
 	WeaponTemplateSetVector							m_weaponTemplateSets;					///< our weaponsets

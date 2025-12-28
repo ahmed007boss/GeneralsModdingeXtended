@@ -43,13 +43,13 @@
 #include "Common/PlayerTemplate.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/SpecialPower.h"
 #include "Common/ThingTemplate.h"
 #include "Common/ThingFactory.h"
 #include "Common/Upgrade.h"
 #include "Common/Recorder.h"
-#include "Common/ProductionPrerequisite.h"
+
 
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Object.h"

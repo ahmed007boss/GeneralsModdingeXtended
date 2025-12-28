@@ -182,6 +182,8 @@ protected:
 	mutable std::vector<AsciiString>	m_prereqMinCountKindOfUnitsWithLevelNames;
 	mutable std::vector<AsciiString>	m_prereqMaxCountKindOfUnitsWithLevelNames;
 
+	mutable Bool						m_namesResolved;	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Track if names have been resolved for lazy initialization
+
 private :
 	static void parsePrerequisiteScience(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parsePrerequisiteUnit(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
