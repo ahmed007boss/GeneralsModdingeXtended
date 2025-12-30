@@ -738,14 +738,13 @@ void AudioEventRTS::setVolume( Real vol )
 //-------------------------------------------------------------------------------------------------
 const Coord3D *AudioEventRTS::getCurrentPosition( void )
 {
-	if (m_ownerType == OT_Positional)
+	switch (m_ownerType)
 	{
+	case OT_Positional:
 		return &m_positionOfAudio;
-	}
-	else if (m_ownerType == OT_Object)
-	{
-		Object *obj = TheGameLogic->findObjectByID(m_objectID);
-		if (obj)
+
+	case OT_Object:
+		if (Object *obj = TheGameLogic->findObjectByID(m_objectID))
 		{
 			m_positionOfAudio.set( obj->getPosition() );
 		}
@@ -754,11 +753,9 @@ const Coord3D *AudioEventRTS::getCurrentPosition( void )
 			m_ownerType = OT_Dead;
 		}
 		return &m_positionOfAudio;
-	}
-	else if (m_ownerType == OT_Drawable)
-	{
-		Drawable *draw = TheGameClient->findDrawableByID(m_drawableID);
-		if( draw )
+
+	case OT_Drawable:
+		if (Drawable *draw = TheGameClient->findDrawableByID(m_drawableID))
 		{
 			m_positionOfAudio.set( draw->getPosition() );
 		}
@@ -767,9 +764,8 @@ const Coord3D *AudioEventRTS::getCurrentPosition( void )
 			m_ownerType = OT_Dead;
 		}
 		return &m_positionOfAudio;
-	}
-	else if( m_ownerType == OT_Dead )
-	{
+
+	case OT_Dead:
 		return &m_positionOfAudio;
 	}
 
