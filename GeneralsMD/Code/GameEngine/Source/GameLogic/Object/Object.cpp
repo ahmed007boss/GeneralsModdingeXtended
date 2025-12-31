@@ -2236,6 +2236,7 @@ void localIsHero(Object* obj, void* userData)
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @performance bobtista 13/11/2025 Use cached hero count for O(1) lookup instead of O(n) iteration.
 Bool Object::isHero(void) const
 {
 	ContainModuleInterface* contain = getContain();
