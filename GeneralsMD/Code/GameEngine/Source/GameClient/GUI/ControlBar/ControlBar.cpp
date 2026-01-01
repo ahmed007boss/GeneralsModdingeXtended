@@ -43,7 +43,7 @@
 #include "Common/PlayerTemplate.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/PlayerPrerequisite.h"
+#include "Common/ProductionPrerequisite.h"
 #include "Common/SpecialPower.h"
 #include "Common/ThingTemplate.h"
 #include "Common/ThingFactory.h"
@@ -131,10 +131,12 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "UnitSpecificSound",		INI::parseAudioEventRTS,		 NULL, offsetof( CommandButton, m_unitSpecificSound ) },
 	{ "RequireElectronics",		INI::parseBool,							 NULL, offsetof( CommandButton, m_isRequireElectronics) },
 	{ "TargetKindOf",				CommandButton::parseTargetKindOf,	NULL, 0 },
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	{ "EnablePrerequisites",				CommandButton::parseEnablePrerequisites,	0, 0 },
+	{ "EnableCallerPrerequisites",				CommandButton::parseEnablePrerequisites,	0, 0 },
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	{ "VisiblePrerequisites",				CommandButton::parseVisiblePrerequisites,	0, 0 },
-	{ "EnableCallerPrerequisites",				CommandButton::parseEnableCallerUnitPrerequisites,	0, 0 },
-	{ "VisibleCallerPrerequisites",				CommandButton::parseVisibleCallerUnitPrerequisites,	0, 0 },
+	{ "VisibleCallerPrerequisites",				CommandButton::parseVisiblePrerequisites,	0, 0 },
 
 	// Modifier key and click type button name strings
 	{ "ClickCtrlButton",					INI::parseAsciiString, NULL, offsetof( CommandButton, m_leftClickCtrlButtonName ) },
@@ -163,10 +165,6 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "AlternativeButton2Prerequisites",	CommandButton::parseAlternativeButton2Prerequisites,	0, 0 },
 	{ "AlternativeButton3Prerequisites",	CommandButton::parseAlternativeButton3Prerequisites,	0, 0 },
 	{ "AlternativeButton4Prerequisites",	CommandButton::parseAlternativeButton4Prerequisites,	0, 0 },
-	{ "AlternativeButton1ObjectPrerequisites",	CommandButton::parseAlternativeButton1ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton2ObjectPrerequisites",	CommandButton::parseAlternativeButton2ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton3ObjectPrerequisites",	CommandButton::parseAlternativeButton3ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton4ObjectPrerequisites",	CommandButton::parseAlternativeButton4ObjectPrerequisites,	0, 0 },
 
 	{ NULL,						NULL,												 NULL, 0 }  // keep this last
 
@@ -556,90 +554,48 @@ void ControlBar::populatePurchaseScience( Player* player )
 //-------------------------------------------------------------------------------------------------
 void CommandButton::parseAlternativeButton1Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton1Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton1Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton2Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton2Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton2Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton3Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton3Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton3Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton4Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @alternative Ahmed Salah 27/06/2025 Parse prerequisites for alternative button 4
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton4Prereq, store, userData);
-}
-
-//-------------------------------------------------------------------------------------------------
-/** Alternative button object prerequisite parsing functions */
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseAlternativeButton1ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton1ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton2ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton2ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton3ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton3ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton4ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton4ObjectPrereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton4Prereq, store, userData);
 }
 
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @refactor author 15/01/2025 Implement missing prerequisite parsing methods
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 void CommandButton::parseEnablePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
 {
 	CommandButton* button = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &button->m_enablePrereqInfo, NULL, NULL);
+	ProductionPrerequisite::parsePrerequisites(ini, &button->m_enablePrereqInfo, NULL, NULL);
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 void CommandButton::parseVisiblePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
 {
 	CommandButton* button = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &button->m_visiblePrereqInfo, NULL, NULL);
-}
-
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseEnableCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
-{
-	CommandButton* button = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &button->m_enableCallerUnitPrereqInfo, NULL, NULL);
-}
-
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseVisibleCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
-{
-	CommandButton* button = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &button->m_visibleCallerUnitPrereqInfo, NULL, NULL);
+	ProductionPrerequisite::parsePrerequisites(ini, &button->m_visiblePrereqInfo, NULL, NULL);
 }
 
 
@@ -797,11 +753,11 @@ CommandButton::CommandButton( void )
 	m_alternativeButton3Name.clear();
 	m_alternativeButton4Name.clear();
 
-	// Initialize alternative button object prerequisite vectors
-	m_alternativeButton1ObjectPrereq.clear();
-	m_alternativeButton2ObjectPrereq.clear();
-	m_alternativeButton3ObjectPrereq.clear();
-	m_alternativeButton4ObjectPrereq.clear();
+	// Initialize alternative button prerequisite vectors (merged player and object prerequisites)
+	m_alternativeButton1Prereq.clear();
+	m_alternativeButton2Prereq.clear();
+	m_alternativeButton3Prereq.clear();
+	m_alternativeButton4Prereq.clear();
 
 	// Initialize cached button references to NULL
 	m_leftClickCtrlButton = NULL;
@@ -1024,31 +980,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton1Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton1Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton1Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton1Prereq.empty())
-			{
-				if (!m_alternativeButton1ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton1ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton1ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1069,31 +1007,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton2Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton2Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton2Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton2Prereq.empty())
-			{
-				if (!m_alternativeButton2ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton2ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton2ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1114,31 +1034,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton3Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton3Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton3Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton3Prereq.empty())
-			{
-				if (!m_alternativeButton3ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton3ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton3ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1159,31 +1061,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton4Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton4Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton4Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton4Prereq.empty())
-			{
-				if (!m_alternativeButton4ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton4ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton4ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			

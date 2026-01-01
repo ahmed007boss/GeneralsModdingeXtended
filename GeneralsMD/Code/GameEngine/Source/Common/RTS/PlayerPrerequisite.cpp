@@ -55,7 +55,7 @@
 
 
 //-----------------------------------------------------------------------------
-PlayerPrerequisite::PlayerPrerequisite()
+PlayerPrerequisite::PlayerPrerequisite() : m_namesResolved(false)
 {
 	init();
 }
@@ -218,7 +218,7 @@ const ThingTemplate* PlayerPrerequisite::getExistingBuildFacilityTemplate(const 
 //-----------------------------------------------------------------------------
 Bool PlayerPrerequisite::isSatisfied(const Player* player) const
 {
-	//TheSuperHackers @feature Ahmed Salah 15/01/2025 Lazy initialization: resolve names if not already resolved
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Lazy initialization: resolve names if not already resolved
 	if (!m_namesResolved)
 	{
 		const_cast<PlayerPrerequisite*>(this)->resolveNames();
@@ -1212,7 +1212,10 @@ void PlayerPrerequisite::parsePrerequisiteScience(INI* ini, void* instance, void
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addSciencePrereq(INI::scanScience(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addSciencePrereq(INI::scanScience(token));
+	}
 
 	v->push_back(prereq);
 }
@@ -1239,7 +1242,10 @@ void PlayerPrerequisite::parsePrerequisiteScienceConflict(INI* ini, void* instan
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addSciencePrereqConflict(INI::scanScience(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addSciencePrereqConflict(INI::scanScience(token));
+	}
 
 	v->push_back(prereq);
 }
@@ -1250,7 +1256,10 @@ void PlayerPrerequisite::parsePrerequisiteUpgrade(INI* ini, void* instance, void
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addUpgradePrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addUpgradePrereq(AsciiString(token));
+	}
 
 	v->push_back(prereq);
 }
@@ -1261,7 +1270,10 @@ void PlayerPrerequisite::parsePrerequisiteUpgradeConflict(INI* ini, void* instan
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addUpgradePrereqConflict(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addUpgradePrereqConflict(AsciiString(token));
+	}
 
 	v->push_back(prereq);
 }
@@ -1272,7 +1284,10 @@ void PlayerPrerequisite::parsePrerequisiteKindOfUnit(INI* ini, void* instance, v
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addKindOfUnitPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addKindOfUnitPrereq(AsciiString(token));
+	}
 
 	v->push_back(prereq);
 }
@@ -1283,7 +1298,10 @@ void PlayerPrerequisite::parsePrerequisiteKindOfUnitConflict(INI* ini, void* ins
 	std::vector<PlayerPrerequisite>* v = (std::vector<PlayerPrerequisite>*)instance;
 
 	PlayerPrerequisite prereq;
-	prereq.addKindOfUnitPrereqConflict(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addKindOfUnitPrereqConflict(AsciiString(token));
+	}
 
 	v->push_back(prereq);
 }

@@ -71,8 +71,7 @@
 #include "Common/BuildAssistant.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/PlayerPrerequisite.h"
-#include "Common/ObjectPrerequisite.h"
+#include "Common/ProductionPrerequisite.h"
 #include "Common/SpecialPower.h"
 #include "Common/ThingTemplate.h"
 #include "Common/Upgrade.h"
@@ -529,14 +528,17 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		}
 
 
+		// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 		// ask each prerequisite to give us a list of the non satisfied prerequisites
+		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+		Object* selectedObject = draw ? draw->getObject() : NULL;
 		for (Int i = 0; i < commandButton->getEnablePrereqCount(); i++)
 		{
-			prereq = commandButton->getNthEnablePrereq(i);
-			if (!prereq->isSatisfied(player))
+			const ProductionPrerequisite* prodPrereq = commandButton->getNthEnablePrereq(i);
+			if (!prodPrereq->isSatisfied(player, selectedObject))
 			{
-				requiresList = prereq->getRequiresList(player);
-				conflictsList =  prereq->getConflictList(player);
+				requiresList = prodPrereq->getRequiresList(player, selectedObject);
+				conflictsList = prodPrereq->getConflictList(player, selectedObject);
 				if (requiresList != UnicodeString::TheEmptyString)
 				{
 					// make sure to put in 'returns' to space things correctly
@@ -556,42 +558,6 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 						conflictsFormat.concat(L", ");
 				}
 				conflictsFormat.concat(conflictsList);
-
-			}
-		}
-
-		// Check enable caller unit prerequisites
-		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
-		Object* selectedObject = draw ? draw->getObject() : NULL;
-		if (selectedObject)
-		{
-			for (Int i = 0; i < commandButton->getEnableCallerUnitPrereqCount(); i++)
-			{
-				const ObjectPrerequisite* objPrereq = commandButton->getNthEnableCallerUnitPrereq(i);
-				if (!objPrereq->isSatisfied(selectedObject))
-				{
-					requiresList = objPrereq->getRequiresList(selectedObject);
-					conflictsList = objPrereq->getConflictList(selectedObject);
-					if (requiresList != UnicodeString::TheEmptyString)
-					{
-						// make sure to put in 'returns' to space things correctly
-						if (firstRequirement)
-							firstRequirement = false;
-						else
-							requiresFormat.concat(L", ");
-					}
-					requiresFormat.concat(requiresList);
-
-					if (conflictsList != UnicodeString::TheEmptyString)
-					{
-						// make sure to put in 'returns' to space things correctly
-						if (firstConflicts)
-							firstConflicts = false;
-						else
-							conflictsFormat.concat(L", ");
-					}
-					conflictsFormat.concat(conflictsList);
-				}
 			}
 		}
 

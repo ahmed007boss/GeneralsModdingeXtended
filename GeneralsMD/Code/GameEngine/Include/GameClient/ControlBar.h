@@ -34,8 +34,7 @@
 #include "Common/GameType.h"
 #include "Common/Overridable.h"
 #include "Common/Science.h"
-#include "Common/PlayerPrerequisite.h"
-#include "Common/ObjectPrerequisite.h"
+#include "Common/ProductionPrerequisite.h"
 #include "GameClient/Color.h"
 
 // FORWARD REFERENCES /////////////////////////////////////////////////////////////////////////////
@@ -381,10 +380,10 @@ public:
 
 
 
-	std::vector<PlayerPrerequisite>	m_enablePrereqInfo;
-	std::vector<PlayerPrerequisite>	m_visiblePrereqInfo;
-	std::vector<ObjectPrerequisite>	m_enableCallerUnitPrereqInfo;
-	std::vector<ObjectPrerequisite>	m_visibleCallerUnitPrereqInfo;
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
+	std::vector<ProductionPrerequisite>	m_enablePrereqInfo;
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
+	std::vector<ProductionPrerequisite>	m_visiblePrereqInfo;
 
 	Bool m_prereqInfoResloved;
 
@@ -441,17 +440,13 @@ public:
 	const CommandButton* getNext() const { return m_next; }
 
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	Int getEnablePrereqCount() const {	return m_enablePrereqInfo.size();	}
-	const PlayerPrerequisite* getNthEnablePrereq(Int i) const { return &m_enablePrereqInfo[i]; }
+	const ProductionPrerequisite* getNthEnablePrereq(Int i) const { return &m_enablePrereqInfo[i]; }
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	Int getVisiblePrereqCount() const { return m_visiblePrereqInfo.size(); }
-	const PlayerPrerequisite* getNthVisiblePrereq(Int i) const { return &m_visiblePrereqInfo[i]; }
-
-	Int getEnableCallerUnitPrereqCount() const { return m_enableCallerUnitPrereqInfo.size(); }
-	const ObjectPrerequisite* getNthEnableCallerUnitPrereq(Int i) const { return &m_enableCallerUnitPrereqInfo[i]; }
-
-	Int getVisibleCallerUnitPrereqCount() const { return m_visibleCallerUnitPrereqInfo.size(); }
-	const ObjectPrerequisite* getNthVisibleCallerUnitPrereq(Int i) const { return &m_visibleCallerUnitPrereqInfo[i]; }
+	const ProductionPrerequisite* getNthVisiblePrereq(Int i) const { return &m_visiblePrereqInfo[i]; }
 
 	void setName(const AsciiString& n) { m_name = n; }
 
@@ -470,22 +465,16 @@ public:
 	void friend_addToList(CommandButton** list) {	m_next = *list;	*list = this; }
 	CommandButton* friend_getNext() { return m_next; }
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	static void parseEnablePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	static void parseVisiblePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseEnableCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseVisibleCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 
-	// Alternative button prerequisite parsing functions
+	// Alternative button prerequisite parsing functions (merged player and object prerequisites)
 	static void parseAlternativeButton1Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton2Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton3Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton4Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-
-	// Alternative button object prerequisite parsing functions
-	static void parseAlternativeButton1ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton2ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton3ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton4ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 
 	// TheSuperHackers @alternative Ahmed Salah 27/06/2025 Helper function to check all alternative buttons
 	const CommandButton* getAlternativeButtonByIndex(Int index) const;
@@ -563,17 +552,11 @@ private:
 	AsciiString							m_alternativeButton3Name;					///< name for alternative button 3
 	AsciiString							m_alternativeButton4Name;					///< name for alternative button 4
 
-	// Prerequisites for alternative buttons
-	std::vector<PlayerPrerequisite>	m_alternativeButton1Prereq;				///< prerequisites for alternative button 1
-	std::vector<PlayerPrerequisite>	m_alternativeButton2Prereq;				///< prerequisites for alternative button 2
-	std::vector<PlayerPrerequisite>	m_alternativeButton3Prereq;				///< prerequisites for alternative button 3
-	std::vector<PlayerPrerequisite>	m_alternativeButton4Prereq;				///< prerequisites for alternative button 4
-
-	// Object-based prerequisites for alternative buttons
-	std::vector<ObjectPrerequisite>	m_alternativeButton1ObjectPrereq;		///< object prerequisites for alternative button 1
-	std::vector<ObjectPrerequisite>	m_alternativeButton2ObjectPrereq;		///< object prerequisites for alternative button 2
-	std::vector<ObjectPrerequisite>	m_alternativeButton3ObjectPrereq;		///< object prerequisites for alternative button 3
-	std::vector<ObjectPrerequisite>	m_alternativeButton4ObjectPrereq;		///< object prerequisites for alternative button 4
+	// Prerequisites for alternative buttons (merged player and object prerequisites)
+	std::vector<ProductionPrerequisite>	m_alternativeButton1Prereq;				///< prerequisites for alternative button 1
+	std::vector<ProductionPrerequisite>	m_alternativeButton2Prereq;				///< prerequisites for alternative button 2
+	std::vector<ProductionPrerequisite>	m_alternativeButton3Prereq;				///< prerequisites for alternative button 3
+	std::vector<ProductionPrerequisite>	m_alternativeButton4Prereq;				///< prerequisites for alternative button 4
 
 	// Cached button references (assigned once when first accessed)
 	mutable const CommandButton*			m_leftClickCtrlButton;						///< cached button for Ctrl+left-click

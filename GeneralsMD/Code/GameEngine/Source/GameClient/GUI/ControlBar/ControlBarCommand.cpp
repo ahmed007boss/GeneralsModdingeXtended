@@ -1810,40 +1810,23 @@ CommandAvailability ControlBar::checkPrerequisites(const CommandButton* command,
 {
 
 
-	// Check visible player prerequisites
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
+	// Check visible prerequisites (now includes both player and caller unit prerequisites)
 	for (Int i = 0; i < command->getVisiblePrereqCount(); i++)
 	{
-		const PlayerPrerequisite* pre = command->getNthVisiblePrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(player) == false)
+		const ProductionPrerequisite* pre = command->getNthVisiblePrereq(i);
+		// Names are resolved lazily in isSatisfied; check both player and object prerequisites
+		if (pre->isSatisfied(player, obj) == false)
 			return COMMAND_HIDDEN;
 	}
 
-	// Check visible caller unit prerequisites
-	for (Int i = 0; i < command->getVisibleCallerUnitPrereqCount(); i++)
-	{
-		const ObjectPrerequisite* pre = command->getNthVisibleCallerUnitPrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(obj) == false)
-			return COMMAND_HIDDEN;
-	}
-
-
-	// Check enable player prerequisites
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
+	// Check enable prerequisites (now includes both player and caller unit prerequisites)
 	for (Int i = 0; i < command->getEnablePrereqCount(); i++)
 	{
-		const PlayerPrerequisite* pre = command->getNthEnablePrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(player) == false)
-			return COMMAND_RESTRICTED;
-	}
-
-	// Check enable caller unit prerequisites
-	for (Int i = 0; i < command->getEnableCallerUnitPrereqCount(); i++)
-	{
-		const ObjectPrerequisite* pre = command->getNthEnableCallerUnitPrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(obj) == false)
+		const ProductionPrerequisite* pre = command->getNthEnablePrereq(i);
+		// Names are resolved lazily in isSatisfied; check both player and object prerequisites
+		if (pre->isSatisfied(player, obj) == false)
 			return COMMAND_RESTRICTED;
 	}
 
