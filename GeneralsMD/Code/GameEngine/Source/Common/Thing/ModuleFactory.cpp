@@ -223,6 +223,7 @@
 #include "GameLogic/Module/ExperienceScalarUpgrade.h"
 #include "GameLogic/Module/MaxHealthUpgrade.h"
 #include "GameLogic/Module/GrantUpgradeOnUpgrade.h"
+#include "GameLogic/Module/RemoveUpgradeOnUpgrade.h"
 
 // create includes
 #include "GameLogic/Module/LockWeaponCreate.h"
@@ -515,6 +516,7 @@ void ModuleFactory::init( void )
 	addModule( ExperienceScalarUpgrade );
 	addModule( MaxHealthUpgrade );
 	addModule( GrantUpgradeOnUpgrade );
+	addModule( RemoveUpgradeOnUpgrade );
 
 	// create modules
 	addModule( LockWeaponCreate );

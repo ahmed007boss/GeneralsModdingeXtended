@@ -354,6 +354,7 @@ set(GAMEENGINE_SRC
     Include/GameLogic/Module/GrantStealthBehavior.h
     Include/GameLogic/Module/GrantUpgradeCreate.h
     Include/GameLogic/Module/GrantUpgradeOnUpgrade.h
+    Include/GameLogic/Module/RemoveUpgradeOnUpgrade.h
     Include/GameLogic/Module/HackInternetAIUpdate.h
     Include/GameLogic/Module/HealContain.h
     Include/GameLogic/Module/HealCrateCollide.h
@@ -1117,6 +1118,7 @@ set(GAMEENGINE_SRC
     Source/GameLogic/Object/Upgrade/ExperienceScalarUpgrade.cpp
     Source/GameLogic/Object/Upgrade/GrantScienceUpgrade.cpp
     Source/GameLogic/Object/Upgrade/GrantUpgradeOnUpgrade.cpp
+    Source/GameLogic/Object/Upgrade/RemoveUpgradeOnUpgrade.cpp
     Source/GameLogic/Object/Upgrade/LocomotorSetUpgrade.cpp
     Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp
     Source/GameLogic/Object/Upgrade/ModelConditionUpgrade.cpp
