@@ -1784,6 +1784,7 @@ void INI::continueParsing( void *what, const FieldParse* parseTable, const std::
 		// Apply parameter substitution to the current line on-the-fly
 		applyParameterSubstitution(m_buffer);
 
+
 		// check for end token
 		const char* field = strtok( m_buffer, INI::getSeps() );
 		if( field )
@@ -1923,7 +1924,8 @@ void INI::applyParameterSubstitution( char* buffer )
 			strcpy(buffer, newLine);
 			
 			// Find next occurrence from the current position
-			searchStart = newLine + beforeLen + strlen(it->second.str());
+			// TheSuperHackers @bugfix Ahmed Salah 03/01/2026 Use buffer instead of newLine to avoid pointer arithmetic between different memory regions
+			searchStart = buffer + beforeLen + strlen(it->second.str());
 			pos = strstr(searchStart, placeholder);
 		}
 	}
