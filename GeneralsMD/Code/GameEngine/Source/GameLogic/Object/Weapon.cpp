@@ -1987,6 +1987,7 @@ WeaponStore::~WeaponStore()
 		deleteInstance(wt);
 	}
 	m_weaponTemplateVector.clear();
+	m_weaponTemplateHashMap.clear();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -2066,6 +2067,7 @@ WeaponTemplate* WeaponStore::newWeaponTemplate(AsciiString name)
 	wt->m_name = name;
 	wt->m_nameKey = TheNameKeyGenerator->nameToKey(name);
 	m_weaponTemplateVector.push_back(wt);
+	m_weaponTemplateHashMap[wt->m_nameKey] = wt;
 
 	return wt;
 }
