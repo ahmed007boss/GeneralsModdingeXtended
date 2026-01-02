@@ -338,6 +338,7 @@ static PoolSizeRec PoolSizes[] =
 	{ "CommandSetUpgrade", 32, 32 },
 	{ "PassengersFireUpgrade", 32, 32 },
 	{ "GrantUpgradeCreate", 256, 32 },
+	{ "GrantUpgradeOnUpgrade", 256, 32 },
 	{ "GrantScienceUpgrade", 256, 32 },
 	{ "ReplaceObjectUpgrade", 32, 32 },
 	{ "ModelConditionUpgrade", 32, 32 },
