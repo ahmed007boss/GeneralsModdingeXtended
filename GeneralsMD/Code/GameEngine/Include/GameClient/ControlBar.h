@@ -1115,6 +1115,7 @@ protected:
 	
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
 	ObjectID m_portraitVideoObjectID;										///< Object ID of the unit whose portrait video is playing/played
+	AsciiString m_portraitVideoName;										///< Name of the video currently playing/played
 	DisplayString *m_portraitDisplayString;									///< Display string for unit name overlay on portrait
 	GameWindow *m_rightHUDUnitSelectParent;
 
@@ -1189,6 +1190,8 @@ protected:
 	Bool m_showBuildToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not.
 	WindowLayout *m_unitToolTipLayout;										///< The window that will display unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
 	Bool m_showUnitToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	WindowLayout *m_unitCamoToolTipLayout;									///< The window that will display camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool m_showUnitCamoToolTipLayout;										///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah
 public:
 	void showBuildTooltipLayout( GameWindow *cmdButton );
 	void hideBuildTooltipLayout( void );
@@ -1201,6 +1204,11 @@ public:
 	void deleteUnitTooltipLayout( void );									///< Delete unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
 	Bool getShowUnitTooltipLayout( void ){return m_showUnitToolTipLayout;	}	///< Get unit tooltip visibility state - TheSuperHackers @feature Ahmed Salah 01/01/2026
 	void populateUnitTooltipLayout( void );									///< Populate unit details tooltip with object information - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void showUnitCamoTooltipLayout( GameWindow *camoWindow );				///< Show camo (upgrade) tooltip when hovering over upgrade cameo - TheSuperHackers @feature Ahmed Salah
+	void hideUnitCamoTooltipLayout( void );									///< Hide camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	void deleteUnitCamoTooltipLayout( void );								///< Delete camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool getShowUnitCamoTooltipLayout( void ){return m_showUnitCamoToolTipLayout;	}	///< Get camo tooltip visibility state - TheSuperHackers @feature Ahmed Salah
+	void populateUnitCamoTooltipLayout( const UpgradeTemplate* upgradeTemplate );	///< Populate camo (upgrade) tooltip with upgrade information - TheSuperHackers @feature Ahmed Salah
 private:
 
 

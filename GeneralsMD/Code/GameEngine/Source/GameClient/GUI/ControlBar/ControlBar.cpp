@@ -92,6 +92,8 @@
 
 // Forward declaration for unit tooltip update function - TheSuperHackers @feature Ahmed Salah 01/01/2026
 void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param);
+// Forward declaration for camo tooltip update function - TheSuperHackers @feature Ahmed Salah
+void ControlBarUnitCamoTooltipUpdateFunc(WindowLayout* layout, void* param);
 
 
 // PUBLIC /////////////////////////////////////////////////////////////////////////////////////////
@@ -217,6 +219,12 @@ static void unitPortraitTooltip(GameWindow *window,
 													UnsignedInt mouse)
 {
 	TheControlBar->showUnitTooltipLayout(window);
+}
+static void unitCamoTooltip(GameWindow *window,
+	WinInstanceData *instData,
+	UnsignedInt mouse)
+{
+TheControlBar->showUnitCamoTooltipLayout(window);
 }
 
 /// mark the UI as dirty so the context of everything is re-evaluated
@@ -1672,6 +1680,9 @@ ControlBar::ControlBar( void )
 	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Initialize unit tooltip members
 	m_unitToolTipLayout = NULL;
 	m_showUnitToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Initialize camo tooltip members
+	m_unitCamoToolTipLayout = NULL;
+	m_showUnitCamoToolTipLayout = FALSE;
 
 	m_animateDownWin1Pos.x = m_animateDownWin1Pos.y = 0;
 	m_animateDownWin1Size.x = m_animateDownWin1Size.y = 0;
@@ -1727,6 +1738,7 @@ ControlBar::ControlBar( void )
 	m_rightHUDUnitSelectParent = NULL;
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support initialization
 	m_portraitVideoObjectID = INVALID_ID;
+	m_portraitVideoName.clear();
 	m_portraitDisplayString = NULL;
 	m_communicatorButton = NULL;
 	m_currentSelectedDrawable = NULL;
@@ -1830,6 +1842,13 @@ ControlBar::~ControlBar( void )
 		m_unitToolTipLayout->destroyWindows();
 		deleteInstance(m_unitToolTipLayout);
 		m_unitToolTipLayout = NULL;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Cleanup camo tooltip layout
+	if(m_unitCamoToolTipLayout)
+	{
+		m_unitCamoToolTipLayout->destroyWindows();
+		deleteInstance(m_unitCamoToolTipLayout);
+		m_unitCamoToolTipLayout = NULL;
 	}
 
 	if(m_specialPowerLayout)
@@ -2013,6 +2032,8 @@ void ControlBar::init( void )
 				TheWindowManager->winGetWindowFromId( m_rightHUDWindow, id );
 			if (m_rightHUDUpgradeCameos[i] != nullptr) {
 				m_rightHUDUpgradeCameos[i]->winSetStatus(WIN_STATUS_USE_OVERLAY_STATES);
+				// TheSuperHackers @feature Ahmed Salah - Set camo tooltip callback on upgrade cameo windows
+				m_rightHUDUpgradeCameos[i]->winSetTooltipFunc(unitCamoTooltip);
 			}
 		}
 
@@ -2103,6 +2124,14 @@ void ControlBar::init( void )
 			m_unitToolTipLayout->setUpdate(ControlBarUnitTooltipUpdateFunc);
 		}
 		m_showUnitToolTipLayout = FALSE;
+		// TheSuperHackers @feature Ahmed Salah - Initialize camo tooltip layout
+		m_unitCamoToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_unitCamoToolTipLayout)
+		{
+			m_unitCamoToolTipLayout->hide(TRUE);
+			m_unitCamoToolTipLayout->setUpdate(ControlBarUnitCamoTooltipUpdateFunc);
+		}
+		m_showUnitCamoToolTipLayout = FALSE;
 
 		m_genStarOn = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarON") : NULL;
 		m_genStarOff = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarOFF") : NULL;
@@ -2156,6 +2185,10 @@ void ControlBar::reset( void )
 	if(m_unitToolTipLayout)
 		m_unitToolTipLayout->hide(TRUE);
 	m_showUnitToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Reset camo tooltip layout
+	if(m_unitCamoToolTipLayout)
+		m_unitCamoToolTipLayout->hide(TRUE);
+	m_showUnitCamoToolTipLayout = FALSE;
 
 	if(m_animateWindowManager)
 		m_animateWindowManager->reset();
@@ -2281,6 +2314,12 @@ void ControlBar::update( void )
 	{
 		m_unitToolTipLayout->runUpdate();
 		m_showUnitToolTipLayout = FALSE;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Update camo tooltip layout
+	if( m_unitCamoToolTipLayout && !m_unitCamoToolTipLayout->isHidden())
+	{
+		m_unitCamoToolTipLayout->runUpdate();
+		m_showUnitCamoToolTipLayout = FALSE;
 	}
 
 	updateSpecialPowerShortcut();
@@ -3827,11 +3866,12 @@ void ControlBar::setPortraitByObject( Object *obj )
 		if( videoName.isNotEmpty() && m_videoManager )
 		{
 			// Unit has video - show video only, no image
-			if( objID != m_portraitVideoObjectID )
+			if( objID != m_portraitVideoObjectID || videoName != m_portraitVideoName )
 			{
-				// Different object, start new video
+				// Different object or different video, start new video
 				m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
 				m_portraitVideoObjectID = objID;
+				m_portraitVideoName = videoName;
 				m_videoManager->playMovie( m_rightHUDCameoWindow, videoName, WINDOW_PLAY_MOVIE_LOOP );
 			}
 			
@@ -3855,6 +3895,7 @@ void ControlBar::setPortraitByObject( Object *obj )
 			// Clean up any previous video
 			m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
 			m_portraitVideoObjectID = INVALID_ID;
+			m_portraitVideoName.clear();
 		}
 		
 		// Use object getter which checks override first, then falls back to template

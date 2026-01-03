@@ -116,6 +116,8 @@ const FieldParse UpgradeTemplate::m_upgradeFieldParseTable[] =
 {
 
 	{ "DisplayName",				INI::parseAsciiString,		NULL, offsetof( UpgradeTemplate, m_displayNameLabel ) },
+	{ "Description",				INI::parseAsciiString,		NULL, offsetof( UpgradeTemplate, m_descriptionLabel ) },
+	{ "ActiveDescription",		INI::parseAsciiString,		NULL, offsetof( UpgradeTemplate, m_activeDescriptionLabel ) },
 	{ "Type",								INI::parseIndexList,			TheUpgradeTypeNames, offsetof( UpgradeTemplate, m_type ) },
 	{ "BuildTime",					INI::parseReal,						NULL, offsetof( UpgradeTemplate, m_buildTime ) },
 	{ "BuildCost",					INI::parseInt,						NULL, offsetof( UpgradeTemplate, m_cost ) },

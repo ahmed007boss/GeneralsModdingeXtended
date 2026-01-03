@@ -445,9 +445,16 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 
 			descrip += TheGameText->fetch(commandButton->getDescriptionLabel());
 		}
+		else if (upgradeTemplate && upgradeTemplate->getDescriptionLabel().isNotEmpty())
+		{
+			// TheSuperHackers @feature Ahmed Salah - Use upgrade template description if command button has no description
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += TheGameText->fetch(upgradeTemplate->getDescriptionLabel());
+		}
 		else if (thingTemplate)
 		{
-			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button has no description (handles template fallback internally)
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button and upgrade have no description (handles template fallback internally)
 			Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
 			Object* selectedObject = draw ? draw->getObject() : NULL;
 			if (selectedObject)
@@ -1066,6 +1073,14 @@ static AnimateWindowManager* theUnitTooltipAnimateWindowManager = NULL;
 static GameWindow* prevUnitTooltipWindow = NULL;
 static Bool useUnitTooltipAnimation = FALSE;
 
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Camo tooltip support
+// ---------------------------------------------------------------------------------------
+static WindowLayout* theUnitCamoTooltipLayout = NULL;
+static AnimateWindowManager* theUnitCamoTooltipAnimateWindowManager = NULL;
+static GameWindow* prevUnitCamoTooltipWindow = NULL;
+static Bool useUnitCamoTooltipAnimation = FALSE;
+
 void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param)
 {
 	if (TheScriptEngine->isGameEnding())
@@ -1121,7 +1136,7 @@ void ControlBar::showUnitTooltipLayout(GameWindow* portraitWindow)
 		if (!passedWaitTime)
 			return;
 	}
-	else if (!m_unitToolTipLayout->isHidden())
+	else if (m_unitToolTipLayout && !m_unitToolTipLayout->isHidden())
 	{
 		if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows && !theUnitTooltipAnimateWindowManager->isReversed())
 			theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
@@ -1151,6 +1166,9 @@ void ControlBar::showUnitTooltipLayout(GameWindow* portraitWindow)
 		return;
 
 	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_unitToolTipLayout)
 		return;
 
 	m_showUnitToolTipLayout = TRUE;
@@ -1601,4 +1619,303 @@ void ControlBar::populateUnitTooltipLayout(void)
 		GadgetStaticTextSetText(win, descrip);
 	}
 	m_unitToolTipLayout->hide(FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Camo tooltip update function
+// ---------------------------------------------------------------------------------------
+void ControlBarUnitCamoTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideUnitCamoTooltipLayout();
+
+	if (theUnitCamoTooltipAnimateWindowManager && !TheControlBar->getShowUnitCamoTooltipLayout() && !theUnitCamoTooltipAnimateWindowManager->isReversed())
+		theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowUnitCamoTooltipLayout() && (!TheGlobalData->m_animateWindows || !useUnitCamoTooltipAnimation))
+		TheControlBar->deleteUnitCamoTooltipLayout();
+
+	if (useUnitCamoTooltipAnimation && theUnitCamoTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theUnitCamoTooltipAnimateWindowManager->isFinished();
+		theUnitCamoTooltipAnimateWindowManager->update();
+		if (theUnitCamoTooltipAnimateWindowManager->isFinished() && !wasFinished && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		{
+			delete theUnitCamoTooltipAnimateWindowManager;
+			theUnitCamoTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteUnitCamoTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showUnitCamoTooltipLayout(GameWindow* camoWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideUnitCamoTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevUnitCamoTooltipWindow == camoWindow)
+	{
+		m_showUnitCamoToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (m_unitCamoToolTipLayout && !m_unitCamoToolTipLayout->isHidden())
+	{
+		if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows && !theUnitCamoTooltipAnimateWindowManager->isReversed())
+			theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_unitCamoToolTipLayout->hide(TRUE);
+			prevUnitCamoTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevUnitCamoTooltipWindow = camoWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_unitCamoToolTipLayout)
+		return;
+
+	// Find which upgrade cameo was hovered by comparing the window pointer
+	Int upgradeCameoIndex = -1;
+	for (Int i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; ++i)
+	{
+		if (TheControlBar->m_rightHUDUpgradeCameos[i] == camoWindow)
+		{
+			upgradeCameoIndex = i;
+			break;
+		}
+	}
+
+	// Get the upgrade template from the selected object
+	const UpgradeTemplate* upgradeTemplate = NULL;
+	if (upgradeCameoIndex >= 0)
+	{
+		const ThingTemplate* thingTemplate = obj->getTemplate();
+		if (thingTemplate)
+		{
+			AsciiString upgradeName = thingTemplate->getUpgradeCameoName(upgradeCameoIndex);
+			if (!upgradeName.isEmpty())
+			{
+				upgradeTemplate = TheUpgradeCenter->findUpgrade(upgradeName);
+			}
+		}
+	}
+
+	m_showUnitCamoToolTipLayout = TRUE;
+	populateUnitCamoTooltipLayout(upgradeTemplate);
+	m_unitCamoToolTipLayout->hide(FALSE);
+
+	if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theUnitCamoTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theUnitCamoTooltipAnimateWindowManager->reset();
+		theUnitCamoTooltipAnimateWindowManager->registerGameWindow(m_unitCamoToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideUnitCamoTooltipLayout()
+{
+	if (theUnitCamoTooltipAnimateWindowManager && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useUnitCamoTooltipAnimation && theUnitCamoTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteUnitCamoTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteUnitCamoTooltipLayout(void)
+{
+	m_showUnitCamoToolTipLayout = FALSE;
+	prevUnitCamoTooltipWindow = NULL;
+	if (m_unitCamoToolTipLayout)
+		m_unitCamoToolTipLayout->hide(TRUE);
+
+	delete theUnitCamoTooltipAnimateWindowManager;
+	theUnitCamoTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateUnitCamoTooltipLayout(const UpgradeTemplate* upgradeTemplate)
+{
+	if (!m_unitCamoToolTipLayout)
+		return;
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj || !upgradeTemplate)
+		return;
+
+	UnicodeString name, descrip;
+	
+	// Get upgrade display name from label
+	const AsciiString& displayNameLabel = upgradeTemplate->getDisplayNameLabel();
+	if (!displayNameLabel.isEmpty())
+	{
+		name = TheGameText->fetch(displayNameLabel);
+	}
+	if (name.isEmpty() || wcsstr(name.str(), L"MISSING:") != NULL)
+	{
+		// Fallback to upgrade name if display name is missing
+		const AsciiString& upgradeName = upgradeTemplate->getUpgradeName();
+		if (!upgradeName.isEmpty())
+		{
+			// Convert AsciiString to UnicodeString
+			name.format(L"%hs", upgradeName.str());
+		}
+	}
+	
+	// Check if upgrade is active (owned by unit or player)
+	Player* player = ThePlayerList->getLocalPlayer();
+	Bool isUpgradeActive = FALSE;
+	if (obj && upgradeTemplate)
+	{
+		// Check if object has the upgrade (object-level upgrade)
+		if (obj->hasUpgrade(upgradeTemplate))
+		{
+			isUpgradeActive = TRUE;
+		}
+		// Check if player has the upgrade (player-level upgrade)
+		else if (player && player->hasUpgradeComplete(upgradeTemplate))
+		{
+			isUpgradeActive = TRUE;
+		}
+	}
+	
+	// Append "(Active)" to name if upgrade is active
+	if (isUpgradeActive && !name.isEmpty())
+	{
+		name.concat(L" (Active)");
+	}
+	
+	// Get upgrade description from label - use active description if upgrade is active, otherwise use regular description
+	const AsciiString& descriptionLabel = upgradeTemplate->getDescriptionLabel();
+	if (isUpgradeActive)
+	{
+		const AsciiString& activeDescriptionLabel = upgradeTemplate->getActiveDescriptionLabel();
+		if (!activeDescriptionLabel.isEmpty())
+		{
+			descrip = TheGameText->fetch(activeDescriptionLabel);
+		}
+		else if (!descriptionLabel.isEmpty())
+		{
+			// Fallback to regular description if active description is empty
+			descrip = TheGameText->fetch(descriptionLabel);
+		}
+	}
+	else if (!descriptionLabel.isEmpty())
+	{
+		// Use regular description when upgrade is not active
+		descrip = TheGameText->fetch(descriptionLabel);
+	}
+	
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, name);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for camo tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descrip);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_unitCamoToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
+		win->winGetSize(&size.x, &size.y);
+		win->winSetSize(size.x, size.y + diffSize);
+
+		GadgetStaticTextSetText(win, descrip);
+	}
+	m_unitCamoToolTipLayout->hide(FALSE);
 }

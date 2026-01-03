@@ -173,6 +173,8 @@ public:
 	void setUpgradeNameKey( NameKeyType key ) { m_nameKey = key; }
 	NameKeyType getUpgradeNameKey( void ) const { return m_nameKey; }
 	const AsciiString& getDisplayNameLabel( void ) const { return m_displayNameLabel; }
+	const AsciiString& getDescriptionLabel( void ) const { return m_descriptionLabel; }
+	const AsciiString& getActiveDescriptionLabel( void ) const { return m_activeDescriptionLabel; }
 	UpgradeMaskType getUpgradeMask() const { return m_upgradeMask; }
 	UpgradeType getUpgradeType( void ) const { return m_type; }
 	const AudioEventRTS* getResearchCompleteSound() const { return &m_researchSound; }
@@ -202,6 +204,8 @@ protected:
 	AsciiString m_name;									///< upgrade name
 	NameKeyType m_nameKey;							///< name key
 	AsciiString m_displayNameLabel;			///< String manager label for UI display name
+	AsciiString m_descriptionLabel;			///< String manager label for UI description
+	AsciiString m_activeDescriptionLabel;		///< String manager label for UI description when upgrade is active
 	Real m_buildTime;										///< database # for how long it takes to "build" this
 	Int m_cost;													///< cost for production
 	UpgradeMaskType m_upgradeMask;			///< Unique bitmask for this upgrade template
