@@ -3658,6 +3658,12 @@ UnicodeString ControlBar::getSelectionOverlayText( const ThingTemplate *thing, c
 		unitName = thing->getDisplayName();
 	}
 	
+	// Skip if name contains "MISSING:" (missing localization)
+	if( wcsstr( unitName.str(), L"MISSING:" ) != NULL )
+	{
+		return UnicodeString::TheEmptyString;
+	}
+	
 	if( selectedCount > 1 )
 	{
 		// Check if all selected units are the same type (ThingTemplate)
@@ -3683,6 +3689,11 @@ UnicodeString ControlBar::getSelectionOverlayText( const ThingTemplate *thing, c
 			if( pluralName.isEmpty() )
 			{
 				pluralName = thing->getDisplayPluralName();
+			}
+			// Skip if plural name contains "MISSING:" (missing localization)
+			if( wcsstr( pluralName.str(), L"MISSING:" ) != NULL )
+			{
+				return UnicodeString::TheEmptyString;
 			}
 			overlayText.format( L"%d %ls", selectedCount, pluralName.str() );
 		}
