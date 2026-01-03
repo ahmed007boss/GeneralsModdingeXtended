@@ -256,8 +256,14 @@ public:
 	inline const UnicodeString& getDisplayNameOverride() const {
 		return m_displayNameOverride;
 	}
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	inline const UnicodeString& getDisplayPluralNameOverride() const {
+		return m_displayPluralNameOverride;
+	}
 	inline void setName( const AsciiString& newName ) { m_name = newName; }
 	inline void setDisplayName( const UnicodeString& newName ) { m_displayNameOverride = newName; }
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	inline void setDisplayPluralName( const UnicodeString& newName ) { m_displayPluralNameOverride = newName; }
 
 	inline Team* getTeam() { return m_team; }
 	inline const Team *getTeam() const { return m_team; }
@@ -814,6 +820,7 @@ private:
 	Drawable*			m_drawable;									///< drawable (if any) for this object
 	AsciiString		m_name;										  ///< internal name
 	UnicodeString	m_displayNameOverride;			///< Display Name
+	UnicodeString	m_displayPluralNameOverride;	///< Display Plural Name - TheSuperHackers @feature Ahmed Salah 03/01/2026
 
 	Object *			m_next;
 	Object *			m_prev;

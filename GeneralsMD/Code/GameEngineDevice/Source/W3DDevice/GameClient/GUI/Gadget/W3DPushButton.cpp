@@ -53,6 +53,7 @@
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/GadgetPushButton.h"
 #include "GameClient/Display.h"
+#include "GameClient/DisplayString.h"
 #include "W3DDevice/GameClient/W3DGameWindow.h"
 #include "W3DDevice/GameClient/W3DDisplay.h"
 #include "W3DDevice/GameClient/W3DGadget.h"
@@ -279,6 +280,15 @@ void W3DGadgetPushButtonDraw( GameWindow *window, WinInstanceData *instData )
 		{
 			TheDisplay->drawOpenRect(origin.x -1, origin.y - 1, size.x + 2, size.y + 2,1 , pData->colorBorder);
 		}
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
+		if( pData->overlayText )
+		{
+			// Draw text at bottom of button
+			Int textX = origin.x + 4;
+			Int textY = origin.y + size.y - 19;  // Position near bottom
+			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
+		}
 	}
 
 }
@@ -459,6 +469,15 @@ void W3DGadgetPushButtonImageDrawOne( GameWindow *window,
 
 			TheDisplay->drawOpenRect(start.x - 1, start.y - 1, size.x + 2, size.y + 2, 1, pData->colorBorder);
 
+		}
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
+		if( pData->overlayText )
+		{
+			// Draw text at bottom of button
+			Int textX = start.x + 4;
+			Int textY = start.y + size.y - 19;  // Position near bottom
+			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
 		}
 	}
 
@@ -726,6 +745,15 @@ void W3DGadgetPushButtonImageDrawThree(GameWindow *window, WinInstanceData *inst
 		if( pData->drawBorder && pData->colorBorder != GAME_COLOR_UNDEFINED )
 		{
 			TheDisplay->drawOpenRect(start.x - 1, start.y - 1, size.x + 2, size.y + 2, 1, pData->colorBorder);
+		}
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
+		if( pData->overlayText )
+		{
+			// Draw text at bottom of button
+			Int textX = start.x + 4;
+			Int textY = start.y + size.y - 19;  // Position near bottom
+			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
 		}
 	}
 }

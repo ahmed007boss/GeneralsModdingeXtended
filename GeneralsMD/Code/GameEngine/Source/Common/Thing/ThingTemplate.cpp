@@ -141,6 +141,7 @@ AudioEventRTS ThingTemplate::s_audioEventNoSound;
 const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 {
 	{ "DisplayName",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayName) },
+	{ "DisplayPluralName",			INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
 	{ "RadarPriority",				INI::parseByteSizedIndexList,					RadarPriorityNames, offsetof(ThingTemplate, m_radarPriority) },
 	{ "TransportSlotCount",		INI::parseUnsignedByte,								NULL,		offsetof(ThingTemplate, m_transportSlotCount) },
 	{ "FenceWidth",						INI::parseReal,												NULL,		offsetof(ThingTemplate, m_fenceWidth) },
@@ -197,6 +198,8 @@ const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 			// NOTE NOTE NOTE -- s_objectFieldParseTable and s_objectReskinFieldParseTable must be updated in tandem -- see comment above
 
 				{ "SelectPortrait",					INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_selectedPortraitImageName) },
+				// TheSuperHackers @feature Ahmed Salah 03/01/2026 Video to play before showing static portrait
+				{ "SelectPortraitVideo",		INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_selectedPortraitVideoName) },
 				{ "ButtonImage",						INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_buttonImageName) },
 
 				//Code renderer handles these states now.
@@ -1938,6 +1941,39 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 		return const_cast<ModuleData*>(m_info[i].second);
 	}
 	return NULL;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get pluralized display name
+//-------------------------------------------------------------------------------------------------
+UnicodeString ThingTemplate::getDisplayPluralName() const
+{
+	// If a custom plural name is defined, use it
+	if( !m_displayPluralName.isEmpty() )
+	{
+		return m_displayPluralName;
+	}
+	
+	// Otherwise, generate plural form automatically
+	UnicodeString pluralName = m_displayName;
+	Int len = m_displayName.getLength();
+	if( len > 0 )
+	{
+		WideChar lastChar = m_displayName.getCharAt( len - 1 );
+		WideChar secondLastChar = (len > 1) ? m_displayName.getCharAt( len - 2 ) : L'\0';
+		
+		// Add "es" for words ending in s, x, z, ch, sh; otherwise add "s"
+		if( lastChar == L's' || lastChar == L'x' || lastChar == L'z' ||
+			(lastChar == L'h' && (secondLastChar == L'c' || secondLastChar == L's')) )
+		{
+			pluralName.concat( L"es" );
+		}
+		else
+		{
+			pluralName.concat( L"s" );
+		}
+	}
+	return pluralName;
 }
 
 //-------------------------------------------------------------------------------------------------

@@ -71,6 +71,8 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/Display.h"
 #include "GameClient/DisplayStringManager.h"
+#include "GameClient/GameFont.h"
+#include "GameClient/GlobalLanguage.h"
 #include "GameClient/GameClient.h"
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/GameText.h"
@@ -1709,6 +1711,9 @@ ControlBar::ControlBar( void )
 	for( i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; i++ )
 		m_rightHUDUpgradeCameos[i];
 	m_rightHUDUnitSelectParent = NULL;
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support initialization
+	m_portraitVideoObjectID = INVALID_ID;
+	m_portraitDisplayString = NULL;
 	m_communicatorButton = NULL;
 	m_currentSelectedDrawable = NULL;
 	m_currContext = CB_CONTEXT_NONE;
@@ -3637,6 +3642,65 @@ void ControlBar::setPortraitByImage( const Image *image )
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get selection overlay text (unit name and count)
+//-------------------------------------------------------------------------------------------------
+UnicodeString ControlBar::getSelectionOverlayText( const ThingTemplate *thing, const Object *obj ) const
+{
+	UnicodeString overlayText;
+	
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	Int selectedCount = selectedDrawables ? (Int)selectedDrawables->size() : 1;
+	
+	// Check for display name override from object (e.g., from DisplayNameUpgrade)
+	UnicodeString unitName = obj ? obj->getDisplayNameOverride() : UnicodeString::TheEmptyString;
+	if( unitName.isEmpty() )
+	{
+		unitName = thing->getDisplayName();
+	}
+	
+	if( selectedCount > 1 )
+	{
+		// Check if all selected units are the same type (ThingTemplate)
+		Bool allSameType = TRUE;
+		if( selectedDrawables )
+		{
+			for( DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it )
+			{
+				const Drawable *d = *it;
+				if( d && d->getTemplate() && d->getTemplate()->getName() != thing->getName() )
+				{
+					allSameType = FALSE;
+					break;
+				}
+			}
+		}
+		
+		if( allSameType )
+		{
+			// All same type - use pluralized display name
+			// Check for plural name override from object first
+			UnicodeString pluralName = obj ? obj->getDisplayPluralNameOverride() : UnicodeString::TheEmptyString;
+			if( pluralName.isEmpty() )
+			{
+				pluralName = thing->getDisplayPluralName();
+			}
+			overlayText.format( L"%d %ls", selectedCount, pluralName.str() );
+		}
+		else
+		{
+			// Different types - show generic "units"
+			overlayText.format( L"%d Units", selectedCount );
+		}
+	}
+	else
+	{
+		overlayText = unitName;
+	}
+	
+	return overlayText;
+}
+
+//-------------------------------------------------------------------------------------------------
 /** show/hide the portrait image by object.  We like to use this method as opposed to the
 	* plain image one above so that we can build more intelligence into what portrait to
 	* show for an object given its current state or object type */
@@ -3667,7 +3731,7 @@ void ControlBar::setPortraitByObject( Object *obj )
 				setPortraitByObject( NULL );
 				return;
 			}
-      StealthUpdate *stealth = obj->getStealth();
+      		StealthUpdate *stealth = obj->getStealth();
 			if( stealth && stealth->isDisguised() )
 			{
 				//Fake player upgrades too!
@@ -3675,6 +3739,63 @@ void ControlBar::setPortraitByObject( Object *obj )
 			}
 		}
 
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
+		// If unit has video and video manager exists, show video. Otherwise show image.
+		const AsciiString& videoName = thing->getSelectedPortraitVideoName();
+		ObjectID objID = obj->getID();
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Display unit name and selection count overlay
+		UnicodeString overlayText = getSelectionOverlayText( thing, obj );
+		
+		// Create or update the display string for text overlay
+		if( !m_portraitDisplayString )
+		{
+			m_portraitDisplayString = TheDisplayStringManager->newDisplayString();
+			if( m_portraitDisplayString )
+			{
+				m_portraitDisplayString->setFont( TheFontLibrary->getFont( AsciiString("Arial"), 
+					TheGlobalLanguageData->adjustFontSize(5), TRUE ) );
+			}
+		}
+		if( m_portraitDisplayString )
+		{
+			m_portraitDisplayString->setText( overlayText );
+			GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, m_portraitDisplayString );
+		}
+		
+		if( videoName.isNotEmpty() && m_videoManager )
+		{
+			// Unit has video - show video only, no image
+			if( objID != m_portraitVideoObjectID )
+			{
+				// Different object, start new video
+				m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
+				m_portraitVideoObjectID = objID;
+				m_videoManager->playMovie( m_rightHUDCameoWindow, videoName, WINDOW_PLAY_MOVIE_LOOP );
+			}
+			
+			// Show the video window
+			m_rightHUDUnitSelectParent->winHide(FALSE);
+			m_rightHUDWindow->winClearStatus( WIN_STATUS_IMAGE );
+			
+			// Hide upgrade cameos while video is showing
+			for(Int i = 0; i < MAX_UPGRADE_CAMEO_UPGRADES; ++i)
+			{
+				if (m_rightHUDUpgradeCameos[i] != nullptr)
+					m_rightHUDUpgradeCameos[i]->winHide(TRUE);
+			}
+			
+			return;  // Video is showing, don't show image
+		}
+		
+		// No video or no video manager - show image
+		if( m_portraitVideoObjectID != INVALID_ID && m_videoManager )
+		{
+			// Clean up any previous video
+			m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
+			m_portraitVideoObjectID = INVALID_ID;
+		}
+		
 		const Image* portrait = thing->getSelectedPortraitImage();
 
 		m_rightHUDUnitSelectParent->winHide(FALSE);
@@ -3742,6 +3863,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 		//TheSuperHackers @overlay Ahmed Salah 27/06/2025 Clear all overlay images when clearing portrait overlay
 		GadgetButtonDrawOverlayImage2( m_rightHUDCameoWindow, NULL );
 		GadgetButtonDrawOverlayImage3( m_rightHUDCameoWindow, NULL );
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Clear unit name overlay text
+		GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, NULL );
 	}
 
 }

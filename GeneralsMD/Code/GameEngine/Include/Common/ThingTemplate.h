@@ -442,6 +442,9 @@ public:
 
 	/// set the display name
 	const UnicodeString& getDisplayName() const { return m_displayName; }  ///< return display name
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get pluralized display name
+	UnicodeString getDisplayPluralName() const;  ///< return pluralized display name (e.g., "Tanks" instead of "Tank")
 
 	// TheSuperHackers @feature author 15/01/2025 Get the original INI file path where this template was defined
 	const AsciiString& getIniFilePath() const { return m_iniFilePath; }
@@ -499,6 +502,7 @@ public:
 	UnicodeString getKindOfDescription() const;
 
 	const Image *getSelectedPortraitImage( void ) const { return m_selectedPortraitImage; }
+	const AsciiString& getSelectedPortraitVideoName( void ) const { return m_selectedPortraitVideoName; }	///< TheSuperHackers @feature Ahmed Salah 03/01/2026
 	const Image *getButtonImage( void ) const { return m_buttonImage; }
 
 	//Code renderer handles these states now.
@@ -745,6 +749,7 @@ private:
 
 	// ---- Strings
 	UnicodeString			m_displayName;			///< UI display for onscreen display
+	UnicodeString			m_displayPluralName;	///< UI display for plural form (e.g., "Tanks" instead of "Tank") - TheSuperHackers @feature Ahmed Salah 03/01/2026
 	AsciiString				m_nameString;					///< name of this thing template
 	AsciiString				m_defaultOwningSide;	///< default owning side (owning player is inferred)
 	AsciiString				m_commandSetString;
@@ -752,6 +757,7 @@ private:
 	AsciiString				m_commandSet3String;
 	AsciiString				m_commandSet4String;
 	AsciiString				m_selectedPortraitImageName;
+	AsciiString				m_selectedPortraitVideoName;	///< TheSuperHackers @feature Ahmed Salah 03/01/2026 Video to play before showing static portrait
 	AsciiString				m_buttonImageName;
 	AsciiString				m_upgradeCameoUpgradeNames[MAX_UPGRADE_CAMEO_UPGRADES];	///< Use these to find the upgrade images to display on the control bar
 	AsciiString				m_shadowTextureName;					///< name of texture to use for shadow decal

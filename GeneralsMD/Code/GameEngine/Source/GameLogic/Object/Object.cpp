@@ -4321,7 +4321,7 @@ void Object::xfer(Xfer* xfer)
 {
 
 	// version
-	const XferVersion currentVersion = 9;
+	const XferVersion currentVersion = 10; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Added m_displayPluralNameOverride
 	XferVersion version = currentVersion;
 	xfer->xferVersion(&version, currentVersion);
 
@@ -4379,6 +4379,11 @@ void Object::xfer(Xfer* xfer)
 	// internal name
 	xfer->xferAsciiString(&m_name);
 	xfer->xferUnicodeString(&m_displayNameOverride);
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	if (version >= 10)
+	{
+		xfer->xferUnicodeString(&m_displayPluralNameOverride);
+	}
 
 	// status
 	if (version >= 8)

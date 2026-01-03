@@ -64,6 +64,7 @@ class DisplayNameUpgradeModuleData : public UpgradeModuleData
 {
 public:
 	UnicodeString			m_displayName;
+	UnicodeString			m_displayPluralName; // TheSuperHackers @feature Ahmed Salah 03/01/2026
 
 	DisplayNameUpgradeModuleData(){}
 

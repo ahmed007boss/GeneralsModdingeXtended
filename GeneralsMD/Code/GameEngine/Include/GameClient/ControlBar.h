@@ -1024,6 +1024,9 @@ protected:
 
 	/// show/hide the portrait window image using the image from the object
 	void setPortraitByObject( Object *obj );
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get selection overlay text (unit name and count)
+	UnicodeString getSelectionOverlayText( const ThingTemplate *thing, const Object *obj ) const;
 
 	/// show rally point at world location, a NULL location will hide any visible rally point marker
 	void showRallyPoint( const Coord3D *loc );
@@ -1109,6 +1112,10 @@ protected:
 	GameWindow *m_rightHUDWindow;									///< window of the right HUD display
 	GameWindow *m_rightHUDCameoWindow;									///< window of the right HUD display
 	GameWindow *m_rightHUDUpgradeCameos[MAX_RIGHT_HUD_UPGRADE_CAMEOS];
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
+	ObjectID m_portraitVideoObjectID;										///< Object ID of the unit whose portrait video is playing/played
+	DisplayString *m_portraitDisplayString;									///< Display string for unit name overlay on portrait
 	GameWindow *m_rightHUDUnitSelectParent;
 
 	GameWindow *m_communicatorButton;             ///< button for the communicator

@@ -62,6 +62,7 @@ void DisplayNameUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	static const FieldParse dataFieldParse[] =
 	{
 		{ "DisplayName",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayName) },
+		{ "DisplayPluralName",	INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
 		{ 0, 0, 0, 0 }
 	};
 	p.add(dataFieldParse);
@@ -85,7 +86,11 @@ void DisplayNameUpgrade::upgradeImplementation()
 {
 	const DisplayNameUpgradeModuleData* data = getDisplayNameUpgradeModuleData();
 	getObject()->setDisplayName(data->m_displayName);
-
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Also set plural name if specified
+	if (!data->m_displayPluralName.isEmpty())
+	{
+		getObject()->setDisplayPluralName(data->m_displayPluralName);
+	}
 }
 
 //------------------------------------------------------------------------------------------------
