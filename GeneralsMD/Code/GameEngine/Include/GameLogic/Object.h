@@ -264,6 +264,14 @@ public:
 	inline void setDisplayName( const UnicodeString& newName ) { m_displayNameOverride = newName; }
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
 	inline void setDisplayPluralName( const UnicodeString& newName ) { m_displayPluralNameOverride = newName; }
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+	inline const AsciiString& getSelectPortraitOverride() const { return m_selectPortraitOverride; }
+	inline const AsciiString& getSelectPortraitVideoOverride() const { return m_selectPortraitVideoOverride; }
+	inline void setSelectPortrait( const AsciiString& name ) { m_selectPortraitOverride = name; }
+	inline void setSelectPortraitVideo( const AsciiString& name ) { m_selectPortraitVideoOverride = name; }
+	const Image* getSelectedPortraitImage() const;
+	const AsciiString& getSelectedPortraitVideoName() const;
 
 	inline Team* getTeam() { return m_team; }
 	inline const Team *getTeam() const { return m_team; }
@@ -821,6 +829,8 @@ private:
 	AsciiString		m_name;										  ///< internal name
 	UnicodeString	m_displayNameOverride;			///< Display Name
 	UnicodeString	m_displayPluralNameOverride;	///< Display Plural Name - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	AsciiString		m_selectPortraitOverride;		///< Select Portrait override - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	AsciiString		m_selectPortraitVideoOverride;	///< Select Portrait Video override - TheSuperHackers @feature Ahmed Salah 03/01/2026
 
 	Object *			m_next;
 	Object *			m_prev;

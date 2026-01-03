@@ -221,6 +221,7 @@ static PoolSizeRec PoolSizes[] =
 	{ "SupplyWarehouseCripplingBehavior", 16, 16 },
 	{ "CostModifierUpgrade", 32, 32 },
 	{ "DisplayNameUpgrade", 32, 32 },
+	{ "SelectPortraitUpgrade", 32, 32 },  // TheSuperHackers @feature Ahmed Salah 03/01/2026
 	{ "CashBountyPower", 32, 32 },
 	{ "CleanupAreaPower", 32, 32 },
 	{ "ObjectCreationUpgrade", 196, 32 },

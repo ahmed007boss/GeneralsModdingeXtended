@@ -306,6 +306,7 @@ set(GAMEENGINE_SRC
     Include/GameLogic/Module/ConvertToHijackedVehicleCrateCollide.h
     Include/GameLogic/Module/CostModifierUpgrade.h
     Include/GameLogic/Module/DisplayNameUpgrade.h
+    Include/GameLogic/Module/SelectPortraitUpgrade.h
     Include/GameLogic/Module/CountermeasuresBehavior.h
     Include/GameLogic/Module/CrateCollide.h
     Include/GameLogic/Module/CreateCrateDie.h
@@ -1115,6 +1116,7 @@ set(GAMEENGINE_SRC
     Source/GameLogic/Object/Upgrade/CommandSetUpgrade.cpp
     Source/GameLogic/Object/Upgrade/CostModifierUpgrade.cpp
     Source/GameLogic/Object/Upgrade/DisplayNameUpgrade.cpp
+    Source/GameLogic/Object/Upgrade/SelectPortraitUpgrade.cpp
     Source/GameLogic/Object/Upgrade/ExperienceScalarUpgrade.cpp
     Source/GameLogic/Object/Upgrade/GrantScienceUpgrade.cpp
     Source/GameLogic/Object/Upgrade/GrantUpgradeOnUpgrade.cpp

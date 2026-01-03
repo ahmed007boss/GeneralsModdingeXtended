@@ -3741,7 +3741,8 @@ void ControlBar::setPortraitByObject( Object *obj )
 
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
 		// If unit has video and video manager exists, show video. Otherwise show image.
-		const AsciiString& videoName = thing->getSelectedPortraitVideoName();
+		// Use object getter which checks override first, then falls back to template
+		const AsciiString& videoName = obj->getSelectedPortraitVideoName();
 		ObjectID objID = obj->getID();
 		
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Display unit name and selection count overlay
@@ -3796,7 +3797,8 @@ void ControlBar::setPortraitByObject( Object *obj )
 			m_portraitVideoObjectID = INVALID_ID;
 		}
 		
-		const Image* portrait = thing->getSelectedPortraitImage();
+		// Use object getter which checks override first, then falls back to template
+		const Image* portrait = obj->getSelectedPortraitImage();
 
 		m_rightHUDUnitSelectParent->winHide(FALSE);
 		// enable the window window as an image window and set the image

@@ -36,7 +36,7 @@
 #include "Common/Dict.h"
 #include "Common/GameCommon.h"
 #include "Common/GameEngine.h"
-#include "Common/GameCommon.h"
+#include "GameClient/Image.h"
 #include "Common/GameState.h"
 #include "Common/GameUtility.h"
 #include "Common/ModuleFactory.h"
@@ -4383,6 +4383,9 @@ void Object::xfer(Xfer* xfer)
 	if (version >= 10)
 	{
 		xfer->xferUnicodeString(&m_displayPluralNameOverride);
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+		xfer->xferAsciiString(&m_selectPortraitOverride);
+		xfer->xferAsciiString(&m_selectPortraitVideoOverride);
 	}
 
 	// status
@@ -6748,6 +6751,30 @@ const AsciiString& Object::getCommandSetString() const
 		break;
 	}
 
+}
+
+//=============================================================================
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+//=============================================================================
+const Image* Object::getSelectedPortraitImage() const
+{
+	if (m_selectPortraitOverride.isNotEmpty())
+	{
+		return TheMappedImageCollection->findImageByName(m_selectPortraitOverride);
+	}
+	return getTemplate()->getSelectedPortraitImage();
+}
+
+//=============================================================================
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait video override support
+//=============================================================================
+const AsciiString& Object::getSelectedPortraitVideoName() const
+{
+	if (m_selectPortraitVideoOverride.isNotEmpty())
+	{
+		return m_selectPortraitVideoOverride;
+	}
+	return getTemplate()->getSelectedPortraitVideoName();
 }
 
 //=============================================================================

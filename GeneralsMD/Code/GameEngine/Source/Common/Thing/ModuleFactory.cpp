@@ -220,6 +220,7 @@
 #include "GameLogic/Module/WeaponSetUpgrade.h"
 #include "GameLogic/Module/CostModifierUpgrade.h"
 #include "GameLogic/Module/DisplayNameUpgrade.h"
+#include "GameLogic/Module/SelectPortraitUpgrade.h"  // TheSuperHackers @feature Ahmed Salah 03/01/2026
 #include "GameLogic/Module/ExperienceScalarUpgrade.h"
 #include "GameLogic/Module/MaxHealthUpgrade.h"
 #include "GameLogic/Module/GrantUpgradeOnUpgrade.h"
@@ -494,6 +495,7 @@ void ModuleFactory::init( void )
 	// upgrade modules
 	addModule( CostModifierUpgrade );
 	addModule( DisplayNameUpgrade);
+	addModule( SelectPortraitUpgrade);  // TheSuperHackers @feature Ahmed Salah 03/01/2026
 	addModule( ActiveShroudUpgrade );
 	addModule( ArmorUpgrade );
 	addModule( CommandSetUpgrade );
