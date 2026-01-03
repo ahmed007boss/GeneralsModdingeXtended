@@ -70,6 +70,7 @@
 #include "GameLogic/ArmorSet.h"
 #include "GameLogic/Locomotor.h"
 #include "GameLogic/Module/AIUpdate.h"
+#include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/SpecialPowerModule.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/Powers.h"
@@ -142,6 +143,7 @@ const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 {
 	{ "DisplayName",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayName) },
 	{ "DisplayPluralName",			INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
+	{ "Description",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_description) }, // TheSuperHackers @feature Ahmed Salah - Description support
 	{ "RadarPriority",				INI::parseByteSizedIndexList,					RadarPriorityNames, offsetof(ThingTemplate, m_radarPriority) },
 	{ "TransportSlotCount",		INI::parseUnsignedByte,								NULL,		offsetof(ThingTemplate, m_transportSlotCount) },
 	{ "FenceWidth",						INI::parseReal,												NULL,		offsetof(ThingTemplate, m_fenceWidth) },
@@ -1978,8 +1980,9 @@ UnicodeString ThingTemplate::getDisplayPluralName() const
 
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
+// TheSuperHackers @feature Ahmed Salah - Optional parameter to skip body modules (that provide HP info)
 //-------------------------------------------------------------------------------------------------
-UnicodeString ThingTemplate::getExtendedDescription() const
+UnicodeString ThingTemplate::getExtendedDescription(Bool skipBodyModules) const
 {
 	UnicodeString description = L"";
 
@@ -2080,6 +2083,17 @@ UnicodeString ThingTemplate::getExtendedDescription() const
 		const ModuleData* moduleData = behaviorModuleInfo.getNthData(i);
 		if (moduleData)
 		{
+			// TheSuperHackers @feature Ahmed Salah - Skip body modules if requested (they provide HP info already shown)
+			if (skipBodyModules)
+			{
+				// Check if this is a body module by trying to cast to BodyModuleData
+				const BodyModuleData* bodyModuleData = dynamic_cast<const BodyModuleData*>(moduleData);
+				if (bodyModuleData)
+				{
+					continue; // Skip body modules
+				}
+			}
+			
 			UnicodeString moduleDesc = moduleData->getModuleDescription();
 			if (!moduleDesc.isEmpty())
 			{
@@ -2095,6 +2109,17 @@ UnicodeString ThingTemplate::getExtendedDescription() const
 		const ModuleData* moduleData = updateModuleInfo.getNthData(i);
 		if (moduleData)
 		{
+			// TheSuperHackers @feature Ahmed Salah - Skip body modules if requested (they provide HP info already shown)
+			if (skipBodyModules)
+			{
+				// Check if this is a body module by trying to cast to BodyModuleData
+				const BodyModuleData* bodyModuleData = dynamic_cast<const BodyModuleData*>(moduleData);
+				if (bodyModuleData)
+				{
+					continue; // Skip body modules
+				}
+			}
+			
 			UnicodeString moduleDesc = moduleData->getModuleDescription();
 			if (!moduleDesc.isEmpty())
 			{

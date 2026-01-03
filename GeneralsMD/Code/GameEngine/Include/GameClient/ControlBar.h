@@ -1187,6 +1187,8 @@ protected:
 
 	WindowLayout *m_buildToolTipLayout;										///< The window that will slide on/display tooltips
 	Bool m_showBuildToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not.
+	WindowLayout *m_unitToolTipLayout;										///< The window that will display unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	Bool m_showUnitToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah 01/01/2026
 public:
 	void showBuildTooltipLayout( GameWindow *cmdButton );
 	void hideBuildTooltipLayout( void );
@@ -1194,6 +1196,11 @@ public:
 	Bool getShowBuildTooltipLayout( void ){return m_showBuildToolTipLayout;	}
 	void populateBuildTooltipLayout( const CommandButton *commandButton, GameWindow *tooltipWin = NULL );
 	void repopulateBuildTooltipLayout( void );
+	void showUnitTooltipLayout( GameWindow *portraitWindow );				///< Show unit details tooltip when hovering over SelectPortrait - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void hideUnitTooltipLayout( void );										///< Hide unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void deleteUnitTooltipLayout( void );									///< Delete unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	Bool getShowUnitTooltipLayout( void ){return m_showUnitToolTipLayout;	}	///< Get unit tooltip visibility state - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void populateUnitTooltipLayout( void );									///< Populate unit details tooltip with object information - TheSuperHackers @feature Ahmed Salah 01/01/2026
 private:
 
 

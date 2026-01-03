@@ -89,10 +89,12 @@
 #include "GameClient/ControlBar.h"
 #include "GameClient/DisplayStringManager.h"
 #include "GameLogic/GameLogic.h"
+#include "GameLogic/Object.h"
 #include "GameLogic/Module/OverchargeBehavior.h"
 #include "GameLogic/Module/ProductionUpdate.h"
 #include "GameLogic/Module/InventoryBehavior.h"
 #include "GameLogic/Module/ActiveBody.h"
+#include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Components/Component.h"
 #include "GameLogic/ScriptEngine.h"
 
@@ -442,9 +444,22 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		{
 
 			descrip += TheGameText->fetch(commandButton->getDescriptionLabel());
-
+		}
+		else if (thingTemplate)
+		{
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button has no description (handles template fallback internally)
 			Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
 			Object* selectedObject = draw ? draw->getObject() : NULL;
+			if (selectedObject)
+			{
+				UnicodeString objectDesc = selectedObject->getDescription();
+				if (!objectDesc.isEmpty())
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n\n";
+					descrip += objectDesc;
+				}
+			}
 			if (selectedObject)
 			{
 				//Special case: Append status of overcharge on China power plant.
@@ -829,6 +844,30 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 			}
 		}
 
+		// Add command button description label
+		if (commandButton->getDescriptionLabel().isNotEmpty())
+		{
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += TheGameText->fetch(commandButton->getDescriptionLabel());
+		}
+		else if (thingTemplate)
+		{
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button has no description (handles template fallback internally)
+			Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+			Object* selectedObject = draw ? draw->getObject() : NULL;
+			if (selectedObject)
+			{
+				UnicodeString objectDesc = selectedObject->getDescription();
+				if (!objectDesc.isEmpty())
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n\n";
+					descrip += objectDesc;
+				}
+			}
+		}
+
 		// Add button alternatives for right-click and modifier key combinations
 		// TheSuperHackers @tooltip Ahmed Salah 27/06/2025 Append alternative command button descriptions to tooltip text
 		UnicodeString alternativesText = getButtonAlternativesText(commandButton, this);
@@ -1017,4 +1056,549 @@ void ControlBar::deleteBuildTooltipLayout(void)
 	delete theAnimateWindowManager;
 	theAnimateWindowManager = NULL;
 
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Unit tooltip support
+// ---------------------------------------------------------------------------------------
+static WindowLayout* theUnitTooltipLayout = NULL;
+static AnimateWindowManager* theUnitTooltipAnimateWindowManager = NULL;
+static GameWindow* prevUnitTooltipWindow = NULL;
+static Bool useUnitTooltipAnimation = FALSE;
+
+void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideUnitTooltipLayout();
+
+	if (theUnitTooltipAnimateWindowManager && !TheControlBar->getShowUnitTooltipLayout() && !theUnitTooltipAnimateWindowManager->isReversed())
+		theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowUnitTooltipLayout() && (!TheGlobalData->m_animateWindows || !useUnitTooltipAnimation))
+		TheControlBar->deleteUnitTooltipLayout();
+
+	if (useUnitTooltipAnimation && theUnitTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theUnitTooltipAnimateWindowManager->isFinished();
+		theUnitTooltipAnimateWindowManager->update();
+		if (theUnitTooltipAnimateWindowManager->isFinished() && !wasFinished && theUnitTooltipAnimateWindowManager->isReversed())
+		{
+			delete theUnitTooltipAnimateWindowManager;
+			theUnitTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteUnitTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showUnitTooltipLayout(GameWindow* portraitWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideUnitTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevUnitTooltipWindow == portraitWindow)
+	{
+		m_showUnitToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (!m_unitToolTipLayout->isHidden())
+	{
+		if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows && !theUnitTooltipAnimateWindowManager->isReversed())
+			theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows && theUnitTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_unitToolTipLayout->hide(TRUE);
+			prevUnitTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevUnitTooltipWindow = portraitWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	m_showUnitToolTipLayout = TRUE;
+	populateUnitTooltipLayout();
+	m_unitToolTipLayout->hide(FALSE);
+
+	if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theUnitTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theUnitTooltipAnimateWindowManager->reset();
+		theUnitTooltipAnimateWindowManager->registerGameWindow(m_unitToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideUnitTooltipLayout()
+{
+	if (theUnitTooltipAnimateWindowManager && theUnitTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useUnitTooltipAnimation && theUnitTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteUnitTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteUnitTooltipLayout(void)
+{
+	m_showUnitToolTipLayout = FALSE;
+	prevUnitTooltipWindow = NULL;
+	if (m_unitToolTipLayout)
+		m_unitToolTipLayout->hide(TRUE);
+
+	delete theUnitTooltipAnimateWindowManager;
+	theUnitTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateUnitTooltipLayout(void)
+{
+	if (!m_unitToolTipLayout)
+		return;
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+		return;
+
+	const ThingTemplate* thingTemplate = obj->getTemplate();
+	if (!thingTemplate)
+		return;
+
+	// Check if multiple units are selected
+	const DrawableList* selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	Int selectedCount = selectedDrawables ? (Int)selectedDrawables->size() : 1;
+
+	UnicodeString name, descrip;
+	
+	// Check if all selected units have the same display name (for multiple selection)
+	Bool allSameType = TRUE;
+	UnicodeString firstDisplayName;
+	if (selectedCount > 1 && selectedDrawables)
+	{
+		// Get the first unit's display name for comparison
+		DrawableList::const_iterator it = selectedDrawables->begin();
+		if (it != selectedDrawables->end())
+		{
+			const Drawable* firstDraw = *it;
+			if (firstDraw)
+			{
+				const Object* firstObj = firstDraw->getObject();
+				if (firstObj)
+				{
+					firstDisplayName = firstObj->getDisplayNameOverride();
+					if (firstDisplayName.isEmpty() && firstDraw->getTemplate())
+					{
+						firstDisplayName = firstDraw->getTemplate()->getDisplayName();
+					}
+				}
+				else if (firstDraw->getTemplate())
+				{
+					firstDisplayName = firstDraw->getTemplate()->getDisplayName();
+				}
+			}
+		}
+		
+		// Compare all other units' display names with the first one
+		for (it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+		{
+			const Drawable* d = *it;
+			if (!d)
+				continue;
+				
+			UnicodeString currentDisplayName;
+			const Object* currentObj = d->getObject();
+			if (currentObj)
+			{
+				currentDisplayName = currentObj->getDisplayNameOverride();
+				if (currentDisplayName.isEmpty() && d->getTemplate())
+				{
+					currentDisplayName = d->getTemplate()->getDisplayName();
+				}
+			}
+			else if (d->getTemplate())
+			{
+				currentDisplayName = d->getTemplate()->getDisplayName();
+			}
+			
+			if (currentDisplayName != firstDisplayName)
+			{
+				allSameType = FALSE;
+				break;
+			}
+		}
+	}
+	
+	// Handle single vs multiple selection
+	if (selectedCount > 1)
+	{
+		// Multiple units selected
+		
+		if (allSameType)
+		{
+			// All same type - use pluralized display name
+			UnicodeString pluralName = obj->getDisplayPluralNameOverride();
+			if (pluralName.isEmpty())
+			{
+				pluralName = thingTemplate->getDisplayPluralName();
+			}
+			if (!pluralName.isEmpty() && wcsstr(pluralName.str(), L"MISSING:") == NULL)
+			{
+				name.format(L"%d %ls", selectedCount, pluralName.str());
+			}
+			else
+			{
+				name.format(L"%d Units", selectedCount);
+			}
+		}
+		else
+		{
+			// Different display names - show "Unit Group" and list each display name with count
+			name = L"Unit Group";
+			
+			// Group units by display name and count them
+			struct UnitDisplayNameInfo
+			{
+				UnicodeString displayName;
+				Int count;
+				const Object* sampleObj; // For getting plural name
+				const ThingTemplate* sampleTemplate; // For getting plural name
+			};
+			
+			// Simple list to store unique display names
+			UnitDisplayNameInfo nameList[64]; // Max 64 different display names
+			Int nameCount = 0;
+			
+			if (selectedDrawables)
+			{
+				for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+				{
+					const Drawable* d = *it;
+					if (!d)
+						continue;
+					
+					// Get display name for this unit
+					UnicodeString currentDisplayName;
+					const Object* currentObj = d->getObject();
+					if (currentObj)
+					{
+						currentDisplayName = currentObj->getDisplayNameOverride();
+						if (currentDisplayName.isEmpty() && d->getTemplate())
+						{
+							currentDisplayName = d->getTemplate()->getDisplayName();
+						}
+					}
+					else if (d->getTemplate())
+					{
+						currentDisplayName = d->getTemplate()->getDisplayName();
+					}
+					
+					if (currentDisplayName.isEmpty() || wcsstr(currentDisplayName.str(), L"MISSING:") != NULL)
+						continue;
+					
+					// Find if this display name already exists in our list
+					Int foundIndex = -1;
+					for (Int i = 0; i < nameCount; ++i)
+					{
+						if (nameList[i].displayName == currentDisplayName)
+						{
+							foundIndex = i;
+							break;
+						}
+					}
+					
+					if (foundIndex >= 0)
+					{
+						// Increment count
+						nameList[foundIndex].count++;
+					}
+					else if (nameCount < 64)
+					{
+						// Add new display name
+						nameList[nameCount].displayName = currentDisplayName;
+						nameList[nameCount].count = 1;
+						nameList[nameCount].sampleObj = currentObj;
+						nameList[nameCount].sampleTemplate = d->getTemplate();
+						nameCount++;
+					}
+				}
+			}
+			
+			// Build the list description
+			for (Int i = 0; i < nameCount; ++i)
+			{
+				UnicodeString displayName = nameList[i].displayName;
+				Int unitCount = nameList[i].count;
+				const Object* sampleObj = nameList[i].sampleObj;
+				const ThingTemplate* sampleTemplate = nameList[i].sampleTemplate;
+				
+				UnicodeString unitName;
+				if (unitCount > 1)
+				{
+					// Use plural name
+					if (sampleObj)
+					{
+						unitName = sampleObj->getDisplayPluralNameOverride();
+					}
+					if (unitName.isEmpty() && sampleTemplate)
+					{
+						unitName = sampleTemplate->getDisplayPluralName();
+					}
+					// Fallback to singular if plural not available
+					if (unitName.isEmpty() || wcsstr(unitName.str(), L"MISSING:") != NULL)
+					{
+						unitName = displayName; // Use the display name we already have
+					}
+				}
+				else
+				{
+					// Use singular name (the display name we already have)
+					unitName = displayName;
+				}
+				
+				if (!unitName.isEmpty() && wcsstr(unitName.str(), L"MISSING:") == NULL)
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n";
+					UnicodeString line;
+					line.format(L" - %d %ls", unitCount, unitName.str());
+					descrip += line;
+				}
+			}
+		}
+	}
+	else
+	{
+		// Single unit selected - show name, HP and rank
+		UnicodeString unitName = obj->getDisplayNameOverride();
+		if (unitName.isEmpty())
+		{
+			unitName = thingTemplate->getDisplayName();
+		}
+		name = unitName;
+
+		// Build health and rank information first (at the start of description)
+		UnicodeString healthAndRankText;
+		
+		// Add health information
+		BodyModuleInterface* bodyInterface = obj->getBodyModule();
+		if (bodyInterface)
+		{
+			Real health = bodyInterface->getHealth();
+			Real maxHealth = bodyInterface->getMaxHealth();
+			if (maxHealth > 0.0f)
+			{
+				Int healthPercent = (Int)((health / maxHealth) * 100.0f);
+				UnicodeString healthText;
+				healthText.format(L"%s: %d/%d (%d%%)", 
+					TheGameText->fetch("TOOLTIP:Health").str(),
+					(Int)health, (Int)maxHealth, healthPercent);
+				healthAndRankText = healthText;
+			}
+		}
+
+		// Add veterancy level if applicable
+		VeterancyLevel vetLevel = obj->getVeterancyLevel();
+		if (vetLevel != LEVEL_REGULAR)
+		{
+			UnicodeString vetText;
+			switch (vetLevel)
+			{
+			case LEVEL_VETERAN:
+				vetText = TheGameText->fetch("TOOLTIP:Veteran");
+				break;
+			case LEVEL_ELITE:
+				vetText = TheGameText->fetch("TOOLTIP:Elite");
+				break;
+			case LEVEL_HEROIC:
+				vetText = TheGameText->fetch("TOOLTIP:Heroic");
+				break;
+			default:
+				break;
+			}
+			if (!vetText.isEmpty())
+			{
+				if (!healthAndRankText.isEmpty())
+					healthAndRankText += L"\n";
+				healthAndRankText += vetText;
+			}
+		}
+
+		// Add health and rank at the start of description
+		if (!healthAndRankText.isEmpty())
+		{
+			descrip = healthAndRankText;
+		}
+	}
+
+	// Get unit description
+	// For single unit: show all descriptions including HP/rank (already added above)
+	// For multiple same type: show descriptions but skip HP/rank
+	// For multiple different types: descriptions already built as unit list above
+	if (selectedCount == 1)
+	{
+		// Single unit - add descriptions after HP/rank
+		UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
+		if (!kindOfDesc.isEmpty())
+		{
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += kindOfDesc;
+		}
+		// TheSuperHackers @feature Ahmed Salah - Description support: Use object description (handles override internally)
+		UnicodeString unitDesc = obj->getDescription();
+		if (!unitDesc.isEmpty())
+		{
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += unitDesc;
+		}
+		// Get extended description from template (skip body modules since HP is already shown)
+		UnicodeString extendedDesc = thingTemplate->getExtendedDescription(TRUE);
+		if (!extendedDesc.isEmpty())
+		{
+			if (!descrip.isEmpty())
+				descrip += L"\n";
+			descrip += extendedDesc;
+		}
+	}
+	else if (selectedCount > 1)
+	{
+		// Multiple units selected - use stored allSameType result
+		if (allSameType)
+		{
+			// All same type - show descriptions (HP/rank already skipped)
+			UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
+			if (!kindOfDesc.isEmpty())
+			{
+				if (!descrip.isEmpty())
+					descrip += L"\n\n";
+				descrip += kindOfDesc;
+			}
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description (handles override internally)
+			UnicodeString unitDesc = obj->getDescription();
+			if (!unitDesc.isEmpty())
+			{
+				if (!descrip.isEmpty())
+					descrip += L"\n\n";
+				descrip += unitDesc;
+			}
+			UnicodeString extendedDesc = thingTemplate->getExtendedDescription();
+			if (!extendedDesc.isEmpty())
+			{
+				if (!descrip.isEmpty())
+					descrip += L"\n";
+				descrip += extendedDesc;
+			}
+		}
+		// else: different types - descriptions already built as unit list above
+	}
+
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, name);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for unit tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descrip);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_unitToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
+		win->winGetSize(&size.x, &size.y);
+		win->winSetSize(size.x, size.y + diffSize);
+
+		GadgetStaticTextSetText(win, descrip);
+	}
+	m_unitToolTipLayout->hide(FALSE);
 }

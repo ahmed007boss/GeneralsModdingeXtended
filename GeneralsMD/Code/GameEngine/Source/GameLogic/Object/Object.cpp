@@ -7108,13 +7108,35 @@ ObjectID Object::calculateCountermeasureToDivertTo(const Object& victim)
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
 //-------------------------------------------------------------------------------------------------
-UnicodeString Object::getExtendedDescription() const
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+UnicodeString Object::getDescription() const
+{
+	// TheSuperHackers @feature Ahmed Salah - Description support: Get description with override fallback
+	// Check override first, then fall back to template
+	if (!m_descriptionOverride.isEmpty())
+	{
+		return m_descriptionOverride;
+	}
+	
+	const ThingTemplate* template_ = getTemplate();
+	if (template_)
+	{
+		return template_->getDescription();
+	}
+	
+	return UnicodeString::TheEmptyString;
+}
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+UnicodeString Object::getExtendedDescription(Bool skipBodyModules) const
 {
 	// Delegate to ThingTemplate which has access to module data
 	const ThingTemplate* template_ = getTemplate();
 	if (template_)
 	{
-		return template_->getExtendedDescription();
+		return template_->getExtendedDescription(skipBodyModules);
 	}
 	
 	return UnicodeString();

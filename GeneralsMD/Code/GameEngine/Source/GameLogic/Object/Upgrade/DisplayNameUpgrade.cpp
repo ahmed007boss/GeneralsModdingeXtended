@@ -63,6 +63,7 @@ void DisplayNameUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	{
 		{ "DisplayName",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayName) },
 		{ "DisplayPluralName",	INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
+		{ "Description",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_description) }, // TheSuperHackers @feature Ahmed Salah - Description support
 		{ 0, 0, 0, 0 }
 	};
 	p.add(dataFieldParse);
@@ -90,6 +91,11 @@ void DisplayNameUpgrade::upgradeImplementation()
 	if (!data->m_displayPluralName.isEmpty())
 	{
 		getObject()->setDisplayPluralName(data->m_displayPluralName);
+	}
+	// TheSuperHackers @feature Ahmed Salah - Description support
+	if (!data->m_description.isEmpty())
+	{
+		getObject()->setDescription(data->m_description);
 	}
 }
 

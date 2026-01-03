@@ -90,6 +90,9 @@
 
 #include "GameNetwork/GameInfo.h"
 
+// Forward declaration for unit tooltip update function - TheSuperHackers @feature Ahmed Salah 01/01/2026
+void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param);
+
 
 // PUBLIC /////////////////////////////////////////////////////////////////////////////////////////
 ControlBar *TheControlBar = NULL;
@@ -206,6 +209,14 @@ static void commandButtonTooltip(GameWindow *window,
 													UnsignedInt mouse)
 {
 	TheControlBar->showBuildTooltipLayout(window);
+}
+
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Unit tooltip callback for portrait window
+static void unitPortraitTooltip(GameWindow *window,
+													WinInstanceData *instData,
+													UnsignedInt mouse)
+{
+	TheControlBar->showUnitTooltipLayout(window);
 }
 
 /// mark the UI as dirty so the context of everything is re-evaluated
@@ -1658,6 +1669,9 @@ ControlBar::ControlBar( void )
 	m_observedPlayer = NULL;
 	m_buildToolTipLayout = NULL;
 	m_showBuildToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Initialize unit tooltip members
+	m_unitToolTipLayout = NULL;
+	m_showUnitToolTipLayout = FALSE;
 
 	m_animateDownWin1Pos.x = m_animateDownWin1Pos.y = 0;
 	m_animateDownWin1Size.x = m_animateDownWin1Size.y = 0;
@@ -1809,6 +1823,13 @@ ControlBar::~ControlBar( void )
 		m_buildToolTipLayout->destroyWindows();
 		deleteInstance(m_buildToolTipLayout);
 		m_buildToolTipLayout = NULL;
+	}
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Cleanup unit tooltip layout
+	if(m_unitToolTipLayout)
+	{
+		m_unitToolTipLayout->destroyWindows();
+		deleteInstance(m_unitToolTipLayout);
+		m_unitToolTipLayout = NULL;
 	}
 
 	if(m_specialPowerLayout)
@@ -1971,9 +1992,19 @@ void ControlBar::init( void )
 
 		id = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:WinUnitSelected" );
 		m_rightHUDUnitSelectParent = TheWindowManager->winGetWindowFromId( NULL, id );
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Set tooltip callback on portrait window
+		if (m_rightHUDUnitSelectParent)
+		{
+			m_rightHUDUnitSelectParent->winSetTooltipFunc(unitPortraitTooltip);
+		}
 
 		id = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:CameoWindow" );
 		m_rightHUDCameoWindow = TheWindowManager->winGetWindowFromId( NULL, id );
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Set tooltip callback on cameo window
+		if (m_rightHUDCameoWindow)
+		{
+			m_rightHUDCameoWindow->winSetTooltipFunc(unitPortraitTooltip);
+		}
 		for( i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; i++ )
 		{
 			windowName.format( "ControlBar.wnd:UnitUpgrade%d", i+1 );
@@ -2064,6 +2095,14 @@ void ControlBar::init( void )
 			m_buildToolTipLayout->hide(TRUE);
 			m_buildToolTipLayout->setUpdate(ControlBarPopupDescriptionUpdateFunc);
 		}
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Initialize unit tooltip layout
+		m_unitToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_unitToolTipLayout)
+		{
+			m_unitToolTipLayout->hide(TRUE);
+			m_unitToolTipLayout->setUpdate(ControlBarUnitTooltipUpdateFunc);
+		}
+		m_showUnitToolTipLayout = FALSE;
 
 		m_genStarOn = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarON") : NULL;
 		m_genStarOff = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarOFF") : NULL;
@@ -2113,6 +2152,10 @@ void ControlBar::reset( void )
 	if(m_buildToolTipLayout)
 		m_buildToolTipLayout->hide(TRUE);
 	m_showBuildToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Reset unit tooltip layout
+	if(m_unitToolTipLayout)
+		m_unitToolTipLayout->hide(TRUE);
+	m_showUnitToolTipLayout = FALSE;
 
 	if(m_animateWindowManager)
 		m_animateWindowManager->reset();
@@ -2233,6 +2276,12 @@ void ControlBar::update( void )
 	{
 		hideBuildTooltipLayout();
 	}*/
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Update unit tooltip layout
+	if( m_unitToolTipLayout && !m_unitToolTipLayout->isHidden())
+	{
+		m_unitToolTipLayout->runUpdate();
+		m_showUnitToolTipLayout = FALSE;
+	}
 
 	updateSpecialPowerShortcut();
 	// if we're an observer, don't do the complete update

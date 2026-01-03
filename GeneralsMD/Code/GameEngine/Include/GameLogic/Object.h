@@ -260,10 +260,14 @@ public:
 	inline const UnicodeString& getDisplayPluralNameOverride() const {
 		return m_displayPluralNameOverride;
 	}
+	// TheSuperHackers @feature Ahmed Salah - Description support: Get description with override fallback
+	UnicodeString getDescription() const;
 	inline void setName( const AsciiString& newName ) { m_name = newName; }
 	inline void setDisplayName( const UnicodeString& newName ) { m_displayNameOverride = newName; }
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
 	inline void setDisplayPluralName( const UnicodeString& newName ) { m_displayPluralNameOverride = newName; }
+	// TheSuperHackers @feature Ahmed Salah - Description override support
+	inline void setDescription( const UnicodeString& newDescription ) { m_descriptionOverride = newDescription; }
 	
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
 	inline const AsciiString& getSelectPortraitOverride() const { return m_selectPortraitOverride; }
@@ -322,7 +326,8 @@ public:
 	BehaviorModule** getBehaviorModules() const { return m_behaviors; }
 
 	// TheSuperHackers @feature author 01/01/2025 Get extended description from actual module instances
-	UnicodeString getExtendedDescription() const;
+	// TheSuperHackers @feature Ahmed Salah - Optional parameter to skip body modules (that provide HP info)
+	UnicodeString getExtendedDescription(Bool skipBodyModules = FALSE) const;
 
 	BodyModuleInterface* getBodyModule() const { return m_body; }
 	
@@ -829,6 +834,7 @@ private:
 	AsciiString		m_name;										  ///< internal name
 	UnicodeString	m_displayNameOverride;			///< Display Name
 	UnicodeString	m_displayPluralNameOverride;	///< Display Plural Name - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	UnicodeString	m_descriptionOverride;			///< Description override - TheSuperHackers @feature Ahmed Salah - Description support
 	AsciiString		m_selectPortraitOverride;		///< Select Portrait override - TheSuperHackers @feature Ahmed Salah 03/01/2026
 	AsciiString		m_selectPortraitVideoOverride;	///< Select Portrait Video override - TheSuperHackers @feature Ahmed Salah 03/01/2026
 
