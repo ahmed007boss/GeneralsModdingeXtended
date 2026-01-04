@@ -52,6 +52,7 @@
 #include "GameClient/Keyboard.h"
 #include "GameClient/LanguageFilter.h"
 #include "GameClient/CommandXlat.h"
+#include "GameClient/View.h"
 
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/ScriptEngine.h"
@@ -378,6 +379,33 @@ WindowMsgHandledType ControlBarInput( GameWindow *window, UnsignedInt msg,
 
 	return MSG_IGNORED;
 
+}
+
+//-------------------------------------------------------------------------------------------------
+/** Input procedure for the portrait window - handles double-click to jump camera */
+//-------------------------------------------------------------------------------------------------
+WindowMsgHandledType PortraitWindowInput( GameWindow *window, UnsignedInt msg,
+																			WindowMsgData mData1, WindowMsgData mData2 )
+{
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Jump camera to selected unit on portrait double-click
+	if (msg == GWM_LEFT_DOWN)
+	{
+		// Get the first selected drawable
+		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+		if (draw && draw->getObject())
+		{
+			Object* obj = draw->getObject();
+			const Coord3D* pos = obj->getPosition();
+			if (pos)
+			{
+				// Jump camera to the unit's position
+				TheTacticalView->lookAt(pos);
+				return MSG_HANDLED;
+			}
+		}
+	}
+	
+	return MSG_IGNORED;
 }
 void ToggleQuitMenu(void);
 //-------------------------------------------------------------------------------------------------

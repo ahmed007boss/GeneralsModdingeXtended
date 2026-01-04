@@ -2045,6 +2045,9 @@ void ControlBar::init( void )
 		if (m_rightHUDCameoWindow)
 		{
 			m_rightHUDCameoWindow->winSetTooltipFunc(unitPortraitTooltip);
+			// TheSuperHackers @feature Ahmed Salah 15/01/2025 Set input handler for double-click to jump camera
+			extern WindowMsgHandledType PortraitWindowInput( GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2 );
+			m_rightHUDCameoWindow->winSetInputFunc(PortraitWindowInput);
 		}
 		for( i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; i++ )
 		{
