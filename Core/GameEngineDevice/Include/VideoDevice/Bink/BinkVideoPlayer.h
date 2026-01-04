@@ -70,6 +70,7 @@ class BinkVideoStream : public VideoStream
 
 		HBINK					m_handle;														///< Bink streaming handle;
 		Char					*m_memFile;													///< Pointer to memory resident file
+		Char					*m_tempFilePath;											///< Path to temporary file (if extracted from .big archive)
 
 		BinkVideoStream();																///< only BinkVideoPlayer can create these
 		virtual ~BinkVideoStream();
@@ -104,7 +105,7 @@ class BinkVideoPlayer : public VideoPlayer
 
 	protected:
 
-		VideoStreamInterface* createStream( HBINK handle );
+		VideoStreamInterface* createStream( HBINK handle, const char* tempFilePath = NULL );
 
 	public:
 

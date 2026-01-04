@@ -232,32 +232,68 @@ VideoStreamInterface*	FFmpegVideoPlayer::open( AsciiString movieTitle )
 	if (pVideo) {
 		DEBUG_LOG(("FFmpegVideoPlayer::createStream() - About to open bink file"));
 
-		if (TheGlobalData->m_modDir.isNotEmpty())
+		File* file = nullptr;
+
+		if (pVideo->m_objectDirectory.isNotEmpty())
 		{
+			// If object directory is set, use {objectDirectory}Art\Videos\ path
+			// Note: objectDirectory already ends with a backslash, so we don't add another one
+			const char* objectDirPath = pVideo->m_objectDirectory.str();
+
+			if (TheGlobalData->m_modDir.isNotEmpty())
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s%sArt\\Videos\\%s.%s", TheGlobalData->m_modDir.str(), objectDirPath, pVideo->m_filename.str(), VIDEO_EXT );
+				file =  TheFileSystem->openFile(filePath);
+				DEBUG_ASSERTLOG(!file, ("opened bink file %s", filePath));
+				if (file)
+				{
+					return createStream( file );
+				}
+			}
+
 			char filePath[ _MAX_PATH ];
-			sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-			File* file =  TheFileSystem->openFile(filePath);
+			sprintf( filePath, "%sArt\\Videos\\%s.%s", objectDirPath, pVideo->m_filename.str(), VIDEO_EXT );
+			file = TheFileSystem->openFile(filePath);
 			DEBUG_ASSERTLOG(!file, ("opened bink file %s", filePath));
 			if (file)
 			{
 				return createStream( file );
 			}
 		}
-
-		char localizedFilePath[ _MAX_PATH ];
-		sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
-		File* file =  TheFileSystem->openFile(localizedFilePath);
-		DEBUG_ASSERTLOG(!file, ("opened localized bink file %s", localizedFilePath));
-		if (!file)
+		else
 		{
-			char filePath[ _MAX_PATH ];
-			sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-			file = TheFileSystem->openFile(filePath);
-			DEBUG_ASSERTLOG(!file, ("opened bink file %s", filePath));
+			// Original logic when object directory is empty
+			if (TheGlobalData->m_modDir.isNotEmpty())
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
+				file =  TheFileSystem->openFile(filePath);
+				DEBUG_ASSERTLOG(!file, ("opened bink file %s", filePath));
+				if (file)
+				{
+					return createStream( file );
+				}
+			}
+
+			char localizedFilePath[ _MAX_PATH ];
+			sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
+			file =  TheFileSystem->openFile(localizedFilePath);
+			DEBUG_ASSERTLOG(!file, ("opened localized bink file %s", localizedFilePath));
+			if (!file)
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
+				file = TheFileSystem->openFile(filePath);
+				DEBUG_ASSERTLOG(!file, ("opened bink file %s", filePath));
+			}
 		}
 
-		DEBUG_LOG(("FFmpegVideoPlayer::createStream() - About to create stream"));
-		stream = createStream( file );
+		if (file)
+		{
+			DEBUG_LOG(("FFmpegVideoPlayer::createStream() - About to create stream"));
+			stream = createStream( file );
+		}
 	}
 
 	return stream;

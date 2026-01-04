@@ -182,8 +182,10 @@ void	VideoPlayer::init( void )
 	// Load this here so that WB doesn't have to link to BinkLib, costing us (potentially)
 	// an extra license.
 	INI ini;
-	ini.loadFileDirectory( "Data\\INI\\Default\\Video", INI_LOAD_OVERWRITE, NULL );
-	ini.loadFileDirectory( "Data\\INI\\Video", INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory("Data\\INI\\Default\\Video", INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory("Data\\INI\\Video", INI_LOAD_OVERWRITE, NULL );
+	ini.loadDirectory("Data\\INI\\Object", "Video.ini", INI_LOAD_MULTIFILE, NULL);
+	ini.loadDirectory("Data\\INI\\Object", "videos.ini", INI_LOAD_MULTIFILE, NULL);
 }
 
 //============================================================================

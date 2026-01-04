@@ -386,7 +386,8 @@ UnsignedInt INI::loadDirectory(AsciiString dirName, INILoadType loadType, Xfer* 
 				|| tempname.endsWithNoCase(".upgrade.ini")
 				|| tempname.endsWithNoCase(".upgrades.ini")
 				|| tempname.endsWithNoCase(".weapon.ini")
-				|| tempname.endsWithNoCase(".weapons.ini")
+				|| tempname.endsWithNoCase(".video.ini")
+				|| tempname.endsWithNoCase(".videos.ini")
 				) {
 				++it;
 				continue;

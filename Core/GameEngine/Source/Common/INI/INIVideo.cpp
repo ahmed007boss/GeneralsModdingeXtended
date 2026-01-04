@@ -37,6 +37,61 @@
 // PRIVATE DATA ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+//-------------------------------------------------------------------------------------------------
+/** Extract object directory path from INI file path
+ *  Returns the full path from start to the object directory (e.g., "Data\INI\Object\gla\defences\artillerybunker\")
+ *  Returns empty string if the file is not in Data\INI\Object\ directory
+ */
+//-------------------------------------------------------------------------------------------------
+static AsciiString extractObjectDirectoryFromPath(const AsciiString& iniFilename)
+{
+	AsciiString objectDirectory;
+	
+	if (iniFilename.getLength() == 0)
+	{
+		return objectDirectory;
+	}
+	
+	const char* filenameStr = iniFilename.str();
+	
+	// Check if path contains the object directory marker (case-insensitive)
+	AsciiString lowerPath = iniFilename;
+	lowerPath.toLower();
+	const char* lowerPathStr = lowerPath.str();
+	const char* markerPos = strstr(lowerPathStr, "data\\ini\\object\\");
+	const char* markerPosAlt = strstr(lowerPathStr, "data/ini/object/");
+	
+	// Use whichever marker is found (prefer backslash)
+	const char* foundMarker = markerPos ? markerPos : markerPosAlt;
+	
+	if (foundMarker != NULL)
+	{
+		// Find the last separator (backslash or forward slash) before the filename
+		// The filename starts after the last separator
+		const char* lastSeparator = NULL;
+		const char* end = filenameStr + iniFilename.getLength();
+		
+		// Search backwards from the end to find the last separator
+		for (const char* p = end - 1; p >= filenameStr; p--)
+		{
+			if (*p == '\\' || *p == '/')
+			{
+				lastSeparator = p;
+				break;
+			}
+		}
+		
+		// If we found a separator, extract the path from start to that separator (inclusive)
+		if (lastSeparator != NULL)
+		{
+			int pathLen = (lastSeparator - filenameStr) + 1; // +1 to include the separator
+			objectDirectory.set(filenameStr, pathLen);
+		}
+	}
+	
+	return objectDirectory;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +108,11 @@ void INI::parseVideoDefinition( INI* ini )
 	video.m_internalName.set( c );
 
 	ini->initFromINI(&video, TheVideoPlayer->getFieldParse() );
+	
+	// Extract object directory from file path if video is in Data\INI\Object\{ObjectName}\ directory
+	AsciiString filename = ini->getFilename();
+	video.m_objectDirectory = extractObjectDirectoryFromPath(filename);
+	
 	TheVideoPlayer->addVideo(&video);
 
 

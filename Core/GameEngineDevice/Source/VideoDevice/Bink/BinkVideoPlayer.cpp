@@ -52,6 +52,8 @@
 #include "Common/GameMemory.h"
 #include "Common/GlobalData.h"
 #include "Common/Registry.h"
+#include "Common/FileSystem.h"
+#include <windows.h>
 
 //----------------------------------------------------------------------------
 //         Externals
@@ -184,7 +186,7 @@ void	BinkVideoPlayer::regainFocus( void )
 // BinkVideoPlayer::createStream
 //============================================================================
 
-VideoStreamInterface* BinkVideoPlayer::createStream( HBINK handle )
+VideoStreamInterface* BinkVideoPlayer::createStream( HBINK handle, const char* tempFilePath )
 {
 
 	if ( handle == NULL )
@@ -201,6 +203,14 @@ VideoStreamInterface* BinkVideoPlayer::createStream( HBINK handle )
 		stream->m_next = m_firstStream;
 		stream->m_player = this;
 		m_firstStream = stream;
+		
+		// Store temp file path if provided (for cleanup when stream closes)
+		if (tempFilePath != NULL)
+		{
+			int pathLen = strlen(tempFilePath) + 1;
+			stream->m_tempFilePath = NEW char[pathLen];
+			strcpy(stream->m_tempFilePath, tempFilePath);
+		}
 
 		// never let volume go to 0, as Bink will interpret that as "play at full volume".
 		Int mod = (Int) ((TheAudio->getVolume(AudioAffect_Speech) * 0.8f) * 100) + 1;
@@ -215,6 +225,77 @@ VideoStreamInterface* BinkVideoPlayer::createStream( HBINK handle )
 }
 
 //============================================================================
+// Helper function to try opening file through FileSystem (supports .big archives)
+// Returns HBINK handle if successful, NULL otherwise
+// Outputs tempFilePath if a temp file was created (caller must free this string)
+//============================================================================
+static HBINK tryOpenBinkFromFileSystem(const char* filePath, char** tempFilePathOut)
+{
+	*tempFilePathOut = NULL;
+	
+	// Try opening through FileSystem first (supports .big archives)
+	File* file = TheFileSystem->openFile(filePath);
+	if (file)
+	{
+		// Get file size before reading
+		Int fileSize = file->size();
+		if (fileSize > 0)
+		{
+			// Read entire file into memory
+			char* fileData = file->readEntireAndClose();
+			if (fileData)
+			{
+				// BinkOpen doesn't support memory buffers directly, so we need to write to a temp file
+				// Create a temporary file path
+				char tempPath[_MAX_PATH];
+				char tempFileName[_MAX_PATH];
+				GetTempPath(_MAX_PATH, tempPath);
+				GetTempFileName(tempPath, "Bink", 0, tempFileName);
+				
+				// Write the file data to the temp file
+				File* tempFile = TheFileSystem->openFile(tempFileName, File::WRITE);
+				if (tempFile)
+				{
+					Int bytesWritten = tempFile->write(fileData, fileSize);
+					tempFile->close();
+					
+					if (bytesWritten == fileSize)
+					{
+						// Now try to open the Bink file from the temp file
+						HBINK handle = BinkOpen(tempFileName, BINKPRELOADALL);
+						if (handle)
+						{
+							// Free the original file data
+							delete[] fileData;
+							
+							// Store the temp file path for cleanup
+							int pathLen = strlen(tempFileName) + 1;
+							*tempFilePathOut = NEW char[pathLen];
+							strcpy(*tempFilePathOut, tempFileName);
+							
+							return handle;
+						}
+					}
+					
+					// If BinkOpen failed, delete the temp file
+					DeleteFile(tempFileName);
+				}
+				
+				// Free the memory if we couldn't use it
+				delete[] fileData;
+			}
+		}
+		else
+		{
+			// File size is 0 or invalid, close the file
+			file->close();
+		}
+	}
+	
+	return NULL;
+}
+
+//============================================================================
 // BinkVideoPlayer::open
 //============================================================================
 
@@ -226,32 +307,104 @@ VideoStreamInterface*	BinkVideoPlayer::open( AsciiString movieTitle )
 	if (pVideo) {
 		DEBUG_LOG(("BinkVideoPlayer::createStream() - About to open bink file"));
 
-		if (TheGlobalData->m_modDir.isNotEmpty())
+		HBINK handle = NULL;
+		char* tempFilePath = NULL;
+
+		if (pVideo->m_objectDirectory.isNotEmpty())
 		{
+			// If object directory is set, use {objectDirectory}Art\Videos\ path
+			// Note: objectDirectory already ends with a backslash, so we don't add another one
+			const char* objectDirPath = pVideo->m_objectDirectory.str();
+
+			if (TheGlobalData->m_modDir.isNotEmpty())
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s%sArt\\Videos\\%s.%s", TheGlobalData->m_modDir.str(), objectDirPath, pVideo->m_filename.str(), VIDEO_EXT );
+				
+				// Try FileSystem first (supports .big archives)
+				handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
+				if (!handle)
+				{
+					// Fall back to direct file system access
+					handle = BinkOpen(filePath , BINKPRELOADALL );
+					DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
+				}
+				if (handle)
+				{
+					return createStream( handle, tempFilePath );
+				}
+			}
+
 			char filePath[ _MAX_PATH ];
-			sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-			HBINK handle = BinkOpen(filePath , BINKPRELOADALL );
-			DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
+			sprintf( filePath, "%sArt\\Videos\\%s.%s", objectDirPath, pVideo->m_filename.str(), VIDEO_EXT );
+			
+			// Try FileSystem first (supports .big archives)
+			handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
+			if (!handle)
+			{
+				// Fall back to direct file system access
+				handle = BinkOpen(filePath , BINKPRELOADALL );
+				DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
+			}
 			if (handle)
 			{
-				return createStream( handle );
+				return createStream( handle, tempFilePath );
+			}
+		}
+		else
+		{
+			// Original logic when object directory is empty
+			if (TheGlobalData->m_modDir.isNotEmpty())
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
+				
+				// Try FileSystem first (supports .big archives)
+				handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
+				if (!handle)
+				{
+					// Fall back to direct file system access
+					handle = BinkOpen(filePath , BINKPRELOADALL );
+					DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
+				}
+				if (handle)
+				{
+					return createStream( handle, tempFilePath );
+				}
+			}
+
+			char localizedFilePath[ _MAX_PATH ];
+			sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
+			
+			// Try FileSystem first (supports .big archives)
+			handle = tryOpenBinkFromFileSystem(localizedFilePath, &tempFilePath);
+			if (!handle)
+			{
+				// Fall back to direct file system access
+				handle = BinkOpen(localizedFilePath , BINKPRELOADALL );
+				DEBUG_ASSERTLOG(!handle, ("opened localized bink file %s", localizedFilePath));
+			}
+			if (!handle)
+			{
+				char filePath[ _MAX_PATH ];
+				sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
+				
+				// Try FileSystem first (supports .big archives)
+				handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
+				if (!handle)
+				{
+					// Fall back to direct file system access
+					handle = BinkOpen(filePath , BINKPRELOADALL );
+					DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
+				}
 			}
 		}
 
-		char localizedFilePath[ _MAX_PATH ];
-		sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
-		HBINK handle = BinkOpen(localizedFilePath , BINKPRELOADALL );
-		DEBUG_ASSERTLOG(!handle, ("opened localized bink file %s", localizedFilePath));
-		if (!handle)
+		if (handle)
 		{
-			char filePath[ _MAX_PATH ];
-			sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-			handle = BinkOpen(filePath , BINKPRELOADALL );
-			DEBUG_ASSERTLOG(!handle, ("opened bink file %s", localizedFilePath));
+			DEBUG_LOG(("BinkVideoPlayer::createStream() - About to create stream"));
+			stream = createStream( handle, tempFilePath );
 		}
-
-		DEBUG_LOG(("BinkVideoPlayer::createStream() - About to create stream"));
-		stream = createStream( handle );
 	}
 
 	return stream;
@@ -300,7 +453,9 @@ void BinkVideoPlayer::initializeBinkWithMiles()
 //============================================================================
 
 BinkVideoStream::BinkVideoStream()
-: m_handle(NULL)
+: m_handle(NULL),
+	m_memFile(NULL),
+	m_tempFilePath(NULL)
 {
 
 }
@@ -315,6 +470,21 @@ BinkVideoStream::~BinkVideoStream()
 	{
 		BinkClose( m_handle );
 		m_handle = NULL;
+	}
+	
+	// Delete temporary file if it was created (extracted from .big archive)
+	if ( m_tempFilePath != NULL )
+	{
+		DeleteFile(m_tempFilePath);
+		delete[] m_tempFilePath;
+		m_tempFilePath = NULL;
+	}
+	
+	// Clean up memory file if it exists
+	if ( m_memFile != NULL )
+	{
+		delete[] m_memFile;
+		m_memFile = NULL;
 	}
 }
 

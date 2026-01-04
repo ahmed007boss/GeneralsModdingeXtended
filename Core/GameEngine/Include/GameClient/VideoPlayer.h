@@ -73,6 +73,7 @@ struct Video
 	AsciiString m_filename;																	///< should be filled with the filename on disk
 	AsciiString m_internalName;															///< should be our internal reference name
 	AsciiString m_commentForWB;
+	AsciiString m_objectDirectory;														///< object directory path if video is found under object directory
 };
 
 //===============================
