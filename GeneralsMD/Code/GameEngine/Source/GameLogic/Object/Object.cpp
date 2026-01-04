@@ -3371,6 +3371,12 @@ Bool Object::hasAnySpecialPower() const
 //-------------------------------------------------------------------------------------------------
 void Object::onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel newLevel, Bool provideFeedback)
 {
+#if !RETAIL_COMPATIBLE_CRC
+	// TheSuperHackers @bugfix Stubbjax 10/12/2025 Do not apply veterancy bonuses and animations for dead units.
+	if (isEffectivelyDead())
+		return;
+#endif
+
 	updateUpgradeModules();
 
 	const UpgradeTemplate* up = TheUpgradeCenter->findVeterancyUpgrade(newLevel);
@@ -3442,7 +3448,6 @@ void Object::onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel new
 		soundToPlay.setObjectID(getID());
 		TheAudio->addAudioEvent(&soundToPlay);
 	}
-
 }
 
 //-------------------------------------------------------------------------------------------------
