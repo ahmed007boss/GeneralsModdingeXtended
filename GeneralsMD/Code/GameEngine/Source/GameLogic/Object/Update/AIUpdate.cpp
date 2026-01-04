@@ -2782,6 +2782,7 @@ void AIUpdateInterface::aiDoCommand(const AICommandParms* parms)
 				checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_coords[0], NULL, getObject());
 			privateFollowPath(&parms->m_coords, parms->m_obj, parms->m_cmdSource, FALSE);
 			break;
+		}
 		case AICMD_FOLLOW_PATH_APPEND:
 			// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check for radio interception when AI follows path append
 			checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_pos, NULL, getObject());
@@ -2794,6 +2795,7 @@ void AIUpdateInterface::aiDoCommand(const AICommandParms* parms)
 				checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_coords[0], NULL, getObject());
 			privateFollowPath(&parms->m_coords, parms->m_obj, parms->m_cmdSource, TRUE);
 			break;
+		}
 		case AICMD_ATTACK_OBJECT:
 			privateAttackObject(parms->m_obj, parms->m_intValue, parms->m_cmdSource);
 			break;
@@ -3518,7 +3520,7 @@ void AIUpdateInterface::privateFollowPathAppend( const Coord3D *pos, CommandSour
 /**
  * Follow the path defined by the given array of points
  */
-void AIUpdateInterface::privateFollowPath( const std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction )
+void AIUpdateInterface::privateFollowPath( std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction )
 {
 	if (getObject()->isMobile() == FALSE)
 		return;
@@ -4034,7 +4036,7 @@ void AIUpdateInterface::privateExitInstantly( Object *objectToExit, CommandSourc
 /**
  * Get out of whatever it is inside of
  */
-void AIUpdateInterface::doQuickExit( const std::vector<Coord3D>* path )
+void AIUpdateInterface::doQuickExit( std::vector<Coord3D>* path )
 {
 
 	Bool locked = getStateMachine()->isLocked();
