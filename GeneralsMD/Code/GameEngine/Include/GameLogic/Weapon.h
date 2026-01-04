@@ -439,6 +439,8 @@ public:
 	inline AsciiString getName() const { return m_name; }
 	inline const UnicodeString& getDisplayName() const { return m_displayName; }
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
+	inline const AsciiString& getIcon() const { return m_icon; }
+	inline const AsciiString& getDescription() const { return m_description; }
 	inline AsciiString getProjectileStreamName() const { return m_projectileStreamName; }
 	inline AsciiString getLaserName() const { return m_laserName; }
 	inline const AsciiString& getLaserBoneName() const { return m_laserBoneName; }
@@ -561,6 +563,8 @@ private:
 
 	AsciiString m_name;											///< name for this weapon
 	UnicodeString m_displayName;					///< Display Name
+	AsciiString m_icon;											///< Icon name for this weapon
+	AsciiString m_description;								///< Description label for this weapon
 	NameKeyType m_nameKey;									///< unique name key for this weapon template
 	AsciiString m_projectileStreamName;			///< Name of object that tracks are stream, if we have one
 	AsciiString m_laserName;								///< Name of the laser object that persists.

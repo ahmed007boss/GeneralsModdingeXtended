@@ -1025,11 +1025,6 @@ UnicodeString ArmorTemplateSet::buildSideSpecificDescription() const
 		if (sideArmor != NULL)
 		{
 			UnicodeString armorName = sideArmor->getDisplayName();
-			if (armorName.isEmpty() && m_template != NULL)
-			{
-				// Fallback to m_template name if display name is empty
-				armorName = TheGameText->fetch(m_template->getName().str());
-			}
 			
 			if (!armorName.isEmpty())
 			{
@@ -1119,11 +1114,6 @@ UnicodeString ArmorTemplateSet::buildSideSpecificDescription() const
 			
 			// Add armor name
 			UnicodeString armorName = group.armorTemplate->getDisplayName();
-			if (armorName.isEmpty() && m_template != NULL)
-			{
-				// Fallback to m_template name if display name is empty
-				armorName = TheGameText->fetch(m_template->getName().str());
-			}
 			
 			if (!armorName.isEmpty())
 			{

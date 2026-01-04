@@ -144,6 +144,8 @@ public:
 	inline AsciiString getName() const { return m_name; }
 	inline const UnicodeString& getDisplayName() const { return m_displayName; }
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
+	inline const AsciiString& getIcon() const { return m_icon; }
+	inline const AsciiString& getDescription() const { return m_description; }
 
 	UnicodeString getModuleDescription() const;
 
@@ -172,6 +174,8 @@ private:
 	*/
 	AsciiString								m_name;
 	UnicodeString							m_displayName;					///< Display Name
+	AsciiString								m_icon;							///< Icon name - TheSuperHackers @feature Ahmed Salah
+	AsciiString								m_description;					///< Description label - TheSuperHackers @feature Ahmed Salah
 	LocomotorSurfaceTypeMask	m_surfaces;							///< flags indicating the kinds of surfaces we can use
 	Real											m_maxSpeed;							///< max speed
 	Real									m_maxSpeedDamaged;			///< max speed when "damaged"
@@ -297,6 +301,8 @@ public:
 	const AsciiString& getEngineComponentName() const { return m_template->m_engineComponentName; }
 	AsciiString getName() const { return m_template->getName(); }
 	const UnicodeString& getDisplayName() const { return m_template->getDisplayName(); }
+	const AsciiString& getIcon() const { return m_template->getIcon(); }  // TheSuperHackers @feature Ahmed Salah
+	const AsciiString& getDescription() const { return m_template->getDescription(); }  // TheSuperHackers @feature Ahmed Salah
 	Real getMinSpeed() const { return m_template->m_minSpeed;}
 	Real getAccelPitchLimit() const { return m_template->m_accelPitchLimit;}	///< Maximum amount we will pitch up or down under acceleration (including recoil.)
 	Real getDecelPitchLimit() const { return m_template->m_decelPitchLimit;}	///< Maximum amount we will pitch down under deceleration (including recoil.)

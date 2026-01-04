@@ -144,6 +144,15 @@ struct TTriggerInfo
 
 };
 
+	//-------------------------------------------------------------------------------------------------
+	// TheSuperHackers @feature Ahmed Salah - Info icon structure
+	struct InfoIcon
+	{
+		AsciiString icon;			///< Icon name
+		AsciiString name;			///< Name (with prefix already applied)
+		AsciiString description;	///< Description label
+	};
+
 //----------------------------------------------------
 
 
@@ -556,6 +565,9 @@ public:
 	UnsignedInt getWeaponInWeaponSlotCommandSourceMask( WeaponSlotType wSlot ) const { return m_weaponSet.getNthCommandSourceMask( wSlot ); }
 	Bool getWeaponInWeaponSlotSyncedToSlot(WeaponSlotType thisSlot, WeaponSlotType otherSlot) const;
 	WeaponSlotType getCurWeaponSlot() const { return m_weaponSet.getCurWeaponSlot(); }
+	
+	// TheSuperHackers @feature Ahmed Salah - Get all info icons (weapons and armor)
+	std::vector<InfoIcon> getAllInfoIcons() const;
 	
 	// Range decal control
 	WeaponSlotType getRangeDecalShownForSlot() const { return m_rangeDecalShownForSlot; }

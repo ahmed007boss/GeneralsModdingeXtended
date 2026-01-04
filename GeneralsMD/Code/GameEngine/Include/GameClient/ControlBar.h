@@ -590,6 +590,7 @@ private:
 //-------------------------------------------------------------------------------------------------
 enum { MAX_COMMANDS_PER_SET = 32 };  // user interface max is 14 (but internally it's 18 for script only buttons!)
 enum { MAX_RIGHT_HUD_UPGRADE_CAMEOS = 9};
+enum { MAX_INFO_ICONS = 10 };  // Maximum number of info icons to display on portrait
 enum {
 			 MAX_PURCHASE_SCIENCE_RANK_1 = 7,
 			 MAX_PURCHASE_SCIENCE_RANK_3 = 21,
@@ -1118,6 +1119,9 @@ protected:
 	AsciiString m_portraitVideoName;										///< Name of the video currently playing/played
 	DisplayString *m_portraitDisplayString;									///< Display string for unit name overlay on portrait
 	GameWindow *m_rightHUDUnitSelectParent;
+	
+	// TheSuperHackers @feature Ahmed Salah - Info icon windows for portrait
+	GameWindow *m_infoIconWindows[MAX_INFO_ICONS];						///< Windows for displaying info icons on portrait
 
 	GameWindow *m_communicatorButton;             ///< button for the communicator
 
@@ -1192,6 +1196,8 @@ protected:
 	Bool m_showUnitToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah 01/01/2026
 	WindowLayout *m_unitCamoToolTipLayout;									///< The window that will display camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
 	Bool m_showUnitCamoToolTipLayout;										///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah
+	WindowLayout *m_infoIconToolTipLayout;									///< The window that will display info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool m_showInfoIconToolTipLayout;										///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah
 public:
 	void showBuildTooltipLayout( GameWindow *cmdButton );
 	void hideBuildTooltipLayout( void );
@@ -1209,6 +1215,12 @@ public:
 	void deleteUnitCamoTooltipLayout( void );								///< Delete camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
 	Bool getShowUnitCamoTooltipLayout( void ){return m_showUnitCamoToolTipLayout;	}	///< Get camo tooltip visibility state - TheSuperHackers @feature Ahmed Salah
 	void populateUnitCamoTooltipLayout( const UpgradeTemplate* upgradeTemplate );	///< Populate camo (upgrade) tooltip with upgrade information - TheSuperHackers @feature Ahmed Salah
+	void showInfoIconTooltipLayout( GameWindow *iconWindow );				///< Show info icon tooltip when hovering over icon - TheSuperHackers @feature Ahmed Salah
+	void hideInfoIconTooltipLayout( void );									///< Hide info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	void deleteInfoIconTooltipLayout( void );								///< Delete info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool getShowInfoIconTooltipLayout( void ){return m_showInfoIconToolTipLayout;	}	///< Get info icon tooltip visibility state - TheSuperHackers @feature Ahmed Salah
+	void populateInfoIconTooltipLayout( const AsciiString& name, const AsciiString& description );	///< Populate info icon tooltip with name and description - TheSuperHackers @feature Ahmed Salah
+	void updateInfoIcons( Object *obj );											///< Update and render info icons (weapons and armor) on portrait - TheSuperHackers @feature Ahmed Salah
 private:
 
 

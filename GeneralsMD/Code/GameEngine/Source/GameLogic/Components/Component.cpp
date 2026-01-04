@@ -222,6 +222,9 @@ void Component::buildFieldParse(MultiIniFieldParse& p)
 		{ "DestroyedStatusType", INI::parseIndexList, TheBodyDamageTypeNames, offsetof(Component, m_destroyedDamageType) },
 		{ "MaxHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_maxHealthValueType) },
 		{ "InitialHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_initialHealthValueType) },
+		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(Component, m_displayName) },
+		{ "Description", INI::parseAsciiString, NULL, offsetof(Component, m_description) },
+		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(Component, m_icon) },
 		{ "PartiallyFunctionalIcon", INI::parseAsciiString, NULL, offsetof(Component, m_partiallyFunctionalIconName) },
 		{ "DownedIcon", INI::parseAsciiString, NULL, offsetof(Component, m_downedIconName) },
 		{ "UserDisabledIcon", INI::parseAsciiString, NULL, offsetof(Component, m_userDisabledIconName) },
@@ -230,6 +233,22 @@ void Component::buildFieldParse(MultiIniFieldParse& p)
 	};
 	
 	p.add(componentFieldParse);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature author 01/01/2025 Get component display name with fallback
+//-------------------------------------------------------------------------------------------------
+UnicodeString Component::getDisplayName() const
+{
+	if (!m_displayName.isEmpty())
+	{
+		return m_displayName;
+	}
+	else
+	{
+		// Fallback to empty string if display name is not set
+		return UnicodeString();
+	}
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -345,6 +364,9 @@ void Component::copyBaseComponentMembers(Component* dest) const
 		return;
 	
 	dest->m_name = m_name;
+	dest->m_displayName = m_displayName;
+	dest->m_icon = m_icon;
+	dest->m_description = m_description;
 	dest->m_maxHealth = m_maxHealth;
 	dest->m_initialHealth = m_initialHealth;
 	dest->m_healingType = m_healingType;

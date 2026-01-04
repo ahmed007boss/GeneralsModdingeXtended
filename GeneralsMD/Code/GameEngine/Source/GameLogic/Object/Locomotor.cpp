@@ -281,6 +281,8 @@ LocomotorTemplate::LocomotorTemplate()
 {
 	m_name = AsciiString();
 	m_displayName = UnicodeString();
+	m_icon = AsciiString();  // TheSuperHackers @feature Ahmed Salah
+	m_description = AsciiString();  // TheSuperHackers @feature Ahmed Salah
 	// these values mean "make the same as undamaged if not explicitly specified"
 	m_maxSpeedDamaged = -1.0f;
 	m_maxTurnRateDamaged = -1.0f;
@@ -517,6 +519,8 @@ const FieldParse* LocomotorTemplate::getFieldParse() const
 	static const FieldParse TheFieldParse[] =
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(LocomotorTemplate, m_displayName) },
+		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(LocomotorTemplate, m_icon) },  // TheSuperHackers @feature Ahmed Salah
+		{ "Description", INI::parseAsciiString, NULL, offsetof(LocomotorTemplate, m_description) },  // TheSuperHackers @feature Ahmed Salah
 		{ "Surfaces", INI::parseBitString32, TheLocomotorSurfaceTypeNames, offsetof(LocomotorTemplate, m_surfaces) },
 		{ "Speed", INI::parseVelocityReal, NULL, offsetof(LocomotorTemplate, m_maxSpeed) },
 		{ "SpeedDamaged", INI::parseVelocityReal, NULL, offsetof( LocomotorTemplate, m_maxSpeedDamaged ) },

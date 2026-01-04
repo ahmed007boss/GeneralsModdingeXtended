@@ -71,6 +71,7 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/Display.h"
 #include "GameClient/DisplayStringManager.h"
+#include "GameClient/Image.h"
 #include "GameClient/GameFont.h"
 #include "GameClient/GlobalLanguage.h"
 #include "GameClient/GameClient.h"
@@ -94,6 +95,8 @@
 void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param);
 // Forward declaration for camo tooltip update function - TheSuperHackers @feature Ahmed Salah
 void ControlBarUnitCamoTooltipUpdateFunc(WindowLayout* layout, void* param);
+// Forward declaration for info icon tooltip update function - TheSuperHackers @feature Ahmed Salah
+void ControlBarInfoIconTooltipUpdateFunc(WindowLayout* layout, void* param);
 
 
 // PUBLIC /////////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +228,12 @@ static void unitCamoTooltip(GameWindow *window,
 	UnsignedInt mouse)
 {
 TheControlBar->showUnitCamoTooltipLayout(window);
+}
+static void infoIconTooltip(GameWindow *window,
+	WinInstanceData *instData,
+	UnsignedInt mouse)
+{
+TheControlBar->showInfoIconTooltipLayout(window);
 }
 
 /// mark the UI as dirty so the context of everything is re-evaluated
@@ -1683,6 +1692,9 @@ ControlBar::ControlBar( void )
 	// TheSuperHackers @feature Ahmed Salah - Initialize camo tooltip members
 	m_unitCamoToolTipLayout = NULL;
 	m_showUnitCamoToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Initialize info icon tooltip members
+	m_infoIconToolTipLayout = NULL;
+	m_showInfoIconToolTipLayout = FALSE;
 
 	m_animateDownWin1Pos.x = m_animateDownWin1Pos.y = 0;
 	m_animateDownWin1Size.x = m_animateDownWin1Size.y = 0;
@@ -1740,6 +1752,9 @@ ControlBar::ControlBar( void )
 	m_portraitVideoObjectID = INVALID_ID;
 	m_portraitVideoName.clear();
 	m_portraitDisplayString = NULL;
+	// TheSuperHackers @feature Ahmed Salah - Initialize info icon windows
+	for( i = 0; i < MAX_INFO_ICONS; i++ )
+		m_infoIconWindows[i] = NULL;
 	m_communicatorButton = NULL;
 	m_currentSelectedDrawable = NULL;
 	m_currContext = CB_CONTEXT_NONE;
@@ -1849,6 +1864,13 @@ ControlBar::~ControlBar( void )
 		m_unitCamoToolTipLayout->destroyWindows();
 		deleteInstance(m_unitCamoToolTipLayout);
 		m_unitCamoToolTipLayout = NULL;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Cleanup info icon tooltip layout
+	if(m_infoIconToolTipLayout)
+	{
+		m_infoIconToolTipLayout->destroyWindows();
+		deleteInstance(m_infoIconToolTipLayout);
+		m_infoIconToolTipLayout = NULL;
 	}
 
 	if(m_specialPowerLayout)
@@ -2036,6 +2058,31 @@ void ControlBar::init( void )
 				m_rightHUDUpgradeCameos[i]->winSetTooltipFunc(unitCamoTooltip);
 			}
 		}
+		
+		// TheSuperHackers @feature Ahmed Salah - Create info icon windows as children of unit select parent
+		// This ensures they render on top of the portrait window
+		if (m_rightHUDUnitSelectParent != nullptr)
+		{
+			for( i = 0; i < MAX_INFO_ICONS; i++ )
+			{
+				if (m_infoIconWindows[i] == nullptr)
+				{
+					m_infoIconWindows[i] = TheWindowManager->winCreate(
+						m_rightHUDUnitSelectParent,
+						WIN_STATUS_IMAGE,
+						0, 0, 20, 20,
+						NULL,
+						NULL
+					);
+					if (m_infoIconWindows[i] != nullptr)
+					{
+						m_infoIconWindows[i]->winHide(TRUE);  // Hide by default
+						// TheSuperHackers @feature Ahmed Salah - Set tooltip callback on info icon windows
+						m_infoIconWindows[i]->winSetTooltipFunc(infoIconTooltip);
+					}
+				}
+			}
+		}
 
 //		m_transitionHandler = NEW GameWindowTransitionsHandler;
 //		m_transitionHandler->load();
@@ -2132,6 +2179,14 @@ void ControlBar::init( void )
 			m_unitCamoToolTipLayout->setUpdate(ControlBarUnitCamoTooltipUpdateFunc);
 		}
 		m_showUnitCamoToolTipLayout = FALSE;
+		// TheSuperHackers @feature Ahmed Salah - Initialize info icon tooltip layout
+		m_infoIconToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_infoIconToolTipLayout)
+		{
+			m_infoIconToolTipLayout->hide(TRUE);
+			m_infoIconToolTipLayout->setUpdate(ControlBarInfoIconTooltipUpdateFunc);
+		}
+		m_showInfoIconToolTipLayout = FALSE;
 
 		m_genStarOn = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarON") : NULL;
 		m_genStarOff = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarOFF") : NULL;
@@ -2189,6 +2244,10 @@ void ControlBar::reset( void )
 	if(m_unitCamoToolTipLayout)
 		m_unitCamoToolTipLayout->hide(TRUE);
 	m_showUnitCamoToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Reset info icon tooltip layout
+	if(m_infoIconToolTipLayout)
+		m_infoIconToolTipLayout->hide(TRUE);
+	m_showInfoIconToolTipLayout = FALSE;
 
 	if(m_animateWindowManager)
 		m_animateWindowManager->reset();
@@ -2320,6 +2379,12 @@ void ControlBar::update( void )
 	{
 		m_unitCamoToolTipLayout->runUpdate();
 		m_showUnitCamoToolTipLayout = FALSE;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Update info icon tooltip layout
+	if( m_infoIconToolTipLayout && !m_infoIconToolTipLayout->isHidden())
+	{
+		m_infoIconToolTipLayout->runUpdate();
+		m_showInfoIconToolTipLayout = FALSE;
 	}
 
 	updateSpecialPowerShortcut();
@@ -3886,6 +3951,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 					m_rightHUDUpgradeCameos[i]->winHide(TRUE);
 			}
 			
+			// TheSuperHackers @feature Ahmed Salah - Update info icons for video portrait
+			updateInfoIcons(obj);
+			
 			return;  // Video is showing, don't show image
 		}
 		
@@ -3949,6 +4017,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 				m_rightHUDUpgradeCameos[i]->winEnable( FALSE );
 			}
 		}
+		
+		// TheSuperHackers @feature Ahmed Salah - Update info icons for image portrait
+		updateInfoIcons(obj);
 
 
 	}
@@ -3957,6 +4028,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 		m_rightHUDUnitSelectParent->winHide(TRUE);
 		m_rightHUDWindow->winSetStatus( WIN_STATUS_IMAGE );
 		m_rightHUDCameoWindow->winClearStatus( WIN_STATUS_IMAGE );
+		
+		// TheSuperHackers @feature Ahmed Salah - Hide all info icons when no object is selected
+		updateInfoIcons(NULL);
 		for(Int i = 0; i < MAX_UPGRADE_CAMEO_UPGRADES; ++i)
 			if (m_rightHUDUpgradeCameos[i] != nullptr)
 				m_rightHUDUpgradeCameos[i]->winHide(TRUE);
@@ -3971,6 +4045,101 @@ void ControlBar::setPortraitByObject( Object *obj )
 		GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, NULL );
 	}
 
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Update and render info icons (weapons and armor) on portrait
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Update and render info icons (weapons and armor) on portrait
+//-------------------------------------------------------------------------------------------------
+void ControlBar::updateInfoIcons( Object *obj )
+{
+	// Ensure parent window and portrait window exist
+	if (m_rightHUDUnitSelectParent == nullptr || m_rightHUDCameoWindow == nullptr)
+		return;
+	
+	if (obj == nullptr)
+	{
+		// Hide all info icons when no object is provided
+		for (Int i = 0; i < MAX_INFO_ICONS; i++)
+		{
+			if (m_infoIconWindows[i] != nullptr)
+			{
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		return;
+	}
+	
+	// Get all info icons (weapons and armor)
+	std::vector<InfoIcon> infoIconList = obj->getAllInfoIcons();
+	Int iconSize = 20;
+	Int iconSpacing = 4;  // Spacing between icons
+	Int startOffset = 4;  // Space after start position
+	
+	// Get portrait window position relative to parent to position icons correctly
+	Int portraitX = 0;
+	Int portraitY = 0;
+	if (m_rightHUDCameoWindow != nullptr)
+	{
+		m_rightHUDCameoWindow->winGetPosition(&portraitX, &portraitY);
+	}
+	
+	Int startX = portraitX + startOffset;  // Top-left corner X position (relative to parent) with offset
+	Int startY = portraitY + startOffset;  // Top-left corner Y position (relative to parent) with offset
+	
+	// Limit to maximum number of icons
+	Int numIconsToShow = (infoIconList.size() < MAX_INFO_ICONS) ? infoIconList.size() : MAX_INFO_ICONS;
+	
+	// Show and position info icons
+	for (Int i = 0; i < MAX_INFO_ICONS; i++)
+	{
+		if (m_infoIconWindows[i] == nullptr)
+			continue;
+			
+		if (i < numIconsToShow)
+		{
+			const InfoIcon& infoIcon = infoIconList[i];
+			
+			// Load the icon image
+			const Image* iconImage = NULL;
+			if (TheMappedImageCollection && !infoIcon.icon.isEmpty())
+			{
+				iconImage = TheMappedImageCollection->findImageByName(infoIcon.icon.str());
+			}
+			
+			if (iconImage != NULL)
+			{
+				// Calculate position (stacked horizontally from top-left corner of portrait)
+				Int iconX = startX + (i * (iconSize + iconSpacing));
+				Int iconY = startY;
+				
+				// Position and size the window
+				m_infoIconWindows[i]->winSetPosition(iconX, iconY);
+				m_infoIconWindows[i]->winSetSize(iconSize, iconSize);
+				
+				// Ensure window has IMAGE status
+				m_infoIconWindows[i]->winSetStatus(WIN_STATUS_IMAGE);
+				
+				// Set the image
+				m_infoIconWindows[i]->winSetEnabledImage(0, iconImage);
+				
+				// Show and enable the window
+				m_infoIconWindows[i]->winHide(FALSE);
+				m_infoIconWindows[i]->winEnable(TRUE);
+			}
+			else
+			{
+				// No valid image, hide the window
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		else
+		{
+			// No more icons to show, hide this window
+			m_infoIconWindows[i]->winHide(TRUE);
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------

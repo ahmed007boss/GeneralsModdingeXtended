@@ -59,17 +59,19 @@ public:
 	*/
 	Real adjustDamage(DamageType t, Real damage) const;
 
-	inline AsciiString getName() const { return m_name; }
 	UnicodeString getDisplayName() const;
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
 	UnicodeString getModuleDescription() const;
+	inline const AsciiString& getIcon() const { return m_icon; }
+	inline const AsciiString& getDescription() const { return m_description; }
 
 	static void parseArmorCoefficients( INI* ini, void *instance, void* /* store */, const void* userData );
 	static void parseArmorMultiplier( INI* ini, void *instance, void* /* store */, const void* userData );
 
 public:
-	AsciiString m_name;											///< name for this armor
 	UnicodeString m_displayName;					///< Display Name
+	AsciiString m_icon;											///< Icon name for this armor
+	AsciiString m_description;									///< Description label for this armor
 
 protected:
 
@@ -91,7 +93,6 @@ public:
 		return m_template ? m_template->adjustDamage(t, damage) : damage;
 	}
 
-	inline AsciiString getName() const { return m_template ? m_template->getName() : AsciiString(); }
 	UnicodeString getDisplayName() const;
 
 	inline void clear()

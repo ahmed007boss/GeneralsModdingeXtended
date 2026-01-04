@@ -282,6 +282,8 @@ static void parseSecondaryComponentDamage(INI* ini, void* instance, void* /*stor
 const FieldParse WeaponTemplate::TheWeaponTemplateFieldParseTable[] =
 {
 	{ "DisplayName",							INI::parseAndTranslateLabel,						NULL,							offsetof(WeaponTemplate, m_displayName) },
+	{ "InfoIcon",											INI::parseAsciiString,									NULL,							offsetof(WeaponTemplate, m_icon) },
+	{ "Description",							INI::parseAsciiString,									NULL,							offsetof(WeaponTemplate, m_description) },
 	{ "PrimaryDamage",						INI::parseReal,													NULL,							offsetof(WeaponTemplate, m_primaryDamage) },
 	{ "PrimaryDamageRadius",			INI::parseReal,													NULL,							offsetof(WeaponTemplate, m_primaryDamageRadius) },
 	{ "SecondaryDamage",					INI::parseReal,													NULL,							offsetof(WeaponTemplate, m_secondaryDamage) },

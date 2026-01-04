@@ -81,6 +81,9 @@ public:
 
 protected:
 	AsciiString m_name;						///< Component name (Engine, Turret, Wheels, Gun, etc.)
+	UnicodeString m_displayName;			///< Display name for this component
+	AsciiString m_icon;						///< Icon name for this component
+	AsciiString m_description;				///< Description label for this component
 	Real m_maxHealth;						///< Maximum health for this component
 	Real m_initialHealth;					///< Initial health for this component
 	ComponentHealingType m_healingType;		///< How this component can be healed
@@ -108,11 +111,14 @@ protected:
 	
 
 public:
-	Component() : m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_damagedDamageType((BodyDamageType)0), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE), m_object(NULL) {}
+	Component() : m_name(), m_displayName(), m_icon(), m_description(), m_maxHealth(0.0f), m_initialHealth(0.0f), m_healingType(COMPONENT_HEALING_NORMAL), m_damageOnSides(), m_replacementCost(0), m_forceReturnOnDestroy(FALSE), m_maxHealthValueType(VALUE_TYPE_ABSOLUTE), m_initialHealthValueType(VALUE_TYPE_ABSOLUTE), m_damagedDamageType((BodyDamageType)0), m_destroyedDamageType((BodyDamageType)0), m_currentHealth(0.0f), m_currentMaxHealth(0.0f), m_partiallyFunctionalIcon(NULL), m_downedIcon(NULL), m_userDisabledIcon(NULL), m_userDisabled(FALSE), m_object(NULL) {}
 
 	// Accessors for configuration/state
 	const AsciiString& getName() const { return m_name; }
 	void setName(const AsciiString& n) { m_name = n; }
+	UnicodeString getDisplayName() const;
+	inline const AsciiString& getIcon() const { return m_icon; }
+	inline const AsciiString& getDescription() const { return m_description; }
 	Real getMaxHealthConfig() const { return m_maxHealth; }
 	void setMaxHealthConfig(Real v) { m_maxHealth = v; }
 	ValueType getMaxHealthValueType() const { return m_maxHealthValueType; }

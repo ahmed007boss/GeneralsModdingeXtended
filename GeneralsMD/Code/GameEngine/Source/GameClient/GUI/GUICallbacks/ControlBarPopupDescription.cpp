@@ -1081,6 +1081,13 @@ static AnimateWindowManager* theUnitCamoTooltipAnimateWindowManager = NULL;
 static GameWindow* prevUnitCamoTooltipWindow = NULL;
 static Bool useUnitCamoTooltipAnimation = FALSE;
 
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Info icon tooltip support
+// ---------------------------------------------------------------------------------------
+static AnimateWindowManager* theInfoIconTooltipAnimateWindowManager = NULL;
+static GameWindow* prevInfoIconTooltipWindow = NULL;
+static Bool useInfoIconTooltipAnimation = FALSE;
+
 void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param)
 {
 	if (TheScriptEngine->isGameEnding())
@@ -1912,10 +1919,259 @@ void ControlBar::populateUnitCamoTooltipLayout(const UpgradeTemplate* upgradeTem
 		lastOffset.x = offset.x;
 		lastOffset.y = offset.y;
 
+	win->winGetSize(&size.x, &size.y);
+	win->winSetSize(size.x, size.y + diffSize);
+
+	GadgetStaticTextSetText(win, descrip);
+}
+m_unitCamoToolTipLayout->hide(FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBarInfoIconTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideInfoIconTooltipLayout();
+
+	if (theInfoIconTooltipAnimateWindowManager && !TheControlBar->getShowInfoIconTooltipLayout() && !theInfoIconTooltipAnimateWindowManager->isReversed())
+		theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowInfoIconTooltipLayout() && (!TheGlobalData->m_animateWindows || !useInfoIconTooltipAnimation))
+		TheControlBar->deleteInfoIconTooltipLayout();
+
+	if (useInfoIconTooltipAnimation && theInfoIconTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theInfoIconTooltipAnimateWindowManager->isFinished();
+		theInfoIconTooltipAnimateWindowManager->update();
+		if (theInfoIconTooltipAnimateWindowManager->isFinished() && !wasFinished && theInfoIconTooltipAnimateWindowManager->isReversed())
+		{
+			delete theInfoIconTooltipAnimateWindowManager;
+			theInfoIconTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteInfoIconTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showInfoIconTooltipLayout(GameWindow* iconWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideInfoIconTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevInfoIconTooltipWindow == iconWindow)
+	{
+		m_showInfoIconToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (m_infoIconToolTipLayout && !m_infoIconToolTipLayout->isHidden())
+	{
+		if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows && !theInfoIconTooltipAnimateWindowManager->isReversed())
+			theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows && theInfoIconTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_infoIconToolTipLayout->hide(TRUE);
+			prevInfoIconTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevInfoIconTooltipWindow = iconWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_infoIconToolTipLayout)
+		return;
+
+	// Find which info icon was hovered by comparing the window pointer
+	Int iconIndex = -1;
+	for (Int i = 0; i < MAX_INFO_ICONS; ++i)
+	{
+		if (TheControlBar->m_infoIconWindows[i] == iconWindow)
+		{
+			iconIndex = i;
+			break;
+		}
+	}
+
+	if (iconIndex < 0)
+		return;
+
+	// Get all info icons and find the one that matches
+	std::vector<InfoIcon> infoIconList = obj->getAllInfoIcons();
+	if (iconIndex >= infoIconList.size())
+		return;
+
+	const InfoIcon& infoIcon = infoIconList[iconIndex];
+
+	m_showInfoIconToolTipLayout = TRUE;
+	populateInfoIconTooltipLayout(infoIcon.name, infoIcon.description);
+	m_infoIconToolTipLayout->hide(FALSE);
+
+	if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theInfoIconTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theInfoIconTooltipAnimateWindowManager->reset();
+		theInfoIconTooltipAnimateWindowManager->registerGameWindow(m_infoIconToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideInfoIconTooltipLayout()
+{
+	if (theInfoIconTooltipAnimateWindowManager && theInfoIconTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useInfoIconTooltipAnimation && theInfoIconTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteInfoIconTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteInfoIconTooltipLayout(void)
+{
+	m_showInfoIconToolTipLayout = FALSE;
+	prevInfoIconTooltipWindow = NULL;
+	if (m_infoIconToolTipLayout)
+		m_infoIconToolTipLayout->hide(TRUE);
+
+	delete theInfoIconTooltipAnimateWindowManager;
+	theInfoIconTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateInfoIconTooltipLayout(const AsciiString& name, const AsciiString& description)
+{
+	if (!m_infoIconToolTipLayout)
+		return;
+
+	UnicodeString nameStr, descripStr;
+	
+	// Get name - if it's a label, fetch it, otherwise use the name directly
+	// Note: The name already has the prefix applied in getAllInfoIcons()
+	if (!name.isEmpty())
+	{
+		// Try to fetch as a label first
+		nameStr = TheGameText->fetch(name);
+		if (nameStr.isEmpty() || wcsstr(nameStr.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to using name directly
+			nameStr.format(L"%hs", name.str());
+		}
+	}
+	
+	// Get description - if it's a label, fetch it, otherwise use the description directly
+	if (!description.isEmpty())
+	{
+		// Try to fetch as a label first
+		descripStr = TheGameText->fetch(description);
+		if (descripStr.isEmpty() || wcsstr(descripStr.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to using description directly
+			descripStr.format(L"%hs", description.str());
+		}
+	}
+	
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, nameStr);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for info icon tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descripStr);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_infoIconToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
 		win->winGetSize(&size.x, &size.y);
 		win->winSetSize(size.x, size.y + diffSize);
 
-		GadgetStaticTextSetText(win, descrip);
+		GadgetStaticTextSetText(win, descripStr);
 	}
-	m_unitCamoToolTipLayout->hide(FALSE);
+	m_infoIconToolTipLayout->hide(FALSE);
 }

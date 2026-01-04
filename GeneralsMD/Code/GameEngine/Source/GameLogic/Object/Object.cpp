@@ -29,6 +29,7 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
+#include <vector>
 #include "GameLogic/Damage.h"
 #define DEFINE_WEAPONCONDITIONMAP
 #include "Common/BitFlagsIO.h"
@@ -48,6 +49,7 @@
 #include "Common/ThingFactory.h"
 #include "Common/ThingTemplate.h"
 #include "Common/Upgrade.h"
+#include "GameLogic/ArmorSet.h"
 #include "Common/WellKnownKeys.h"
 #include "Common/Xfer.h"
 #include "Common/XferCRC.h"
@@ -58,6 +60,7 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/Eva.h"
 #include "GameClient/GameClient.h"
+#include "GameClient/GameText.h"  // TheSuperHackers @feature Ahmed Salah - For text resources
 #include "GameClient/InGameUI.h"
 
 #include "GameLogic/AI.h"
@@ -7156,6 +7159,267 @@ std::vector<Component> Object::getComponents() const
 	
 	// Use the public BodyModule::getComponents() method
 	return body->getComponents();
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Get all info icons (weapons and armor)
+//-------------------------------------------------------------------------------------------------
+std::vector<InfoIcon> Object::getAllInfoIcons() const
+{
+	std::vector<InfoIcon> infoIconList;
+	
+	// Iterate through all weapon slots
+	for (Int i = 0; i < WEAPONSLOT_COUNT; ++i)
+	{
+		WeaponSlotType slot = (WeaponSlotType)i;
+		Weapon* weapon = getWeaponInWeaponSlot(slot);
+		
+		// Only include active weapons (non-null and functional)
+		if (weapon && weapon->isWeaponSlotFunctional(this))
+		{
+			const WeaponTemplate* template_ = weapon->getTemplate();
+			if (template_)
+			{
+				InfoIcon info;
+				info.icon = template_->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:ArmedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Armed by";
+				}
+				
+				// Get weapon display name (not the internal name)
+				UnicodeString weaponDisplayName = template_->getDisplayName();
+				if (weaponDisplayName.isEmpty() || wcsstr(weaponDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to internal name if display name is missing
+					AsciiString weaponName = template_->getName();
+					weaponDisplayName.format(L"%hs", weaponName.str());
+				}
+				
+				// Combine prefix with display name
+				UnicodeString fullName = prefix + L" " + weaponDisplayName;
+				
+				// Convert to AsciiString for storage
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString weaponNameAscii;
+				weaponNameAscii.translate(weaponDisplayName);
+				if (!prefixAscii.isEmpty())
+				{
+					info.name = prefixAscii + weaponNameAscii;
+				}
+				else
+				{
+					info.name = weaponNameAscii;
+				}
+				
+				info.description = template_->getDescription();
+				
+				// Only add if all fields are not empty
+				if (!info.icon.isEmpty() && !info.name.isEmpty() && !info.description.isEmpty())
+				{
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	// Get armor information - only include the currently active armor set
+	const ThingTemplate* template_ = getTemplate();
+	if (template_)
+	{
+		// Build ArmorSetFlags from the object's current armor set flags
+		ArmorSetFlags currentArmorSetFlags;
+		currentArmorSetFlags.clear();
+		
+		// Test each armor set type flag and set it in the flags
+		for (Int i = 0; i < ARMORSET_COUNT; ++i)
+		{
+			ArmorSetType ast = (ArmorSetType)i;
+			if (testArmorSetFlag(ast))
+			{
+				currentArmorSetFlags.set(ast, 1);
+			}
+		}
+		
+		// Find the armor set that matches the current flags
+		const ArmorTemplateSet* activeArmorSet = template_->findArmorTemplateSet(currentArmorSetFlags);
+		if (activeArmorSet)
+		{
+			const ArmorTemplate* armorTemplate = activeArmorSet->getArmorTemplate();
+			if (armorTemplate)
+			{
+				InfoIcon info;
+				info.icon = armorTemplate->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:ProtectedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Protected by";
+				}
+				
+				// Get armor display name (m_name is never set, so use getDisplayName)
+				UnicodeString armorDisplayName = armorTemplate->getDisplayName();
+				if (armorDisplayName.isEmpty() || wcsstr(armorDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// If display name is missing, skip this armor (no fallback since m_name is always empty)
+					armorDisplayName.clear();
+				}
+				prefix = prefix + L" ";
+				// Convert prefix and display name to AsciiString and combine
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString armorNameAscii;
+				armorNameAscii.translate(armorDisplayName);
+				if (!prefixAscii.isEmpty() && !armorNameAscii.isEmpty())
+				{
+					info.name = prefixAscii + armorNameAscii;
+				}
+				else if (!armorNameAscii.isEmpty())
+				{
+					info.name = armorNameAscii;
+				}
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+				
+				info.description = armorTemplate->getDescription();
+				
+				// Only add if icon and name are not empty (icon and name are required for display)
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
+				{
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	// Get locomotor information - only include the currently active locomotor
+	if (getAIUpdateInterface())
+	{
+		const Locomotor* locomotor = getAIUpdateInterface()->getCurLocomotor();
+		if (locomotor)
+		{
+			InfoIcon info;
+			info.icon = locomotor->getIcon();
+			
+			// Get prefix text from resources
+			UnicodeString prefix = TheGameText->fetch("TOOLTIP:EquippedBy");
+			if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+			{
+				// Fallback to direct text if label is missing
+				prefix = L"Equipped By";
+			}
+			
+			// Get locomotor display name
+			UnicodeString locomotorDisplayName = locomotor->getDisplayName();
+			if (locomotorDisplayName.isEmpty() || wcsstr(locomotorDisplayName.str(), L"MISSING:") != NULL)
+			{
+				// Fallback to internal name if display name is missing
+				AsciiString locomotorName = locomotor->getName();
+				locomotorDisplayName.format(L"%hs", locomotorName.str());
+			}
+			
+			prefix = prefix + L" ";
+			// Convert prefix and display name to AsciiString and combine
+			AsciiString prefixAscii;
+			prefixAscii.translate(prefix);
+			AsciiString locomotorNameAscii;
+			locomotorNameAscii.translate(locomotorDisplayName);
+			if (!prefixAscii.isEmpty() && !locomotorNameAscii.isEmpty())
+			{
+				info.name = prefixAscii + locomotorNameAscii;
+			}
+			else if (!locomotorNameAscii.isEmpty())
+			{
+				info.name = locomotorNameAscii;
+			}
+			else
+			{
+				// Skip if no display name available
+				info.name.clear();
+			}
+			
+			info.description = locomotor->getDescription();
+			
+			// Only add if icon and name are not empty (icon and name are required for display)
+			if (!info.icon.isEmpty() && !info.name.isEmpty())
+			{
+				infoIconList.push_back(info);
+			}
+		}
+	}
+	
+	// Get component information - include all components that have icon, name, and description
+	const ActiveBody* activeBody = static_cast<const ActiveBody*>(getBodyModule());
+	if (activeBody)
+	{
+		std::vector<Component*> comps = activeBody->GetComponentsOfType<Component>();
+		for (std::vector<Component*>::const_iterator it = comps.begin(); it != comps.end(); ++it)
+		{
+			const Component* component = *it;
+			if (component)
+			{
+				InfoIcon info;
+				info.icon = component->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:EquippedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Equipped By";
+				}
+				
+				// Get component display name
+				UnicodeString componentDisplayName = component->getDisplayName();
+				if (componentDisplayName.isEmpty() || wcsstr(componentDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to internal name if display name is missing
+					AsciiString componentName = component->getName();
+					componentDisplayName.format(L"%hs", componentName.str());
+				}
+				
+				prefix = prefix + L" ";
+				// Convert prefix and display name to AsciiString and combine
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString componentNameAscii;
+				componentNameAscii.translate(componentDisplayName);
+				if (!prefixAscii.isEmpty() && !componentNameAscii.isEmpty())
+				{
+					info.name = prefixAscii + componentNameAscii;
+				}
+				else if (!componentNameAscii.isEmpty())
+				{
+					info.name = componentNameAscii;
+				}
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+				
+				info.description = component->getDescription();
+				
+				// Only add if icon and name are not empty (icon and name are required for display)
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
+				{
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	return infoIconList;
 }
 
 //-------------------------------------------------------------------------------------------------
