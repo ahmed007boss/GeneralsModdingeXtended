@@ -157,6 +157,10 @@ public:
 	
 	Bool canTakeoff(const Object* obj) const;  ///< TheSuperHackers @feature Ahmed Salah 15/01/2025 Check if object can take off (engine component not destroyed and required items available)
 
+	// TheSuperHackers @feature Ahmed Salah 30/09/2025 Inventory consumption accessors
+	const AsciiString& getConsumeItem() const { return m_consumeItem; }  ///< Get item required for fuel consumption
+	Real getConsumeRate() const { return m_consumeRate; }  ///< Get fuel consumption rate
+
 	// TheSuperHackers @feature author 15/01/2025 Component dependency system
 	std::vector<AsciiString> m_affectedByComponents;			///< List of component names that affect this locomotor's functionality
 	AsciiString								m_engineComponentName;		///< TheSuperHackers @feature Ahmed Salah 30/10/2025 Engine component name (INI), default uses EngineComponent::DEFAULT_MAIN_ENGINE_COMPONENT_NAME

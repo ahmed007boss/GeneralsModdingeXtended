@@ -124,6 +124,7 @@ public:
 	const Coord3D& friend_getLandingPosForHelipadStuff() const { return m_landingPosForHelipadStuff; }
 	void friend_enableAfterburners(Bool v);
 	void friend_setAllowAirLoco(Bool a);
+	Bool checkFuelBeforeTakeoff() const;  ///< TheSuperHackers @feature Ahmed Salah Check if aircraft has sufficient fuel (>=20%) for takeoff
 	Bool friend_isTakeoffOrLandingInProgress() const
 	{
 		return (getFlag(TAKEOFF_IN_PROGRESS) || getFlag(LANDING_IN_PROGRESS));

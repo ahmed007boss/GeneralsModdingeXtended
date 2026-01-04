@@ -22,6 +22,8 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
   - [Parking Behavior](#parking-behavior)
   - [Healing System](#healing-system)
   - [Restoration System](#restoration-system) *(GMX Generals, GMX Zero Hour only)*
+- [Enum Value Lists](#enum-value-lists)
+  - [ValueType Values](#valuetype-values)
 - [Examples](#examples)
 - [Template](#template)
 - [Notes](#notes)
@@ -54,7 +56,7 @@ Multiple ParkingPlaceBehavior modules can exist independently on the same object
 - ParkingPlaceBehavior integrates with [ProductionUpdate](../ObjectModules/ProductionUpdate.md) systems to manage door states and coordinate unit exits. Doors are automatically opened when spaces are reserved and closed when spaces are released.
 - Aircraft with [JetAIUpdate](../ObjectModules/JetAIUpdate.md) coordinate with ParkingPlaceBehavior to reserve runways and parking spaces. The module provides runway reservation queuing for takeoff operations.
 - Healing occurs automatically at regular intervals (every 0.2 seconds) for all parked aircraft. The healing amount per tick is calculated based on [HealAmountPerSecond](#healamountpersecond) and the time interval.
-- Inventory item replenishment and component restoration occur during each healing tick for parked vehicles that have the required systems (GMX only). Invalid item names or component names are silently ignored - vehicles without [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) or missing components are skipped.
+- Inventory item replenishment occurs once per second for parked vehicles that have the required systems (GMX only), using the [RepublishAmount](#republishamount) and [RepublishAmountValueType](#republishamountvaluetype) settings. Component restoration occurs during each healing tick. Invalid item names or component names are silently ignored - vehicles without [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) or missing components are skipped.
 - Helipad aircraft (with `KINDOF_PRODUCED_AT_HELIPAD`) use special handling and do not require parking space reservations. They use the `HeliPark01` bone position instead.
 - Runway reservations are managed per column. If [HasRunways](#hasrunways) is `Yes`, each column has its own runway that can be reserved for landing or takeoff. Aircraft queue for runway access when runways are busy.
 - Parking space allocation uses a grid system based on [NumRows](#numrows) and [NumCols](#numcols). Each space is assigned to a specific runway (column) and can be reserved for parking or exit coordination.
@@ -140,11 +142,28 @@ Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero H
 
 Available in: *(GMX Generals, GMX Zero Hour only)*
 
+#### `RepublishAmount` *(GMX Generals, GMX Zero Hour only)*
+Available in: *(GMX Generals, GMX Zero Hour only)*
+
+- **Type**: `Real`
+- **Description**: Amount of inventory items to restore per second for parked vehicles. The value interpretation depends on [RepublishAmountValueType](#republishamountvaluetype): if `RepublishAmountValueType` is `ABSOLUTE`, the value is added directly to the item count each second; if `RepublishAmountValueType` is `PERCENTAGE`, the value is treated as a percentage of the maximum storage capacity (e.g., `5.0%` means 5% of maximum storage per second). The value can be specified with a `%` suffix to automatically use percentage mode (e.g., `RepublishAmount = 5.0%`). Restoration occurs once per second for all parked vehicles that have items listed in [ReplenishItems](#replenishitems). The restoration amount is capped at the maximum storage capacity - vehicles will not exceed their maximum item storage. When set to 0, no restoration occurs.
+- **Default**: `5.0`
+- **Example**: `RepublishAmount = 5.0` or `RepublishAmount = 5.0%` (percentage mode)
+
+#### `RepublishAmountValueType` *(GMX Generals, GMX Zero Hour only)*
+Available in: *(GMX Generals, GMX Zero Hour only)*
+
+- **Type**: `ValueType` (see [ValueType Values](#valuetype-values) section)
+- **Description**: Controls how [RepublishAmount](#republishamount) is interpreted. When set to `ABSOLUTE`, the value is added directly to the item count each second. When set to `PERCENTAGE`, the value is treated as a percentage of the maximum storage capacity (e.g., `5.0` means 5% of maximum storage per second). This property is automatically set when [RepublishAmount](#republishamount) is specified with a `%` suffix. If [RepublishAmount](#republishamount) contains a `%` symbol, `RepublishAmountValueType` is automatically set to `PERCENTAGE`; otherwise, it defaults to `PERCENTAGE` (default value is 5.0 with PERCENTAGE type).
+- **Default**: `PERCENTAGE`
+- **Example**: `RepublishAmountValueType = PERCENTAGE`
+- **Available Values**: see [ValueType Values](#valuetype-values)
+
 #### `ReplenishItems` *(GMX Generals, GMX Zero Hour only)*
 Available in: *(GMX Generals, GMX Zero Hour only)*
 
 - **Type**: Space-separated list of `AsciiString` (inventory item names)
-- **Description**: List of inventory items to replenish for parked vehicles. Each item name in the list is replenished to maximum capacity during each healing tick for vehicles that have [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md). Items are replenished one at a time - if a vehicle has less than the maximum storage capacity for an item, it is replenished to full capacity. If a vehicle does not have [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md), item replenishment is silently skipped. Invalid or non-existent item names are silently ignored - the system checks if the item exists in the vehicle's inventory system before attempting replenishment. Multiple items can be specified by separating them with spaces (e.g., `ReplenishItems = Fuel Rockets Bombs`).
+- **Description**: List of inventory items to replenish for parked vehicles. Each item name in the list is replenished using the [RepublishAmount](#republishamount) and [RepublishAmountValueType](#republishamountvaluetype) settings once per second for vehicles that have [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md). Items are replenished gradually - the amount restored each second is determined by [RepublishAmount](#republishamount) (as a percentage of maximum storage or absolute value, depending on [RepublishAmountValueType](#republishamountvaluetype)). If a vehicle does not have [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md), item replenishment is silently skipped. Invalid or non-existent item names are silently ignored - the system checks if the item exists in the vehicle's inventory system before attempting replenishment. Multiple items can be specified by separating them with spaces (e.g., `ReplenishItems = Fuel Rockets Bombs`).
 - **Default**: Empty (no items replenished)
 - **Example**: `ReplenishItems = Fuel Rockets`
 - **Invalid Reference Handling**: If an item name does not exist in the vehicle's [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) system, the item is silently ignored. The system checks for item existence and maximum storage capacity - if the item doesn't exist or cannot be stored, replenishment is skipped without error. Vehicles without [InventoryBehavior](../ObjectBehaviorsModules/InventoryBehavior.md) are skipped entirely.
@@ -157,6 +176,19 @@ Available in: *(GMX Generals, GMX Zero Hour only)*
 - **Default**: Empty (no components restored)
 - **Example**: `RestoreComponents = MainEngine FuelTank`
 - **Invalid Reference Handling**: If a component name does not exist on the vehicle, the component is silently ignored. The system checks for component existence - if the component doesn't exist, restoration is skipped without error. Vehicles without a body module or without the component system are skipped entirely.
+
+## Enum Value Lists
+
+<a id="valuetype-values"></a>
+#### `ValueType` Values
+
+Available in: *(GMX Generals, GMX Zero Hour only)*
+
+- **Source**: [GameType.h](../../GeneralsMD/Code/GameEngine/Include/Common/GameType.h) - `TheValueTypeNames[]` array definition
+
+- **`ABSOLUTE`** *(GMX Generals, GMX Zero Hour only)* — The value is treated as an absolute amount. If `RepublishAmount = 10.0` and `RepublishAmountValueType = ABSOLUTE`, the item count is increased by exactly 10.0 per second, regardless of the maximum storage capacity.
+
+- **`PERCENTAGE`** *(GMX Generals, GMX Zero Hour only)* — The value is treated as a percentage of the maximum storage capacity. If `RepublishAmount = 5.0` and `RepublishAmountValueType = PERCENTAGE`, and the item has a maximum storage of 100, the item count is increased by 5.0 per second (5% of 100). The value can also be specified with a `%` suffix in `RepublishAmount` (e.g., `RepublishAmount = 5.0%`), which automatically sets `RepublishAmountValueType` to `PERCENTAGE`.
 
 ## Examples
 
@@ -208,6 +240,8 @@ Update = ParkingPlaceBehavior ModuleTag_04
   HasRunways = Yes
   ParkInHangars = No
   HealAmountPerSecond = 10.0
+  RepublishAmount = 5.0%
+  RepublishAmountValueType = PERCENTAGE
   ReplenishItems = Fuel Rockets Bombs
   RestoreComponents = MainEngine FuelTank WeaponsSystem
 End
@@ -235,6 +269,8 @@ Update = ParkingPlaceBehavior ModuleTag_XX
   HealAmountPerSecond = 0.0          ; // health restored per second to parked aircraft *(v1.04)*
   
   ; Restoration System (GMX only)
+  RepublishAmount = 5.0              ; // amount to restore per second (percentage or absolute) *(GMX Generals, GMX Zero Hour only)*
+  RepublishAmountValueType = PERCENTAGE ; // how RepublishAmount is interpreted (ABSOLUTE or PERCENTAGE) *(GMX Generals, GMX Zero Hour only)*
   ReplenishItems =                   ; // space-separated list of inventory items to replenish *(GMX Generals, GMX Zero Hour only)*
   RestoreComponents =                ; // space-separated list of components to restore to max health *(GMX Generals, GMX Zero Hour only)*
 End
@@ -246,7 +282,7 @@ End
 - Supports configurable grid layouts with rows and columns. The total number of parking spaces is [NumRows](#numrows) multiplied by [NumCols](#numcols). Each space requires specific bone names in the object's model.
 - Includes runway management for aircraft landing and takeoff operations. Runways are allocated per column when [HasRunways](#hasrunways) is enabled, with queuing support for multiple aircraft waiting to take off.
 - Provides automatic healing for parked aircraft at regular intervals (every 0.2 seconds). Healing only affects aircraft that are currently parked in a reserved parking space.
-- Inventory item replenishment and component restoration occur during each healing tick for parked vehicles that have the required systems (GMX only). Invalid item or component names are silently ignored.
+- Inventory item replenishment occurs once per second for parked vehicles that have the required systems (GMX only), using the [RepublishAmount](#republishamount) and [RepublishAmountValueType](#republishamountvaluetype) settings. Component restoration occurs during each healing tick. Invalid item or component names are silently ignored.
 - Requires proper bone structure in the object's model. Missing bones may cause parking positions to be incorrectly placed or the module may not function properly. The module expects bones named `Runway%dPark%dHan`, `Runway%dParking%d`, `Runway%dPrep%d` for parking spaces, `RunwayStart%d` and `RunwayEnd%d` for runways, and `HeliPark01` for helipad functionality.
 - ParkingPlaceBehavior integrates with [ProductionUpdate](../ObjectModules/ProductionUpdate.md) to manage door states and coordinate unit exits. Doors are automatically opened when spaces are reserved and closed when spaces are released.
 - Aircraft with [JetAIUpdate](../ObjectModules/JetAIUpdate.md) coordinate with ParkingPlaceBehavior to reserve runways and parking spaces. The module provides runway reservation queuing for takeoff operations.
@@ -268,7 +304,7 @@ End
 
 - v1.04 — Adds ParkingPlaceBehavior (aircraft parking systems with grid layouts, runways, and healing).
 - v1.04 (Zero Hour only) — Adds [LandingDeckHeightOffset](#landingdeckheightoffset) for landing deck height offset support.
-- GMX — Adds inventory item replenishment and component restoration properties ([ReplenishItems](#replenishitems), [RestoreComponents](#restorecomponents)) for parked vehicles.
+- GMX — Adds inventory item replenishment and component restoration properties ([RepublishAmount](#republishamount), [RepublishAmountValueType](#republishamountvaluetype), [ReplenishItems](#replenishitems), [RestoreComponents](#restorecomponents)) for parked vehicles.
 
 ## Document Log
 

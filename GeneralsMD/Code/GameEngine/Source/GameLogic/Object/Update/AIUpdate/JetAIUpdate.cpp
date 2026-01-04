@@ -37,10 +37,12 @@
 #include "GameClient/GameClient.h"
 #include "GameLogic/ExperienceTracker.h"
 #include "GameLogic/Locomotor.h"
+#include "GameLogic/LocomotorSet.h"
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/CountermeasuresBehavior.h"
 #include "GameLogic/Module/JetAIUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
+#include "GameLogic/Module/InventoryBehavior.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/AIPathfind.h"
 #include "GameLogic/PartitionManager.h"
@@ -215,6 +217,19 @@ public:
 		JetAIUpdate* jetAI = (JetAIUpdate*)jet->getAIUpdateInterface();
 		if( !jetAI )
 			return STATE_FAILURE;
+
+		// TheSuperHackers @feature Ahmed Salah Check fuel level before starting takeoff sequence - fail if less than 20%
+		if (!m_landing)
+		{
+			if (!jetAI->checkFuelBeforeTakeoff())
+			{
+				// Fuel too low - cancel takeoff command
+				jetAI->friend_purgePendingCommand();
+				jetAI->friend_setTakeoffInProgress(false);
+				jetAI->friend_setLandingInProgress(false);
+				return STATE_FAILURE;
+			}
+		}
 
 		jetAI->friend_setTakeoffInProgress(!m_landing);
 		jetAI->friend_setLandingInProgress(m_landing);
@@ -2216,6 +2231,40 @@ Bool JetAIUpdate::chooseLocomotorSet(LocomotorSetType wst)
 		wst = d->m_returningLoco;
 	}
 	return AIUpdateInterface::chooseLocomotorSet(wst);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah Check if aircraft has sufficient fuel (>=20%) for takeoff
+Bool JetAIUpdate::checkFuelBeforeTakeoff() const
+{
+	// Get the normal locomotor template (considering upgrades) - this already handles upgrade logic
+	const LocomotorTemplate* normalTemplate = AIUpdateInterface::getNormalLocomotorTemplate();
+	if (!normalTemplate)
+		return TRUE; // No template means no fuel requirement, allow takeoff
+	
+	// Get required item directly from template
+	const AsciiString& consumeItem = normalTemplate->getConsumeItem();
+	if (consumeItem.isEmpty())
+		return TRUE; // No fuel requirement, allow takeoff
+	
+	// Check fuel level in inventory
+	Object* obj = AIUpdateInterface::getObject();
+	InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
+	if (!inventoryBehavior)
+		return TRUE; // No inventory behavior, allow takeoff
+	
+	Real currentAmount = inventoryBehavior->getItemCount(consumeItem);
+	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
+	if (!moduleData)
+		return TRUE; // No module data, allow takeoff
+	
+	Real maxStorage = moduleData->getMaxStorageCount(consumeItem);
+	if (maxStorage <= 0.0f)
+		return TRUE; // No max storage defined, allow takeoff
+	
+	// Check if fuel is at least 20%
+	Real fuelPercent = (currentAmount / maxStorage) * 100.0f;
+	return (fuelPercent >= 20.0f);
 }
 
 //-------------------------------------------------------------------------------------------------

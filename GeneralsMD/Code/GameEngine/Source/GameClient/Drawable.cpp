@@ -4289,44 +4289,20 @@ void Drawable::drawFuelBar(const IRegion2D* healthBarRegion, Object* obj)
 	if (!healthBarRegion || !obj)
 		return;
 
-	// Get the locomotor to check for consumed items
+	// Get the normal locomotor template to check for consumed items
 	AIUpdateInterface* ai = obj->getAIUpdateInterface();
 	if (!ai)
 		return;
 
-	LocomotorSet& locomotorSet = const_cast<LocomotorSet&>(ai->getLocomotorSet());
+	const LocomotorTemplate* normalLocoTemplate = ai->getNormalLocomotorTemplate();
+	if (!normalLocoTemplate)
+		return;
+
+	// Get consume item from the normal locomotor template
+	AsciiString consumeItem = normalLocoTemplate->getConsumeItem();
 	
-	// Check all locomotor surfaces for consumed items
-	Locomotor* groundLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_GROUND);
-	Locomotor* waterLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_WATER);
-	Locomotor* airLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_AIR);
-	
-	Locomotor* activeLoco = nullptr;
-	AsciiString consumeItem;
-	Int consumeRate = 0;
-	
-	// Find the first locomotor with a consumed item
-	if (groundLoco && !groundLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = groundLoco;
-		consumeItem = groundLoco->getConsumeItem();
-		consumeRate = groundLoco->getConsumeRate();
-	}
-	else if (waterLoco && !waterLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = waterLoco;
-		consumeItem = waterLoco->getConsumeItem();
-		consumeRate = waterLoco->getConsumeRate();
-	}
-	else if (airLoco && !airLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = airLoco;
-		consumeItem = airLoco->getConsumeItem();
-		consumeRate = airLoco->getConsumeRate();
-	}
-	
-	// If no locomotor has consumed items, don't draw anything
-	if (!activeLoco || consumeItem.isEmpty())
+	// If no consumed item, don't draw anything
+	if (consumeItem.isEmpty())
 		return;
 
 	// Get inventory behavior to check current item count

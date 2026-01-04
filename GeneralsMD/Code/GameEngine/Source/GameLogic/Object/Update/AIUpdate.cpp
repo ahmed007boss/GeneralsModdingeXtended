@@ -895,9 +895,18 @@ Bool AIUpdateInterface::chooseLocomotorSetExplicit(LocomotorSetType wst)
 //-------------------------------------------------------------------------------------------------
 const LocomotorTemplate* AIUpdateInterface::getNormalLocomotorTemplate() const
 {
+	// Determine the correct set type based on upgrade level (same logic as chooseLocomotorSet)
+	LocomotorSetType targetSet = LOCOMOTORSET_NORMAL;
+	if (m_upgradedLocomotorLevel > 0)
+	{
+		if (m_upgradedLocomotorLevel == 1)
+			targetSet = LOCOMOTORSET_NORMAL_UPGRADED;
+		else if (m_upgradedLocomotorLevel <= 9)
+			targetSet = (LocomotorSetType)(LOCOMOTORSET_NORMAL_UPGRADED1 + (m_upgradedLocomotorLevel - 2));
+	}
 	
-	// Otherwise, get the locomotor template from NORMAL set
-	const LocomotorTemplateVector* normalSet = getAIUpdateModuleData()->findLocomotorTemplateVector(LOCOMOTORSET_NORMAL);
+	// Get the locomotor template from the appropriate set (considering upgrades)
+	const LocomotorTemplateVector* normalSet = getAIUpdateModuleData()->findLocomotorTemplateVector(targetSet);
 	if (normalSet && !normalSet->empty())
 	{
 		return normalSet->at(0);
