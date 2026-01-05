@@ -52,7 +52,7 @@ ArmorStore* TheArmorStore = NULL;					///< the ArmorTemplate store definition
 ArmorTemplate::ArmorTemplate()
 	: m_displayName()
 	, m_icon()
-	, m_description()
+	, m_displayDescription()
 {
 	// Initialize damage coefficients
 	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
@@ -69,8 +69,8 @@ void ArmorTemplate::clear()
 	// This is necessary because when objects are created in hash_map, members might not be properly initialized
 	m_icon.~AsciiString();
 	new(&m_icon) AsciiString();
-	m_description.~AsciiString();
-	new(&m_description) AsciiString();
+	m_displayDescription.~AsciiString();
+	new(&m_displayDescription) AsciiString();
 	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
 	{
 		m_damageCoefficient[i] = 1.0f;
@@ -80,7 +80,7 @@ void ArmorTemplate::clear()
 void ArmorTemplate::copyFrom(const ArmorTemplate* other) {
 	m_displayName = other->m_displayName;
 	m_icon = other->m_icon;
-	m_description = other->m_description;
+	m_displayDescription = other->m_displayDescription;
 	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
 	{
 		m_damageCoefficient[i] = other->m_damageCoefficient[i];
@@ -252,7 +252,7 @@ void ArmorStore::parseArmorDefinition(INI *ini)
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(ArmorTemplate, m_displayName) },
 		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_icon) },
-		{ "Description", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_description) },
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_displayDescription) },
 		{ "Armor", ArmorTemplate::parseArmorCoefficients, NULL, 0 },
 		{ "ArmorMultiplier", ArmorTemplate::parseArmorMultiplier, NULL, 0 },
 		{ NULL, NULL, NULL, 0 }
@@ -272,7 +272,7 @@ void ArmorStore::parseArmorExtendDefinition(INI* ini)
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(ArmorTemplate, m_displayName) },
 		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_icon) },
-		{ "Description", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_description) },
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_displayDescription) },
 		{ "Armor", ArmorTemplate::parseArmorCoefficients, NULL, 0 },
 		{ "ArmorMultiplier", ArmorTemplate::parseArmorMultiplier, NULL, 0 },
 				{ NULL, NULL, NULL, 0 }

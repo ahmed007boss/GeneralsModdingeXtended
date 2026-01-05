@@ -3915,6 +3915,24 @@ void ControlBar::setPortraitByObject( Object *obj )
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Display unit name and selection count overlay
 		UnicodeString overlayText = getSelectionOverlayText( thing, obj );
 		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Trim portrait text to 20 characters and add ellipsis if trimmed
+		const Int MAX_PORTRAIT_TEXT_LENGTH = 20;
+		if( overlayText.getLength() > MAX_PORTRAIT_TEXT_LENGTH )
+		{
+			UnicodeString trimmedText;
+			const wchar_t* originalStr = overlayText.str();
+			if( originalStr )
+			{
+				// Create a new string with first 20 characters
+				wchar_t buffer[24]; // 20 chars + "..." + null terminator
+				wcsncpy( buffer, originalStr, MAX_PORTRAIT_TEXT_LENGTH );
+				buffer[MAX_PORTRAIT_TEXT_LENGTH] = L'\0';
+				trimmedText = buffer;
+				trimmedText += L"...";
+			}
+			overlayText = trimmedText;
+		}
+		
 		// Create or update the display string for text overlay
 		if( !m_portraitDisplayString )
 		{

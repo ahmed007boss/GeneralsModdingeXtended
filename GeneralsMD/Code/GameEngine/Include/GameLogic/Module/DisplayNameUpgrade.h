@@ -65,9 +65,12 @@ class DisplayNameUpgradeModuleData : public UpgradeModuleData
 public:
 	UnicodeString			m_displayName;
 	UnicodeString			m_displayPluralName; // TheSuperHackers @feature Ahmed Salah 03/01/2026
-	UnicodeString			m_description; // TheSuperHackers @feature Ahmed Salah - Description support
+	UnicodeString			m_displayDescription; // TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 
 	DisplayNameUpgradeModuleData(){}
+
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Override getModuleDescription to return empty string instead of base description
+	virtual UnicodeString getModuleDescription() const override;
 
 	static void buildFieldParse(MultiIniFieldParse& p);
 };

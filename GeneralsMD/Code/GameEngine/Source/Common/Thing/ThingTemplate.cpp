@@ -143,7 +143,7 @@ const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 {
 	{ "DisplayName",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayName) },
 	{ "DisplayPluralName",			INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
-	{ "Description",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_description) }, // TheSuperHackers @feature Ahmed Salah - Description support
+	{ "DisplayDescription",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayDescription) }, // TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 	{ "RadarPriority",				INI::parseByteSizedIndexList,					RadarPriorityNames, offsetof(ThingTemplate, m_radarPriority) },
 	{ "TransportSlotCount",		INI::parseUnsignedByte,								NULL,		offsetof(ThingTemplate, m_transportSlotCount) },
 	{ "FenceWidth",						INI::parseReal,												NULL,		offsetof(ThingTemplate, m_fenceWidth) },

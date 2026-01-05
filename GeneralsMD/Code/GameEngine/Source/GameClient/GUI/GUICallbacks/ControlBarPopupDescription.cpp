@@ -1214,6 +1214,120 @@ void ControlBar::deleteUnitTooltipLayout(void)
 }
 
 // ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to get display name from drawable
+// ---------------------------------------------------------------------------------------
+static UnicodeString getDisplayNameFromDrawable(const Drawable* draw)
+{
+	if (!draw)
+		return UnicodeString::TheEmptyString;
+	
+	const Object* obj = draw->getObject();
+	if (obj)
+	{
+		UnicodeString name = obj->getDisplayNameOverride();
+		if (!name.isEmpty())
+			return name;
+	}
+	
+	const ThingTemplate* thingTemplate = draw->getTemplate();
+	if (thingTemplate)
+		return thingTemplate->getDisplayName();
+	
+	return UnicodeString::TheEmptyString;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to build health and rank text
+// ---------------------------------------------------------------------------------------
+static UnicodeString buildHealthAndRankText(const Object* obj)
+{
+	if (!obj)
+		return UnicodeString::TheEmptyString;
+	
+	UnicodeString result;
+	
+	// Add health information
+	BodyModuleInterface* bodyInterface = obj->getBodyModule();
+	if (bodyInterface)
+	{
+		Real health = bodyInterface->getHealth();
+		Real maxHealth = bodyInterface->getMaxHealth();
+		if (maxHealth > 0.0f)
+		{
+			Int healthPercent = (Int)((health / maxHealth) * 100.0f);
+			UnicodeString healthText;
+			healthText.format(L"%s: %d/%d (%d%%)", 
+				TheGameText->fetch("TOOLTIP:Health").str(),
+				(Int)health, (Int)maxHealth, healthPercent);
+			result = healthText;
+		}
+	}
+
+	// Add veterancy level if applicable
+	VeterancyLevel vetLevel = obj->getVeterancyLevel();
+	if (vetLevel != LEVEL_REGULAR)
+	{
+		UnicodeString vetText;
+		switch (vetLevel)
+		{
+		case LEVEL_VETERAN:
+			vetText = TheGameText->fetch("TOOLTIP:Veteran");
+			break;
+		case LEVEL_ELITE:
+			vetText = TheGameText->fetch("TOOLTIP:Elite");
+			break;
+		case LEVEL_HEROIC:
+			vetText = TheGameText->fetch("TOOLTIP:Heroic");
+			break;
+		default:
+			break;
+		}
+		if (!vetText.isEmpty())
+		{
+			if (!result.isEmpty())
+				result += L"\n";
+			result += vetText;
+		}
+	}
+	
+	return result;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to append description with proper spacing
+// ---------------------------------------------------------------------------------------
+static void appendDescription(UnicodeString& descrip, const UnicodeString& newText, Bool useDoubleNewline = TRUE)
+{
+	if (newText.isEmpty() || wcsstr(newText.str(), L"MISSING:") != NULL)
+		return;
+	
+	if (!descrip.isEmpty())
+		descrip += (useDoubleNewline ? L"\n\n" : L"\n");
+	descrip += newText;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to build unit descriptions
+// ---------------------------------------------------------------------------------------
+static void buildUnitDescriptions(UnicodeString& descrip, const Object* obj, const ThingTemplate* thingTemplate, Bool skipBodyModules)
+{
+	if (!obj || !thingTemplate)
+		return;
+	
+	// Add KindOf description
+	UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
+	appendDescription(descrip, kindOfDesc);
+	
+	// Add object description (handles override internally)
+	UnicodeString unitDesc = obj->getDescription();
+	appendDescription(descrip, unitDesc);
+	
+	// Add extended description from template
+	UnicodeString extendedDesc = thingTemplate->getExtendedDescription(skipBodyModules);
+	appendDescription(descrip, extendedDesc, FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
 void ControlBar::populateUnitTooltipLayout(void)
 {
 	if (!m_unitToolTipLayout)
@@ -1236,68 +1350,50 @@ void ControlBar::populateUnitTooltipLayout(void)
 
 	UnicodeString name, descrip;
 	
-	// Check if all selected units have the same display name (for multiple selection)
-	Bool allSameType = TRUE;
-	UnicodeString firstDisplayName;
-	if (selectedCount > 1 && selectedDrawables)
+	// Handle single unit selection
+	if (selectedCount == 1)
 	{
-		// Get the first unit's display name for comparison
-		DrawableList::const_iterator it = selectedDrawables->begin();
-		if (it != selectedDrawables->end())
+		// Single unit - show name, HP and rank
+		UnicodeString unitName = obj->getDisplayNameOverride();
+		if (unitName.isEmpty())
 		{
-			const Drawable* firstDraw = *it;
-			if (firstDraw)
-			{
-				const Object* firstObj = firstDraw->getObject();
-				if (firstObj)
-				{
-					firstDisplayName = firstObj->getDisplayNameOverride();
-					if (firstDisplayName.isEmpty() && firstDraw->getTemplate())
-					{
-						firstDisplayName = firstDraw->getTemplate()->getDisplayName();
-					}
-				}
-				else if (firstDraw->getTemplate())
-				{
-					firstDisplayName = firstDraw->getTemplate()->getDisplayName();
-				}
-			}
+			unitName = thingTemplate->getDisplayName();
 		}
+		name = unitName;
+
+		// Build health and rank information first
+		descrip = buildHealthAndRankText(obj);
 		
-		// Compare all other units' display names with the first one
-		for (it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
-		{
-			const Drawable* d = *it;
-			if (!d)
-				continue;
-				
-			UnicodeString currentDisplayName;
-			const Object* currentObj = d->getObject();
-			if (currentObj)
-			{
-				currentDisplayName = currentObj->getDisplayNameOverride();
-				if (currentDisplayName.isEmpty() && d->getTemplate())
-				{
-					currentDisplayName = d->getTemplate()->getDisplayName();
-				}
-			}
-			else if (d->getTemplate())
-			{
-				currentDisplayName = d->getTemplate()->getDisplayName();
-			}
-			
-			if (currentDisplayName != firstDisplayName)
-			{
-				allSameType = FALSE;
-				break;
-			}
-		}
+		// Add unit descriptions (skip body modules since HP is already shown)
+		buildUnitDescriptions(descrip, obj, thingTemplate, TRUE);
 	}
-	
-	// Handle single vs multiple selection
-	if (selectedCount > 1)
+	else
 	{
 		// Multiple units selected
+		
+		// Check if all selected units have the same display name
+		Bool allSameType = TRUE;
+		UnicodeString firstDisplayName = getDisplayNameFromDrawable(draw);
+		
+		if (selectedDrawables && !firstDisplayName.isEmpty())
+		{
+			for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+			{
+				const Drawable* d = *it;
+				if (!d)
+					continue;
+				
+				UnicodeString currentDisplayName = getDisplayNameFromDrawable(d);
+				if (currentDisplayName.isEmpty() || wcsstr(currentDisplayName.str(), L"MISSING:") != NULL)
+					continue;
+				
+				if (currentDisplayName != firstDisplayName)
+				{
+					allSameType = FALSE;
+					break;
+				}
+			}
+		}
 		
 		if (allSameType)
 		{
@@ -1315,6 +1411,9 @@ void ControlBar::populateUnitTooltipLayout(void)
 			{
 				name.format(L"%d Units", selectedCount);
 			}
+			
+			// Show descriptions for same type group (no HP/rank)
+			buildUnitDescriptions(descrip, obj, thingTemplate, FALSE);
 		}
 		else
 		{
@@ -1343,20 +1442,7 @@ void ControlBar::populateUnitTooltipLayout(void)
 						continue;
 					
 					// Get display name for this unit
-					UnicodeString currentDisplayName;
-					const Object* currentObj = d->getObject();
-					if (currentObj)
-					{
-						currentDisplayName = currentObj->getDisplayNameOverride();
-						if (currentDisplayName.isEmpty() && d->getTemplate())
-						{
-							currentDisplayName = d->getTemplate()->getDisplayName();
-						}
-					}
-					else if (d->getTemplate())
-					{
-						currentDisplayName = d->getTemplate()->getDisplayName();
-					}
+					UnicodeString currentDisplayName = getDisplayNameFromDrawable(d);
 					
 					if (currentDisplayName.isEmpty() || wcsstr(currentDisplayName.str(), L"MISSING:") != NULL)
 						continue;
@@ -1382,7 +1468,7 @@ void ControlBar::populateUnitTooltipLayout(void)
 						// Add new display name
 						nameList[nameCount].displayName = currentDisplayName;
 						nameList[nameCount].count = 1;
-						nameList[nameCount].sampleObj = currentObj;
+						nameList[nameCount].sampleObj = d->getObject();
 						nameList[nameCount].sampleTemplate = d->getTemplate();
 						nameCount++;
 					}
@@ -1431,132 +1517,6 @@ void ControlBar::populateUnitTooltipLayout(void)
 				}
 			}
 		}
-	}
-	else
-	{
-		// Single unit selected - show name, HP and rank
-		UnicodeString unitName = obj->getDisplayNameOverride();
-		if (unitName.isEmpty())
-		{
-			unitName = thingTemplate->getDisplayName();
-		}
-		name = unitName;
-
-		// Build health and rank information first (at the start of description)
-		UnicodeString healthAndRankText;
-		
-		// Add health information
-		BodyModuleInterface* bodyInterface = obj->getBodyModule();
-		if (bodyInterface)
-		{
-			Real health = bodyInterface->getHealth();
-			Real maxHealth = bodyInterface->getMaxHealth();
-			if (maxHealth > 0.0f)
-			{
-				Int healthPercent = (Int)((health / maxHealth) * 100.0f);
-				UnicodeString healthText;
-				healthText.format(L"%s: %d/%d (%d%%)", 
-					TheGameText->fetch("TOOLTIP:Health").str(),
-					(Int)health, (Int)maxHealth, healthPercent);
-				healthAndRankText = healthText;
-			}
-		}
-
-		// Add veterancy level if applicable
-		VeterancyLevel vetLevel = obj->getVeterancyLevel();
-		if (vetLevel != LEVEL_REGULAR)
-		{
-			UnicodeString vetText;
-			switch (vetLevel)
-			{
-			case LEVEL_VETERAN:
-				vetText = TheGameText->fetch("TOOLTIP:Veteran");
-				break;
-			case LEVEL_ELITE:
-				vetText = TheGameText->fetch("TOOLTIP:Elite");
-				break;
-			case LEVEL_HEROIC:
-				vetText = TheGameText->fetch("TOOLTIP:Heroic");
-				break;
-			default:
-				break;
-			}
-			if (!vetText.isEmpty())
-			{
-				if (!healthAndRankText.isEmpty())
-					healthAndRankText += L"\n";
-				healthAndRankText += vetText;
-			}
-		}
-
-		// Add health and rank at the start of description
-		if (!healthAndRankText.isEmpty())
-		{
-			descrip = healthAndRankText;
-		}
-	}
-
-	// Get unit description
-	// For single unit: show all descriptions including HP/rank (already added above)
-	// For multiple same type: show descriptions but skip HP/rank
-	// For multiple different types: descriptions already built as unit list above
-	if (selectedCount == 1)
-	{
-		// Single unit - add descriptions after HP/rank
-		UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
-		if (!kindOfDesc.isEmpty())
-		{
-			if (!descrip.isEmpty())
-				descrip += L"\n\n";
-			descrip += kindOfDesc;
-		}
-		// TheSuperHackers @feature Ahmed Salah - Description support: Use object description (handles override internally)
-		UnicodeString unitDesc = obj->getDescription();
-		if (!unitDesc.isEmpty())
-		{
-			if (!descrip.isEmpty())
-				descrip += L"\n\n";
-			descrip += unitDesc;
-		}
-		// Get extended description from template (skip body modules since HP is already shown)
-		UnicodeString extendedDesc = thingTemplate->getExtendedDescription(TRUE);
-		if (!extendedDesc.isEmpty())
-		{
-			if (!descrip.isEmpty())
-				descrip += L"\n";
-			descrip += extendedDesc;
-		}
-	}
-	else if (selectedCount > 1)
-	{
-		// Multiple units selected - use stored allSameType result
-		if (allSameType)
-		{
-			// All same type - show descriptions (HP/rank already skipped)
-			UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
-			if (!kindOfDesc.isEmpty())
-			{
-				if (!descrip.isEmpty())
-					descrip += L"\n\n";
-				descrip += kindOfDesc;
-			}
-			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description (handles override internally)
-			UnicodeString unitDesc = obj->getDescription();
-			if (!unitDesc.isEmpty())
-			{
-				if (!descrip.isEmpty())
-					descrip += L"\n\n";
-				descrip += unitDesc;
-			}
-			UnicodeString extendedDesc = thingTemplate->getExtendedDescription();
-			if (!extendedDesc.isEmpty())
-			{
-				if (!descrip.isEmpty())
-					descrip += L"\n";
-				descrip += extendedDesc;
-			}
-		}
-		// else: different types - descriptions already built as unit list above
 	}
 
 	// Set the tooltip text

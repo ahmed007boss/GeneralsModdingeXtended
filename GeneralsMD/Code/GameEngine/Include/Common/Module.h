@@ -133,7 +133,7 @@ public:
 	{
 		static const FieldParse dataFieldParse[] =
 		{
-			{ "Description", parseDescription, NULL, offsetof(ModuleData, m_description) },
+			{ "ModuleDescription", parseDescription, NULL, offsetof(ModuleData, m_description) },
 			{ 0, 0, 0, 0 }
 		};
 		p.add(dataFieldParse);

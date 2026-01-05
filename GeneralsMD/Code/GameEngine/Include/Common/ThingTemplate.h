@@ -446,8 +446,8 @@ public:
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get pluralized display name
 	UnicodeString getDisplayPluralName() const;  ///< return pluralized display name (e.g., "Tanks" instead of "Tank")
 	
-	// TheSuperHackers @feature Ahmed Salah - Description support
-	const UnicodeString& getDescription() const { return m_description; }  ///< return description
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	const UnicodeString& getDisplayDescription() const { return m_displayDescription; }  ///< return display description
 
 	// TheSuperHackers @feature author 15/01/2025 Get the original INI file path where this template was defined
 	const AsciiString& getIniFilePath() const { return m_iniFilePath; }
@@ -754,7 +754,7 @@ private:
 	// ---- Strings
 	UnicodeString			m_displayName;			///< UI display for onscreen display
 	UnicodeString			m_displayPluralName;	///< UI display for plural form (e.g., "Tanks" instead of "Tank") - TheSuperHackers @feature Ahmed Salah 03/01/2026
-	UnicodeString			m_description;			///< Description text - TheSuperHackers @feature Ahmed Salah - Description support
+	UnicodeString			m_displayDescription;			///< Display description text - TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 	AsciiString				m_nameString;					///< name of this thing template
 	AsciiString				m_defaultOwningSide;	///< default owning side (owning player is inferred)
 	AsciiString				m_commandSetString;

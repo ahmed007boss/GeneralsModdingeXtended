@@ -223,7 +223,7 @@ void Component::buildFieldParse(MultiIniFieldParse& p)
 		{ "MaxHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_maxHealthValueType) },
 		{ "InitialHealthValueType", INI::parseIndexList, TheValueTypeNames, offsetof(Component, m_initialHealthValueType) },
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(Component, m_displayName) },
-		{ "Description", INI::parseAsciiString, NULL, offsetof(Component, m_description) },
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(Component, m_displayDescription) },
 		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(Component, m_icon) },
 		{ "PartiallyFunctionalIcon", INI::parseAsciiString, NULL, offsetof(Component, m_partiallyFunctionalIconName) },
 		{ "DownedIcon", INI::parseAsciiString, NULL, offsetof(Component, m_downedIconName) },
@@ -366,7 +366,7 @@ void Component::copyBaseComponentMembers(Component* dest) const
 	dest->m_name = m_name;
 	dest->m_displayName = m_displayName;
 	dest->m_icon = m_icon;
-	dest->m_description = m_description;
+	dest->m_displayDescription = m_displayDescription;
 	dest->m_maxHealth = m_maxHealth;
 	dest->m_initialHealth = m_initialHealth;
 	dest->m_healingType = m_healingType;

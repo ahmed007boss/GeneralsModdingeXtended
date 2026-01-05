@@ -63,10 +63,18 @@ void DisplayNameUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	{
 		{ "DisplayName",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayName) },
 		{ "DisplayPluralName",	INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
-		{ "Description",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_description) }, // TheSuperHackers @feature Ahmed Salah - Description support
+		{ "DisplayDescription",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayDescription) }, // TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 		{ 0, 0, 0, 0 }
 	};
 	p.add(dataFieldParse);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Override getModuleDescription to return empty string instead of base description
+//-------------------------------------------------------------------------------------------------
+UnicodeString DisplayNameUpgradeModuleData::getModuleDescription() const
+{
+	return UnicodeString::TheEmptyString;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -92,10 +100,10 @@ void DisplayNameUpgrade::upgradeImplementation()
 	{
 		getObject()->setDisplayPluralName(data->m_displayPluralName);
 	}
-	// TheSuperHackers @feature Ahmed Salah - Description support
-	if (!data->m_description.isEmpty())
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	if (!data->m_displayDescription.isEmpty())
 	{
-		getObject()->setDescription(data->m_description);
+		getObject()->setDescription(data->m_displayDescription);
 	}
 }
 

@@ -7125,7 +7125,7 @@ UnicodeString Object::getDescription() const
 	const ThingTemplate* template_ = getTemplate();
 	if (template_)
 	{
-		return template_->getDescription();
+		return template_->getDisplayDescription();
 	}
 	
 	return UnicodeString::TheEmptyString;
@@ -7217,7 +7217,7 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 					info.name = weaponNameAscii;
 				}
 				
-				info.description = template_->getDescription();
+				info.description = template_->getDisplayDescription();
 				
 				// Only add if all fields are not empty
 				if (!info.icon.isEmpty() && !info.name.isEmpty() && !info.description.isEmpty())
@@ -7291,7 +7291,7 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 					info.name.clear();
 				}
 				
-				info.description = armorTemplate->getDescription();
+				info.description = armorTemplate->getDisplayDescription();
 				
 				// Only add if icon and name are not empty (icon and name are required for display)
 				if (!info.icon.isEmpty() && !info.name.isEmpty())
@@ -7348,7 +7348,7 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 				info.name.clear();
 			}
 			
-			info.description = locomotor->getDescription();
+			info.description = locomotor->getDisplayDescription();
 			
 			// Only add if icon and name are not empty (icon and name are required for display)
 			if (!info.icon.isEmpty() && !info.name.isEmpty())
@@ -7408,7 +7408,7 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 					info.name.clear();
 				}
 				
-				info.description = component->getDescription();
+				info.description = component->getDisplayDescription();
 				
 				// Only add if icon and name are not empty (icon and name are required for display)
 				if (!info.icon.isEmpty() && !info.name.isEmpty())
