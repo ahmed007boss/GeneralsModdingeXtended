@@ -146,6 +146,7 @@ public:
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
 	inline const AsciiString& getIcon() const { return m_icon; }
 	inline const AsciiString& getDisplayDescription() const { return m_displayDescription; }
+	UnicodeString getExtendedDescription(const Object* ownerObject = NULL) const; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Get extended description based on locomotor attributes
 
 	UnicodeString getModuleDescription() const;
 
@@ -303,6 +304,7 @@ public:
 
 	AsciiString getTemplateName() const { return m_template->m_name;}
 	const AsciiString& getEngineComponentName() const { return m_template->m_engineComponentName; }
+	const LocomotorTemplate* getTemplate() const { return m_template.operator->(); }  // TheSuperHackers @feature Ahmed Salah 03/01/2026 Get the locomotor template
 	AsciiString getName() const { return m_template->getName(); }
 	const UnicodeString& getDisplayName() const { return m_template->getDisplayName(); }
 	const AsciiString& getIcon() const { return m_template->getIcon(); }  // TheSuperHackers @feature Ahmed Salah

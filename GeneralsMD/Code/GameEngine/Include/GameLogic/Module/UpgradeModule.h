@@ -115,6 +115,8 @@ public:
 	void performUpgradeFX(Object* obj) const;
 	void muxDataProcessUpgradeRemoval(Object* obj) const;
 	Bool isTriggeredBy(const std::string &upgrade) const;
+	Bool testUpgradeConditions(const UpgradeMaskType& keyMask) const; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Test if upgrade conditions are met for a given upgrade mask
+	Bool testUpgradeConditions(const Object* obj) const; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Test if upgrade conditions are met for a given object (overload)
 };
 
 //-------------------------------------------------------------------------------------------------

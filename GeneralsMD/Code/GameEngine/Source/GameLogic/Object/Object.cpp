@@ -7190,7 +7190,7 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 					// Fallback to direct text if label is missing
 					prefix = L"Armed by";
 				}
-				
+
 				// Get weapon display name (not the internal name)
 				UnicodeString weaponDisplayName = template_->getDisplayName();
 				if (weaponDisplayName.isEmpty() || wcsstr(weaponDisplayName.str(), L"MISSING:") != NULL)
@@ -7200,28 +7200,45 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 					weaponDisplayName.format(L"%hs", weaponName.str());
 				}
 				
-				// Combine prefix with display name
-				UnicodeString fullName = prefix + L" " + weaponDisplayName;
-				
+				prefix = prefix + L" ";
 				// Convert to AsciiString for storage
 				AsciiString prefixAscii;
 				prefixAscii.translate(prefix);
 				AsciiString weaponNameAscii;
 				weaponNameAscii.translate(weaponDisplayName);
-				if (!prefixAscii.isEmpty())
+				if (!prefixAscii.isEmpty() && !weaponNameAscii.isEmpty())
 				{
 					info.name = prefixAscii + weaponNameAscii;
 				}
-				else
+				else if (!weaponNameAscii.isEmpty())
 				{
 					info.name = weaponNameAscii;
 				}
-				
-				info.description = template_->getDisplayDescription();
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+
+				// Fetch description using localization key
+				AsciiString weaponDescKey = template_->getDisplayDescription();
+				UnicodeString weaponDescUnicode = TheGameText->fetch(weaponDescKey.str());
+				info.description.translate(weaponDescUnicode);
+						
 				
 				// Only add if all fields are not empty
-				if (!info.icon.isEmpty() && !info.name.isEmpty() && !info.description.isEmpty())
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
 				{
+					
+					UnicodeString extendedDesc = template_->getExtendedDescription(this);
+					if (!extendedDesc.isEmpty())
+					{
+						if (!info.description.isEmpty())
+							info.description += "\n\n";
+						AsciiString extendedDescAscii;
+						extendedDescAscii.translate(extendedDesc);
+						info.description += extendedDescAscii;
+					}
 					infoIconList.push_back(info);
 				}
 			}
@@ -7348,11 +7365,28 @@ std::vector<InfoIcon> Object::getAllInfoIcons() const
 				info.name.clear();
 			}
 			
-			info.description = locomotor->getDisplayDescription();
+			// Fetch description using localization key
+			AsciiString locomotorDescKey = locomotor->getDisplayDescription();
+			UnicodeString locomotorDescUnicode = TheGameText->fetch(locomotorDescKey.str());
+			info.description.translate(locomotorDescUnicode);
 			
 			// Only add if icon and name are not empty (icon and name are required for display)
 			if (!info.icon.isEmpty() && !info.name.isEmpty())
 			{
+				// Get locomotor template to access getExtendedDescription
+				const LocomotorTemplate* locomotorTemplate = locomotor->getTemplate();
+				if (locomotorTemplate)
+				{
+					UnicodeString extendedDesc = locomotorTemplate->getExtendedDescription(this);
+					if (!extendedDesc.isEmpty())
+					{
+						if (!info.description.isEmpty())
+							info.description += "\n\n";
+						AsciiString extendedDescAscii;
+						extendedDescAscii.translate(extendedDesc);
+						info.description += extendedDescAscii;
+					}
+				}
 				infoIconList.push_back(info);
 			}
 		}

@@ -441,6 +441,7 @@ public:
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
 	inline const AsciiString& getIcon() const { return m_icon; }
 	inline const AsciiString& getDisplayDescription() const { return m_displayDescription; }
+	UnicodeString getExtendedDescription(const Object* ownerObject = NULL) const; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Get extended description based on weapon attributes
 	inline AsciiString getProjectileStreamName() const { return m_projectileStreamName; }
 	inline AsciiString getLaserName() const { return m_laserName; }
 	inline const AsciiString& getLaserBoneName() const { return m_laserBoneName; }

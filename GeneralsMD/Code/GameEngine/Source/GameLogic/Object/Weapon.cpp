@@ -78,8 +78,11 @@
 #include "GameLogic/Module/AssistedTargetingUpdate.h"
 #include "GameLogic/Module/ProjectileStreamUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
+#include "GameLogic/Module/DisplayNameUpgrade.h"
+#include "GameLogic/Module/UpgradeModule.h"
 #include "GameLogic/TerrainLogic.h"
 #include "GameClient/ControlBar.h"
+#include "GameClient/GameText.h"  // TheSuperHackers @feature Ahmed Salah 03/01/2026 For text resources
 
 #define RATIONALIZE_ATTACK_RANGE
 #define ATTACK_RANGE_IS_2D
@@ -4277,4 +4280,571 @@ Bool WeaponTemplate::areRequiredComponentsFunctional(const Object* source) const
 	
 	// All required components are functional
 	return true;
+}
+
+//-------------------------------------------------------------------------------------------------
+// Helper function to convert HitSide to readable string
+//-------------------------------------------------------------------------------------------------
+static UnicodeString GetHitSideName(HitSide side)
+{
+	UnicodeString result;
+	AsciiString key;
+	
+	switch (side)
+	{
+		case HIT_SIDE_FRONT: key = "HitSide:FRONT"; break;
+		case HIT_SIDE_BACK: key = "HitSide:BACK"; break;
+		case HIT_SIDE_LEFT: key = "HitSide:LEFT"; break;
+		case HIT_SIDE_RIGHT: key = "HitSide:RIGHT"; break;
+		case HIT_SIDE_TOP: key = "HitSide:TOP"; break;
+		case HIT_SIDE_BOTTOM: key = "HitSide:BOTTOM"; break;
+		case HIT_SIDE_UNKNOWN: return result; // Don't display unknown
+		default: return result;
+	}
+	
+	if (!key.isEmpty())
+	{
+		result = TheGameText->fetch(key.str());
+		if (result.isEmpty() || wcsstr(result.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to default values
+			switch (side)
+			{
+				case HIT_SIDE_FRONT: result = L"Front"; break;
+				case HIT_SIDE_BACK: result = L"Back"; break;
+				case HIT_SIDE_LEFT: result = L"Left"; break;
+				case HIT_SIDE_RIGHT: result = L"Right"; break;
+				case HIT_SIDE_TOP: result = L"Top"; break;
+				case HIT_SIDE_BOTTOM: result = L"Bottom"; break;
+			}
+		}
+	}
+	
+	return result;
+}
+
+//-------------------------------------------------------------------------------------------------
+// Helper function to convert DamageType to readable string
+//-------------------------------------------------------------------------------------------------
+static UnicodeString GetDamageTypeName(DamageType type)
+{
+	UnicodeString result;
+	AsciiString key;
+	
+	switch (type)
+	{
+		case DAMAGE_EXPLOSION: key = "DamageType:EXPLOSION"; break;
+		case DAMAGE_CRUSH: key = "DamageType:CRUSH"; break;
+		case DAMAGE_ARMOR_PIERCING: key = "DamageType:ARMOR_PIERCING"; break;
+		case DAMAGE_SMALL_ARMS: key = "DamageType:SMALL_ARMS"; break;
+		case DAMAGE_GATTLING: key = "DamageType:GATTLING"; break;
+		case DAMAGE_RADIATION: key = "DamageType:RADIATION"; break;
+		case DAMAGE_FLAME: key = "DamageType:FLAME"; break;
+		case DAMAGE_LASER: key = "DamageType:LASER"; break;
+		case DAMAGE_SNIPER: key = "DamageType:SNIPER"; break;
+		case DAMAGE_POISON: key = "DamageType:POISON"; break;
+		case DAMAGE_HEALING: key = "DamageType:HEALING"; break;
+		case DAMAGE_UNRESISTABLE: key = "DamageType:UNRESISTABLE"; break;
+		case DAMAGE_WATER: key = "DamageType:WATER"; break;
+		case DAMAGE_MELEE: key = "DamageType:MELEE"; break;
+		case DAMAGE_PARTICLE_BEAM: key = "DamageType:PARTICLE_BEAM"; break;
+		case DAMAGE_INFANTRY_MISSILE: key = "DamageType:INFANTRY_MISSILE"; break;
+		case DAMAGE_AURORA_BOMB: key = "DamageType:AURORA_BOMB"; break;
+		case DAMAGE_LAND_MINE: key = "DamageType:LAND_MINE"; break;
+		case DAMAGE_JET_MISSILES: key = "DamageType:JET_MISSILES"; break;
+		case DAMAGE_STEALTHJET_MISSILES: key = "DamageType:STEALTHJET_MISSILES"; break;
+		case DAMAGE_MOLOTOV_COCKTAIL: key = "DamageType:MOLOTOV_COCKTAIL"; break;
+		case DAMAGE_COMANCHE_VULCAN: key = "DamageType:COMANCHE_VULCAN"; break;
+		case DAMAGE_MICROWAVE: key = "DamageType:MICROWAVE"; break;
+		case DAMAGE_ACID: key = "DamageType:ACID"; break;
+		case DAMAGE_JET_BOMB: key = "DamageType:JET_BOMB"; break;
+		case DAMAGE_ANTI_TANK_GUN: key = "DamageType:ANTI_TANK_GUN"; break;
+		case DAMAGE_ANTI_TANK_MISSILE: key = "DamageType:ANTI_TANK_MISSILE"; break;
+		case DAMAGE_ANTI_AIR_GUN: key = "DamageType:ANTI_AIR_GUN"; break;
+		case DAMAGE_ANTI_AIR_MISSILE: key = "DamageType:ANTI_AIR_MISSILE"; break;
+		case DAMAGE_ARTILLERY: key = "DamageType:ARTILLERY"; break;
+		case DAMAGE_ELECTRONIC_JAMMING: key = "DamageType:ELECTRONIC_JAMMING"; break;
+		case DAMAGE_JAMMING_UNRESISTABLE: key = "DamageType:JAMMING_UNRESISTABLE"; break;
+		default: key = "DamageType:UNKNOWN"; break;
+	}
+	
+	if (!key.isEmpty())
+	{
+		result = TheGameText->fetch(key.str());
+		if (result.isEmpty() || wcsstr(result.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to default values
+			switch (type)
+			{
+				case DAMAGE_EXPLOSION: result = L"Explosion"; break;
+				case DAMAGE_CRUSH: result = L"Crush"; break;
+				case DAMAGE_ARMOR_PIERCING: result = L"Armor Piercing"; break;
+				case DAMAGE_SMALL_ARMS: result = L"Small Arms"; break;
+				case DAMAGE_GATTLING: result = L"Gatling"; break;
+				case DAMAGE_RADIATION: result = L"Radiation"; break;
+				case DAMAGE_FLAME: result = L"Flame"; break;
+				case DAMAGE_LASER: result = L"Laser"; break;
+				case DAMAGE_SNIPER: result = L"Sniper"; break;
+				case DAMAGE_POISON: result = L"Poison"; break;
+				case DAMAGE_HEALING: result = L"Healing"; break;
+				case DAMAGE_UNRESISTABLE: result = L"Unresistable"; break;
+				case DAMAGE_WATER: result = L"Water"; break;
+				case DAMAGE_MELEE: result = L"Melee"; break;
+				case DAMAGE_PARTICLE_BEAM: result = L"Particle Beam"; break;
+				case DAMAGE_INFANTRY_MISSILE: result = L"Infantry Missile"; break;
+				case DAMAGE_AURORA_BOMB: result = L"Aurora Bomb"; break;
+				case DAMAGE_LAND_MINE: result = L"Land Mine"; break;
+				case DAMAGE_JET_MISSILES: result = L"Jet Missiles"; break;
+				case DAMAGE_STEALTHJET_MISSILES: result = L"Stealth Jet Missiles"; break;
+				case DAMAGE_MOLOTOV_COCKTAIL: result = L"Molotov Cocktail"; break;
+				case DAMAGE_COMANCHE_VULCAN: result = L"Comanche Vulcan"; break;
+				case DAMAGE_MICROWAVE: result = L"Microwave"; break;
+				case DAMAGE_ACID: result = L"Acid"; break;
+				case DAMAGE_JET_BOMB: result = L"Jet Bomb"; break;
+				case DAMAGE_ANTI_TANK_GUN: result = L"Anti-Tank Gun"; break;
+				case DAMAGE_ANTI_TANK_MISSILE: result = L"Anti-Tank Missile"; break;
+				case DAMAGE_ANTI_AIR_GUN: result = L"Anti-Air Gun"; break;
+				case DAMAGE_ANTI_AIR_MISSILE: result = L"Anti-Air Missile"; break;
+				case DAMAGE_ARTILLERY: result = L"Artillery"; break;
+				case DAMAGE_ELECTRONIC_JAMMING: result = L"Electronic Jamming"; break;
+				case DAMAGE_JAMMING_UNRESISTABLE: result = L"Jamming Unresistable"; break;
+				default: result = L"Unknown"; break;
+			}
+		}
+	}
+	
+	return result;
+}
+
+//-------------------------------------------------------------------------------------------------
+// Helper function to get projectile description
+//-------------------------------------------------------------------------------------------------
+static UnicodeString GetProjectileDescription(const ThingTemplate* projectileTemplate, const Object* ownerObject)
+{
+	UnicodeString result;
+	
+	if (projectileTemplate)
+	{
+		UnicodeString projectileName;
+		UnicodeString projectileDesc;
+		
+		// Check DisplayNameUpgrade modules from bottom to top (last to first)
+		const ModuleInfo& behaviorModuleInfo = projectileTemplate->getBehaviorModuleInfo();
+		Int moduleCount = behaviorModuleInfo.getCount();
+		
+		// Iterate from bottom to top (reverse order)
+		for (Int i = moduleCount - 1; i >= 0; i--)
+		{
+			const ModuleData* moduleData = behaviorModuleInfo.getNthData(i);
+			if (moduleData)
+			{
+				const DisplayNameUpgradeModuleData* displayNameData = dynamic_cast<const DisplayNameUpgradeModuleData*>(moduleData);
+				if (displayNameData)
+				{
+					// Test upgrade conditions if object is available
+					Bool conditionsMet = TRUE;
+					if (ownerObject)
+					{
+						conditionsMet = displayNameData->m_upgradeMuxData.testUpgradeConditions(ownerObject);
+					}
+					
+					if (conditionsMet)
+					{
+						// Use this module's data if it has name or description
+						if (!displayNameData->m_displayName.isEmpty())
+						{
+							projectileName = displayNameData->m_displayName;
+						}
+						if (!displayNameData->m_displayDescription.isEmpty())
+						{
+							projectileDesc = displayNameData->m_displayDescription;
+						}
+						// Break after first module with conditions met (since we're going bottom to top)
+						if (!projectileName.isEmpty() || !projectileDesc.isEmpty())
+							break;
+					}
+				}
+			}
+		}
+		
+		// Fall back to template's default display name if no upgrade module provided one
+		if (projectileName.isEmpty())
+		{
+			projectileName = projectileTemplate->getDisplayName();
+			if (projectileName.isEmpty() || wcsstr(projectileName.str(), L"MISSING:") != NULL)
+			{
+				AsciiString projNameAscii = projectileTemplate->getName();
+				projectileName.format(L"%hs", projNameAscii.str());
+			}
+		}
+		
+		// Fall back to template's default description if no upgrade module provided one
+		if (projectileDesc.isEmpty())
+		{
+			projectileDesc = projectileTemplate->getDisplayDescription();
+		}
+		
+		if (!projectileName.isEmpty())
+		{
+			UnicodeString temp;
+			UnicodeString formatStr = TheGameText->fetch("TOOLTIP:WeaponFires");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"Fires %ls";
+			temp.format(formatStr.str(), projectileName.str());
+			result += temp;
+			
+			// Add projectile description if available
+			if (!projectileDesc.isEmpty())
+			{
+				result += L"\n - ";
+				result += projectileDesc;
+			}
+		}
+	}
+	
+	return result;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get extended description based on weapon attributes
+//-------------------------------------------------------------------------------------------------
+UnicodeString WeaponTemplate::getExtendedDescription(const Object* ownerObject) const
+{
+	UnicodeString result;
+	
+	// Use default WeaponBonus to get base values (all fields are 1.0 by default)
+	WeaponBonus defaultBonus;
+	
+	// Get damage information - combine into natural narrative format with bullet points
+	Real primaryDamage = getPrimaryDamage(defaultBonus);
+	Real secondaryDamage = getSecondaryDamage(defaultBonus);
+	Real primaryRadius = getPrimaryDamageRadius(defaultBonus);
+	Real secondaryRadius = getSecondaryDamageRadius(defaultBonus);
+	DamageType damageType = getDamageType();
+	UnicodeString damageTypeName = GetDamageTypeName(damageType);
+	
+	if (primaryDamage > 0.0f && !damageTypeName.isEmpty() && wcscmp(damageTypeName.str(), L"Unknown") != 0)
+	{
+		if (!result.isEmpty())
+			result += L"\n\n";
+		
+		UnicodeString temp;
+		UnicodeString formatStr;
+		if (secondaryDamage > 0.0f && primaryRadius > 0.0f)
+		{
+			// Has area of effect with secondary damage - combine: primary damage, damage type, secondary damage, radius
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponDealsDamageDirectHit");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Deals %.0f %ls damage for direct hit and %.0f damage for surrounding with %.0f radius";
+			temp.format(formatStr.str(), primaryDamage, damageTypeName.str(), secondaryDamage, secondaryRadius);
+		}
+		else if (primaryRadius > 0.0f)
+		{
+			// Has area of effect but no secondary damage - combine: primary damage, damage type, radius
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponDealsDamageArea");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Deals %.0f %ls damage in an area with %.0f radius";
+			temp.format(formatStr.str(), primaryDamage, damageTypeName.str(), primaryRadius);
+		}
+		else
+		{
+			// Direct hit only - combine: primary damage, damage type
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponDealsDamage");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Deals %.0f %ls damage";
+			temp.format(formatStr.str(), primaryDamage, damageTypeName.str());
+		}
+		result += temp;
+	}
+	else if (primaryRadius > 0.0f)
+	{
+		// Only radius information available
+		if (!result.isEmpty())
+			result += L"\n\n";
+		UnicodeString temp;
+		UnicodeString formatStr = TheGameText->fetch("TOOLTIP:WeaponHasAreaEffect");
+		if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+			formatStr = L"- Has area of effect with %.0f radius";
+		temp.format(formatStr.str(), primaryRadius);
+		result += temp;
+	}
+	
+	// Get range information - combine: max range, min range
+	Real maxRange = getUnmodifiedAttackRange();
+	Real minRange = getMinimumAttackRange();
+	if (maxRange > 0.0f)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+		
+		UnicodeString temp;
+		UnicodeString formatStr;
+		if (minRange > 0.0f)
+		{
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponEffectiveRangeMin");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Effective range of %.0f, but cannot fire at targets within %.0f";
+			temp.format(formatStr.str(), maxRange, minRange);
+		}
+		else
+		{
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponEffectiveRange");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Effective range of %.0f";
+			temp.format(formatStr.str(), maxRange);
+		}
+		result += temp;
+	}
+	
+	// Get rate of fire and clip information - combine into single statement
+	Int delayBetweenShots = getDelayBetweenShots(defaultBonus);
+	Int clipSize = getClipSize();
+	
+	if (delayBetweenShots > 0 || clipSize > 0)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+		
+		UnicodeString temp;
+		
+		// Convert frames to seconds
+		Real secondsPerShot = 0.0f;
+		if (delayBetweenShots > 0)
+		{
+			secondsPerShot = ((Real)delayBetweenShots) / ((Real)LOGICFRAMES_PER_SECOND);
+		}
+		
+		if (clipSize > 0)
+		{
+			// Has clip - combine clip size, rate of fire, and reload time
+			Int clipReloadTime = getClipReloadTime(defaultBonus);
+			UnicodeString formatStr;
+			
+			if (delayBetweenShots > 0 && clipReloadTime > 0)
+			{
+				Real secondsPerShotRounded = (Real)((Int)(secondsPerShot * 10.0f + 0.5f)) / 10.0f;
+				Real reloadSeconds = ((Real)clipReloadTime) / ((Real)LOGICFRAMES_PER_SECOND);
+				Real reloadSecondsRounded = (Real)((Int)(reloadSeconds * 10.0f + 0.5f)) / 10.0f;
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponClipHoldsRoundsFiresReloads");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Clip holds %d rounds, fires every %.1f seconds between shots, reloads in %.1f seconds";
+				temp.format(formatStr.str(), clipSize, secondsPerShotRounded, reloadSecondsRounded);
+			}
+			else if (delayBetweenShots > 0)
+			{
+				Real secondsPerShotRounded = (Real)((Int)(secondsPerShot * 10.0f + 0.5f)) / 10.0f;
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponClipHoldsRoundsFires");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Clip holds %d rounds, fires every %.1f seconds between shots";
+				temp.format(formatStr.str(), clipSize, secondsPerShotRounded);
+			}
+			else if (clipReloadTime > 0)
+			{
+				Real reloadSeconds = ((Real)clipReloadTime) / ((Real)LOGICFRAMES_PER_SECOND);
+				Real reloadSecondsRounded = (Real)((Int)(reloadSeconds * 10.0f + 0.5f)) / 10.0f;
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponClipHoldsRoundsReloads");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Clip holds %d rounds and reloads in %.1f seconds";
+				temp.format(formatStr.str(), clipSize, reloadSecondsRounded);
+			}
+			else
+			{
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponClipHoldsRounds");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Clip holds %d rounds";
+				temp.format(formatStr.str(), clipSize);
+			}
+		}
+		else if (delayBetweenShots > 0)
+		{
+			// No clip - just show rate of fire
+			Real shotsPerSecond = 1.0f / secondsPerShot;
+			UnicodeString formatStr;
+			if (shotsPerSecond < 1.0f)
+			{
+				Real secondsPerShotRounded = (Real)((Int)(secondsPerShot * 10.0f + 0.5f)) / 10.0f;
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponFiresEverySeconds");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Fires every %.1f seconds";
+				temp.format(formatStr.str(), secondsPerShotRounded);
+			}
+			else
+			{
+				Real shotsPerSecondRounded = (Real)((Int)(shotsPerSecond * 10.0f + 0.5f)) / 10.0f;
+				formatStr = TheGameText->fetch("TOOLTIP:WeaponFiresShotsPerSecond");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"- Fires %.1f shots per second";
+				temp.format(formatStr.str(), shotsPerSecondRounded);
+			}
+		}
+		
+		if (!temp.isEmpty())
+			result += temp;
+	}
+	
+	// Get anti mask information - what the weapon can attack
+	Int antiMask = getAntiMask();
+	if (antiMask != 0)
+	{
+		// Build list of target types
+		UnicodeString targets[8];
+		Int targetCount = 0;
+		
+		if (antiMask & WEAPON_ANTI_GROUND)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeGround");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"ground";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_AIRBORNE_VEHICLE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeAirborneVehicles");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"airborne vehicles";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_PROJECTILE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeProjectiles");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"projectiles";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_SMALL_MISSILE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeSmallMissiles");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"small missiles";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_MINE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeMines");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"mines";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_AIRBORNE_INFANTRY)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeHelicopters");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"Helicopters";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_BALLISTIC_MISSILE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeBallisticMissiles");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"ballistic missiles";
+			targetCount++;
+		}
+		if (antiMask & WEAPON_ANTI_PARACHUTE)
+		{
+			targets[targetCount] = TheGameText->fetch("TOOLTIP:TargetTypeParachutes");
+			if (targets[targetCount].isEmpty() || wcsstr(targets[targetCount].str(), L"MISSING:") != NULL)
+				targets[targetCount] = L"parachutes";
+			targetCount++;
+		}
+		
+		if (targetCount > 0)
+		{
+			if (!result.isEmpty())
+				result += L"\n";
+			
+			UnicodeString temp;
+			UnicodeString formattedTargetList;
+			
+			// Format based on count
+			UnicodeString formatStr;
+			if (targetCount == 1)
+			{
+				formatStr = TheGameText->fetch("TOOLTIP:TargetListOnly");
+				if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+					formatStr = L"%ls only";
+				formattedTargetList.format(formatStr.str(), targets[0].str());
+			}
+			else
+			{
+				UnicodeString andStr = TheGameText->fetch("TOOLTIP:TargetListAnd");
+				if (andStr.isEmpty() || wcsstr(andStr.str(), L"MISSING:") != NULL)
+					andStr = L" and ";
+				UnicodeString commaStr = TheGameText->fetch("TOOLTIP:TargetListComma");
+				if (commaStr.isEmpty() || wcsstr(commaStr.str(), L"MISSING:") != NULL)
+					commaStr = L", ";
+				
+				for (Int i = 0; i < targetCount; i++)
+				{
+					if (i > 0)
+					{
+						if (i == targetCount - 1)
+							formattedTargetList += andStr;
+						else
+							formattedTargetList += commaStr;
+					}
+					formattedTargetList += targets[i];
+				}
+			}
+			
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponCanAttack");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Can attack %ls.";
+			temp.format(formatStr.str(), formattedTargetList.str());
+			result += temp;
+		}
+	}
+	
+	// Get hit side override information
+	HitSide primaryHitSide = getPrimaryHitSideOverride();
+	HitSide secondaryHitSide = getSecondaryHitSideOverride();
+	UnicodeString primaryHitSideName = GetHitSideName(primaryHitSide);
+	UnicodeString secondaryHitSideName = GetHitSideName(secondaryHitSide);
+	
+	if (!primaryHitSideName.isEmpty() || !secondaryHitSideName.isEmpty())
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+		
+		UnicodeString temp;
+		UnicodeString formatStr;
+		if (!primaryHitSideName.isEmpty() && !secondaryHitSideName.isEmpty())
+		{
+			// Both primary and secondary hit sides specified
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponAttacksSidePrimarySecondary");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Attacks %ls side (primary) and %ls side (secondary)";
+			temp.format(formatStr.str(), primaryHitSideName.str(), secondaryHitSideName.str());
+		}
+		else if (!primaryHitSideName.isEmpty())
+		{
+			// Only primary hit side specified
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponAttacksSide");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Attacks %ls side";
+			temp.format(formatStr.str(), primaryHitSideName.str());
+		}
+		else if (!secondaryHitSideName.isEmpty())
+		{
+			// Only secondary hit side specified
+			formatStr = TheGameText->fetch("TOOLTIP:WeaponAttacksSideSecondary");
+			if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+				formatStr = L"- Attacks %ls side (secondary)";
+			temp.format(formatStr.str(), secondaryHitSideName.str());
+		}
+		
+		if (!temp.isEmpty())
+			result += temp;
+	}
+	
+	// Get projectile information (at the end)
+	const ThingTemplate* projectileTemplate = getProjectileTemplate();
+	UnicodeString projectileDesc = GetProjectileDescription(projectileTemplate, ownerObject);
+	if (!projectileDesc.isEmpty())
+	{
+		if (!result.isEmpty())
+			result += L"\n\n";
+		result += projectileDesc;
+	}
+	
+	return result;
 }
