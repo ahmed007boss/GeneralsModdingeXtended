@@ -1029,6 +1029,9 @@ protected:
 	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get selection overlay text (unit name and count)
 	UnicodeString getSelectionOverlayText( const ThingTemplate *thing, const Object *obj ) const;
 
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows for portrait display
+	void updatePortraitBars(Object* obj);
+
 	/// show rally point at world location, a NULL location will hide any visible rally point marker
 	void showRallyPoint( const Coord3D *loc );
 
@@ -1122,6 +1125,9 @@ protected:
 	
 	// TheSuperHackers @feature Ahmed Salah - Info icon windows for portrait
 	GameWindow *m_infoIconWindows[MAX_INFO_ICONS];						///< Windows for displaying info icons on portrait
+
+	GameWindow *m_healthBarWindow;									///< Window for displaying health bar below portrait
+	GameWindow *m_fuelBarWindow;									///< Window for displaying fuel bar below portrait
 
 	GameWindow *m_communicatorButton;             ///< button for the communicator
 

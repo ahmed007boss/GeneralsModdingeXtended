@@ -609,6 +609,8 @@ PushButtonData * getNewPushButtonData( void )
 	p->overlayImage2 = NULL;
 	p->overlayImage3 = NULL;
 	p->overlayText = NULL;
+	p->overlayTextX = -1; // -1 = use default auto-positioning
+	p->overlayTextY = -1; // -1 = use default auto-positioning
 	return p;
 }
 
@@ -768,9 +770,12 @@ void GadgetButtonSetAltSound(GameWindow *g, AsciiString altSound )
 }
 
 // GadgetButtonDrawOverlayText ======================================================
-/** Set to draw a text overlay on the button */
+/** Set to draw a text overlay on the button
+ *  @param textX Custom X position for overlay text (-1 = use default auto-positioning)
+ *  @param textY Custom Y position for overlay text (-1 = use default auto-positioning)
+ */
 //=============================================================================
-void GadgetButtonDrawOverlayText( GameWindow *g, DisplayString *textString )
+void GadgetButtonDrawOverlayText( GameWindow *g, DisplayString *textString, Int textX, Int textY )
 {
 	if( g == NULL )
 		return;
@@ -781,6 +786,8 @@ void GadgetButtonDrawOverlayText( GameWindow *g, DisplayString *textString )
 		pData = getNewPushButtonData();
 	}
 	pData->overlayText = textString; // Store the text string in overlayText field
+	pData->overlayTextX = textX;
+	pData->overlayTextY = textY;
 	g->winSetUserData(pData);
 }
 

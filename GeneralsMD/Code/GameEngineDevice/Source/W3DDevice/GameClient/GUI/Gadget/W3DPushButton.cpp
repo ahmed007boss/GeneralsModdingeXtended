@@ -284,10 +284,26 @@ void W3DGadgetPushButtonDraw( GameWindow *window, WinInstanceData *instData )
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
 		if( pData->overlayText )
 		{
-			// Draw text at bottom of button
-			Int textX = origin.x + 4;
-			Int textY = origin.y + size.y - 19;  // Position near bottom
-			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
+			Int textX, textY;
+
+			if (pData->overlayTextX >= 0 && pData->overlayTextY >= 0)
+			{
+				// Use custom position provided by caller
+				textX = pData->overlayTextX;
+				textY = pData->overlayTextY;
+			}
+			else
+			{
+				// Default auto-positioning: near bottom of button
+				textX = origin.x + 4;
+				textY = origin.y + size.y - 19;
+			}
+
+			pData->overlayText->draw(
+				textX,
+				textY,
+				GameMakeColor(255, 255, 255, 255),
+				GameMakeColor(0, 0, 0, 180) );
 		}
 	}
 
@@ -474,9 +490,21 @@ void W3DGadgetPushButtonImageDrawOne( GameWindow *window,
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
 		if( pData->overlayText )
 		{
-			// Draw text at bottom of button
-			Int textX = start.x + 4;
-			Int textY = start.y + size.y - 19;  // Position near bottom
+			Int textX, textY;
+
+			if (pData->overlayTextX >= 0 && pData->overlayTextY >= 0)
+			{
+				// Use custom position provided by caller
+				textX = pData->overlayTextX;
+				textY = pData->overlayTextY;
+			}
+			else
+			{
+				// Default auto-positioning: near bottom of button
+				textX = start.x + 4;
+				textY = start.y + size.y - 19;
+			}
+
 			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
 		}
 	}
@@ -750,9 +778,21 @@ void W3DGadgetPushButtonImageDrawThree(GameWindow *window, WinInstanceData *inst
 		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Draw overlay text on button
 		if( pData->overlayText )
 		{
-			// Draw text at bottom of button
-			Int textX = start.x + 4;
-			Int textY = start.y + size.y - 19;  // Position near bottom
+			Int textX, textY;
+
+			if (pData->overlayTextX >= 0 && pData->overlayTextY >= 0)
+			{
+				// Use custom position provided by caller
+				textX = pData->overlayTextX;
+				textY = pData->overlayTextY;
+			}
+			else
+			{
+				// Default auto-positioning: near bottom of button
+				textX = start.x + 4;
+				textY = start.y + size.y - 19;
+			}
+
 			pData->overlayText->draw( textX, textY, GameMakeColor(255, 255, 255, 255), GameMakeColor(0, 0, 0, 180) );
 		}
 	}
