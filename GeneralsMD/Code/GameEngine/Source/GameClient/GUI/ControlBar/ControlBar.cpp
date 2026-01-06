@@ -239,6 +239,42 @@ TheControlBar->showInfoIconTooltipLayout(window);
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 06/01/2026 Check if info icons and bars should be shown
+// Returns TRUE if only one unit is selected or all selected units are the same type
+//-------------------------------------------------------------------------------------------------
+static Bool shouldShowInfoIconsAndBars(Object* obj)
+{
+	if (!obj)
+		return FALSE;
+
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	if (!selectedDrawables)
+		return FALSE;
+
+	Int selectedCount = (Int)selectedDrawables->size();
+	
+	// Show if only one unit selected
+	if (selectedCount <= 1)
+		return TRUE;
+	
+	// Check if all selected units are the same type
+	const ThingTemplate *objTemplate = obj->getTemplate();
+	if (!objTemplate)
+		return FALSE;
+
+	for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+	{
+		const Drawable *d = *it;
+		if (d && d->getTemplate() && d->getTemplate()->getName() != objTemplate->getName())
+		{
+			return FALSE; // Different type found
+		}
+	}
+	
+	return TRUE; // All same type
+}
+
+//-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows for portrait display
 //-------------------------------------------------------------------------------------------------
 void ControlBar::updatePortraitBars(Object* obj)
@@ -250,6 +286,10 @@ void ControlBar::updatePortraitBars(Object* obj)
 		m_fuelBarWindow->winHide(TRUE);
 
 	if (!obj || !m_rightHUDCameoWindow)
+		return;
+
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Only show bars if all selected units are same type or only one selected
+	if (!shouldShowInfoIconsAndBars(obj))
 		return;
 
 	// Get portrait window size (bars are now children of portrait, so coordinates are relative to it)
@@ -377,27 +417,59 @@ static void drawHealthBarWindow(GameWindow *window, WinInstanceData *instData)
 	Int barWidth  = region.hi.x - region.lo.x;
 	Int barHeight = region.hi.y - region.lo.y;
 
-	// Get the currently selected drawable and object
-	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
-	if (!draw || !draw->isSelected())
+	// Get selected drawables
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	if (!selectedDrawables || selectedDrawables->empty())
 		return;
 
-	Object* obj = draw->getObject();
-	if (!obj)
+	// Use lowest health from first 10 selected units
+	Drawable* draw = NULL;
+	Object* obj = NULL;
+	Real lowestHealthRatio = 2.0f; // Start with value > 1.0 (impossible health ratio)
+	Real health = 0.0f;
+	Real maxHealth = 1.0f;
+	Int checkedCount = 0;
+	const Int MAX_UNITS_TO_CHECK = 10;
+
+	for (DrawableList::const_iterator it = selectedDrawables->begin();
+		 it != selectedDrawables->end() && checkedCount < MAX_UNITS_TO_CHECK;
+		 ++it, ++checkedCount)
+	{
+		const Drawable *d = *it;
+		if (!d || !d->isSelected())
+			continue;
+
+		Object* currentObj = const_cast<Object*>(d->getObject());
+		if (!currentObj)
+			continue;
+
+		BodyModuleInterface *body = currentObj->getBodyModule();
+		if (!body)
+			continue;
+
+		Real currentHealth = body->getHealth();
+		Real currentMaxHealth = body->getMaxHealth();
+
+		if (currentMaxHealth <= 0.0f || currentHealth < 0.0f)
+			continue;
+
+		Real healthRatio = currentHealth / currentMaxHealth;
+
+		// Track the unit with the lowest health ratio
+		if (healthRatio < lowestHealthRatio)
+		{
+			lowestHealthRatio = healthRatio;
+			health = currentHealth;
+			maxHealth = currentMaxHealth;
+			draw = const_cast<Drawable*>(d);
+			obj = currentObj;
+		}
+	}
+
+	if (!draw || !obj || maxHealth <= 0.0f || health < 0.0f)
 		return;
 
-	// Get body module for health
-	BodyModuleInterface *body = obj->getBodyModule();
-	if (!body)
-		return;
-
-	Real health = body->getHealth();
-	Real maxHealth = body->getMaxHealth();
-
-	if (maxHealth <= 0.0f || health < 0.0f)
-		return;
-
-	Real healthRatio = health / maxHealth;
+	Real healthRatio = lowestHealthRatio;
 
 	// Determine health bar color
 	Color healthColor, outlineColor;
@@ -4489,6 +4561,20 @@ void ControlBar::updateInfoIcons( Object *obj )
 	if (obj == nullptr)
 	{
 		// Hide all info icons when no object is provided
+		for (Int i = 0; i < MAX_INFO_ICONS; i++)
+		{
+			if (m_infoIconWindows[i] != nullptr)
+			{
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		return;
+	}
+
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Only show icons if all selected units are same type or only one selected
+	if (!shouldShowInfoIconsAndBars(obj))
+	{
+		// Hide all info icons when multiple different types are selected
 		for (Int i = 0; i < MAX_INFO_ICONS; i++)
 		{
 			if (m_infoIconWindows[i] != nullptr)
