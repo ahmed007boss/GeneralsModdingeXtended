@@ -1088,6 +1088,25 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 	if (obj == NULL)
 		return COMMAND_HIDDEN;	// probably better than crashing....
 
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide upgrade buttons if their upgrade is already active and HideIfUpgradeCompleted is true
+	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE) && command->getUpgradeTemplate() && command->m_hideIfUpgradeCompleted)
+	{
+		const UpgradeTemplate *upgradeTemplate = command->getUpgradeTemplate();
+		const Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : NULL;
+
+		// Check if the upgrade is already active
+		if (upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_PLAYER)
+		{
+			if (localPlayer && localPlayer->hasUpgradeComplete(upgradeTemplate))
+				return COMMAND_HIDDEN; // Hide button - player already has this upgrade
+		}
+		else if (upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_OBJECT)
+		{
+			if (obj && obj->hasUpgrade(upgradeTemplate))
+				return COMMAND_HIDDEN; // Hide button - object already has this upgrade
+		}
+	}
+
 	Player *player = obj->getControllingPlayer();
 
 	if (command->getCommandType() == GUI_COMMAND_TOGGLE_RANGE_DECAL) {

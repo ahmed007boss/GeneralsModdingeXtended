@@ -515,6 +515,7 @@ private:
 	mutable AsciiString								m_hotkeyOverride;						///< TheSuperHackers @feature author 15/01/2025 Per-CommandSet hotkey override (empty means use default)
 	Int												m_amount;											///< TheSuperHackers @feature author 15/01/2025 Amount of units to queue when button is pressed (default 1)
 	Bool											m_enableMassProduction;					///< TheSuperHackers @feature author 15/01/2025 Enable mass production with modifier keys (default true)
+	Bool											m_hideIfUpgradeCompleted;				///< TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide button if its upgrade is already completed (default true for upgrade buttons)
 	GameWindow*										m_window;											///< used during the run-time assignment of a button to a gadget button window
 	AudioEventRTS									m_unitSpecificSound;					///< Unit sound played whenever button is clicked.
 

@@ -136,6 +136,7 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "ComponentName",					INI::parseAsciiString,			 NULL, offsetof( CommandButton, m_componentName ) },
 	{ "Amount",							INI::parseInt,							 NULL, offsetof( CommandButton, m_amount ) },
 	{ "EnableMassProduction",			INI::parseBool,							 NULL, offsetof( CommandButton, m_enableMassProduction ) },
+	{ "HideIfUpgradeCompleted",		INI::parseBool,							 NULL, offsetof( CommandButton, m_hideIfUpgradeCompleted ) },
 	{ "CursorName",						INI::parseAsciiString,			 NULL, offsetof( CommandButton, m_cursorName ) },
 	{ "InvalidCursorName",		INI::parseAsciiString,       NULL, offsetof( CommandButton, m_invalidCursorName ) },
 	{ "ButtonBorderType",			INI::parseLookupList,				 CommandButtonMappedBorderTypeNames, offsetof( CommandButton, m_commandButtonBorder ) },
