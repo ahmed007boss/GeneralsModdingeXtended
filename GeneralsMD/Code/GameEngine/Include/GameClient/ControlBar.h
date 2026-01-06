@@ -378,6 +378,9 @@ public:
 	void setHotkeyOverride(const AsciiString& override) const { m_hotkeyOverride = override; }
 	void clearHotkeyOverride() const { m_hotkeyOverride.clear(); }
 
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 HideIfUpgradeCompleted property getter
+	Bool getHideIfUpgradeCompleted() const { return m_hideIfUpgradeCompleted; }
+
 
 
 	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite

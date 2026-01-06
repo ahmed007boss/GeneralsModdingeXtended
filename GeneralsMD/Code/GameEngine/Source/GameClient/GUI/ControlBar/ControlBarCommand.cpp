@@ -1089,7 +1089,7 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 		return COMMAND_HIDDEN;	// probably better than crashing....
 
 	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide upgrade buttons if their upgrade is already active and HideIfUpgradeCompleted is true
-	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE) && command->getUpgradeTemplate() && command->m_hideIfUpgradeCompleted)
+	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE) && command->getUpgradeTemplate() && command->getHideIfUpgradeCompleted())
 	{
 		const UpgradeTemplate *upgradeTemplate = command->getUpgradeTemplate();
 		const Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : NULL;
