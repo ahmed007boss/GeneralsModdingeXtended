@@ -350,53 +350,53 @@ VideoStreamInterface*	BinkVideoPlayer::open( AsciiString movieTitle )
 			{
 				return createStream( handle, tempFilePath );
 			}
+			
+			// TheSuperHackers @feature Ahmed Salah 06/01/2026 Fall back to original game file search if object directory search failed
 		}
-		else
-		{
-			// Original logic when object directory is empty
-			if (TheGlobalData->m_modDir.isNotEmpty())
-			{
-				char filePath[ _MAX_PATH ];
-				sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-				
-				// Try FileSystem first (supports .big archives)
-				handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
-				if (!handle)
-				{
-					// Fall back to direct file system access
-					handle = BinkOpen(filePath , BINKPRELOADALL );
-					DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
-				}
-				if (handle)
-				{
-					return createStream( handle, tempFilePath );
-				}
-			}
 
-			char localizedFilePath[ _MAX_PATH ];
-			sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
+		// Original logic when object directory is empty or object directory search failed
+		if (TheGlobalData->m_modDir.isNotEmpty())
+		{
+			char filePath[ _MAX_PATH ];
+			sprintf( filePath, "%s%s\\%s.%s", TheGlobalData->m_modDir.str(), VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
 			
 			// Try FileSystem first (supports .big archives)
-			handle = tryOpenBinkFromFileSystem(localizedFilePath, &tempFilePath);
+			handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
 			if (!handle)
 			{
 				// Fall back to direct file system access
-				handle = BinkOpen(localizedFilePath , BINKPRELOADALL );
-				DEBUG_ASSERTLOG(!handle, ("opened localized bink file %s", localizedFilePath));
+				handle = BinkOpen(filePath , BINKPRELOADALL );
+				DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
 			}
+			if (handle)
+			{
+				return createStream( handle, tempFilePath );
+			}
+		}
+
+		char localizedFilePath[ _MAX_PATH ];
+		sprintf( localizedFilePath, VIDEO_LANG_PATH_FORMAT, GetRegistryLanguage().str(), pVideo->m_filename.str(), VIDEO_EXT );
+		
+		// Try FileSystem first (supports .big archives)
+		handle = tryOpenBinkFromFileSystem(localizedFilePath, &tempFilePath);
+		if (!handle)
+		{
+			// Fall back to direct file system access
+			handle = BinkOpen(localizedFilePath , BINKPRELOADALL );
+			DEBUG_ASSERTLOG(!handle, ("opened localized bink file %s", localizedFilePath));
+		}
+		if (!handle)
+		{
+			char filePath[ _MAX_PATH ];
+			sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
+			
+			// Try FileSystem first (supports .big archives)
+			handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
 			if (!handle)
 			{
-				char filePath[ _MAX_PATH ];
-				sprintf( filePath, "%s\\%s.%s", VIDEO_PATH, pVideo->m_filename.str(), VIDEO_EXT );
-				
-				// Try FileSystem first (supports .big archives)
-				handle = tryOpenBinkFromFileSystem(filePath, &tempFilePath);
-				if (!handle)
-				{
-					// Fall back to direct file system access
-					handle = BinkOpen(filePath , BINKPRELOADALL );
-					DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
-				}
+				// Fall back to direct file system access
+				handle = BinkOpen(filePath , BINKPRELOADALL );
+				DEBUG_ASSERTLOG(!handle, ("opened bink file %s", filePath));
 			}
 		}
 
