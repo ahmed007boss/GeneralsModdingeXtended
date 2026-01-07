@@ -549,6 +549,8 @@ public:
 		MSG_SET_RALLY_POINT,												///< (objectID, location)
 		MSG_PURCHASE_SCIENCE,												///< purchase a science
 		MSG_QUEUE_UPGRADE,													///< queue the "research" of an upgrade
+		MSG_DOWNGRADE,																///< TheSuperHackers @feature Ahmed Salah 07/01/2026 remove an upgrade
+		MSG_SWITCH_UPGRADE,													///< TheSuperHackers @feature Ahmed Salah 07/01/2026 upgrade if not exist, downgrade if exists
 		MSG_CANCEL_UPGRADE,													///< cancel the "research" of an upgrade
 		MSG_QUEUE_UNIT_CREATE,											///< clicked on a button to queue the production of a unit
 		MSG_CANCEL_UNIT_CREATE,											///< clicked on UI button to cancel production of a unit

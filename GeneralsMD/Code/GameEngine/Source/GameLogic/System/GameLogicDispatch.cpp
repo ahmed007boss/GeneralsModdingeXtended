@@ -1791,6 +1791,58 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 		}
 
 		//---------------------------------------------------------------------------------------------
+		case GameMessage::MSG_DOWNGRADE:
+		{
+			const UpgradeTemplate *upgradeT = TheUpgradeCenter->findUpgradeByKey( (NameKeyType)(msg->getArgument( 1 )->integer) );
+			if (!upgradeT) break;
+
+			if (currentlySelectedGroup)
+			{
+				Object *producer = getSingleObjectFromSelection(currentlySelectedGroup);
+				if (producer)
+				{
+					if (upgradeT->getUpgradeType() == UPGRADE_TYPE_PLAYER)
+						producer->getControllingPlayer()->removeUpgrade(upgradeT);
+					else if (upgradeT->getUpgradeType() == UPGRADE_TYPE_OBJECT)
+						producer->removeUpgrade(upgradeT);
+				}
+			}
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
+		case GameMessage::MSG_SWITCH_UPGRADE:
+		{
+			const UpgradeTemplate *upgradeT = TheUpgradeCenter->findUpgradeByKey( (NameKeyType)(msg->getArgument( 1 )->integer) );
+			if (!upgradeT) break;
+
+			if (currentlySelectedGroup)
+			{
+				Object *producer = getSingleObjectFromSelection(currentlySelectedGroup);
+				if (producer)
+				{
+					if (upgradeT->getUpgradeType() == UPGRADE_TYPE_PLAYER)
+					{
+						if (producer->getControllingPlayer()->hasUpgradeComplete(upgradeT))
+							producer->getControllingPlayer()->removeUpgrade(upgradeT);
+						else
+							currentlySelectedGroup->queueUpgrade(upgradeT);
+					}
+					else if (upgradeT->getUpgradeType() == UPGRADE_TYPE_OBJECT)
+					{
+						if (producer->hasUpgrade(upgradeT))
+							producer->removeUpgrade(upgradeT);
+						else
+							currentlySelectedGroup->queueUpgrade(upgradeT);
+					}
+				}
+			}
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
 		case GameMessage::MSG_CANCEL_UPGRADE:
 		{
 #if RETAIL_COMPATIBLE_AIGROUP

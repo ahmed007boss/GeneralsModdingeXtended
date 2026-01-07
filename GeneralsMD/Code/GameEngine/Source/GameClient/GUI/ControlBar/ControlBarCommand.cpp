@@ -1089,7 +1089,10 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 		return COMMAND_HIDDEN;	// probably better than crashing....
 
 	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide upgrade buttons if their upgrade is already active and HideIfUpgradeCompleted is true
-	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE) && command->getUpgradeTemplate() && command->getHideIfUpgradeCompleted())
+	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE ||
+			 command->getCommandType() == GUI_COMMAND_PLAYER_DOWNGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_DOWNGRADE ||
+			 command->getCommandType() == GUI_COMMAND_SWITCH_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_SWITCH_OBJECT_UPGRADE) &&
+			command->getUpgradeTemplate() && command->getHideIfUpgradeCompleted())
 	{
 		const UpgradeTemplate *upgradeTemplate = command->getUpgradeTemplate();
 		const Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : NULL;
@@ -1345,6 +1348,78 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 			if( TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
 				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
 
+			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
+			{
+				ScienceType st = command->getScienceVec()[ i ];
+				if( !player->hasScience( st ) )
+				{
+					return COMMAND_RESTRICTED;
+				}
+			}
+			break;
+		}
+
+		case GUI_COMMAND_PLAYER_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Player downgrade command - opposite of upgrade
+			// Available only when the player upgrade exists
+			if( player->hasUpgradeComplete( command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED; // Can't downgrade if we don't have the upgrade
+
+			break;
+		}
+
+		case GUI_COMMAND_OBJECT_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Object downgrade command - opposite of upgrade
+			// Available only when the object upgrade exists
+			if( !obj || obj->hasUpgrade( command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED; // Can't downgrade if we don't have the upgrade
+
+			break;
+		}
+
+		case GUI_COMMAND_SWITCH_PLAYER_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch player upgrade command
+			// Always available - will upgrade if not exist, downgrade if exists
+			if( queueMaxed )
+			{
+				return COMMAND_RESTRICTED;
+			}
+
+			// Check if we can afford to upgrade (if needed)
+			if( player->hasUpgradeComplete( command->getUpgradeTemplate() ) == FALSE &&
+					TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
+
+			// Check sciences for upgrade (if needed)
+			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
+			{
+				ScienceType st = command->getScienceVec()[ i ];
+				if( !player->hasScience( st ) )
+				{
+					return COMMAND_RESTRICTED;
+				}
+			}
+			break;
+		}
+
+		case GUI_COMMAND_SWITCH_OBJECT_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch object upgrade command
+			// Always available - will upgrade if not exist, downgrade if exists
+			if( queueMaxed )
+			{
+				return COMMAND_RESTRICTED;
+			}
+
+			// Check if we can afford to upgrade (if needed)
+			Bool hasUpgrade = obj && obj->hasUpgrade( command->getUpgradeTemplate() );
+			if( !hasUpgrade && TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
+
+			// Check sciences for upgrade (if needed)
 			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
 			{
 				ScienceType st = command->getScienceVec()[ i ];

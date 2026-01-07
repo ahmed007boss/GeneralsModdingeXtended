@@ -233,6 +233,12 @@ enum GUICommandType CPP_11(: Int)
 	GUI_COMMAND_SWITCH_COMMAND_SET3,
 	GUI_COMMAND_SWITCH_COMMAND_SET4,
 
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Downgrade and switch upgrade commands
+	GUI_COMMAND_PLAYER_DOWNGRADE,					///< remove an upgrade that applies to the player
+	GUI_COMMAND_OBJECT_DOWNGRADE,					///< remove an object upgrade
+	GUI_COMMAND_SWITCH_PLAYER_UPGRADE,			///< upgrade if not exist, downgrade if exists (player upgrade)
+	GUI_COMMAND_SWITCH_OBJECT_UPGRADE,			///< upgrade if not exist, downgrade if exists (object upgrade)
+
 	// add more commands here, don't forget to update the string command list below too ...
 
 	GUI_COMMAND_NUM_COMMANDS
@@ -299,6 +305,11 @@ static const char *const TheGuiCommandNames[] =
 	"COMMAND_SWITCH_COMMAND_SET2",
 	"COMMAND_SWITCH_COMMAND_SET3",
 	"COMMAND_SWITCH_COMMAND_SET4",
+
+	"PLAYER_DOWNGRADE",
+	"OBJECT_DOWNGRADE",
+	"SWITCH_PLAYER_UPGRADE",
+	"SWITCH_OBJECT_UPGRADE",
 
 	NULL
 };

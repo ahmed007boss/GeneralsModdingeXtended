@@ -670,6 +670,82 @@ CBCommandStatus ControlBar::processCommandUI( GameWindow *control,
 		}
 
 		//---------------------------------------------------------------------------------------------
+		case GUI_COMMAND_PLAYER_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Player downgrade command - opposite of upgrade
+			const UpgradeTemplate *upgradeT = actualCommandButton->getUpgradeTemplate();
+			DEBUG_ASSERTCRASH( upgradeT, ("Undefined upgrade '%s' in player downgrade command", "UNKNOWN") );
+
+			// sanity
+			if( obj == NULL || upgradeT == NULL )
+				break;
+
+			// send the message
+			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_DOWNGRADE );
+			msg->appendObjectIDArgument( obj->getID() );
+			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
+		case GUI_COMMAND_OBJECT_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Object downgrade command - opposite of upgrade
+			const UpgradeTemplate *upgradeT = actualCommandButton->getUpgradeTemplate();
+			DEBUG_ASSERTCRASH( upgradeT, ("Undefined upgrade '%s' in object downgrade command", "UNKNOWN") );
+
+			// sanity
+			if( obj == NULL || upgradeT == NULL )
+				break;
+
+			// send the message
+			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_DOWNGRADE );
+			msg->appendObjectIDArgument( obj->getID() );
+			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
+		case GUI_COMMAND_SWITCH_PLAYER_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch player upgrade command
+			const UpgradeTemplate *upgradeT = actualCommandButton->getUpgradeTemplate();
+			DEBUG_ASSERTCRASH( upgradeT, ("Undefined upgrade '%s' in switch player upgrade command", "UNKNOWN") );
+
+			// sanity
+			if( obj == NULL || upgradeT == NULL )
+				break;
+
+			// send the message
+			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_SWITCH_UPGRADE );
+			msg->appendObjectIDArgument( obj->getID() );
+			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
+		case GUI_COMMAND_SWITCH_OBJECT_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch object upgrade command
+			const UpgradeTemplate *upgradeT = actualCommandButton->getUpgradeTemplate();
+			DEBUG_ASSERTCRASH( upgradeT, ("Undefined upgrade '%s' in switch object upgrade command", "UNKNOWN") );
+
+			// sanity
+			if( obj == NULL || upgradeT == NULL )
+				break;
+
+			// send the message
+			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_SWITCH_UPGRADE );
+			msg->appendObjectIDArgument( obj->getID() );
+			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
+
+			break;
+		}
+
+		//---------------------------------------------------------------------------------------------
 		case GUI_COMMAND_OBJECT_UPGRADE:
 		{
 			const UpgradeTemplate *upgradeT = actualCommandButton->getUpgradeTemplate();
