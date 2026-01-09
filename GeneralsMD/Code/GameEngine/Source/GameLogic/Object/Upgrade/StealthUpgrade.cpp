@@ -65,6 +65,24 @@ void StealthUpgrade::upgradeImplementation( )
 	}
 }
 
+//-------------------------------------------------------------------------------------------------
+void StealthUpgrade::downgradeImplementation()
+{
+	// The logic that does the stealthupdate will notice this and start stealthing
+	Object* me = getObject();
+	me->clearStatus(MAKE_OBJECT_STATUS_MASK(OBJECT_STATUS_CAN_STEALTH));
+
+	//Grant stealth to spawns if applicable.
+	if (me->isKindOf(KINDOF_SPAWNS_ARE_THE_WEAPONS))
+	{
+		SpawnBehaviorInterface* sbInterface = me->getSpawnBehaviorInterface();
+		if (sbInterface)
+		{
+			sbInterface->giveSlavesStealthUpgrade(FALSE);
+		}
+	}
+}
+
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

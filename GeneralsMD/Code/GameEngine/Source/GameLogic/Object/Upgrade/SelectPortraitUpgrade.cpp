@@ -88,7 +88,22 @@ void SelectPortraitUpgrade::upgradeImplementation()
 		getObject()->setSelectPortraitVideo(data->m_selectPortraitVideo);
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void SelectPortraitUpgrade::downgradeImplementation()
+{
+	const SelectPortraitUpgradeModuleData* data = getSelectPortraitUpgradeModuleData();
 
+	if (data->m_selectPortrait.isNotEmpty())
+	{
+		getObject()->setSelectPortrait("");
+	}
+
+	if (data->m_selectPortraitVideo.isNotEmpty())
+	{
+		getObject()->setSelectPortraitVideo("");
+	}
+}
 //------------------------------------------------------------------------------------------------
 void SelectPortraitUpgrade::crc(Xfer* xfer)
 {

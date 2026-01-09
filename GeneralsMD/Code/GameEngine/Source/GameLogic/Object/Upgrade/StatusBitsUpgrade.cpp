@@ -106,7 +106,14 @@ void StatusBitsUpgrade::upgradeImplementation( )
 	obj->setStatus( getStatusBitsUpgradeModuleData()->m_statusToSet );
 	obj->clearStatus( getStatusBitsUpgradeModuleData()->m_statusToClear );
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void StatusBitsUpgrade::downgradeImplementation()
+{
+	Object* obj = getObject();
+	obj->clearStatus(getStatusBitsUpgradeModuleData()->m_statusToSet);
+	//obj->setStatus(getStatusBitsUpgradeModuleData()->m_statusToClear);
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

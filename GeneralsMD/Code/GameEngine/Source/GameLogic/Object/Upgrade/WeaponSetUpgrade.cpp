@@ -88,7 +88,20 @@ void WeaponSetUpgrade::upgradeImplementation( )
 		obj->clearWeaponSetFlag(data->m_weaponSetFlagClear);
 	}
 }
+void WeaponSetUpgrade::downgradeImplementation()
+{
+	const WeaponSetUpgradeModuleData* data = getWeaponSetUpgradeModuleData();
 
+	Object *obj = getObject();
+	obj->clearWeaponSetFlag(data->m_weaponSetFlagSet);
+
+	obj->adjustModelConditionForWeaponStatus();
+	obj->getDrawable()->updateDrawable();
+	// todo(downgrade): restore the flag that was cleared during upgrade
+	// if (data->m_weaponSetFlagClear < WEAPONSET_COUNT) {
+	// 	obj->setWeaponSetFlag(data->m_weaponSetFlagClear);	
+	// }
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

@@ -102,9 +102,7 @@ void PowerPlantUpgrade::onCapture( Player *oldOwner, Player *newOwner )
 		setUpgradeExecuted(TRUE);
 
 	}
-
 }
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 void PowerPlantUpgrade::upgradeImplementation( void )
@@ -126,7 +124,27 @@ void PowerPlantUpgrade::upgradeImplementation( void )
 	}
 
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void PowerPlantUpgrade::downgradeImplementation(void)
+{
+	// todo(downgrade): to be tested
+	Player* player = getObject()->getControllingPlayer();
 
+	// add the new power production to the object
+	if (player)
+		player->addPowerBonus(getObject());
+
+
+	PowerPlantUpdateInterface* ppui;
+	for (BehaviorModule** umi = getObject()->getBehaviorModules(); *umi; ++umi)
+	{
+		ppui = (*umi)->getPowerPlantUpdateInterface();
+		if (ppui)
+			ppui->extendRods(false);
+	}
+
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

@@ -88,7 +88,13 @@ void ActiveShroudUpgrade::upgradeImplementation( void )
 		getObject()->handlePartitionCellMaintenance();// To shroud where I am without waiting.
 	}
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ActiveShroudUpgrade::downgradeImplementation(void)
+{	
+		getObject()->setShroudRange(0);
+		getObject()->handlePartitionCellMaintenance();// To shroud where I am without waiting	
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

@@ -97,6 +97,11 @@ void ObjectCreationUpgrade::upgradeImplementation( void )
 		ObjectCreationList::create((getObjectCreationUpgradeModuleData()->m_ocl), getObject(), NULL);
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ObjectCreationUpgrade::downgradeImplementation(void)
+{
+}
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

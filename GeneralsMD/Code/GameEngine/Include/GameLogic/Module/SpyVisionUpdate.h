@@ -113,6 +113,7 @@ protected:
 
 	// UpgradeMux functions.  Mux standing, of course, for Majorly Ugly Xhitcode
 	virtual void upgradeImplementation();
+	virtual void downgradeImplementation();
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getSpyVisionUpdateModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting,requireAnyOf,requireAllOf);

@@ -99,7 +99,10 @@ protected:
 	{
 		// nothing!
 	}
-
+	virtual void downgradeImplementation()
+	{
+		// nothing!
+	}
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getFXListDieModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting,requireAnyOf,requireAllOf);

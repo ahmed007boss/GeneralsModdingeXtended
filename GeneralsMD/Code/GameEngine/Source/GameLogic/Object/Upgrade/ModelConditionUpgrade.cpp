@@ -78,6 +78,17 @@ void ModelConditionUpgrade::upgradeImplementation( )
 		me->setModelConditionState(data->m_conditionFlag);
 }
 
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ModelConditionUpgrade::downgradeImplementation()
+{
+	const ModelConditionUpgradeModuleData* data = getModelConditionUpgradeModuleData();
+
+	Object* me = getObject();
+
+	if (data->m_conditionFlag != MODELCONDITION_INVALID)
+		me->clearModelConditionState(data->m_conditionFlag);
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

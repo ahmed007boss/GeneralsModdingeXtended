@@ -111,6 +111,45 @@ void CommandSetUpgrade::upgradeImplementation( )
 	obj->setCommandSetStringOverride( getCommandSetUpgradeModuleData()->m_newCommandSet, getCommandSetUpgradeModuleData()->m_newCommandSet2, getCommandSetUpgradeModuleData()->m_newCommandSet3, getCommandSetUpgradeModuleData()->m_newCommandSet4);
 	TheControlBar->markUIDirty();// Refresh the UI in case we are selected
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void CommandSetUpgrade::downgradeImplementation()
+{
+	Object* obj = getObject();
+
+	const AsciiString& upgradeAlt = getCommandSetUpgradeModuleData()->m_triggerAlt;
+	const UpgradeTemplate* upgradeTemplate = TheUpgradeCenter->findUpgrade(upgradeAlt);
+
+	if (upgradeTemplate)
+	{
+		UpgradeMaskType upgradeMask = upgradeTemplate->getUpgradeMask();
+
+		// See if upgrade is found in the player completed upgrades
+		Player* player = obj->getControllingPlayer();
+		if (player)
+		{
+			UpgradeMaskType playerMask = player->getCompletedUpgradeMask();
+			if (playerMask.testForAny(upgradeMask))
+			{
+				obj->setCommandSetStringOverride("", "", "", "");
+				TheControlBar->markUIDirty();// Refresh the UI in case we are selected
+				return;
+			}
+		}
+
+		// See if upgrade is found in the object completed upgrades
+		UpgradeMaskType objMask = obj->getObjectCompletedUpgradeMask();
+		if (objMask.testForAny(upgradeMask))
+		{
+			obj->setCommandSetStringOverride("", "", "", "");
+			TheControlBar->markUIDirty();// Refresh the UI in case we are selected
+			return;
+		}
+	}
+
+	obj->setCommandSetStringOverride("", "", "", "");
+	TheControlBar->markUIDirty();// Refresh the UI in case we are selected
+}
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

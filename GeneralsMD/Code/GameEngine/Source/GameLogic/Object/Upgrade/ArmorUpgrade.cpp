@@ -141,7 +141,41 @@ void ArmorUpgrade::upgradeImplementation( )
 		}*/
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ArmorUpgrade::downgradeImplementation()
+{
+	const ArmorUpgradeModuleData* data = getArmorUpgradeModuleData();
 
+	Object* obj = getObject();
+	if (!obj)
+		return;
+
+	BodyModuleInterface* body = obj->getBodyModule();
+	if (body) {
+		// Clear the flag that was set during upgrade
+		body->clearArmorSetFlag(data->m_armorSetFlag);
+
+		// if (data->m_armorSetFlagsToClear.any()) {
+		// 	// Restore the flags that were cleared during upgrade
+		// 	for (int i = 0; i < ARMORSET_COUNT; i++) {
+		// 		ArmorSetType type = (ArmorSetType)i;
+		// 		if (data->m_armorSetFlagsToClear.test(type)) {
+		// 			body->setArmorSetFlag(type);
+		// 		}
+		// 	}
+		// }
+	}
+
+	// Unique case for AMERICA - remove the terrain decal that was set during upgrade
+	if (isTriggeredBy("Upgrade_AmericaChemicalSuits"))
+	{
+		Drawable* draw = obj->getDrawable();
+		if (draw && draw->getTerrainDecalType() == TERRAIN_DECAL_CHEMSUIT) {
+			draw->setTerrainDecal(TERRAIN_DECAL_NONE);
+		}
+	}
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

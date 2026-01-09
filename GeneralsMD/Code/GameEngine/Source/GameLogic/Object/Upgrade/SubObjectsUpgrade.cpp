@@ -139,7 +139,40 @@ void SubObjectsUpgrade::upgradeImplementation( )
 		}
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void SubObjectsUpgrade::downgradeImplementation()
+{
+	const SubObjectsUpgradeModuleData* data = getSubObjectsUpgradeModuleData();
 
+	Object* obj = getObject();
+	Drawable* draw = obj->getDrawable();
+
+	if (draw)
+	{
+		std::vector<AsciiString>::const_iterator subObjectName;
+		Bool updateSubObjects = false;
+
+		// Hide subobjects that were shown during upgrade
+		for (subObjectName = data->m_showSubObjectNames.begin(); subObjectName != data->m_showSubObjectNames.end(); ++subObjectName)
+		{
+			draw->showSubObject(*subObjectName, false);
+			updateSubObjects = true;
+		}
+
+		// Show subobjects that were hidden during upgrade
+		for (subObjectName = data->m_hideSubObjectNames.begin(); subObjectName != data->m_hideSubObjectNames.end(); ++subObjectName)
+		{
+			draw->showSubObject(*subObjectName, true);
+			updateSubObjects = true;
+		}
+
+		if (updateSubObjects)
+		{
+			draw->updateSubObjects();
+		}
+	}
+}
 //------------------------------------------------------------------------------------------------
 void SubObjectsUpgrade::crc( Xfer *xfer )
 {

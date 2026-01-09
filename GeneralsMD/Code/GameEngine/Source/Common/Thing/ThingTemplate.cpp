@@ -1855,7 +1855,7 @@ Int ThingTemplate::calcCostToBuild(const Player* player) const
 #if defined( RTS_DEBUG )
 	if (TheGlobalData->m_disableCost)
 	{
-		return 1;
+		return 0;
 	}
 #endif
 	// changePercent format is "-.2 equals 20% cheaper"

@@ -141,6 +141,13 @@ void RadarUpgrade::upgradeImplementation( void )
 		radarUpdate->extendRadar();
 
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void RadarUpgrade::downgradeImplementation(void)
+{
+	// todo(downgrade): implement downgrade behavior here
+}
+
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

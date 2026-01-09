@@ -140,6 +140,7 @@ protected:
 
 	void setUpgradeExecuted(Bool e) { m_upgradeExecuted = e; }
 	virtual void upgradeImplementation( ) = 0; ///< Here's the actual work of Upgrading
+	virtual void downgradeImplementation() = 0; ///< Here's the actual work of Downgrading
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const = 0; ///< Here's the actual work of Upgrading
 	virtual void performUpgradeFX() = 0;	///< perform the associated fx list
 	virtual Bool requiresAllActivationUpgrades() const = 0;
@@ -194,9 +195,11 @@ public:
 	// BehaviorModule
 	virtual UpgradeModuleInterface* getUpgrade() { return this; }
 
+	
 	bool isTriggeredBy(const std::string & upgrade) const { return getUpgradeModuleData()->m_upgradeMuxData.isTriggeredBy(upgrade); }
 
 protected:
+	
 
 	virtual void processUpgradeRemoval()
 	{

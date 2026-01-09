@@ -151,7 +151,10 @@ protected:
 	{
 		setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 	}
-
+	virtual void downgradeImplementation()
+	{
+		setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
+	}
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getCountermeasuresBehaviorModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting,requireAnyOf,requireAllOf);

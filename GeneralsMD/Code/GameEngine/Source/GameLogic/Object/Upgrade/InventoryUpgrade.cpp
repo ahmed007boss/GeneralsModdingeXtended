@@ -176,7 +176,102 @@ void InventoryUpgrade::upgradeImplementation()
         applyInventoryUpgrades(inventoryBehavior);
     }
 }
+//-------------------------------------------------------------------------------------------------
+void InventoryUpgrade::downgradeImplementation()
+{
+  // Find the inventory behavior module of this object
+  InventoryBehavior* inventoryBehavior = getObject()->getInventoryBehavior();
+  if (inventoryBehavior)
+  {
+    removeInventoryUpgrades(inventoryBehavior);
+  }
+}
 
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 07/01/2026 Remove inventory upgrades - reverse applyInventoryUpgrades
+//-------------------------------------------------------------------------------------------------
+void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehavior)
+{
+    const InventoryUpgradeModuleData* data = getInventoryUpgradeModuleData();
+    const InventoryBehaviorModuleData* inventoryData = inventoryBehavior->getInventoryModuleData();
+
+    if (!inventoryData)
+        return;
+
+    // Remove each inventory item upgrade
+    for (std::vector<InventoryItemUpgrade>::const_iterator it = data->m_inventoryItemUpgrades.begin();
+         it != data->m_inventoryItemUpgrades.end(); ++it)
+    {
+        const InventoryItemUpgrade& upgrade = *it;
+
+        if (upgrade.itemName.isEmpty())
+            continue;
+
+        const AsciiString& itemName = upgrade.itemName;
+
+        // Find the item in the inventory data
+        std::map<AsciiString, InventoryItemConfig>& inventoryItems =
+            const_cast<std::map<AsciiString, InventoryItemConfig>&>(inventoryData->m_inventoryItems);
+
+        std::map<AsciiString, InventoryItemConfig>::iterator itemIt = inventoryItems.find(itemName);
+
+        if (itemIt != inventoryItems.end())
+        {
+            if (upgrade.isNewItem)
+            {
+                // Item was created by this upgrade, remove it entirely
+                inventoryBehavior->setItemCount(itemName, 0.0f);
+                inventoryItems.erase(itemIt);
+            }
+            else
+            {
+                // Item existed before, restore original values
+                InventoryItemConfig& itemConfig = itemIt->second;
+
+                // Restore original max storage count
+                std::map<AsciiString, Int>::iterator storageIt = m_originalStorageCapacities.find(itemName);
+                if (storageIt != m_originalStorageCapacities.end())
+                {
+                    itemConfig.maxStorageCount = storageIt->second;
+                }
+
+                // Restore original initial available amount
+                std::map<AsciiString, Int>::iterator amountIt = m_originalInitialAmounts.find(itemName);
+                if (amountIt != m_originalInitialAmounts.end())
+                {
+                    itemConfig.initialAvailableAmount = amountIt->second;
+                }
+
+                // Restore display name to default (item name)
+                itemConfig.displayName.format(L"%s", itemName.str());
+
+                // Restore cost per item to default (0)
+                itemConfig.costPerItem = 0;
+
+                // Remove items that were added to current inventory
+                if (upgrade.addInitialAvailableAmount > 0)
+                {
+                    Real currentAmount = inventoryBehavior->getItemCount(itemName);
+                    Real amountToRemove = upgrade.addInitialAvailableAmount;
+                    if (currentAmount >= amountToRemove)
+                    {
+                        // Consume the items that were added
+                        inventoryBehavior->consumeItem(itemName, amountToRemove);
+                    }
+                    else
+                    {
+                        // Remove all items if we somehow have fewer than expected
+                        inventoryBehavior->setItemCount(itemName, 0.0f);
+                    }
+                }
+            }
+        }
+    }
+
+    // Clear stored original values
+    m_originalStorageCapacities.clear();
+    m_originalInitialAmounts.clear();
+}
 
 //-------------------------------------------------------------------------------------------------
 void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavior)
@@ -305,66 +400,6 @@ void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavi
             }
         }
     }
-}
-
-//-------------------------------------------------------------------------------------------------
-void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehavior)
-{
-    const InventoryUpgradeModuleData* data = getInventoryUpgradeModuleData();
-    const InventoryBehaviorModuleData* inventoryData = inventoryBehavior->getInventoryModuleData();
-    
-    if (!inventoryData)
-        return;
-
-    // Revert each inventory item upgrade
-    for (std::vector<InventoryItemUpgrade>::const_iterator it = data->m_inventoryItemUpgrades.begin();
-         it != data->m_inventoryItemUpgrades.end(); ++it)
-    {
-        const InventoryItemUpgrade& upgrade = *it;
-        
-        if (upgrade.itemName.isEmpty())
-            continue;
-
-        const AsciiString& itemName = upgrade.itemName;
-
-        // Find the item in the inventory data
-        std::map<AsciiString, InventoryItemConfig>& inventoryItems = 
-            const_cast<std::map<AsciiString, InventoryItemConfig>&>(inventoryData->m_inventoryItems);
-        
-        std::map<AsciiString, InventoryItemConfig>::iterator itemIt = inventoryItems.find(itemName);
-        
-        if (itemIt != inventoryItems.end())
-        {
-            // Restore original values
-            std::map<AsciiString, Int>::iterator origStorageIt = m_originalStorageCapacities.find(itemName);
-            std::map<AsciiString, Int>::iterator origAmountIt = m_originalInitialAmounts.find(itemName);
-            
-            if (origStorageIt != m_originalStorageCapacities.end())
-            {
-                itemIt->second.maxStorageCount = origStorageIt->second;
-            }
-            
-            if (origAmountIt != m_originalInitialAmounts.end())
-            {
-                itemIt->second.initialAvailableAmount = origAmountIt->second;
-            }
-            
-            // Remove added inventory items
-            if (upgrade.addInitialAvailableAmount > 0)
-            {
-                inventoryBehavior->consumeItem(itemName, upgrade.addInitialAvailableAmount);
-            }
-        }
-        else if (upgrade.isNewItem)
-        {
-            // If this was a new item, remove it entirely
-            inventoryItems.erase(itemName);
-        }
-    }
-
-    // Clear stored original values
-    m_originalStorageCapacities.clear();
-    m_originalInitialAmounts.clear();
 }
 
 //-------------------------------------------------------------------------------------------------

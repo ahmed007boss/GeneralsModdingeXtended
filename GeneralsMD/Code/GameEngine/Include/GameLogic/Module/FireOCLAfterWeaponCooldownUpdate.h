@@ -70,7 +70,10 @@ protected:
 	{
 		// nothing!
 	}
-
+	virtual void downgradeImplementation()
+	{
+		// nothing!
+	}
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getFireOCLAfterWeaponCooldownUpdateModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting,requireAnyOf,requireAllOf);

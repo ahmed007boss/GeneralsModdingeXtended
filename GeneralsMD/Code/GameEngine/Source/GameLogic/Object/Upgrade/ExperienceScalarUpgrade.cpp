@@ -91,7 +91,21 @@ void ExperienceScalarUpgrade::upgradeImplementation( )
 		xpTracker->setExperienceValueScalar( xpTracker->getExperienceValueScalar() + data->m_xpGrantedOnDeathScalar );
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ExperienceScalarUpgrade::downgradeImplementation()
+{
 
+	//Simply add the xp scalar to the xp tracker!
+	Object* obj = getObject();
+	ExperienceTracker* xpTracker = obj->getExperienceTracker();
+	if (xpTracker)
+	{
+		xpTracker->setExperienceScalar(xpTracker->getExperienceScalar());
+		// TheSuperHackers @feature ahmed Salah 15/01/2025 Added experience value scalar application for Zero Hour
+		xpTracker->setExperienceValueScalar(xpTracker->getExperienceValueScalar() );
+	}
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

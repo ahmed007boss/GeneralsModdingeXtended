@@ -91,7 +91,16 @@ void WeaponBonusUpgrade::upgradeImplementation( )
 	obj->setWeaponBonusCondition( WEAPONBONUSCONDITION_PLAYER_UPGRADE );
 
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void WeaponBonusUpgrade::downgradeImplementation()
+{
+	// Very simple; just need to flag the Object as having the player upgrade, and the WeaponSet chooser
+	// will do the work of picking the right one from ini.  This comment is as long as the code.
+	Object* obj = getObject();
+	obj->clearWeaponBonusCondition(WEAPONBONUSCONDITION_PLAYER_UPGRADE);
 
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

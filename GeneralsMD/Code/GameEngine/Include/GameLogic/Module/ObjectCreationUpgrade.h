@@ -71,6 +71,7 @@ public:
 protected:
 
 	virtual void upgradeImplementation( void ); ///< Here's the actual work of Upgrading
+	virtual void downgradeImplementation(); ///< Here's the actual work of Upgrading
 	virtual Bool isSubObjectsUpgrade() { return false; }
 
 };

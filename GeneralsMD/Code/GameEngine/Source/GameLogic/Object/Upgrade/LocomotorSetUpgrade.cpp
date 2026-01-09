@@ -103,7 +103,14 @@ void LocomotorSetUpgrade::upgradeImplementation( )
 	if (ai)
 		ai->setLocomotorUpgrade(data->m_upgradeLevel);
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void LocomotorSetUpgrade::downgradeImplementation()
+{
+	AIUpdateInterface* ai = getObject()->getAIUpdateInterface();
+	if (ai)
+		ai->setLocomotorUpgrade(LOCOMOTORSET_NORMAL);
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

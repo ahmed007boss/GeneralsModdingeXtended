@@ -87,7 +87,11 @@ protected:
 		createRadiusDecal();
 		setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 	}
-
+	virtual void downgradeImplementation()
+	{
+		createRadiusDecal();
+		setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
+	}
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getRadiusDecalBehaviorModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting, requireAnyOf, requireAllOf);

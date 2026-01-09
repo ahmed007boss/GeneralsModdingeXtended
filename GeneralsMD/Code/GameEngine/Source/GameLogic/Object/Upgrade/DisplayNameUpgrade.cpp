@@ -106,6 +106,23 @@ void DisplayNameUpgrade::upgradeImplementation()
 		getObject()->setDescription(data->m_displayDescription);
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void DisplayNameUpgrade::downgradeImplementation()
+{
+	const DisplayNameUpgradeModuleData* data = getDisplayNameUpgradeModuleData();
+	getObject()->setDisplayName(L"");
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Also set plural name if specified
+	if (!data->m_displayPluralName.isEmpty())
+	{
+		getObject()->setDisplayPluralName(L"");
+	}
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	if (!data->m_displayDescription.isEmpty())
+	{
+		getObject()->setDescription(L"");
+	}
+}
 
 //------------------------------------------------------------------------------------------------
 void DisplayNameUpgrade::crc(Xfer* xfer)

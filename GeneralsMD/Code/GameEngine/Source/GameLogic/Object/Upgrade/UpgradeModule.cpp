@@ -79,7 +79,6 @@ void UpgradeModule::loadPostProcess( void )
 	UpgradeMux::upgradeMuxLoadPostProcess();
 
 }
-
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 UpgradeMux::UpgradeMux() : m_upgradeExecuted(false)
@@ -251,11 +250,11 @@ Bool UpgradeMux::resetUpgrade( UpgradeMaskType keyMask )
 	if( keyMask.testForAny( activation ) && anyCond  && allCond && m_upgradeExecuted )
 	{
 		m_upgradeExecuted = false;
+		downgradeImplementation();
 		return true;
 	}
 	return false;
 }
-
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 void UpgradeMux::upgradeMuxCRC( Xfer *xfer )

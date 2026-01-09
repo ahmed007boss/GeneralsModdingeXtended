@@ -223,7 +223,11 @@ void SpyVisionUpdate::upgradeImplementation()
 		activateSpyVision(data->m_selfPoweredDuration);// If zero, will turn on permanently.  And it does the wake up setting
 	}
 }
-
+// ------------------------------------------------------------------------------------------------
+void SpyVisionUpdate::downgradeImplementation()
+{
+		activateSpyVision(1);// If zero, will turn on permanently.  And it does the wake up setting
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
