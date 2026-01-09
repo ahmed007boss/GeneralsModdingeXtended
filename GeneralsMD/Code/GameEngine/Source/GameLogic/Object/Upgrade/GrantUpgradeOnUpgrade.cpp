@@ -47,6 +47,7 @@ void GrantUpgradeOnUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	static const FieldParse dataFieldParse[] =
 	{
 		{ "UpgradesToGrant",	INI::parseAsciiStringVectorAppend, NULL, offsetof( GrantUpgradeOnUpgradeModuleData, m_upgradesToGrant ) },
+		{ "RemoveUpgradesOnDowngrade", INI::parseBool, NULL, offsetof( GrantUpgradeOnUpgradeModuleData, m_removeUpgradesOnDowngrade ) },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -146,7 +147,63 @@ void GrantUpgradeOnUpgrade::upgradeImplementation( )
 //-------------------------------------------------------------------------------------------------
 void GrantUpgradeOnUpgrade::downgradeImplementation()
 {
-	// todo(downgrade): implement downgrade behavior here
+	const GrantUpgradeOnUpgradeModuleData *data = getGrantUpgradeOnUpgradeModuleData();
+	if( !data )
+	{
+		return;
+	}
+
+	// Only remove upgrades if the INI attribute is enabled
+	if( !data->m_removeUpgradesOnDowngrade )
+	{
+		return;
+	}
+
+	if( data->m_upgradesToGrant.empty() )
+	{
+		return;
+	}
+
+	Object *obj = getObject();
+	if( !obj || obj->isEffectivelyDead() )
+	{
+		return;
+	}
+
+	// TheSuperHackers @feature author 15/01/2025 Don't remove upgrades during object destruction
+	if( obj->getStatusBits().test( OBJECT_STATUS_UNDER_CONSTRUCTION ) )
+	{
+		return;
+	}
+
+	Player *player = obj->getControllingPlayer();
+	if( !player )
+	{
+		return;
+	}
+
+	// TheSuperHackers @feature author 15/01/2025 Remove all previously granted upgrades
+	std::vector<AsciiString>::const_iterator upgradeName;
+	for( upgradeName = data->m_upgradesToGrant.begin(); upgradeName != data->m_upgradesToGrant.end(); ++upgradeName )
+	{
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade( *upgradeName );
+		if( !upgradeTemplate )
+		{
+			continue;
+		}
+
+		// TheSuperHackers @feature author 15/01/2025 Handle both player and object upgrades
+		if( upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_PLAYER )
+		{
+			// Remove player upgrade
+			player->removeUpgrade( upgradeTemplate );
+		}
+		else
+		{
+			// Remove object upgrade
+			obj->removeUpgrade( upgradeTemplate );
+		}
+	}
 }
 // ------------------------------------------------------------------------------------------------
 /** CRC */

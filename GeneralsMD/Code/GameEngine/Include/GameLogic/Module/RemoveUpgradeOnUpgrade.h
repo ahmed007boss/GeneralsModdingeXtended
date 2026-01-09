@@ -42,8 +42,9 @@ class RemoveUpgradeOnUpgradeModuleData : public UpgradeModuleData
 public:
 
 	std::vector<AsciiString> m_upgradesToRemove;	///< TheSuperHackers @feature author 15/01/2025 Names of the upgrades to remove when this upgrade is triggered
+	Bool m_regrantUpgradesOnDowngrade;		///< TheSuperHackers @feature author 15/01/2025 If true, re-grants the removed upgrades when downgrading (default false)
 
-	RemoveUpgradeOnUpgradeModuleData( void ) {}
+	RemoveUpgradeOnUpgradeModuleData( void ) { m_regrantUpgradesOnDowngrade = false; }
 
 	static void buildFieldParse(MultiIniFieldParse& p);
 

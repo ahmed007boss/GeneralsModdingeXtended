@@ -53,6 +53,12 @@ Used by objects that need to grant upgrades when other upgrades are applied. Thi
 - **Default**: Empty (no upgrades granted)
 - **Example**: `UpgradesToGrant = Upgrade_EliteTraining Upgrade_WeaponTraining Upgrade_AdvancedTechnology`
 
+#### `RemoveUpgradesOnDowngrade` *(GMX Upcoming)*
+- **Type**: `Bool`
+- **Description**: Controls whether the granted upgrades should be removed when this upgrade module is downgraded. When `Yes`, all upgrades that were granted by this module will be removed during downgrade operations. When `No`, downgrading this module will not affect the previously granted upgrades. This allows for flexible upgrade/downgrade behavior - upgrades can persist after downgrade, or they can be automatically cleaned up.
+- **Default**: `No` (downgrade does not remove granted upgrades)
+- **Example**: `RemoveUpgradesOnDowngrade = Yes`
+
 ### Upgrade Integration Settings
 
 #### `TriggeredBy` *(v1.04)*
@@ -155,13 +161,32 @@ Upgrade = GrantUpgradeOnUpgrade ModuleTag_UpgradeReplacement
 End
 ```
 
+### Upgrade Grant with Downgrade Removal
+```ini
+Upgrade = GrantUpgradeOnUpgrade ModuleTag_GrantWithDowngrade
+  UpgradesToGrant = Upgrade_TemporaryBonus Upgrade_SpecialAbility
+  TriggeredBy = Upgrade_SpecialResearch
+  RemoveUpgradesOnDowngrade = Yes  ; Remove the bonus when the research is downgraded
+End
+```
+
+### Persistent Upgrade Grant
+```ini
+Upgrade = GrantUpgradeOnUpgrade ModuleTag_GrantPersistent
+  UpgradesToGrant = Upgrade_PermanentTech Upgrade_UnlockedFeature
+  TriggeredBy = Upgrade_MasterResearch
+  RemoveUpgradesOnDowngrade = No   ; Keep upgrades even after downgrade
+End
+```
+
 ## Template
 
 ```ini
 Upgrade = GrantUpgradeOnUpgrade ModuleTag_XX
   ; Upgrade Granting Settings
   UpgradesToGrant =                    ; // space-separated list of upgrade names to grant *(GMX Upcoming)*
-  
+  RemoveUpgradesOnDowngrade = No       ; // remove granted upgrades on downgrade *(GMX Upcoming)*
+
   ; Upgrade Integration (inherited from UpgradeModule)
   TriggeredBy =                        ; // required upgrade flags *(v1.04)*
   ConflictsWith =                      ; // conflicting upgrade flags *(v1.04)*
@@ -183,8 +208,10 @@ End
 - Upgrades are not granted if the object is under construction
 - Already granted upgrades are automatically skipped to prevent duplicates
 - Academy stats are recorded for granted upgrades (when object is not under construction)
+- When [RemoveUpgradesOnDowngrade](#removeupgradesondowngrade) is enabled, granted upgrades are automatically removed during downgrade
 - This module is useful for creating upgrade chains, cascading upgrades, and automatic upgrade distribution
 - Can be used to create upgrade replacement systems where activating one upgrade removes others
+- Downgrade behavior can be controlled to either maintain upgrades or clean them up when the trigger upgrade is removed
 
 ## Source Files
 
@@ -196,11 +223,12 @@ End
 ## Changes History
 
 - **15/01/2025**: Initial implementation by TheSuperHackers - Added GrantUpgradeOnUpgrade module with support for multiple upgrades and automatic player/object upgrade detection
+- **15/01/2025**: Added `RemoveUpgradesOnDowngrade` INI attribute and downgrade implementation - Allows controlling whether granted upgrades are removed when the module is downgraded
 
 ## Status
 
 - **Documentation Status**: AI Generated Pending Reviews
-- **Last Updated**: 15/01/2025 by @ahmed Salah using AI
+- **Last Updated**: 15/01/2025 by @ahmed Salah using AI (added downgrade functionality)
 
 ### Modder Reviews
 - No Reviews done yet

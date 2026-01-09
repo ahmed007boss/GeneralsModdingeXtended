@@ -53,6 +53,12 @@ Used by objects that need to remove upgrades when other upgrades are applied. Th
 - **Default**: Empty (no upgrades removed)
 - **Example**: `UpgradesToRemove = Upgrade_OldTraining Upgrade_OutdatedTechnology Upgrade_BasicWeapons`
 
+#### `RegrantUpgradesOnDowngrade` *(GMX Upcoming)*
+- **Type**: `Bool`
+- **Description**: Controls whether the removed upgrades should be re-granted when this upgrade module is downgraded. When `Yes`, all upgrades that were removed by this module will be re-granted during downgrade operations. When `No`, downgrading this module will not affect the previously removed upgrades. This allows for flexible upgrade/downgrade behavior - removed upgrades can be restored after downgrade, or they can remain removed.
+- **Default**: `No` (downgrade does not re-grant removed upgrades)
+- **Example**: `RegrantUpgradesOnDowngrade = Yes`
+
 ### Upgrade Integration Settings
 
 #### `TriggeredBy` *(v1.04)*
@@ -154,13 +160,32 @@ Upgrade = RemoveUpgradeOnUpgrade ModuleTag_ConditionalRemoval
 End
 ```
 
+### Upgrade Removal with Downgrade Re-grant
+```ini
+Upgrade = RemoveUpgradeOnUpgrade ModuleTag_RemoveWithRegrant
+  UpgradesToRemove = Upgrade_TemporaryBuff Upgrade_SpecialEffect
+  TriggeredBy = Upgrade_DebuffResearch
+  RegrantUpgradesOnDowngrade = Yes  ; Restore buffs when research is downgraded
+End
+```
+
+### Permanent Upgrade Removal
+```ini
+Upgrade = RemoveUpgradeOnUpgrade ModuleTag_RemovePermanent
+  UpgradesToRemove = Upgrade_ObsoleteTech Upgrade_OutdatedAbility
+  TriggeredBy = Upgrade_RevolutionaryTech
+  RegrantUpgradesOnDowngrade = No   ; Keep old tech removed even after downgrade
+End
+```
+
 ## Template
 
 ```ini
 Upgrade = RemoveUpgradeOnUpgrade ModuleTag_XX
   ; Upgrade Removal Settings
   UpgradesToRemove =                    ; // space-separated list of upgrade names to remove *(GMX Upcoming)*
-  
+  RegrantUpgradesOnDowngrade = No      ; // re-grant removed upgrades on downgrade *(GMX Upcoming)*
+
   ; Upgrade Integration (inherited from UpgradeModule)
   TriggeredBy =                        ; // required upgrade flags *(v1.04)*
   ConflictsWith =                      ; // conflicting upgrade flags *(v1.04)*
@@ -181,8 +206,10 @@ End
 - Multiple upgrades can be specified in [UpgradesToRemove](#upgradestoremove) as a space-separated list
 - Upgrades are not removed if the object is under construction
 - Removing an upgrade resets it so it may be run again, but does not permanently undo its effects
+- When [RegrantUpgradesOnDowngrade](#regrantupgradesondowngrade) is enabled, removed upgrades are automatically re-granted during downgrade
 - This module is useful for creating upgrade replacement systems, removing conflicting upgrades, and cleaning up outdated upgrades
 - Can be combined with `GrantUpgradeOnUpgrade` to create upgrade replacement chains where old upgrades are removed and new ones are granted
+- Downgrade behavior can be controlled to either restore removed upgrades or keep them permanently removed
 - Note: Object upgrade removal calls `resetUpgrade()` which allows the upgrade to be triggered again, but does not undo the upgrade's effects
 
 ## Source Files
@@ -195,11 +222,12 @@ End
 ## Changes History
 
 - **15/01/2025**: Initial implementation by TheSuperHackers - Added RemoveUpgradeOnUpgrade module with support for multiple upgrades and automatic player/object upgrade detection
+- **15/01/2025**: Added `RegrantUpgradesOnDowngrade` INI attribute and downgrade implementation - Allows controlling whether removed upgrades are re-granted when the module is downgraded
 
 ## Status
 
 - **Documentation Status**: AI Generated Pending Reviews
-- **Last Updated**: 15/01/2025 by @ahmed Salah using AI
+- **Last Updated**: 15/01/2025 by @ahmed Salah using AI (added downgrade functionality)
 
 ### Modder Reviews
 - No Reviews done yet

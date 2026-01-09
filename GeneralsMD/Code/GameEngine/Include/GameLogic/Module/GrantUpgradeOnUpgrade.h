@@ -42,8 +42,9 @@ class GrantUpgradeOnUpgradeModuleData : public UpgradeModuleData
 public:
 
 	std::vector<AsciiString> m_upgradesToGrant;	///< TheSuperHackers @feature author 15/01/2025 Names of the upgrades to grant when this upgrade is triggered
+	Bool m_removeUpgradesOnDowngrade;			///< TheSuperHackers @feature author 15/01/2025 If true, removes the granted upgrades when downgrading (default false)
 
-	GrantUpgradeOnUpgradeModuleData( void ) {}
+	GrantUpgradeOnUpgradeModuleData( void ) { m_removeUpgradesOnDowngrade = false; }
 
 	static void buildFieldParse(MultiIniFieldParse& p);
 

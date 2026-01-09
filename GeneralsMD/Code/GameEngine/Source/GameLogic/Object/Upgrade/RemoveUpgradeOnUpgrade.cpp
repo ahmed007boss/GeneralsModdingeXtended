@@ -47,6 +47,7 @@ void RemoveUpgradeOnUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	static const FieldParse dataFieldParse[] =
 	{
 		{ "UpgradesToRemove",	INI::parseAsciiStringVectorAppend, NULL, offsetof( RemoveUpgradeOnUpgradeModuleData, m_upgradesToRemove ) },
+		{ "RegrantUpgradesOnDowngrade", INI::parseBool, NULL, offsetof( RemoveUpgradeOnUpgradeModuleData, m_regrantUpgradesOnDowngrade ) },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -125,7 +126,83 @@ void RemoveUpgradeOnUpgrade::upgradeImplementation( )
 //-------------------------------------------------------------------------------------------------
 void RemoveUpgradeOnUpgrade::downgradeImplementation()
 {
-	// todo(downgrade): implement downgrade behavior here
+	const RemoveUpgradeOnUpgradeModuleData *data = getRemoveUpgradeOnUpgradeModuleData();
+	if( !data )
+	{
+		return;
+	}
+
+	// Only re-grant upgrades if the INI attribute is enabled
+	if( !data->m_regrantUpgradesOnDowngrade )
+	{
+		return;
+	}
+
+	if( data->m_upgradesToRemove.empty() )
+	{
+		return;
+	}
+
+	Object *obj = getObject();
+	if( !obj || obj->isEffectivelyDead() )
+	{
+		return;
+	}
+
+	// TheSuperHackers @feature author 15/01/2025 Don't re-grant upgrades during object destruction
+	if( obj->getStatusBits().test( OBJECT_STATUS_UNDER_CONSTRUCTION ) )
+	{
+		return;
+	}
+
+	Player *player = obj->getControllingPlayer();
+	if( !player )
+	{
+		return;
+	}
+
+	// TheSuperHackers @feature author 15/01/2025 Re-grant all previously removed upgrades
+	std::vector<AsciiString>::const_iterator upgradeName;
+	for( upgradeName = data->m_upgradesToRemove.begin(); upgradeName != data->m_upgradesToRemove.end(); ++upgradeName )
+	{
+		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade( *upgradeName );
+		if( !upgradeTemplate )
+		{
+			continue;
+		}
+
+		// TheSuperHackers @feature author 15/01/2025 Handle both player and object upgrades
+		if( upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_PLAYER )
+		{
+			// Check if player already has this upgrade to prevent unnecessary work
+			UpgradeMaskType upgradeMask = upgradeTemplate->getUpgradeMask();
+			if( !player->getCompletedUpgradeMask().testForAny( upgradeMask ) )
+			{
+				// Re-grant player upgrade
+				player->addUpgrade( upgradeTemplate, UPGRADE_STATUS_COMPLETE );
+				// Only record in academy stats if object is not under construction
+				if( !obj->getStatusBits().test( OBJECT_STATUS_UNDER_CONSTRUCTION ) )
+				{
+					player->getAcademyStats()->recordUpgrade( upgradeTemplate, TRUE );
+				}
+			}
+		}
+		else
+		{
+			// Check if object already has this upgrade to prevent unnecessary work
+			UpgradeMaskType upgradeMask = upgradeTemplate->getUpgradeMask();
+			if( !obj->getObjectCompletedUpgradeMask().testForAny( upgradeMask ) )
+			{
+				// Re-grant object upgrade
+				obj->giveUpgrade( upgradeTemplate );
+				// Only record in academy stats if object is not under construction
+				if( !obj->getStatusBits().test( OBJECT_STATUS_UNDER_CONSTRUCTION ) )
+				{
+					player->getAcademyStats()->recordUpgrade( upgradeTemplate, TRUE );
+				}
+			}
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------
