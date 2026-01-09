@@ -188,6 +188,17 @@ UnicodeString InventoryBehaviorModuleData::getModuleDescription() const
 
 InventoryBehavior::InventoryBehavior(Thing* thing, const ModuleData* moduleData) : BehaviorModule(thing, moduleData)
 {
+	// Initialize inventory items from module data (each instance gets its own copy)
+	const InventoryBehaviorModuleData* data = static_cast<const InventoryBehaviorModuleData*>(getModuleData());
+	if (data)
+	{
+		m_inventoryItems = data->m_inventoryItems;  // Copy the inventory configuration
+	}
+	else
+	{
+		m_inventoryItems.clear();
+	}
+
 	m_currentAmounts.clear();
 }
 
@@ -199,21 +210,17 @@ InventoryBehavior::~InventoryBehavior()
 //-------------------------------------------------------------------------------------------------
 void InventoryBehavior::onObjectCreated()
 {
-	// Initialize runtime state from module data
-	const InventoryBehaviorModuleData* data = static_cast<const InventoryBehaviorModuleData*>(getModuleData());
-	if (data)
+	// Initialize runtime state from instance inventory items
+	// Each object instance has its own inventory configuration
+	for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.begin();
+		 it != m_inventoryItems.end(); ++it)
 	{
-		// Initialize current amounts from initial available amounts
-		for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = data->m_inventoryItems.begin(); 
-			 it != data->m_inventoryItems.end(); ++it)
+		const AsciiString& itemKey = it->first;
+		Real initialAmount = it->second.initialAvailableAmount;
+		if (!itemKey.isEmpty() && initialAmount > 0.0f)
 		{
-			const AsciiString& itemKey = it->first;
-			Real initialAmount = it->second.initialAvailableAmount;
-			if (!itemKey.isEmpty() && initialAmount > 0.0f)
-			{
-				// Use setter method to ensure proper validation
-				setItemCount(itemKey, initialAmount);
-			}
+			// Use setter method to ensure proper validation
+			setItemCount(itemKey, initialAmount);
 		}
 	}
 }
@@ -420,18 +427,65 @@ const InventoryBehaviorModuleData* InventoryBehavior::getInventoryModuleData() c
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature author 15/01/2025 Inventory item configuration access methods
+//-------------------------------------------------------------------------------------------------
+Real InventoryBehavior::getMaxStorageCount(const AsciiString& itemKey) const
+{
+	std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
+	return (it != m_inventoryItems.end()) ? it->second.maxStorageCount : 0;
+}
+
+Real InventoryBehavior::getInitialAvailableAmount(const AsciiString& itemKey) const
+{
+	std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
+	return (it != m_inventoryItems.end()) ? it->second.initialAvailableAmount : 0;
+}
+
+const UnicodeString& InventoryBehavior::getDisplayName(const AsciiString& itemKey) const
+{
+    static UnicodeString emptyString;
+    std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
+    return (it != m_inventoryItems.end()) ? it->second.displayName : emptyString;
+}
+
+Int InventoryBehavior::getCostPerItem(const AsciiString& itemKey) const
+{
+    std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
+    return (it != m_inventoryItems.end()) ? it->second.costPerItem : 0;
+}
+
+Anim2DTemplate* InventoryBehavior::getEmptyIconAnimation(const AsciiString& itemKey) const
+{
+    std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
+    if (it == m_inventoryItems.end())
+        return NULL;
+
+    const InventoryItemConfig& config = it->second;
+
+    // Lazy resolution: if not resolved yet, resolve it now
+    if (config.emptyIconAnimation == NULL && !config.emptyIconAnimationName.isEmpty() && TheAnim2DCollection)
+    {
+        // Need non-const access to resolve, so cast away const (safe here as we're just caching)
+        InventoryItemConfig& nonConstConfig = const_cast<InventoryItemConfig&>(config);
+        nonConstConfig.emptyIconAnimation = TheAnim2DCollection->findTemplate(config.emptyIconAnimationName);
+        if (nonConstConfig.emptyIconAnimation)
+        {
+            nonConstConfig.emptyIconAnimationName = AsciiString(); // Clear name after successful resolution
+        }
+    }
+
+    return config.emptyIconAnimation;
+}
+
+//-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Get icon to draw for empty inventory items
 //-------------------------------------------------------------------------------------------------
 Anim2D* InventoryBehavior::getEmptyItemIcon()
 {
-	const InventoryBehaviorModuleData* moduleData = getInventoryModuleData();
-	if (!moduleData)
-		return NULL;
-
 	// Iterate through items and find the first empty one with an icon configured
-	for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-		 it != moduleData->m_inventoryItems.end(); ++it)
+	for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.begin();
+		 it != m_inventoryItems.end(); ++it)
 	{
 		const AsciiString& itemKey = it->first;
 		const InventoryItemConfig& config = it->second;
@@ -445,7 +499,7 @@ Anim2D* InventoryBehavior::getEmptyItemIcon()
 		}
 
 		// Get icon template (lazy loading handled in getEmptyIconAnimation)
-		Anim2DTemplate* iconTemplate = moduleData->getEmptyIconAnimation(itemKey);
+		Anim2DTemplate* iconTemplate = getEmptyIconAnimation(itemKey);
 		
 		// Check if we have icon template configured
 		if (!iconTemplate)

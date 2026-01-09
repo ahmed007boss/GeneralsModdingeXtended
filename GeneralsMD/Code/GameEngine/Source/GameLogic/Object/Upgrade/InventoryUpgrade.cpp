@@ -193,9 +193,8 @@ void InventoryUpgrade::downgradeImplementation()
 void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehavior)
 {
     const InventoryUpgradeModuleData* data = getInventoryUpgradeModuleData();
-    const InventoryBehaviorModuleData* inventoryData = inventoryBehavior->getInventoryModuleData();
 
-    if (!inventoryData)
+    if (!inventoryBehavior)
         return;
 
     // Remove each inventory item upgrade
@@ -209,9 +208,8 @@ void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehav
 
         const AsciiString& itemName = upgrade.itemName;
 
-        // Find the item in the inventory data
-        std::map<AsciiString, InventoryItemConfig>& inventoryItems =
-            const_cast<std::map<AsciiString, InventoryItemConfig>&>(inventoryData->m_inventoryItems);
+        // Get the inventory items from the behavior instance
+        std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
 
         std::map<AsciiString, InventoryItemConfig>::iterator itemIt = inventoryItems.find(itemName);
 
@@ -277,9 +275,8 @@ void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehav
 void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavior)
 {
     const InventoryUpgradeModuleData* data = getInventoryUpgradeModuleData();
-    const InventoryBehaviorModuleData* inventoryData = inventoryBehavior->getInventoryModuleData();
-    
-    if (!inventoryData)
+
+    if (!inventoryBehavior)
         return;
 
     // Apply each inventory item upgrade
@@ -287,19 +284,18 @@ void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavi
          it != data->m_inventoryItemUpgrades.end(); ++it)
     {
         const InventoryItemUpgrade& upgrade = *it;
-        
+
         if (upgrade.itemName.isEmpty())
             continue;
 
         const AsciiString& itemName = upgrade.itemName;
 
         // Store original values for potential reverting
-        m_originalStorageCapacities[itemName] = inventoryData->getMaxStorageCount(itemName);
-        m_originalInitialAmounts[itemName] = inventoryData->getInitialAvailableAmount(itemName);
+        m_originalStorageCapacities[itemName] = inventoryBehavior->getMaxStorageCount(itemName);
+        m_originalInitialAmounts[itemName] = inventoryBehavior->getInitialAvailableAmount(itemName);
 
-        // Find the item in the inventory data
-        std::map<AsciiString, InventoryItemConfig>& inventoryItems = 
-            const_cast<std::map<AsciiString, InventoryItemConfig>&>(inventoryData->m_inventoryItems);
+        // Get the inventory items from the behavior instance
+        std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
         
         std::map<AsciiString, InventoryItemConfig>::iterator itemIt = inventoryItems.find(itemName);
         

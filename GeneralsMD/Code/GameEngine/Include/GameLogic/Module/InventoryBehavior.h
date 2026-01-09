@@ -63,14 +63,11 @@ struct InventoryItemConfig
 class InventoryBehaviorModuleData : public ModuleData
 {
 public:
-	std::map<AsciiString, InventoryItemConfig> m_inventoryItems;     ///< List of inventory item configurations
+	std::map<AsciiString, InventoryItemConfig> m_inventoryItems;     ///< List of inventory item configurations (template data)
 
 	InventoryBehaviorModuleData();
-	
-	// Allow InventoryBehavior to access m_inventoryItems for iteration
-	friend class InventoryBehavior;
 
-    // Helper methods
+    // Helper methods for accessing template data
     Real getMaxStorageCount(const AsciiString& itemKey) const;
     Real getInitialAvailableAmount(const AsciiString& itemKey) const;
     const UnicodeString& getDisplayName(const AsciiString& itemKey) const;
@@ -116,9 +113,16 @@ public:
 	Bool isEmpty() const;
 	Real getTotalItems() const;
 
+	// Inventory item configuration access
+	Real getMaxStorageCount(const AsciiString& itemKey) const;
+	Real getInitialAvailableAmount(const AsciiString& itemKey) const;
+	const UnicodeString& getDisplayName(const AsciiString& itemKey) const;
+	Int getCostPerItem(const AsciiString& itemKey) const;
+	Anim2DTemplate* getEmptyIconAnimation(const AsciiString& itemKey) const;
+
   // Interface method for external access
   static InventoryBehavior* getInventoryBehavior(BehaviorModule* module);
-  
+
   // Getter for module data
   const InventoryBehaviorModuleData* getInventoryModuleData() const;
 
@@ -126,7 +130,11 @@ public:
 	// Iterates through items internally and returns the first empty item's icon found (NULL when no more)
 	Anim2D* getEmptyItemIcon();
 
+	// Allow upgrade modules to modify inventory item configurations
+	std::map<AsciiString, InventoryItemConfig>& getInventoryItems() { return m_inventoryItems; }
+
 
 private:
+	std::map<AsciiString, InventoryItemConfig> m_inventoryItems;  ///< Inventory item configurations (per-instance)
 	std::map<AsciiString, Real> m_currentAmounts;  ///< Current amounts for each item (runtime state)
 };
