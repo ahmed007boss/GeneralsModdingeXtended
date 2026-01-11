@@ -301,9 +301,8 @@ Bool InventoryBehavior::setItemCount(const AsciiString& itemKey, Real count)
 	if (itemKey.isEmpty() || count < 0.0f)
 		return false;
 
-	// Get max storage from module data
-	const InventoryBehaviorModuleData* data = static_cast<const InventoryBehaviorModuleData*>(getModuleData());
-	Real maxStorage = data ? data->getMaxStorageCount(itemKey) : 0.0f;
+	// Get max storage from instance data (not module data) to respect upgrades
+	Real maxStorage = getMaxStorageCount(itemKey);
 
 	if (count == 0.0f)
 	{
@@ -432,7 +431,12 @@ const InventoryBehaviorModuleData* InventoryBehavior::getInventoryModuleData() c
 Real InventoryBehavior::getMaxStorageCount(const AsciiString& itemKey) const
 {
 	std::map<AsciiString, InventoryItemConfig>::const_iterator it = m_inventoryItems.find(itemKey);
-	return (it != m_inventoryItems.end()) ? it->second.maxStorageCount : 0;
+	if (it != m_inventoryItems.end())
+	{
+		// Total = base (or overridden) + additional (sum of all upgrades)
+		return it->second.maxStorageCount + it->second.additionalMaxStorageCount;
+	}
+	return 0;
 }
 
 Real InventoryBehavior::getInitialAvailableAmount(const AsciiString& itemKey) const

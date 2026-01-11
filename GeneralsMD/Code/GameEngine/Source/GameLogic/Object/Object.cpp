@@ -7465,12 +7465,9 @@ Int Object::getInventoryReplenishAmount(const AsciiString& itemName) const
 	if (!inventoryBehavior)
 		return 0;
 
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if (!moduleData)
-		return 0;
-
 	Int currentAmount = inventoryBehavior->getItemCount(itemName);
-	Int maxStorage = moduleData->getMaxStorageCount(itemName);
+	// Use instance data (not module data) to respect upgrades
+	Int maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 	
 	Int ammoInClips = 0;
 	for (Int i = PRIMARY_WEAPON; i < WEAPONSLOT_COUNT; ++i)

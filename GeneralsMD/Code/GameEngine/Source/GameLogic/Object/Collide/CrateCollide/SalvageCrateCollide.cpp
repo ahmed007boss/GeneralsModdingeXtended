@@ -372,19 +372,16 @@ Bool SalvageCrateCollide::eligibleForFillInventory( Object *other )
 	if( !inventoryBehavior )
 		return FALSE;
 
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if( !moduleData )
-		return FALSE;
-
-	// Check if any inventory items need replenishment
-	for( std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-		 it != moduleData->m_inventoryItems.end(); ++it )
+	// Check if any inventory items need replenishment - use instance data to respect upgrades
+	const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+	for( std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+		 it != inventoryItems.end(); ++it )
 	{
 		const AsciiString& itemKey = it->first;
 		
 		// Check if this item needs replenishment
 		Int currentAmount = inventoryBehavior->getItemCount( itemKey );
-		Int maxStorage = moduleData->getMaxStorageCount( itemKey );
+		Int maxStorage = inventoryBehavior->getMaxStorageCount( itemKey );
 		
 		// If current amount is less than max storage, it can be filled
 		if( currentAmount < maxStorage )
@@ -702,18 +699,15 @@ void SalvageCrateCollide::doFillInventory( Object *other )
 	if( !inventoryBehavior )
 		return;
 
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if( !moduleData )
-		return;
-
-	// Fill all inventory items to maximum capacity (considering upgrades)
-	for( std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-		 it != moduleData->m_inventoryItems.end(); ++it )
+	// Fill all inventory items to maximum capacity - use instance data to respect upgrades
+	const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+	for( std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+		 it != inventoryItems.end(); ++it )
 	{
 		const AsciiString& itemKey = it->first;
 		
 		// Get the current maximum storage capacity (which may be upgraded)
-		Int maxStorage = moduleData->getMaxStorageCount( itemKey );
+		Int maxStorage = inventoryBehavior->getMaxStorageCount( itemKey );
 		
 		// Set item count to maximum storage capacity
 		inventoryBehavior->setItemCount( itemKey, maxStorage );

@@ -2254,11 +2254,8 @@ Bool JetAIUpdate::checkFuelBeforeTakeoff() const
 		return TRUE; // No inventory behavior, allow takeoff
 	
 	Real currentAmount = inventoryBehavior->getItemCount(consumeItem);
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if (!moduleData)
-		return TRUE; // No module data, allow takeoff
-	
-	Real maxStorage = moduleData->getMaxStorageCount(consumeItem);
+	// Use instance data to respect upgrades
+	Real maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
 	if (maxStorage <= 0.0f)
 		return TRUE; // No max storage defined, allow takeoff
 	

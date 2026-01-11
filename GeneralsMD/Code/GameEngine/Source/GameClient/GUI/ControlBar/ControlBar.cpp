@@ -324,14 +324,11 @@ void ControlBar::updatePortraitBars(Object* obj)
 				if (inventoryBehavior)
 				{
 					Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData)
+					// Use instance data (not module data) to respect upgrades
+					Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
+					if (maxStorage > 0 && currentAmount >= 0)
 					{
-						Int maxStorage = moduleData->getMaxStorageCount(consumeItem);
-						if (maxStorage > 0 && currentAmount >= 0)
-						{
-							hasFuel = TRUE;
-						}
+						hasFuel = TRUE;
 					}
 				}
 			}
@@ -577,15 +574,12 @@ static void drawFuelBarWindow(GameWindow *window, WinInstanceData *instData)
 				if (inventoryBehavior)
 				{
 					Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData)
+					// Use instance data (not module data) to respect upgrades
+					Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
+					if (maxStorage > 0 && currentAmount >= 0)
 					{
-						Int maxStorage = moduleData->getMaxStorageCount(consumeItem);
-						if (maxStorage > 0 && currentAmount >= 0)
-						{
-							fuelRatio = (Real)currentAmount / (Real)maxStorage;
-							hasFuelConsumption = TRUE;
-						}
+						fuelRatio = (Real)currentAmount / (Real)maxStorage;
+						hasFuelConsumption = TRUE;
 					}
 				}
 			}
@@ -1578,18 +1572,15 @@ UnsignedInt CommandButton::getCostOfExecution(const Player* player, const Object
 			if (!inventoryBehavior)
 				return 0;
 
-			const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-			if (!moduleData)
-				return 0;
-
 			const AsciiString& itemToReplenish = getItemToReplenish();
 			UnsignedInt totalCost = 0;
 
 			if (itemToReplenish.isEmpty())
 			{
-				// Calculate cost for all items
-				for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-					 it != moduleData->m_inventoryItems.end(); ++it)
+				// Calculate cost for all items - use instance data to respect upgrades
+				const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+				for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+					 it != inventoryItems.end(); ++it)
 				{
 					const AsciiString& itemKey = it->first;
 					const InventoryItemConfig& config = it->second;
@@ -1604,12 +1595,12 @@ UnsignedInt CommandButton::getCostOfExecution(const Player* player, const Object
 			}
 			else
 			{
-				// Calculate cost for specific item
+				// Calculate cost for specific item - use instance data to respect upgrades
 				Int neededAmount = object->getInventoryReplenishAmount(itemToReplenish);
 				
 				if (neededAmount > 0)
 				{
-					Int costPerItem = moduleData->getCostPerItem(itemToReplenish);
+					Int costPerItem = inventoryBehavior->getCostPerItem(itemToReplenish);
 					totalCost = neededAmount * costPerItem;
 				}
 			}
@@ -4032,19 +4023,16 @@ void ControlBar::setControlCommand( GameWindow *button, const CommandButton *com
 					Int itemCount = inventoryBehavior->getItemCount(consumeInventory);					
 					itemCount += weapon->getRemainingAmmoIncludingReload();
 													
-					// Get display name and max storage count from module data
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData) {
-						const UnicodeString& displayName = moduleData->getDisplayName(consumeInventory);
-						Int maxStorageCount = moduleData->getMaxStorageCount(consumeInventory);
-						
-						// Format text with display name and count (current/max)
-						UnicodeString newText;
-						newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
-						
-						// Set the modified text
-						GadgetButtonSetText(button, newText);
-					}
+					// Get display name and max storage count from instance data to respect upgrades
+					const UnicodeString& displayName = inventoryBehavior->getDisplayName(consumeInventory);
+					Int maxStorageCount = inventoryBehavior->getMaxStorageCount(consumeInventory);
+					
+					// Format text with display name and count (current/max)
+					UnicodeString newText;
+					newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
+					
+					// Set the modified text
+					GadgetButtonSetText(button, newText);
 				}
 			}
 			else
@@ -4079,19 +4067,16 @@ void ControlBar::setControlCommand( GameWindow *button, const CommandButton *com
 					const AsciiString& consumeInventory = specialPowerTemplate->getConsumeInventory();
 					Int itemCount = currentObj->getTotalInventoryItemCount(consumeInventory);
 					
-					// Get display name and max storage count from module data
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData) {
-						const UnicodeString& displayName = moduleData->getDisplayName(consumeInventory);
-						Int maxStorageCount = moduleData->getMaxStorageCount(consumeInventory);
-						
-						// Format text with display name and count (current/max)
-						UnicodeString newText;
-						newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
-						
-						// Set the modified text
-						GadgetButtonSetText(button, newText);
-					}
+					// Get display name and max storage count from instance data to respect upgrades
+					const UnicodeString& displayName = inventoryBehavior->getDisplayName(consumeInventory);
+					Int maxStorageCount = inventoryBehavior->getMaxStorageCount(consumeInventory);
+					
+					// Format text with display name and count (current/max)
+					UnicodeString newText;
+					newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
+					
+					// Set the modified text
+					GadgetButtonSetText(button, newText);
 				}
 			}
 			else

@@ -650,18 +650,15 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 							
 							if (inventoryBehavior)
 							{
-								const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-								if (moduleData)
+								// Find the item key that matches the length - use instance data
+								const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+								for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+									 it != inventoryItems.end(); ++it)
 								{
-									// Find the item key that matches the length
-									for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-										 it != moduleData->m_inventoryItems.end(); ++it)
+									if (it->first.getLength() == itemLength)
 									{
-										if (it->first.getLength() == itemLength)
-										{
-											itemToReplenish = it->first;
-											break;
-										}
+										itemToReplenish = it->first;
+										break;
 									}
 								}
 							}
@@ -686,10 +683,6 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 					if (!inventoryBehavior)
 						continue;
 
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (!moduleData)
-						continue;
-
 					Player* player = obj->getControllingPlayer();
 					if (!player)
 						continue;
@@ -698,9 +691,10 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 
 					if (itemToReplenish.isEmpty())
 					{
-						// Replenish all items
-						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-							 it != moduleData->m_inventoryItems.end(); ++it)
+						// Replenish all items - use instance data to respect upgrades
+						const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+							 it != inventoryItems.end(); ++it)
 						{
 							const AsciiString& itemKey = it->first;
 							const InventoryItemConfig& config = it->second;
@@ -715,12 +709,12 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 					}
 					else
 					{
-						// Replenish specific item
+						// Replenish specific item - use instance data to respect upgrades
 						Int neededAmount = obj->getInventoryReplenishAmount(itemToReplenish);
 						
 						if (neededAmount > 0)
 						{
-							Int costPerItem = moduleData->getCostPerItem(itemToReplenish);
+							Int costPerItem = inventoryBehavior->getCostPerItem(itemToReplenish);
 							totalCost = neededAmount * costPerItem;
 						}
 					}
@@ -738,9 +732,10 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 
 					if (itemToReplenish.isEmpty())
 					{
-						// Replenish all items
-						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-							 it != moduleData->m_inventoryItems.end(); ++it)
+						// Replenish all items - use instance data to respect upgrades
+						const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+							 it != inventoryItems.end(); ++it)
 						{
 							const AsciiString& itemKey = it->first;
 							const InventoryItemConfig& config = it->second;
@@ -784,9 +779,9 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 					}
 					else
 					{
-						// Replenish specific item
+						// Replenish specific item - use instance data to respect upgrades
 						Int currentAmount = inventoryBehavior->getItemCount(itemToReplenish);
-						Int maxStorage = moduleData->getMaxStorageCount(itemToReplenish);
+						Int maxStorage = inventoryBehavior->getMaxStorageCount(itemToReplenish);
 						
 						// TheSuperHackers @feature author 15/01/2025 Replenish with clip-first strategy
 						// Find weapons that consume this item and need reloading

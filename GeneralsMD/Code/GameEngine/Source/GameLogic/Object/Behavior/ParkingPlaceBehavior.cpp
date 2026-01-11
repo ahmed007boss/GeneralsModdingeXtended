@@ -814,10 +814,9 @@ void ParkingPlaceBehavior::restoreParkedVehicle(Object* vehicle, const ParkingPl
 				const AsciiString& itemName = *it;
 				if (!itemName.isEmpty())
 				{
-					// Get current amount and max storage
+					// Get current amount and max storage - use instance data to respect upgrades
 					Real currentAmount = inventoryBehavior->getItemCount(itemName);
-					Real maxStorage = inventoryBehavior->getInventoryModuleData() ? 
-						inventoryBehavior->getInventoryModuleData()->getMaxStorageCount(itemName) : 0;
+					Real maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 					
 					// Restore amount based on RepublishAmount and RepublishAmountValueType
 					if (currentAmount < maxStorage && maxStorage > 0)

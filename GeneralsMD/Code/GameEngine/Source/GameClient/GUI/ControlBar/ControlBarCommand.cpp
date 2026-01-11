@@ -1758,17 +1758,15 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 				InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
 				if (inventoryBehavior)
 				{
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData)
+					// Check all inventory items - use instance data
+					const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+					for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+						 it != inventoryItems.end(); ++it)
 					{
-						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-							 it != moduleData->m_inventoryItems.end(); ++it)
+						const AsciiString& itemKey = it->first;
+						if (obj->isInventoryReplenishmentRestricted(itemKey))
 						{
-							const AsciiString& itemKey = it->first;
-							if (obj->isInventoryReplenishmentRestricted(itemKey))
-							{
-								return COMMAND_RESTRICTED;
-							}
+							return COMMAND_RESTRICTED;
 						}
 					}
 				}

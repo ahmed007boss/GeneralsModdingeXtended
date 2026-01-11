@@ -126,16 +126,13 @@ void InventoryStorageComponent::onComponentDestroyed()
 	// Clear inventory items based on InventoryItem field
 	if (m_inventoryItem.isEmpty())
 	{
-		// If InventoryItem is empty, clear ALL items
-		const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-		if (moduleData)
+		// If InventoryItem is empty, clear ALL items - use instance data
+		const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+		for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+			 it != inventoryItems.end(); ++it)
 		{
-			for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-				 it != moduleData->m_inventoryItems.end(); ++it)
-			{
-				const AsciiString& itemKey = it->first;
-				inventoryBehavior->setItemCount(itemKey, 0.0f);
-			}
+			const AsciiString& itemKey = it->first;
+			inventoryBehavior->setItemCount(itemKey, 0.0f);
 		}
 	}
 	else

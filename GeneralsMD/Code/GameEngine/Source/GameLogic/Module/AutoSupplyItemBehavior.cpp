@@ -243,10 +243,9 @@ Bool AutoSupplyItemBehavior::canSupplyUnit(Object* targetUnit) const
 	if (!targetInventory)
 		return false;
 
-	// Check if target needs the item (has space for it)
+	// Check if target needs the item (has space for it) - use instance data to respect upgrades
 	Real currentAmount = targetInventory->getItemCount(data->m_supplyItemKey);
-	Real maxStorage = targetInventory->getInventoryModuleData() ? 
-		targetInventory->getInventoryModuleData()->getMaxStorageCount(data->m_supplyItemKey) : 0.0f;
+	Real maxStorage = targetInventory->getMaxStorageCount(data->m_supplyItemKey);
 	
 	if (maxStorage > 0.0f && currentAmount >= maxStorage)
 		return false; // Target is at max capacity

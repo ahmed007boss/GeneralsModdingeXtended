@@ -226,11 +226,17 @@ void InventoryUpgrade::removeInventoryUpgrades(InventoryBehavior* inventoryBehav
                 // Item existed before, restore original values
                 InventoryItemConfig& itemConfig = itemIt->second;
 
-                // Restore original max storage count
+                // Restore original base max storage count
                 std::map<AsciiString, Int>::iterator storageIt = m_originalStorageCapacities.find(itemName);
                 if (storageIt != m_originalStorageCapacities.end())
                 {
                     itemConfig.maxStorageCount = storageIt->second;
+                }
+                
+                // Subtract the additional storage that was added by this upgrade
+                if (upgrade.addMaxStorageCount != 0)
+                {
+                    itemConfig.additionalMaxStorageCount -= upgrade.addMaxStorageCount;
                 }
 
                 // Restore original initial available amount
@@ -290,10 +296,6 @@ void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavi
 
         const AsciiString& itemName = upgrade.itemName;
 
-        // Store original values for potential reverting
-        m_originalStorageCapacities[itemName] = inventoryBehavior->getMaxStorageCount(itemName);
-        m_originalInitialAmounts[itemName] = inventoryBehavior->getInitialAvailableAmount(itemName);
-
         // Get the inventory items from the behavior instance
         std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
         
@@ -304,14 +306,21 @@ void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavi
             // Item exists, modify it
             InventoryItemConfig& itemConfig = itemIt->second;
             
+            // Store original base value for potential reverting (before applying upgrades)
+            m_originalStorageCapacities[itemName] = itemConfig.maxStorageCount;
+            m_originalInitialAmounts[itemName] = inventoryBehavior->getInitialAvailableAmount(itemName);
+            
             // Handle max storage count changes
             if (upgrade.setMaxStorageCount >= 0)
             {
+                // Set overrides the base (replaces module data value)
                 itemConfig.maxStorageCount = upgrade.setMaxStorageCount;
             }
-            else if (upgrade.addMaxStorageCount > 0)
+            
+            // Handle additional storage (adds to existing additional, can be negative)
+            if (upgrade.addMaxStorageCount != 0)
             {
-                itemConfig.maxStorageCount += upgrade.addMaxStorageCount;
+                itemConfig.additionalMaxStorageCount += upgrade.addMaxStorageCount;
             }
             
             // Handle initial available amount changes
@@ -347,13 +356,14 @@ void InventoryUpgrade::applyInventoryUpgrades(InventoryBehavior* inventoryBehavi
             // Item doesn't exist, create it
             InventoryItemConfig newItem;
             
-            // Set max storage count
+            // Set base max storage count (if set, otherwise use add value as base for new items)
             if (upgrade.setMaxStorageCount >= 0)
             {
                 newItem.maxStorageCount = upgrade.setMaxStorageCount;
             }
-            else
+            else if (upgrade.addMaxStorageCount != 0)
             {
+                // For new items, if only add is specified, use it as base
                 newItem.maxStorageCount = upgrade.addMaxStorageCount;
             }
             

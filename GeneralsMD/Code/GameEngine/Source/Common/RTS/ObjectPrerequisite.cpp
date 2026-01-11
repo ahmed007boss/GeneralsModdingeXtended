@@ -502,11 +502,8 @@ Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount >= maxStorage)
 			{
@@ -531,11 +528,8 @@ Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount < maxStorage)
 			{
@@ -960,11 +954,8 @@ UnicodeString ObjectPrerequisite::getRequiresList(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount >= maxStorage)
 			{
@@ -1010,11 +1001,8 @@ UnicodeString ObjectPrerequisite::getRequiresList(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount < maxStorage)
 			{

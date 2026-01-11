@@ -47,14 +47,15 @@ class Anim2D;
 struct InventoryItemConfig
 {
     UnicodeString displayName;        ///< Display name for the inventory item
-    Real maxStorageCount;              ///< Maximum storage capacity
+    Real maxStorageCount;              ///< Base maximum storage capacity (from module data, can be overridden by upgrades)
+    Real additionalMaxStorageCount;    ///< Additional storage capacity added/subtracted by upgrades (total of all additions)
     Real initialAvailableAmount;       ///< Initial available amount
     Int costPerItem;                  ///< TheSuperHackers @feature author 15/01/2025 Cost per item for replenishment
     AsciiString emptyIconAnimationName;   ///< TheSuperHackers @feature author 15/01/2025 Animation icon template name (resolved in loadPostProcess)
     Anim2DTemplate* emptyIconAnimation;   ///< TheSuperHackers @feature author 15/01/2025 Animation icon template to display when item is empty (NULL = no icon)
     Real emptyThreshold;               ///< TheSuperHackers @feature author 15/01/2025 Threshold value for considering this item empty (default 0.0)
     
-    InventoryItemConfig() : maxStorageCount(0.0f), initialAvailableAmount(0.0f), costPerItem(0), emptyIconAnimation(NULL), emptyThreshold(0.0f) {}
+    InventoryItemConfig() : maxStorageCount(0.0f), additionalMaxStorageCount(0.0f), initialAvailableAmount(0.0f), costPerItem(0), emptyIconAnimation(NULL), emptyThreshold(0.0f) {}
 };
 
 //-------------------------------------------------------------------------------------------------

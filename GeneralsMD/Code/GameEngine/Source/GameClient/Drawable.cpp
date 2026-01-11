@@ -4312,12 +4312,8 @@ void Drawable::drawFuelBar(const IRegion2D* healthBarRegion, Object* obj)
 
 	Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
 	
-	// Get max storage from module data
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if (!moduleData)
-		return;
-	
-	Int maxStorage = moduleData->getMaxStorageCount(consumeItem);
+	// Get max storage from instance data to respect upgrades
+	Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
 	
 	// If no max storage or current amount, don't draw
 	if (maxStorage <= 0 || currentAmount < 0)
