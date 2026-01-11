@@ -2642,13 +2642,10 @@ void Object::updateUpgradeModules()
 	if (getControllingPlayer() == NULL)
 		return;  // This can only happen in game teardown.  No upgrades for you without a player.  Weird crashes are bad.
 
-	UpgradeMaskType playerMask = getControllingPlayer()->getCompletedUpgradeMask();
-	UpgradeMaskType objectMask = getObjectCompletedUpgradeMask();
-	UpgradeMaskType maskToCheck = playerMask;
-	maskToCheck.set(objectMask);
-	// We need to add in all of the already owned upgrades to handle "AND" requiring upgrades.
-	// We combine all the masks in case someone has a Object AND Player combination
-
+	// TheSuperHackers @bugfix Ahmed Salah 11/01/2026 Refresh the mask inside the loop to handle
+	// upgrade removals from RemoveUpgradeOnUpgrade modules. Previously, the mask was computed once
+	// at the start, causing modules that were reset during iteration (when their trigger upgrade
+	// was removed) to execute again because the stale mask still contained the removed upgrade.
 	for (BehaviorModule** module = m_behaviors; *module; ++module)
 	{
 		UpgradeModuleInterface* upgrade = (*module)->getUpgrade();
@@ -2657,6 +2654,14 @@ void Object::updateUpgradeModules()
 
 		if (!upgrade->isAlreadyUpgraded())
 		{
+			// Refresh maskToCheck before each attempt to handle removals from previous modules
+			// We need to add in all of the already owned upgrades to handle "AND" requiring upgrades.
+			// We combine all the masks in case someone has a Object AND Player combination
+			UpgradeMaskType playerMask = getControllingPlayer()->getCompletedUpgradeMask();
+			UpgradeMaskType objectMask = getObjectCompletedUpgradeMask();
+			UpgradeMaskType maskToCheck = playerMask;
+			maskToCheck.set(objectMask);
+
 			upgrade->attemptUpgrade(maskToCheck);
 		}
 	}

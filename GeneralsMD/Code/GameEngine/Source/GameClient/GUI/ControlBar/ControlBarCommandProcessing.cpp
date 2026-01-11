@@ -722,7 +722,7 @@ CBCommandStatus ControlBar::processCommandUI( GameWindow *control,
 			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_SWITCH_UPGRADE );
 			msg->appendObjectIDArgument( obj->getID() );
 			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
-
+			markUIDirty();
 			break;
 		}
 
@@ -741,7 +741,7 @@ CBCommandStatus ControlBar::processCommandUI( GameWindow *control,
 			GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_SWITCH_UPGRADE );
 			msg->appendObjectIDArgument( obj->getID() );
 			msg->appendIntegerArgument( upgradeT->getUpgradeNameKey() );
-
+			markUIDirty();
 			break;
 		}
 
