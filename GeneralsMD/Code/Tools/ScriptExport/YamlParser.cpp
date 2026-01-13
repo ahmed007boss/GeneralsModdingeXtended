@@ -779,7 +779,21 @@ bool YamlParser::readWaypoints(const std::string& path, std::vector<WaypointLink
         for (const auto& linkNode : linksNode->children)
         {
             WaypointLink link;
-            link.waypointID1 = getIntValue(linkNode.children, "waypoint1", 0);
+            // When parsing list items like "- waypoint1: 19", the parser sets the list item's
+            // key to "waypoint1" and value to "19", so we need to check both the list item
+            // itself and its children
+            if (linkNode.key == "waypoint1" && !linkNode.value.empty())
+            {
+                try {
+                    link.waypointID1 = std::stoi(linkNode.value);
+                } catch (...) {
+                    link.waypointID1 = 0;
+                }
+            }
+            else
+            {
+                link.waypointID1 = getIntValue(linkNode.children, "waypoint1", 0);
+            }
             link.waypointID2 = getIntValue(linkNode.children, "waypoint2", 0);
             links.push_back(link);
         }
