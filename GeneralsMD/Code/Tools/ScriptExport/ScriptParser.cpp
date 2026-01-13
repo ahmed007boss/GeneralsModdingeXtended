@@ -234,6 +234,7 @@ bool ScriptParser::readSymbolTable()
 
     // Read symbols
     m_symbolTable.clear();
+    m_symbolOrder.clear();
     for (int32_t i = 0; i < count; ++i)
     {
         // Read string length (1 byte)
@@ -263,6 +264,7 @@ bool ScriptParser::readSymbolTable()
         }
 
         m_symbolTable[id] = name;
+        m_symbolOrder.push_back({id, name}); // Preserve read order
     }
 
     return true;
@@ -449,12 +451,20 @@ bool ScriptParser::parseScriptsData(ScriptsData& data)
         }
     }
     data.symbolTable = m_symbolTable;
+    data.symbolOrder = m_symbolOrder; // Preserve original read order
+    
+    // Log chunk order for debugging
+    std::vector<std::string> chunkOrder;
     
     while (!m_file.eof())
     {
         ChunkInfo chunk;
         if (!openChunk(chunk))
             break;
+
+        // Log the order in which chunks are read
+        chunkOrder.push_back(chunk.name);
+        std::cout << "[CHUNK_ORDER] Found chunk: " << chunk.name << " (version " << chunk.version << ")" << std::endl;
 
         if (chunk.name == "PlayerScriptsList")
         {
@@ -609,6 +619,16 @@ bool ScriptParser::parseScriptsData(ScriptsData& data)
         
         closeChunk(chunk);
     }
+
+    // Log the complete chunk order
+    std::cout << "[CHUNK_ORDER] Complete order: ";
+    for (size_t i = 0; i < chunkOrder.size(); ++i)
+    {
+        std::cout << chunkOrder[i];
+        if (i < chunkOrder.size() - 1)
+            std::cout << " -> ";
+    }
+    std::cout << std::endl;
 
     return true;
 }

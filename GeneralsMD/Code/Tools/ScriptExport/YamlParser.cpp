@@ -355,6 +355,8 @@ bool YamlParser::readSymbols(const std::string& path, ScriptsData& data)
     const YamlNode* symbolsNode = findChild(nodes, "symbols");
     if (symbolsNode)
     {
+        // Preserve the order symbols appear in YAML file
+        data.symbolOrder.clear();
         for (const auto& child : symbolsNode->children)
         {
             try
@@ -363,6 +365,7 @@ bool YamlParser::readSymbols(const std::string& path, ScriptsData& data)
                 data.symbolTable[id] = child.value;
                 data.symbolToId[child.value] = id;
                 data.idToSymbol[id] = child.value;
+                data.symbolOrder.push_back({id, child.value}); // Preserve YAML order
             }
             catch (...) {}
         }
@@ -795,32 +798,71 @@ bool YamlParser::readDict(const std::vector<YamlNode>& nodes, Dict& dict)
         DictEntry entry;
         entry.key = node.key;
         
-        // Try to determine type from value
-        const std::string& val = node.value;
+        // Check if this is the new structured format (has _type child)
+        const YamlNode* typeNode = findChild(node.children, "_type");
+        const YamlNode* valueNode = findChild(node.children, "value");
         
-        if (val == "true" || val == "false")
+        if (typeNode && valueNode)
         {
-            entry.type = DictDataType::DICT_BOOL;
-            entry.boolValue = (val == "true");
-        }
-        else if (!val.empty() && (std::isdigit(val[0]) || val[0] == '-'))
-        {
-            // Check if it's a float or int
-            if (val.find('.') != std::string::npos)
+            // New structured format with explicit type
+            std::string typeStr = typeNode->value;
+            std::string val = valueNode->value;
+            
+            if (typeStr == "BOOL")
             {
-                entry.type = DictDataType::DICT_REAL;
-                try { entry.realValue = std::stof(val); } catch (...) {}
+                entry.type = DictDataType::DICT_BOOL;
+                entry.boolValue = (val == "true");
             }
-            else
+            else if (typeStr == "INT")
             {
                 entry.type = DictDataType::DICT_INT;
                 try { entry.intValue = std::stoi(val); } catch (...) {}
             }
+            else if (typeStr == "REAL")
+            {
+                entry.type = DictDataType::DICT_REAL;
+                try { entry.realValue = std::stof(val); } catch (...) {}
+            }
+            else if (typeStr == "ASCIISTRING")
+            {
+                entry.type = DictDataType::DICT_ASCIISTRING;
+                entry.asciiValue = unescapeYamlString(val);
+            }
+            else if (typeStr == "UNICODESTRING")
+            {
+                entry.type = DictDataType::DICT_UNICODESTRING;
+                // Unicode not fully supported in YAML
+            }
         }
         else
         {
-            entry.type = DictDataType::DICT_ASCIISTRING;
-            entry.asciiValue = val;
+            // Legacy format - try to determine type from value (for backward compatibility)
+            const std::string& val = node.value;
+            
+            if (val == "true" || val == "false")
+            {
+                entry.type = DictDataType::DICT_BOOL;
+                entry.boolValue = (val == "true");
+            }
+            else if (!val.empty() && (std::isdigit(val[0]) || val[0] == '-'))
+            {
+                // Check if it's a float or int
+                if (val.find('.') != std::string::npos)
+                {
+                    entry.type = DictDataType::DICT_REAL;
+                    try { entry.realValue = std::stof(val); } catch (...) {}
+                }
+                else
+                {
+                    entry.type = DictDataType::DICT_INT;
+                    try { entry.intValue = std::stoi(val); } catch (...) {}
+                }
+            }
+            else
+            {
+                entry.type = DictDataType::DICT_ASCIISTRING;
+                entry.asciiValue = unescapeYamlString(val);
+            }
         }
         
         dict.entries.push_back(entry);

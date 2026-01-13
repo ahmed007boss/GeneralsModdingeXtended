@@ -133,10 +133,24 @@ void ScriptWriter::writeNameKey(const std::string& name)
 
 uint32_t ScriptWriter::allocateSymbol(const std::string& name)
 {
+    // First check our cached table
     auto it = m_symbolTable.find(name);
     if (it != m_symbolTable.end())
         return it->second;
 
+    // If preserving symbols, check source data
+    if (m_preserveSymbols && m_sourceData)
+    {
+        auto srcIt = m_sourceData->symbolToId.find(name);
+        if (srcIt != m_sourceData->symbolToId.end())
+        {
+            uint32_t id = srcIt->second;
+            m_symbolTable[name] = id; // Cache it
+            return id;
+        }
+    }
+
+    // Create new symbol (only if not preserving, or symbol genuinely new)
     uint32_t id = m_nextSymbolId++;
     m_symbolTable[name] = id;
     return id;
@@ -184,7 +198,7 @@ void ScriptWriter::closeChunk()
 
 void ScriptWriter::writeScriptsData(const ScriptsData& data)
 {
-    // Write PlayerScriptsList chunk
+    // Write PlayerScriptsList chunk FIRST (matches WorldBuilder ScriptDialog.cpp order)
     openChunk("PlayerScriptsList", data.playerScriptsListVersion);
     
     for (const auto& list : data.playerScripts)
@@ -233,80 +247,68 @@ void ScriptWriter::writeScriptsData(const ScriptsData& data)
         closeChunk();
     }
     
-    // Write ObjectsList chunk - each object is a sub-chunk
-    if (!data.objects.empty())
+    // Write ObjectsList chunk - always write it (even if empty), matching WorldBuilder
+    openChunk("ObjectsList", data.objectsListVersion);
+    
+    for (const auto& obj : data.objects)
     {
-        openChunk("ObjectsList", data.objectsListVersion);
-        
-        for (const auto& obj : data.objects)
-        {
-            openChunk("Object", obj.version > 0 ? obj.version : 3);
-            writeFloat(obj.location.x);
-            writeFloat(obj.location.y);
-            writeFloat(obj.location.z);
-            writeFloat(obj.angle);
-            writeInt(obj.flags);
-            writeString(obj.name);
-            writeDict(obj.properties);
-            closeChunk();
-        }
-        
+        openChunk("Object", obj.version > 0 ? obj.version : 3);
+        writeFloat(obj.location.x);
+        writeFloat(obj.location.y);
+        writeFloat(obj.location.z);
+        writeFloat(obj.angle);
+        writeInt(obj.flags);
+        writeString(obj.name);
+        writeDict(obj.properties);
         closeChunk();
     }
     
-    // Write PolygonTriggers chunk
-    if (!data.polygonTriggers.empty())
+    closeChunk();
+    
+    // Write PolygonTriggers chunk - always write it, matching WorldBuilder
+    openChunk("PolygonTriggers", data.polygonTriggersVersion);
+    writeInt(static_cast<int32_t>(data.polygonTriggers.size()));
+    
+    for (const auto& trigger : data.polygonTriggers)
     {
-        openChunk("PolygonTriggers", data.polygonTriggersVersion);
-        writeInt(static_cast<int32_t>(data.polygonTriggers.size()));
+        writeString(trigger.name);
+        writeInt(trigger.id);
+        writeByte(trigger.isWaterArea ? 1 : 0);
+        writeByte(trigger.isRiver ? 1 : 0);
+        writeInt(trigger.riverStart);
         
-        for (const auto& trigger : data.polygonTriggers)
+        writeInt(static_cast<int32_t>(trigger.points.size()));
+        for (const auto& point : trigger.points)
         {
-            writeString(trigger.name);
-            writeInt(trigger.id);
-            writeByte(trigger.isWaterArea ? 1 : 0);
-            writeByte(trigger.isRiver ? 1 : 0);
-            writeInt(trigger.riverStart);
-            
-            writeInt(static_cast<int32_t>(trigger.points.size()));
-            for (const auto& point : trigger.points)
-            {
-                writeInt(point.x);
-                writeInt(point.y);
-                writeInt(point.z);
-            }
+            writeInt(point.x);
+            writeInt(point.y);
+            writeInt(point.z);
         }
-        
-        closeChunk();
     }
     
-    // Write ScriptTeams chunk - no count prefix, just dicts until end
-    if (!data.teams.empty())
+    closeChunk();
+    
+    // Write ScriptTeams chunk - always write it, matching WorldBuilder (no count prefix, just dicts until end)
+    openChunk("ScriptTeams", data.scriptTeamsVersion);
+    
+    for (const auto& team : data.teams)
     {
-        openChunk("ScriptTeams", data.scriptTeamsVersion);
-        
-        for (const auto& team : data.teams)
-        {
-            writeDict(team);
-        }
-        
-        closeChunk();
+        writeDict(team);
     }
     
-    // Write WaypointsList chunk
-    if (!data.waypointLinks.empty())
+    closeChunk();
+    
+    // Write WaypointsList chunk LAST - always write it, matching WorldBuilder
+    openChunk("WaypointsList", data.waypointsListVersion);
+    writeInt(static_cast<int32_t>(data.waypointLinks.size()));
+    
+    for (const auto& link : data.waypointLinks)
     {
-        openChunk("WaypointsList", data.waypointsListVersion);
-        writeInt(static_cast<int32_t>(data.waypointLinks.size()));
-        
-        for (const auto& link : data.waypointLinks)
-        {
-            writeInt(link.waypointID1);
-            writeInt(link.waypointID2);
-        }
-        
-        closeChunk();
+        writeInt(link.waypointID1);
+        writeInt(link.waypointID2);
     }
+    
+    closeChunk();
 }
 
 void ScriptWriter::writeScriptList(const ScriptList& list)
@@ -501,18 +503,60 @@ bool ScriptWriter::finalize(const std::string& filePath)
     file.write("CkMp", 4);
     
     // Write symbol table - must be in ID order for compatibility
-    int32_t symbolCount = static_cast<int32_t>(m_symbolTable.size());
-    file.write(reinterpret_cast<const char*>(&symbolCount), sizeof(int32_t));
-    
-    // Build ID -> name map for ordered output
+    // CRITICAL: Write the COMPLETE original symbol table, not just symbols we used
+    // The game may have internal references to symbol IDs that aren't in the scripts
+    const std::map<uint32_t, std::string>* symbolTableToWrite = nullptr;
     std::map<uint32_t, std::string> idToName;
-    for (const auto& pair : m_symbolTable)
+    
+    if (m_preserveSymbols && m_sourceData)
     {
-        idToName[pair.second] = pair.first;
+        // Use the complete original symbol table in original read order
+        if (!m_sourceData->symbolOrder.empty())
+        {
+            // Write symbols in original read order
+            int32_t symbolCount = static_cast<int32_t>(m_sourceData->symbolOrder.size());
+            file.write(reinterpret_cast<const char*>(&symbolCount), sizeof(int32_t));
+            
+            for (const auto& pair : m_sourceData->symbolOrder)
+            {
+                uint8_t len = static_cast<uint8_t>(pair.second.length());
+                file.write(reinterpret_cast<const char*>(&len), 1);
+                file.write(pair.second.c_str(), len);
+                uint32_t id = pair.first;
+                file.write(reinterpret_cast<const char*>(&id), sizeof(uint32_t));
+            }
+            
+            // Write chunk data
+            file.write(m_buffer.data(), m_buffer.size());
+            file.close();
+            return true;
+        }
+        
+        if (!m_sourceData->idToSymbol.empty())
+        {
+            symbolTableToWrite = &m_sourceData->idToSymbol;
+        }
+        else if (!m_sourceData->symbolTable.empty())
+        {
+            symbolTableToWrite = &m_sourceData->symbolTable;
+        }
     }
     
+    if (!symbolTableToWrite)
+    {
+        // Build ID -> name map from what we allocated (new file, no preservation)
+        for (const auto& pair : m_symbolTable)
+        {
+            idToName[pair.second] = pair.first;
+        }
+        symbolTableToWrite = &idToName;
+    }
+    
+    int32_t symbolCount = static_cast<int32_t>(symbolTableToWrite->size());
+    file.write(reinterpret_cast<const char*>(&symbolCount), sizeof(int32_t));
+    
     // Write symbols in ID order
-    for (const auto& pair : idToName)
+    for (const auto& pair : *symbolTableToWrite)
     {
         uint8_t len = static_cast<uint8_t>(pair.second.length());
         file.write(reinterpret_cast<const char*>(&len), 1);

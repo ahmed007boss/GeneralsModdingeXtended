@@ -330,6 +330,7 @@ struct ScriptsData
     std::vector<std::string> symbolList;       // Symbols in order (index = ID)
     std::map<std::string, uint32_t> symbolToId; // Name to ID lookup
     std::map<uint32_t, std::string> idToSymbol; // ID to name lookup
+    std::vector<std::pair<uint32_t, std::string>> symbolOrder; // Symbols in original read order
     
     // PlayerScriptsList chunk
     std::vector<ScriptList> playerScripts;     // One list per player

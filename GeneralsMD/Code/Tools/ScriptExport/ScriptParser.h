@@ -105,6 +105,7 @@ private:
     std::ifstream m_file;
     std::string m_error;
     std::map<uint32_t, std::string> m_symbolTable;
+    std::vector<std::pair<uint32_t, std::string>> m_symbolOrder; // Preserve read order
     std::vector<ChunkInfo> m_chunkStack;
 };
 

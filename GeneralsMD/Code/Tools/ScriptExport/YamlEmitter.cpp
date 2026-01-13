@@ -192,7 +192,42 @@ bool YamlEmitter::write(const std::string& outputDir, const ScriptsData& data)
     }
     
     // Write symbol table
-    if (!data.symbolTable.empty())
+    // Write symbol table - use symbolOrder to preserve original read order
+    if (!data.symbolOrder.empty())
+    {
+        std::string symbolsPath = outputDir + "/symbols.yaml";
+        std::ofstream symbolsFile(symbolsPath);
+        if (symbolsFile.is_open())
+        {
+            symbolsFile << "# Symbol Table\n";
+            symbolsFile << "# Maps IDs to string names used in the SCB file\n\n";
+            symbolsFile << "symbols:\n";
+            // Write in original read order
+            for (const auto& pair : data.symbolOrder)
+            {
+                symbolsFile << "  " << pair.first << ": " << escapeYamlString(pair.second) << "\n";
+            }
+            symbolsFile.close();
+        }
+    }
+    else if (!data.idToSymbol.empty())
+    {
+        std::string symbolsPath = outputDir + "/symbols.yaml";
+        std::ofstream symbolsFile(symbolsPath);
+        if (symbolsFile.is_open())
+        {
+            symbolsFile << "# Symbol Table\n";
+            symbolsFile << "# Maps IDs to string names used in the SCB file\n\n";
+            symbolsFile << "symbols:\n";
+            // Write in ID order (idToSymbol is a map, so it's already sorted by ID)
+            for (const auto& pair : data.idToSymbol)
+            {
+                symbolsFile << "  " << pair.first << ": " << escapeYamlString(pair.second) << "\n";
+            }
+            symbolsFile.close();
+        }
+    }
+    else if (!data.symbolTable.empty())
     {
         std::string symbolsPath = outputDir + "/symbols.yaml";
         std::ofstream symbolsFile(symbolsPath);
@@ -637,11 +672,13 @@ std::string YamlEmitter::escapeYamlString(const std::string& str) const
             }
         }
         
-        // Also quote if starts with special chars
+        // Also quote if starts or ends with special chars
         if (!needsQuoting && !str.empty())
         {
             char first = str[0];
-            if (first == '-' || first == '?' || first == ' ')
+            char last = str.back();
+            if (first == '-' || first == '?' || first == ' ' ||
+                last == ' ' || last == '\t')
                 needsQuoting = true;
         }
     }
@@ -671,24 +708,30 @@ void YamlEmitter::writeDictYaml(std::ofstream& out, const Dict& dict, int indent
 {
     for (const auto& entry : dict.entries)
     {
-        out << indent(indentLevel) << escapeYamlString(entry.key) << ": ";
+        std::string ind = indent(indentLevel);
+        out << ind << escapeYamlString(entry.key) << ":\n";
+        out << ind << "  _type: ";
         switch (entry.type)
         {
             case DictDataType::DICT_BOOL:
-                out << (entry.boolValue ? "true" : "false") << "\n";
+                out << "BOOL\n";
+                out << ind << "  value: " << (entry.boolValue ? "true" : "false") << "\n";
                 break;
             case DictDataType::DICT_INT:
-                out << entry.intValue << "\n";
+                out << "INT\n";
+                out << ind << "  value: " << entry.intValue << "\n";
                 break;
             case DictDataType::DICT_REAL:
-                out << entry.realValue << "\n";
+                out << "REAL\n";
+                out << ind << "  value: " << std::fixed << std::setprecision(6) << entry.realValue << "\n";
                 break;
             case DictDataType::DICT_ASCIISTRING:
-                out << escapeYamlString(entry.asciiValue) << "\n";
+                out << "ASCIISTRING\n";
+                out << ind << "  value: " << escapeYamlString(entry.asciiValue) << "\n";
                 break;
             case DictDataType::DICT_UNICODESTRING:
-                // Convert wide string to UTF-8 for YAML
-                out << "\"<unicode>\"" << "\n";
+                out << "UNICODESTRING\n";
+                out << ind << "  value: \"<unicode>\"\n";
                 break;
         }
     }
