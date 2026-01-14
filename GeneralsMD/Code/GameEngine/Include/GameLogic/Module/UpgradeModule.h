@@ -87,7 +87,7 @@ public:
 		m_conflictingUpgradeNames.clear();
 		m_removalUpgradeNames.clear();
 
-		m_fxListUpgrade = NULL;
+		m_fxListUpgrade = nullptr;
 		m_activationMask.clear();
 		m_conflictingMask.clear();
 		m_requireAllOfMask.clear();

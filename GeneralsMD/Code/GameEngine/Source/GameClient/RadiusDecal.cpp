@@ -114,7 +114,7 @@ void RadiusDecalTemplate::xferRadiusDecalTemplate( Xfer *xfer )
 {
 	static const FieldParse dataFieldParse[] = 
 	{
-		{ "Texture",										INI::parseAsciiString,				NULL,							offsetof( RadiusDecalTemplate, m_name ) },
+		{ "Texture",										INI::parseAsciiString,				nullptr,							offsetof( RadiusDecalTemplate, m_name ) },
 		{ "Style",											INI::parseBitString32,				TheShadowNames,		offsetof( RadiusDecalTemplate, m_shadowType ) },
 		{ "OpacityMin",									INI::parsePercentToReal,			NULL,							offsetof( RadiusDecalTemplate, m_minOpacity ) },
 		{ "OpacityMax",									INI::parsePercentToReal,			NULL,							offsetof( RadiusDecalTemplate, m_maxOpacity) },
@@ -129,16 +129,16 @@ void RadiusDecalTemplate::xferRadiusDecalTemplate( Xfer *xfer )
 
 // ------------------------------------------------------------------------------------------------
 RadiusDecal::RadiusDecal() :
-	m_template(NULL),
-	m_decal(NULL),
+	m_template(nullptr),
+	m_decal(nullptr),
 	m_empty(true)
 {
 }
 
 // ------------------------------------------------------------------------------------------------
 RadiusDecal::RadiusDecal(const RadiusDecal& that) :
-	m_template(NULL),
-	m_decal(NULL),
+	m_template(nullptr),
+	m_decal(nullptr),
 	m_empty(true)
 {
 	DEBUG_CRASH(("not fully implemented"));
@@ -149,10 +149,10 @@ RadiusDecal& RadiusDecal::operator=(const RadiusDecal& that)
 {
 	if (this != &that)
 	{
-		m_template = NULL;
+		m_template = nullptr;
 		if (m_decal)
 			m_decal->release();
-		m_decal = NULL;
+		m_decal = nullptr;
 		m_empty = true;
 		DEBUG_CRASH(("not fully implemented"));
 	}
@@ -172,12 +172,12 @@ void RadiusDecal::xferRadiusDecal( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 void RadiusDecal::clear()
 {
-	m_template = NULL;
+	m_template = nullptr;
 	if (m_decal)
 	{
 		m_decal->release();
 	}
-	m_decal = NULL;
+	m_decal = nullptr;
 	m_empty = true;
 }
 

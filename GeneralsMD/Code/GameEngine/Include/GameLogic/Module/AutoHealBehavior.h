@@ -71,8 +71,8 @@ public:
 		m_healingDelay = UINT_MAX;
 		m_startHealingDelay = 0;
 		m_radius = 0.0f;
-		m_radiusParticleSystemTmpl = NULL;
-		m_unitHealPulseParticleSystemTmpl = NULL;
+		m_radiusParticleSystemTmpl = nullptr;
+		m_unitHealPulseParticleSystemTmpl = nullptr;
 		m_affectsWholePlayer = FALSE;
 		m_skipSelfForHealing = FALSE;
 		m_componentHealingAmount = -1.0f; // Default to proportional healing

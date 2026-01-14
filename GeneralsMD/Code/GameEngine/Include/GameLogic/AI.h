@@ -105,7 +105,7 @@ class AISideInfo : public MemoryPoolObject
 {
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(AISideInfo, "AISideInfo")
 public:
-	AISideInfo( void ) : m_easy(0), m_normal(1), m_hard(2), m_next(NULL)
+	AISideInfo( void ) : m_easy(0), m_normal(1), m_hard(2), m_next(nullptr)
 	{
 		m_side.clear();
 		m_baseDefenseStructure1.clear();
@@ -269,7 +269,7 @@ public:
 		UNFOGGED													= 1 << 5
 	};
 	Object *findClosestEnemy( const Object *me, Real range, UnsignedInt qualifiers,
-		const AttackPriorityInfo *info=NULL, PartitionFilter *optionalFilter=NULL);
+		const AttackPriorityInfo *info=nullptr, PartitionFilter *optionalFilter=nullptr);
 
 	Object *findClosestRepulsor( const Object *me, Real range);
 

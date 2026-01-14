@@ -226,10 +226,10 @@ AsciiString DebugDescribeObject(const Object* obj)
 Object::Object(const ThingTemplate* tt, const ObjectStatusMaskType& objectStatusMask, Team* team) :
 	Thing(tt),
 	m_indicatorColor(0),
-	m_ai(NULL),
-	m_physics(NULL),
+	m_ai(nullptr),
+	m_physics(nullptr),
 	m_geometryInfo(tt->getTemplateGeometryInfo()),
-	m_containedBy(NULL),
+	m_containedBy(nullptr),
 	m_xferContainedByID(INVALID_ID),
 	m_containedByFrame(0),
 	m_behaviors(NULL),
@@ -327,7 +327,7 @@ Object::Object(const ThingTemplate* tt, const ObjectStatusMaskType& objectStatus
 	m_status = objectStatusMask;
 	m_layer = LAYER_GROUND;
 
-	m_group = NULL;
+	m_group = nullptr;
 
 	m_constructionPercent = CONSTRUCTION_COMPLETE;  // complete by default
 
@@ -461,14 +461,14 @@ Object::Object(const ThingTemplate* tt, const ObjectStatusMaskType& objectStatus
 		BodyModuleInterface* body = newMod->getBody();
 		if (body)
 		{
-			DEBUG_ASSERTCRASH(m_body == NULL, ("Duplicate bodies"));
+			DEBUG_ASSERTCRASH(m_body == nullptr, ("Duplicate bodies"));
 			m_body = body;
 		}
 
 		ContainModuleInterface* contain = newMod->getContain();
 		if (contain)
 		{
-			DEBUG_ASSERTCRASH(m_contain == NULL, ("Duplicate containers"));
+			DEBUG_ASSERTCRASH(m_contain == nullptr, ("Duplicate containers"));
 			m_contain = contain;
 		}
 
@@ -498,7 +498,7 @@ Object::Object(const ThingTemplate* tt, const ObjectStatusMaskType& objectStatus
 		}
 	}
 
-	*curB = NULL;
+	*curB = nullptr;
 
 	AIUpdateInterface* ai = getAIUpdateInterface();
 	if (ai) {
@@ -657,7 +657,7 @@ Object::~Object()
 	}
 
 	//
-	// remove from radar before we NULL out the team ... the order of ops are critical here
+	// remove from radar before we null out the team ... the order of ops are critical here
 	// because the radar code will sometimes look at the team info and it is assumed through
 	// the team and player code that the team is valid
 	//
@@ -673,15 +673,15 @@ Object::~Object()
 
 	// Object's set of these persist for the life of the object.
 	deleteInstance(m_partitionLastLook);
-	m_partitionLastLook = NULL;
+	m_partitionLastLook = nullptr;
 	deleteInstance(m_partitionRevealAllLastLook);
-	m_partitionRevealAllLastLook = NULL;
+	m_partitionRevealAllLastLook = nullptr;
 	deleteInstance(m_partitionLastShroud);
-	m_partitionLastShroud = NULL;
+	m_partitionLastShroud = nullptr;
 	deleteInstance(m_partitionLastThreat);
-	m_partitionLastThreat = NULL;
+	m_partitionLastThreat = nullptr;
 	deleteInstance(m_partitionLastValue);
-	m_partitionLastValue = NULL;
+	m_partitionLastValue = nullptr;
 
 	// remove the object from the partition system if present
 	if (m_partitionData)
@@ -691,25 +691,25 @@ Object::~Object()
 	leaveGroup();
 
 	// note, do NOT free these, there are just a shadow copy!
-	m_ai = NULL;
-	m_physics = NULL;
+	m_ai = nullptr;
+	m_physics = nullptr;
 
 	// delete any modules present
 	for (BehaviorModule** b = m_behaviors; *b; ++b)
 	{
 		deleteInstance(*b);
-		*b = NULL;	// in case other modules call findModule from their dtor!
+		*b = nullptr;	// in case other modules call findModule from their dtor!
 	}
 
 	delete[] m_behaviors;
 	m_behaviors = NULL;
 
 	deleteInstance(m_experienceTracker);
-	m_experienceTracker = NULL;
+	m_experienceTracker = nullptr;
 
 	// we don't need to delete these, there were deleted on the m_behaviors list
-	m_firingTracker = NULL;
-	m_repulsorHelper = NULL;
+	m_firingTracker = nullptr;
+	m_repulsorHelper = nullptr;
 
 	m_statusDamageHelper = NULL;
 	m_tempWeaponBonusHelper = NULL;
@@ -788,7 +788,7 @@ const Object* Object::getEnclosingContainedBy() const
 			return container;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const Object* Object::getOuterObject() const
@@ -942,7 +942,7 @@ void Object::restoreOriginalTeam()
 		return;
 
 	Team* origTeam = TheTeamFactory->findTeam(m_originalTeamName);
-	if (origTeam == NULL)
+	if (origTeam == nullptr)
 	{
 		DEBUG_CRASH(("Object original team (%s) could not be found or created! (srj)", m_originalTeamName.str()));
 		return;
@@ -1073,7 +1073,7 @@ Bool Object::checkAndDetonateBoobyTrap(const Object* victim)
 	PartitionFilter* filters[3];
 	filters[0] = &kindFilter;
 	filters[1] = &filterMapStatus;
-	filters[2] = NULL;
+	filters[2] = nullptr;
 
 	ObjectIterator* iter = ThePartitionManager->iterateObjectsInRange(getPosition(), BOOBY_TRAP_SCAN_RANGE + getGeometryInfo().getBoundingCircleRadius(),
 		FROM_CENTER_2D, filters, ITER_SORTED_NEAR_TO_FAR);
@@ -1546,7 +1546,7 @@ void Object::clearSpecialModelConditionStates()
 //	}
 //	else
 //	{
-//		DEBUG_CRASH(("NULL Drawable at this point, you can't get modelconditionflags now."));
+//		DEBUG_CRASH(("null Drawable at this point, you can't get modelconditionflags now."));
 //		static ModelConditionFlags noFlags;
 //		return noFlags;
 //	}
@@ -1556,7 +1556,7 @@ void Object::clearSpecialModelConditionStates()
 Weapon* Object::getCurrentWeapon(WeaponSlotType* wslot)
 {
 	if (!m_weaponSet.hasAnyWeapon())
-		return NULL;
+		return nullptr;
 
 	if (wslot)
 		*wslot = m_weaponSet.getCurWeaponSlot();
@@ -1567,7 +1567,7 @@ Weapon* Object::getCurrentWeapon(WeaponSlotType* wslot)
 const Weapon* Object::getCurrentWeapon(WeaponSlotType* wslot) const
 {
 	if (!m_weaponSet.hasAnyWeapon())
-		return NULL;
+		return nullptr;
 
 	if (wslot)
 		*wslot = m_weaponSet.getCurWeaponSlot();
@@ -1636,7 +1636,7 @@ void Object::fireCurrentWeapon(Object* target)
 	//USE_PERF_TIMER(fireCurrentWeapon)
 
 	// victim may have already been destroyed
-	if (target == NULL)
+	if (target == nullptr)
 		return;
 
 	Weapon* weapon = m_weaponSet.getCurWeapon();
@@ -1659,7 +1659,7 @@ void Object::fireCurrentWeapon(const Coord3D* pos)
 {
 	//USE_PERF_TIMER(fireCurrentWeapon)
 
-	if (pos == NULL)
+	if (pos == nullptr)
 		return;
 
 	Weapon* weapon = m_weaponSet.getCurWeapon();
@@ -1769,7 +1769,7 @@ Player* Object::getControllingPlayer() const
 	if (myTeam)
 		return myTeam->getControllingPlayer();
 
-	return NULL;
+	return nullptr;
 }
 
 //=============================================================================
@@ -2172,7 +2172,7 @@ void Object::kill(DamageType damageType, DeathType deathType)
 //-------------------------------------------------------------------------------------------------
 void Object::healCompletely()
 {
-	attemptHealing(HUGE_DAMAGE_AMOUNT, NULL);
+	attemptHealing(HUGE_DAMAGE_AMOUNT, nullptr);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -2917,7 +2917,7 @@ void Object::prependToList(Object** pListHead)
 {
 	DEBUG_ASSERTCRASH(!isInList(pListHead), ("obj is already in a list"));
 
-	m_prev = NULL;
+	m_prev = nullptr;
 	m_next = *pListHead;
 	if (*pListHead)
 		(*pListHead)->m_prev = this;
@@ -2998,8 +2998,8 @@ void Object::removeFromList(Object** pListHead)
 	else
 		*pListHead = m_next;
 
-	m_prev = NULL;
-	m_next = NULL;
+	m_prev = nullptr;
+	m_next = nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -3076,14 +3076,14 @@ void Object::calcNaturalRallyPoint(Coord2D* pt)
 //-------------------------------------------------------------------------------------------------
 Module* Object::findModule(NameKeyType key) const
 {
-	Module* m = NULL;
+	Module* m = nullptr;
 
 	for (BehaviorModule** b = m_behaviors; *b; ++b)
 	{
 		if ((*b)->getModuleNameKey() == key)
 		{
 #ifdef INTENSE_DEBUG
-			if (m == NULL)
+			if (m == nullptr)
 			{
 				m = *b;
 			}
@@ -3579,7 +3579,7 @@ Bool Object::isAbleToAttack() const
 		return true;
 
 	// if we have AI and a weapon, assume we know how to use it
-	if (getAIUpdateInterface() != NULL && m_weaponSet.hasAnyWeapon())
+	if (getAIUpdateInterface() != nullptr && m_weaponSet.hasAnyWeapon())
 	{
 
 		// actually, we don't want to do this; we want the troop crawler to be considered "able to attack"
@@ -4645,7 +4645,7 @@ void Object::xfer(Xfer* xfer)
 			NameKeyType moduleIdentifierKey = TheNameKeyGenerator->nameToKey(moduleIdentifier);
 
 			// find the module with this identifier in the module list
-			module = NULL;
+			module = nullptr;
 			for (BehaviorModule** b = m_behaviors; b && *b; ++b)
 			{
 
@@ -4707,7 +4707,7 @@ void Object::xfer(Xfer* xfer)
 	//m_group;
 
 	// don't need to save m_partitionData.
-	DEBUG_ASSERTCRASH(!(xfer->getXferMode() == XFER_LOAD && m_partitionData == NULL), ("should not be in partitionmgr yet"));
+	DEBUG_ASSERTCRASH(!(xfer->getXferMode() == XFER_LOAD && m_partitionData == nullptr), ("should not be in partitionmgr yet"));
 
 	// don't need to be saved or loaded; are inited & cached for runtime only by our ctor (srj)
 	//m_repulsorHelper;
@@ -4761,7 +4761,7 @@ void Object::loadPostProcess()
 	if (m_xferContainedByID != INVALID_ID)
 		m_containedBy = TheGameLogic->findObjectByID(m_xferContainedByID);
 	else
-		m_containedBy = NULL;
+		m_containedBy = nullptr;
 
 }
 
@@ -4887,7 +4887,7 @@ void Object::onCapture(Player* oldOwner, Player* newOwner)
 void Object::onDie(DamageInfo* damageInfo)
 {
 
-	checkAndDetonateBoobyTrap(NULL);// Already dying, so no need to handle death case of explosion
+	checkAndDetonateBoobyTrap(nullptr);// Already dying, so no need to handle death case of explosion
 
 #if defined(RTS_DEBUG)
 	DEBUG_ASSERTCRASH(m_hasDiedAlready == false, ("Object::onDie has been called multiple times. This is invalid. jkmcd"));
@@ -5102,10 +5102,10 @@ void Object::adjustModelConditionForWeaponStatus()
 //-------------------------------------------------------------------------------------------------
 Bool Object::hasGhostObject() const
 {
-	if (m_partitionData == NULL)
+	if (m_partitionData == nullptr)
 		return false;
 
-	return m_partitionData->getGhostObject() != NULL;
+	return m_partitionData->getGhostObject() != nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -5716,7 +5716,7 @@ SpecialPowerModuleInterface* Object::getSpecialPowerModule(const SpecialPowerTem
 			return sp;
 	}
 
-	return NULL;
+	return nullptr;
 
 }
 
@@ -6474,7 +6474,7 @@ ProductionUpdateInterface* Object::getProductionUpdateInterface(void)
 
 	}
 
-	return NULL;
+	return nullptr;
 
 }
 
@@ -6490,7 +6490,7 @@ DockUpdateInterface* Object::getDockUpdateInterface(void)
 			return dock;
 	}
 
-	return NULL;
+	return nullptr;
 
 }
 
@@ -6511,7 +6511,7 @@ SpecialPowerModuleInterface* Object::findSpecialPowerModuleInterface(SpecialPowe
 			return sp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6531,7 +6531,7 @@ SpecialPowerModuleInterface* Object::findAnyShortcutSpecialPowerModuleInterface(
 			return sp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6547,7 +6547,7 @@ SpawnBehaviorInterface* Object::getSpawnBehaviorInterface() const
 			return sbi;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6561,7 +6561,7 @@ ProjectileUpdateInterface* Object::getProjectileUpdateInterface() const
 			return pui;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6580,7 +6580,7 @@ SpecialPowerUpdateInterface* Object::findSpecialPowerWithOverridableDestinationA
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6599,7 +6599,7 @@ SpecialPowerUpdateInterface* Object::findSpecialPowerWithOverridableDestination(
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -6621,7 +6621,7 @@ SpecialAbilityUpdate* Object::findSpecialAbilityUpdate(SpecialPowerType type) co
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -6694,7 +6694,7 @@ Bool Object::getSingleLogicalBonePositionOnTurret(WhichTurretType whichTurret, c
 	boneLogicTransform.mul(turnAdjustment, boneOffset);
 
 	Matrix3D worldTransform;
-	convertBonePosToWorldPos(NULL, &boneLogicTransform, NULL, &worldTransform);
+	convertBonePosToWorldPos(nullptr, &boneLogicTransform, nullptr, &worldTransform);
 
 	Vector3 tmp = worldTransform.Get_Translation();
 	Coord3D worldPos;
@@ -7022,7 +7022,7 @@ void Object::leaveGroup(void)
 		// if we are in a group, remove ourselves from it
 	if (m_group)
 	{
-		// to avoid recursion, set m_group to NULL before removing
+		// to avoid recursion, set m_group to nullptr before removing
 		AIGroupPtr group = m_group;
 		m_group = NULL;
 		group->remove(this);
@@ -7059,7 +7059,7 @@ CountermeasuresBehaviorInterface* Object::getCountermeasuresBehaviorInterface()
 			return cbi;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -7073,7 +7073,7 @@ const CountermeasuresBehaviorInterface* Object::getCountermeasuresBehaviorInterf
 			return cbi;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------

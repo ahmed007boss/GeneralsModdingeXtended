@@ -318,7 +318,7 @@ void AI::parseSkirmishBuildList(INI *ini, void *instance, void * /*store*/,
 //--------------------------------------------------------------------------------------------------------
 
 /// The AI system singleton
-AI *TheAI = NULL;
+AI *TheAI = nullptr;
 
 /**
  * Constructor for the AI system
@@ -355,7 +355,7 @@ void AI::reset(void) {
 		}
 		else
 		{
-			m_groupList.pop_front(); // NULL group, just kill from list.  Shouldn't really happen, but just in case.
+			m_groupList.pop_front(); // nullptr group, just kill from list.  Shouldn't really happen, but just in case.
 		}
 	}
 #else

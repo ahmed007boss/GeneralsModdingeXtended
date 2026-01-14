@@ -408,7 +408,7 @@ inline int UnicodeString::getByteCount() const
 inline Bool UnicodeString::isEmpty() const
 {
 	validate();
-	return m_data == NULL || peek()[0] == 0;
+	return m_data == nullptr || peek()[0] == 0;
 }
 
 // -----------------------------------------------------

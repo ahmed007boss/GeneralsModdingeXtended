@@ -104,7 +104,7 @@ void initSubsystem(SUBSYSTEM*& sysref, SUBSYSTEM* sys, const char* path1, const 
 #define APP_SECTION "WorldbuilderApp"
 #define OPEN_FILE_DIR "OpenDirectory"
 
-Win32Mouse *TheWin32Mouse = NULL;
+Win32Mouse *TheWin32Mouse = nullptr;
 const char *gAppPrefix = "wb_"; /// So WB can have a different debug log file name.
 const Char *g_strFile = "data\\Generals.str";
 const Char *g_csfFile = "data\\%s\\Generals.csf";
@@ -167,7 +167,7 @@ FileClass * WB_W3DFileSystem::Get_File( char const *filename )
 // The one and only CWorldBuilderApp object
 
 static CWorldBuilderApp theApp;
-HWND ApplicationHWnd = NULL;
+HWND ApplicationHWnd = nullptr;
 
 /**
 	* The ApplicationHInstance is needed for the WOL code,
@@ -175,9 +175,9 @@ HWND ApplicationHWnd = NULL;
 	* Of course, the WOL code is in gameengine, while the
 	* HINSTANCE is only in the various projects' main files.
 	* So, we need to create the HINSTANCE, even if it always
-	* stays NULL.  Just to make COM happy.  Whee.
+	* stays null.  Just to make COM happy.  Whee.
 	*/
-HINSTANCE ApplicationHInstance = NULL;
+HINSTANCE ApplicationHInstance = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////
 // CWorldBuilderApp
@@ -203,15 +203,15 @@ static Int gFirstCP = 0;
 // CWorldBuilderApp construction
 
 CWorldBuilderApp::CWorldBuilderApp() :
-	m_curTool(NULL),
-	m_selTool(NULL),
+	m_curTool(nullptr),
+	m_selTool(nullptr),
 	m_lockCurTool(0),
-	m_3dtemplate(NULL),
-	m_pasteMapObjList(NULL)
+	m_3dtemplate(nullptr),
+	m_pasteMapObjList(nullptr)
 {
 
 	for (Int i=0; i<NUM_VIEW_TOOLS; i++) {
-		m_tools[i] = NULL;
+		m_tools[i] = nullptr;
 
 	}
 	m_tools[0] = &m_brushTool;
@@ -257,12 +257,12 @@ CWorldBuilderApp::CWorldBuilderApp() :
 
 CWorldBuilderApp::~CWorldBuilderApp()
 {
-	m_curTool = NULL;
-	m_selTool = NULL;
+	m_curTool = nullptr;
+	m_selTool = nullptr;
 
 	for (Int i=0; i<NUM_VIEW_TOOLS; i++) {
 		if (m_tools[i]) {
-			m_tools[i] = NULL;
+			m_tools[i] = nullptr;
 		}
 	}
 	_exit(0);
@@ -334,7 +334,7 @@ BOOL CWorldBuilderApp::InitInstance()
 
 	// Set the current directory to the app directory.
 	char buf[_MAX_PATH];
-	GetModuleFileName(NULL, buf, sizeof(buf));
+	GetModuleFileName(nullptr, buf, sizeof(buf));
 	if (char *pEnd = strrchr(buf, '\\')) {
 		*pEnd = 0;
 	}
@@ -356,7 +356,7 @@ BOOL CWorldBuilderApp::InitInstance()
 	TheFramePacer = new FramePacer();
 
 #if defined(RTS_DEBUG)
-	ini.loadFileDirectory( "Data\\INI\\GameDataDebug", INI_LOAD_MULTIFILE, NULL );
+	ini.loadFileDirectory( "Data\\INI\\GameDataDebug", INI_LOAD_MULTIFILE, nullptr );
 #endif
 
 #ifdef DEBUG_CRASHING
@@ -379,11 +379,11 @@ BOOL CWorldBuilderApp::InitInstance()
 
 	// ensure the user maps dir exists
 	snprintf(buf, ARRAY_SIZE(buf), "%sMaps\\", TheGlobalData->getPath_UserData().str());
-	CreateDirectory(buf, NULL);
+	CreateDirectory(buf, nullptr);
 
 	// read the water settings from INI (must do prior to initing GameClient, apparently)
-	ini.loadFileDirectory( "Data\\INI\\Default\\Water", INI_LOAD_OVERWRITE, NULL );
-	ini.loadFileDirectory( "Data\\INI\\Water", INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory( "Data\\INI\\Default\\Water", INI_LOAD_OVERWRITE, nullptr );
+	ini.loadFileDirectory( "Data\\INI\\Water", INI_LOAD_OVERWRITE, nullptr );
 
 	initSubsystem(TheGameText, CreateGameTextInterface());
 	initSubsystem(TheScienceStore, new ScienceStore(), "Data\\INI\\Default\\Science", "Data\\INI\\Science");
@@ -398,10 +398,10 @@ BOOL CWorldBuilderApp::InitInstance()
 	TheScriptEngine->turnBreezeOff(); // stop the tree sway.
 
 	//  [2/11/2003]
-	ini.loadFileDirectory( "Data\\Scripts\\Scripts", INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory( "Data\\Scripts\\Scripts", INI_LOAD_OVERWRITE, nullptr );
 
 	// need this before TheAudio in case we're running off of CD - TheAudio can try to open Music.big on the CD...
-	initSubsystem(TheCDManager, CreateCDManager(), NULL);
+	initSubsystem(TheCDManager, CreateCDManager(), nullptr);
 	initSubsystem(TheAudio, (AudioManager*)new MilesAudioManager());
 	if (!TheAudio->isMusicAlreadyLoaded())
 		return FALSE;
@@ -410,7 +410,7 @@ BOOL CWorldBuilderApp::InitInstance()
 	initSubsystem(TheModuleFactory, (ModuleFactory*)(new W3DModuleFactory()));
 	initSubsystem(TheSidesList, new SidesList());
 	initSubsystem(TheCaveSystem, new CaveSystem());
-	initSubsystem(TheRankInfoStore, new RankInfoStore(), NULL, "Data\\INI\\Rank");
+	initSubsystem(TheRankInfoStore, new RankInfoStore(), nullptr, "Data\\INI\\Rank");
 	initSubsystem(ThePlayerTemplateStore, new PlayerTemplateStore(), "Data\\INI\\Default\\PlayerTemplate", "Data\\INI\\PlayerTemplate");
 	initSubsystem(TheSpecialPowerStore, new SpecialPowerStore(), "Data\\INI\\Default\\SpecialPower", "Data\\INI\\SpecialPower", "SpecialPower.ini");
 	initSubsystem(TheParticleSystemManager, (ParticleSystemManager*)(new W3DParticleSystemManager()));
@@ -499,12 +499,12 @@ BOOL CWorldBuilderApp::InitInstance()
 BOOL CWorldBuilderApp::OnCmdMsg(UINT nID, int nCode, void* pExtra,
 							AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-	// If pHandlerInfo is NULL, then handle the message
-	if (pHandlerInfo == NULL)
+	// If pHandlerInfo is null, then handle the message
+	if (pHandlerInfo == nullptr)
 	{
 		for (Int i=0; i<NUM_VIEW_TOOLS; i++) {
 			Tool *pTool = m_tools[i];
-			if (pTool==NULL) continue;
+			if (pTool==nullptr) continue;
 			if ((Int)nID == pTool->getToolID()) {
 				if (nCode == CN_COMMAND)
 				{
@@ -660,16 +660,16 @@ int CWorldBuilderApp::ExitInstance()
 	WorldHeightMapEdit::shutdown();
 
 	delete TheFramePacer;
-	TheFramePacer = NULL;
+	TheFramePacer = nullptr;
 
 	delete TheFileSystem;
-	TheFileSystem = NULL;
+	TheFileSystem = nullptr;
 
 	delete TheW3DFileSystem;
-	TheW3DFileSystem = NULL;
+	TheW3DFileSystem = nullptr;
 
 	delete TheNameKeyGenerator;
-	TheNameKeyGenerator = NULL;
+	TheNameKeyGenerator = nullptr;
 
 #ifdef MEMORYPOOL_CHECKPOINTING
 	Int lastCP = TheMemoryPoolFactory->debugSetCheckpoint();

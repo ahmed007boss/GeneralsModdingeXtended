@@ -99,7 +99,7 @@ public:
 
 
 
-			//{ "TimeForFullHeal",	INI::parseDurationUnsignedInt,	NULL, offsetof( ParkingPlaceBehaviorModuleData, m_framesForFullHeal ) },
+			//{ "TimeForFullHeal",	INI::parseDurationUnsignedInt,	nullptr, offsetof( ParkingPlaceBehaviorModuleData, m_framesForFullHeal ) },
 			{ 0, 0, 0, 0 }
 		};
 		p.add(dataFieldParse);
@@ -180,9 +180,9 @@ public:
 	virtual void setHealee(Object* healee, Bool add);
 	virtual void killAllParkedUnits();
 	virtual void defectAllParkedUnits(Team* newTeam, UnsignedInt detectionTime);
-	virtual Bool calcBestParkingAssignment( ObjectID id, Coord3D *pos, Int *oldIndex = NULL, Int *newIndex = NULL ) { return FALSE; }
-	virtual const std::vector<Coord3D>* getTaxiLocations( ObjectID id ) const { return NULL; }
-	virtual const std::vector<Coord3D>* getCreationLocations( ObjectID id ) const { return NULL; }
+	virtual Bool calcBestParkingAssignment( ObjectID id, Coord3D *pos, Int *oldIndex = nullptr, Int *newIndex = nullptr ) { return FALSE; }
+	virtual const std::vector<Coord3D>* getTaxiLocations( ObjectID id ) const { return nullptr; }
+	virtual const std::vector<Coord3D>* getCreationLocations( ObjectID id ) const { return nullptr; }
 
 	// TheSuperHackers @feature Ahmed Salah 30/09/2025 Restoration methods
 	void restoreParkedVehicle(Object* vehicle, const ParkingPlaceBehaviorModuleData* data);

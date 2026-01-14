@@ -206,7 +206,7 @@ typedef enum
 GameFileClass::GameFileClass( char const *filename )
 {
 
-	m_theFile = NULL;
+	m_theFile = nullptr;
 	m_fileExists = FALSE;
 	m_filePath[0] = 0;
 	m_filename[0] = 0;
@@ -245,7 +245,7 @@ GameFileClass::GameFileClass( void )
 {
 
 	m_fileExists = FALSE;
-	m_theFile = NULL;
+	m_theFile = nullptr;
 	m_filePath[ 0 ] = 0;
 	m_filename[ 0 ] = 0;
 	m_thingConfigDirectory[ 0 ] = 0;
@@ -534,7 +534,7 @@ bool GameFileClass::Is_Available( int forced )
 //-------------------------------------------------------------------------------------------------
 bool GameFileClass::Is_Open(void) const
 {
-	return m_theFile != NULL;
+	return m_theFile != nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -561,7 +561,7 @@ int  GameFileClass::Open(int rights)
 
 	m_theFile = TheFileSystem->openFile( m_filePath, File::READ | File::BINARY );
 
-	return (m_theFile != NULL);
+	return (m_theFile != nullptr);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -621,7 +621,7 @@ void GameFileClass::Close(void)
 {
 	if (m_theFile) {
 		m_theFile->close();
-		m_theFile = NULL;
+		m_theFile = nullptr;
 	}
 }
 
@@ -629,7 +629,7 @@ void GameFileClass::Close(void)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // W3DFileSystem Class ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-extern W3DFileSystem *TheW3DFileSystem = NULL;
+extern W3DFileSystem *TheW3DFileSystem = nullptr;
 
 //-------------------------------------------------------------------------------------------------
 /** Constructor.  Creating an instance of this class overrides the default
@@ -650,7 +650,7 @@ after W3D is shutdown.  */
 //-------------------------------------------------------------------------------------------------
 W3DFileSystem::~W3DFileSystem(void)
 {
-	_TheFileFactory = NULL; // remove the w3d file factory.
+	_TheFileFactory = nullptr; // remove the w3d file factory.
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -682,7 +682,7 @@ void W3DFileSystem::Return_File( FileClass *file )
 void W3DFileSystem::reprioritizeTexturesBySize()
 {
 	ArchivedDirectoryInfo* dirInfo = TheArchiveFileSystem->friend_getArchivedDirectoryInfo(TGA_DIR_PATH);
-	if (dirInfo != NULL)
+	if (dirInfo != nullptr)
 	{
 		reprioritizeTexturesBySize(*dirInfo);
 	}

@@ -315,7 +315,7 @@ const FieldParse ThingTemplate::s_objectReskinFieldParseTable[] =
 	{ "MaxSimultaneousOfType",	ThingTemplate::parseMaxSimultaneous,		NULL, offsetof(ThingTemplate, m_maxSimultaneousOfType) },
 	{ "MaxSimultaneousLinkKey",	NameKeyGenerator::parseStringAsNameKeyType,		NULL, offsetof(ThingTemplate, m_maxSimultaneousLinkKey) },
 
-	{ 0, 0, 0, 0 }
+	{ nullptr, nullptr, nullptr, 0 }
 
 };
 // NOTE NOTE NOTE -- s_objectFieldParseTable and s_objectReskinFieldParseTable must be updated in tandem -- see comment above
@@ -332,7 +332,7 @@ const ModuleInfo::Nugget* ModuleInfo::getNuggetWithTag(const AsciiString& tag) c
 			return &(*it);
 
 	// no match
-	return NULL;
+	return nullptr;
 
 }
 
@@ -773,8 +773,8 @@ void ThingTemplate::parsePerUnitFX(INI* ini, void* instance, void* store, const 
 
 	static const FieldParse myFieldParse[] =
 	{
-		{ 0, parseArbitraryFXIntoMap, NULL, 0 },
-		{ 0, 0, 0, 0 }
+		{ nullptr, parseArbitraryFXIntoMap, nullptr, 0 },
+		{ nullptr, nullptr, nullptr, 0 }
 	};
 
 	ini->initFromINI(fxmap, myFieldParse);
@@ -803,8 +803,8 @@ void ThingTemplate::parsePerUnitSounds(INI* ini, void* instance, void* store, co
 
 	static const FieldParse myFieldParse[] =
 	{
-		{ 0, parseArbitrarySoundsIntoMap, NULL, 0 },
-		{ 0, 0, 0, 0 }
+		{ nullptr, parseArbitrarySoundsIntoMap, nullptr, 0 },
+		{ nullptr, nullptr, nullptr, 0 }
 	};
 
 	ini->initFromINI(mapSounds, myFieldParse);
@@ -1298,10 +1298,10 @@ ThingTemplate::ThingTemplate() :
 	m_geometryInfo(GEOMETRY_SPHERE, FALSE, 1, 1, 1)
 {
 	m_moduleParsingMode = MODULEPARSE_NORMAL;
-	m_reskinnedFrom = NULL;
+	m_reskinnedFrom = nullptr;
 	m_radarPriority = RADAR_PRIORITY_INVALID;
 
-	m_nextThingTemplate = NULL;
+	m_nextThingTemplate = nullptr;
 	m_transportSlotCount = 0;
 	m_fenceWidth = 0;
 	m_fenceXOffset = 0;
@@ -1339,8 +1339,8 @@ ThingTemplate::ThingTemplate() :
 	m_factoryExitWidth = 0.0f;
 	m_factoryExtraBibWidth = 0.0f;
 
-	m_selectedPortraitImage = NULL;
-	m_buttonImage = NULL;
+	m_selectedPortraitImage = nullptr;
+	m_buttonImage = nullptr;
 
 	m_shadowType = SHADOW_NONE;
 	m_shadowSizeX = 0.0f;
@@ -1373,7 +1373,7 @@ AIUpdateModuleData* ThingTemplate::friend_getAIModuleInfo(void)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1511,13 +1511,13 @@ void ThingTemplate::validate()
 
 	if (isKindOf(KINDOF_STRUCTURE))
 	{
-		if (m_armorTemplateSets.empty() || (m_armorTemplateSets.size() == 1 && m_armorTemplateSets[0].getArmorTemplate() == NULL))
+		if (m_armorTemplateSets.empty() || (m_armorTemplateSets.size() == 1 && m_armorTemplateSets[0].getArmorTemplate() == nullptr))
 		{
 			DEBUG_CRASH(("Structure %s has no armor, but probably should (StructureArmor) -- please fix it.)", getName().str()));
 		}
 		for (ArmorTemplateSetVector::const_iterator it = m_armorTemplateSets.begin(); it != m_armorTemplateSets.end(); ++it)
 		{
-			if (it->getDamageFX() == NULL)
+			if (it->getDamageFX() == nullptr)
 			{
 				DEBUG_CRASH(("Structure %s has no ArmorDamageFX, and really should.", getName().str()));
 			}
@@ -1735,7 +1735,7 @@ const ThingTemplate* ThingTemplate::getBuildFacilityTemplate(const Player* playe
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1754,14 +1754,14 @@ const FXList* ThingTemplate::getPerUnitFX(const AsciiString& fxName) const
 {
 	if (fxName.isEmpty())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	PerUnitFXMap::const_iterator it = m_perUnitFX.find(fxName);
 	if (it == m_perUnitFX.end())
 	{
 		DEBUG_CRASH(("Unknown FX name (%s) asked for in ThingTemplate (%s)", fxName.str(), m_nameString.str()));
-		return NULL;
+		return nullptr;
 	}
 
 	return (it->second);
@@ -1940,7 +1940,7 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 		// This is kinda naughty, but its necessary.
 		return const_cast<ModuleData*>(m_info[i].second);
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------

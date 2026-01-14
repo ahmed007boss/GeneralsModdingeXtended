@@ -60,7 +60,7 @@ static const Real DONUT_DISTANCE=4.0*PATHFIND_CELL_SIZE_F;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-LocomotorStore *TheLocomotorStore = NULL;					///< the Locomotor store definition
+LocomotorStore *TheLocomotorStore = nullptr;					///< the Locomotor store definition
 
 const Real BIGNUM = 99999.0f;
 
@@ -70,7 +70,7 @@ static const char *const TheLocomotorPriorityNames[] =
 	"MOVES_MIDDLE",
 	"MOVES_FRONT",
 
-	NULL
+	nullptr
 };
 static_assert(ARRAY_SIZE(TheLocomotorPriorityNames) == LOCOMOTOR_PRIORITY_COUNT + 1, "Array size");
 
@@ -631,42 +631,42 @@ const FieldParse* LocomotorTemplate::getFieldParse() const
 		{ "Appearance", INI::parseIndexList, TheLocomotorAppearanceNames, offsetof(LocomotorTemplate, m_appearance) },		\
 		{ "GroupMovementPriority", INI::parseIndexList, TheLocomotorPriorityNames, offsetof(LocomotorTemplate, m_movePriority) },		\
 
-		{ "AccelerationPitchLimit", INI::parseAngleReal, NULL, offsetof(LocomotorTemplate, m_accelPitchLimit) },
-		{ "DecelerationPitchLimit", INI::parseAngleReal, NULL, offsetof(LocomotorTemplate, m_decelPitchLimit) },
-		{ "BounceAmount", INI::parseAngularVelocityReal, NULL, offsetof(LocomotorTemplate, m_bounceKick) },
-		{ "PitchStiffness", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_pitchStiffness) },
-		{ "RollStiffness", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_rollStiffness) },
-		{ "PitchDamping", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_pitchDamping) },
-		{ "RollDamping", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_rollDamping) },
-		{ "ThrustRoll", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_thrustRoll) },
-		{ "ThrustWobbleRate",	INI::parseReal, NULL, offsetof(LocomotorTemplate, m_wobbleRate) },
-		{ "ThrustMinWobble",	INI::parseReal, NULL, offsetof(LocomotorTemplate, m_minWobble) },
-		{ "ThrustMaxWobble",	INI::parseReal, NULL, offsetof(LocomotorTemplate, m_maxWobble) },
-		{ "PitchInDirectionOfZVelFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_pitchByZVelCoef) },
-		{ "ForwardVelocityPitchFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_forwardVelCoef) },
-		{ "LateralVelocityRollFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_lateralVelCoef) },
-		{ "ForwardAccelerationPitchFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_forwardAccelCoef) },
-		{ "LateralAccelerationRollFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_lateralAccelCoef) },
-		{ "UniformAxialDamping", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_uniformAxialDamping) },
-		{ "TurnPivotOffset", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_turnPivotOffset) },
-		{ "Apply2DFrictionWhenAirborne", INI::parseBool, NULL, offsetof(LocomotorTemplate, m_apply2DFrictionWhenAirborne) },
-		{ "DownhillOnly", INI::parseBool, NULL, offsetof(LocomotorTemplate, m_downhillOnly) },
-		{ "AllowAirborneMotiveForce", INI::parseBool, NULL, offsetof(LocomotorTemplate, m_allowMotiveForceWhileAirborne) },
-		{ "LocomotorWorksWhenDead", INI::parseBool, NULL, offsetof(LocomotorTemplate, m_locomotorWorksWhenDead) },
-		{ "AirborneTargetingHeight", INI::parseInt, NULL, offsetof( LocomotorTemplate, m_airborneTargetingHeight ) },
-		{ "StickToGround",				INI::parseBool,			NULL,	offsetof(LocomotorTemplate, m_stickToGround) },
-		{ "CanMoveBackwards",				INI::parseBool,			NULL,	offsetof(LocomotorTemplate, m_canMoveBackward) },
-		{ "HasSuspension",				INI::parseBool,			NULL,	offsetof(LocomotorTemplate, m_hasSuspension) },
-		{ "FrontWheelTurnAngle", INI::parseAngleReal, NULL, offsetof(LocomotorTemplate, m_wheelTurnAngle) },
-		{ "MaximumWheelExtension", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_maximumWheelExtension) },
-		{ "MaximumWheelCompression", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_maximumWheelCompression) },
-		{ "CloseEnoughDist",				 INI::parseReal, NULL, offsetof(LocomotorTemplate, m_closeEnoughDist) },
-		{ "CloseEnoughDist3D",			 INI::parseBool, NULL, offsetof(LocomotorTemplate, m_isCloseEnoughDist3D) },
-		{ "SlideIntoPlaceTime",		INI::parseDurationReal, NULL, offsetof(LocomotorTemplate, m_ultraAccurateSlideIntoPlaceFactor) },
+		{ "AccelerationPitchLimit", INI::parseAngleReal, nullptr, offsetof(LocomotorTemplate, m_accelPitchLimit) },
+		{ "DecelerationPitchLimit", INI::parseAngleReal, nullptr, offsetof(LocomotorTemplate, m_decelPitchLimit) },
+		{ "BounceAmount", INI::parseAngularVelocityReal, nullptr, offsetof(LocomotorTemplate, m_bounceKick) },
+		{ "PitchStiffness", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_pitchStiffness) },
+		{ "RollStiffness", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_rollStiffness) },
+		{ "PitchDamping", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_pitchDamping) },
+		{ "RollDamping", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_rollDamping) },
+		{ "ThrustRoll", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_thrustRoll) },
+		{ "ThrustWobbleRate",	INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_wobbleRate) },
+		{ "ThrustMinWobble",	INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_minWobble) },
+		{ "ThrustMaxWobble",	INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_maxWobble) },
+		{ "PitchInDirectionOfZVelFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_pitchByZVelCoef) },
+		{ "ForwardVelocityPitchFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_forwardVelCoef) },
+		{ "LateralVelocityRollFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_lateralVelCoef) },
+		{ "ForwardAccelerationPitchFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_forwardAccelCoef) },
+		{ "LateralAccelerationRollFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_lateralAccelCoef) },
+		{ "UniformAxialDamping", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_uniformAxialDamping) },
+		{ "TurnPivotOffset", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_turnPivotOffset) },
+		{ "Apply2DFrictionWhenAirborne", INI::parseBool, nullptr, offsetof(LocomotorTemplate, m_apply2DFrictionWhenAirborne) },
+		{ "DownhillOnly", INI::parseBool, nullptr, offsetof(LocomotorTemplate, m_downhillOnly) },
+		{ "AllowAirborneMotiveForce", INI::parseBool, nullptr, offsetof(LocomotorTemplate, m_allowMotiveForceWhileAirborne) },
+		{ "LocomotorWorksWhenDead", INI::parseBool, nullptr, offsetof(LocomotorTemplate, m_locomotorWorksWhenDead) },
+		{ "AirborneTargetingHeight", INI::parseInt, nullptr, offsetof( LocomotorTemplate, m_airborneTargetingHeight ) },
+		{ "StickToGround",				INI::parseBool,			nullptr,	offsetof(LocomotorTemplate, m_stickToGround) },
+		{ "CanMoveBackwards",				INI::parseBool,			nullptr,	offsetof(LocomotorTemplate, m_canMoveBackward) },
+		{ "HasSuspension",				INI::parseBool,			nullptr,	offsetof(LocomotorTemplate, m_hasSuspension) },
+		{ "FrontWheelTurnAngle", INI::parseAngleReal, nullptr, offsetof(LocomotorTemplate, m_wheelTurnAngle) },
+		{ "MaximumWheelExtension", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_maximumWheelExtension) },
+		{ "MaximumWheelCompression", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_maximumWheelCompression) },
+		{ "CloseEnoughDist",				 INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_closeEnoughDist) },
+		{ "CloseEnoughDist3D",			 INI::parseBool, nullptr, offsetof(LocomotorTemplate, m_isCloseEnoughDist3D) },
+		{ "SlideIntoPlaceTime",		INI::parseDurationReal, nullptr, offsetof(LocomotorTemplate, m_ultraAccurateSlideIntoPlaceFactor) },
 
-		{ "WanderWidthFactor", INI::parseReal, NULL, offsetof(LocomotorTemplate, m_wanderWidthFactor) },
-		{ "WanderLengthFactor",				 INI::parseReal, NULL, offsetof(LocomotorTemplate, m_wanderLengthFactor) },
-		{ "WanderAboutPointRadius",				 INI::parseReal, NULL, offsetof(LocomotorTemplate, m_wanderAboutPointRadius) },
+		{ "WanderWidthFactor", INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_wanderWidthFactor) },
+		{ "WanderLengthFactor",				 INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_wanderLengthFactor) },
+		{ "WanderAboutPointRadius",				 INI::parseReal, nullptr, offsetof(LocomotorTemplate, m_wanderAboutPointRadius) },
 
 		{ "RudderCorrectionDegree",		 INI::parseReal, NULL, offsetof(LocomotorTemplate, m_rudderCorrectionDegree) },
 		{ "RudderCorrectionRate",			 INI::parseReal, NULL, offsetof(LocomotorTemplate, m_rudderCorrectionRate) },
@@ -707,11 +707,11 @@ LocomotorStore::~LocomotorStore()
 LocomotorTemplate* LocomotorStore::findLocomotorTemplate(NameKeyType namekey)
 {
 	if (namekey == NAMEKEY_INVALID)
-		return NULL;
+		return nullptr;
 
   LocomotorTemplateMap::iterator it = m_locomotorTemplates.find(namekey);
   if (it == m_locomotorTemplates.end())
-		return NULL;
+		return nullptr;
 	else
 		return (*it).second;
 }
@@ -720,12 +720,12 @@ LocomotorTemplate* LocomotorStore::findLocomotorTemplate(NameKeyType namekey)
 const LocomotorTemplate* LocomotorStore::findLocomotorTemplate(NameKeyType namekey) const
 {
 	if (namekey == NAMEKEY_INVALID)
-		return NULL;
+		return nullptr;
 
   LocomotorTemplateMap::const_iterator it = m_locomotorTemplates.find(namekey);
   if (it == m_locomotorTemplates.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -759,8 +759,8 @@ void LocomotorStore::reset()
 //-------------------------------------------------------------------------------------------------
 LocomotorTemplate *LocomotorStore::newOverride( LocomotorTemplate *locoTemplate )
 {
-	if (locoTemplate == NULL)
-		return NULL;
+	if (locoTemplate == nullptr)
+		return nullptr;
 
 	// allocate new template
 	LocomotorTemplate *newTemplate = newInstance(LocomotorTemplate);
@@ -1229,11 +1229,11 @@ void Locomotor::locoUpdate_moveTowardsAngle(Object* obj, Real goalAngle)
 {
 	setFlag(MAINTAIN_POS_IS_VALID, false);
 
-	if (obj == NULL || m_template == NULL)
+	if (obj == nullptr || m_template == nullptr)
 		return;
 
 	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
+	if (physics == nullptr)
 	{
 		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
 		return;
@@ -1315,7 +1315,7 @@ PhysicsTurningType Locomotor::rotateTowardsPosition(Object* obj, const Coord3D& 
 void Locomotor::setPhysicsOptions(Object* obj)
 {
 	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
+	if (physics == nullptr)
 	{
 		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
 		return;
@@ -1349,7 +1349,7 @@ void Locomotor::locoUpdate_moveTowardsPosition(Object* obj, const Coord3D& goalP
 		m_brakingFactor = 1.0f;
 	}
 	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
+	if (physics == nullptr)
 	{
 		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
 		return;
@@ -2259,7 +2259,7 @@ void Locomotor::moveTowardsPositionWings(Object* obj, PhysicsBehavior *physics, 
 			angleTowardPos += aimDir;
 
 			BodyDamageType bdt = obj->getBodyModule()->getDamageState();
-			Real turnRadius = calcMinTurnRadius(bdt, NULL) * 4;
+			Real turnRadius = calcMinTurnRadius(bdt, nullptr) * 4;
 
 			// project a spot "radius" dist away from it, in that dir
 			Coord3D desiredPos = goalPos;
@@ -2836,7 +2836,7 @@ Bool Locomotor::locoUpdate_maintainCurrentPosition(Object* obj)
 	m_donutTimer = TheGameLogic->getFrame()+DONUT_TIME_DELAY_SECONDS*LOGICFRAMES_PER_SECOND;
 	setFlag(IS_BRAKING, false);
 	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
+	if (physics == nullptr)
 	{
 		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
 		return TRUE;
@@ -2924,7 +2924,7 @@ void Locomotor::maintainCurrentPositionWings(Object* obj, PhysicsBehavior *physi
 		BodyDamageType bdt = obj->getBodyModule()->getDamageState();
 		Real turnRadius = m_template->m_circlingRadius;
 		if (turnRadius == 0.0f)
-			turnRadius = calcMinTurnRadius(bdt, NULL);
+			turnRadius = calcMinTurnRadius(bdt, nullptr);
 
 		// find the direction towards our "maintain pos"
 		const Coord3D* pos = obj->getPosition();
@@ -3101,7 +3101,7 @@ void LocomotorSet::xfer( Xfer *xfer )
 			xfer->xferAsciiString(&name);
 
 			const LocomotorTemplate* lt = TheLocomotorStore->findLocomotorTemplate(NAMEKEY(name));
-			if (lt == NULL)
+			if (lt == nullptr)
 			{
 				DEBUG_CRASH(( "LocomotorSet::xfer - template %s not found", name.str() ));
 				throw XFER_UNKNOWN_STRING;
@@ -3145,7 +3145,7 @@ void LocomotorSet::xferSelfAndCurLocoPtr(Xfer *xfer, Locomotor** loco)
 
 		if (name.isEmpty())
 		{
-			*loco = NULL;
+			*loco = nullptr;
 		}
 		else
 		{
@@ -3246,7 +3246,7 @@ Locomotor* LocomotorSet::findLocomotor(LocomotorSurfaceTypeMask t)
 		if (curLocomotor && (curLocomotor->getLegalSurfaces() & t))
 			return curLocomotor;
 	}
-	return NULL;
+	return nullptr;
 }
 
 

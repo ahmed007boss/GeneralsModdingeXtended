@@ -53,7 +53,7 @@ static const char *const imageStatusNames[] =
 {
 	"ROTATED_90_CLOCKWISE",
 	"RAW_TEXTURE",
-	NULL
+	nullptr
 };
 #endif  // end DEFINE_IMAGE_STATUS_NAMES
 
@@ -145,7 +145,7 @@ public:
     for (ImageMap::iterator i=m_imageMap.begin();i!=m_imageMap.end();++i)
       if (!index--)
         return i->second;
-    return NULL;
+    return nullptr;
   }
 
 protected:

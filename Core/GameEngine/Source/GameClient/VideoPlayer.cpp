@@ -78,7 +78,7 @@
 //         Public Data
 //----------------------------------------------------------------------------
 
-VideoPlayerInterface *TheVideoPlayer = NULL;
+VideoPlayerInterface *TheVideoPlayer = nullptr;
 
 //----------------------------------------------------------------------------
 //         Private Prototypes
@@ -155,7 +155,7 @@ void	VideoBuffer::free( void )
 //============================================================================
 
 VideoPlayer::VideoPlayer()
-: m_firstStream(NULL)
+: m_firstStream(nullptr)
 {
 
 }
@@ -169,7 +169,7 @@ VideoPlayer::~VideoPlayer()
 	deinit();
 	// Set the video player to null if its us. (WB requires this.)
 	if (this == TheVideoPlayer) {
-		TheVideoPlayer = NULL;
+		TheVideoPlayer = nullptr;
 	}
 }
 
@@ -246,7 +246,7 @@ void	VideoPlayer::regainFocus( void )
 
 VideoStreamInterface*	VideoPlayer::open( AsciiString movieTitle )
 {
-	return NULL;
+	return nullptr;
 }
 
 //============================================================================
@@ -255,7 +255,7 @@ VideoStreamInterface*	VideoPlayer::open( AsciiString movieTitle )
 
 VideoStreamInterface*	VideoPlayer::load( AsciiString movieTitle )
 {
-	return NULL;
+	return nullptr;
 }
 
 //============================================================================
@@ -275,7 +275,7 @@ void	VideoPlayer::closeAllStreams( void )
 {
 	VideoStreamInterface *stream ;
 
-	while ( (stream = firstStream()) != 0 )
+	while ( (stream = firstStream()) != nullptr )
 	{
 		stream->close();
 	}
@@ -287,10 +287,10 @@ void	VideoPlayer::closeAllStreams( void )
 
 void VideoPlayer::remove( VideoStream *stream_to_remove )
 {
-	VideoStream *last = NULL;
+	VideoStream *last = nullptr;
 	VideoStream *stream = (VideoStream*) firstStream();
 
-	while ( stream != NULL && stream != stream_to_remove )
+	while ( stream != nullptr && stream != stream_to_remove )
 	{
 		last = stream;
 		stream = (VideoStream*) stream->next();
@@ -356,7 +356,7 @@ const Video* VideoPlayer::getVideo( AsciiString movieTitle )
 			return &(*it);
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //============================================================================
@@ -365,7 +365,7 @@ const Video* VideoPlayer::getVideo( AsciiString movieTitle )
 const Video* VideoPlayer::getVideo( Int index )
 {
 	if (index < 0 || index >= mVideosAvailableForPlay.size()) {
-		return NULL;
+		return nullptr;
 	}
 
 	return &mVideosAvailableForPlay[index];
@@ -376,8 +376,8 @@ const Video* VideoPlayer::getVideo( Int index )
 //============================================================================
 
 VideoStream::VideoStream()
-: m_next(NULL),
-	m_player(NULL)
+: m_next(nullptr),
+	m_player(nullptr)
 {
 
 }
@@ -392,7 +392,7 @@ VideoStream::~VideoStream()
 	if ( m_player )
 	{
 		m_player->remove( this );
-		m_player = NULL;
+		m_player = nullptr;
 	}
 
 }
@@ -507,8 +507,8 @@ Int		VideoStream::width( void )
 
 const FieldParse VideoPlayer::m_videoFieldParseTable[] =
 {
-	{ "Filename",								INI::parseAsciiString,							NULL, offsetof( Video, m_filename) },
-	{ "Comment",								INI::parseAsciiString,							NULL, offsetof( Video, m_commentForWB) },
-	{ NULL,											NULL,																NULL, 0 },
+	{ "Filename",								INI::parseAsciiString,							nullptr, offsetof( Video, m_filename) },
+	{ "Comment",								INI::parseAsciiString,							nullptr, offsetof( Video, m_commentForWB) },
+	{ nullptr,											nullptr,																nullptr, 0 },
 };
 

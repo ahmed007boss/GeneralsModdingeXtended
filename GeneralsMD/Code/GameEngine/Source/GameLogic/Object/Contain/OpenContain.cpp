@@ -291,7 +291,7 @@ void OpenContain::addToContain( Object *rider )
 	}
 
 	// sanity
-	if( rider == NULL )
+	if( rider == nullptr )
 		return;
 
 	Drawable *riderDraw = rider->getDrawable();
@@ -314,12 +314,12 @@ void OpenContain::addToContain( Object *rider )
 				reportObject = *items->begin();
 			}
 		}
-		DEBUG_CRASH( ("OpenContain::addToContain() - Object %s not valid for container %s!", reportObject?reportObject->getTemplate()->getName().str():"NULL", getObject()->getTemplate()->getName().str() ) );
+		DEBUG_CRASH( ("OpenContain::addToContain() - Object %s not valid for container %s!", reportObject?reportObject->getTemplate()->getName().str():"null", getObject()->getTemplate()->getName().str() ) );
 	}
 #endif
 
 	// this object cannot be contained by this module if it is already contained in something
-	if( rider->getContainedBy() != NULL )
+	if( rider->getContainedBy() != nullptr )
 	{
 
 		DEBUG_LOG(( "'%s' is trying to contain '%s', but '%s' is already contained by '%s'",
@@ -392,7 +392,7 @@ void OpenContain::removeFromContain( Object *rider, Bool exposeStealthUnits )
 {
 
 	// sanity
-	if( rider == NULL )
+	if( rider == nullptr )
 		return;
 
 	//
@@ -460,7 +460,7 @@ void OpenContain::killAllContained( void )
 	{
 		Object *rider = *it++;
 
-		DEBUG_ASSERTCRASH( rider, ("Contain list must not contain NULL element"));
+		DEBUG_ASSERTCRASH( rider, ("Contain list must not contain null element"));
 		if ( rider )
 		{
 			onRemoving( rider );
@@ -482,7 +482,7 @@ void OpenContain::harmAndForceExitAllContained( DamageInfo *info )
 	{
 		Object *rider = *it;
 
-		DEBUG_ASSERTCRASH( rider, ("Contain list must not contain NULL element"));
+		DEBUG_ASSERTCRASH( rider, ("Contain list must not contain null element"));
 		if ( rider )
 		{
 		  removeFromContain( rider, true );
@@ -596,7 +596,7 @@ void OpenContain::iterateContained( ContainIterateFunc func, void *userData, Boo
 // ------------------------------------------------------------------------------------------------
 Object* OpenContain::getClosestRider( const Coord3D *pos )
 {
-	Object *closest = NULL;
+	Object *closest = nullptr;
 	Real closestDistance;
 
 	for(ContainedItemsList::const_iterator it = m_containList.begin(); it != m_containList.end(); ++it)
@@ -805,7 +805,7 @@ Real OpenContain::getContainedItemsMass() const
 void OpenContain::onCollide( Object *other, const Coord3D *loc, const Coord3D *normal )
 {
 	// colliding with nothing? we don't care.
-	if( other == NULL )
+	if( other == nullptr )
 		return;
 
 	// ok, step two: only contain stuff that wants us to contain it.
@@ -813,7 +813,7 @@ void OpenContain::onCollide( Object *other, const Coord3D *loc, const Coord3D *n
 
 	// must be an AI object....
 	AIUpdateInterface *ai = other->getAI();
-	if (ai == NULL)
+	if (ai == nullptr)
 		return;
 
 	// ...and must be trying to enter our object.
@@ -1001,8 +1001,8 @@ void OpenContain::exitObjectViaDoor( Object *exitObj, ExitDoorType exitDoor )
 			startBone.concat(suffix);
 			endBone.concat(suffix);
 		}
-		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, NULL );
-		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, NULL );
+		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, nullptr );
+		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, nullptr );
 
 		//startPosition.x = startPosition.y = 0;
 		Real exitAngle = me->getOrientation();
@@ -1038,7 +1038,7 @@ void OpenContain::exitObjectViaDoor( Object *exitObj, ExitDoorType exitDoor )
 				TheAI->pathfinder()->updatePos(me, me->getPosition());
 				TheAI->pathfinder()->updateGoal(me, me->getPosition(), TheTerrainLogic->getLayerForDestination(me->getPosition()));
 			}
-			ai->ignoreObstacle(NULL);
+			ai->ignoreObstacle(nullptr);
 			// The units often come out at the same position, and need to ignore collisions briefly
 			// as they move out.  jba.
 			ai->setIgnoreCollisionTime(LOGICFRAMES_PER_SECOND);
@@ -1120,8 +1120,8 @@ void OpenContain::exitObjectInAHurry( Object *exitObj )
 			startBone.concat(suffix);
 			endBone.concat(suffix);
 		}
-		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, NULL );
-		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, NULL );
+		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, nullptr );
+		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, nullptr );
 
 		//startPosition.x = startPosition.y = 0;
 		Real exitAngle = me->getOrientation();
@@ -1143,7 +1143,7 @@ void OpenContain::exitObjectInAHurry( Object *exitObj )
 				TheAI->pathfinder()->updatePos(me, me->getPosition());
 				TheAI->pathfinder()->updateGoal(me, me->getPosition(), TheTerrainLogic->getLayerForDestination(me->getPosition()));
 			}
-			ai->ignoreObstacle(NULL);
+			ai->ignoreObstacle(nullptr);
 			// The units often come out at the same position, and need to ignore collisions briefly
 			// as they move out.  jba.
 			ai->setIgnoreCollisionTime(LOGICFRAMES_PER_SECOND);
@@ -1180,7 +1180,7 @@ Bool OpenContain::isPassengerAllowedToFire( ObjectID id ) const
 		return FALSE;// Just no, no matter what.
 
 	// If we are ourselves contained, our passengers need to check with them if they get past us
-	if( getObject()->getContainedBy() != NULL )
+	if( getObject()->getContainedBy() != nullptr )
 		return getObject()->getContainedBy()->getContain()->isPassengerAllowedToFire();
 
 	return TRUE;// We say yes, and we are not inside something.
@@ -1258,7 +1258,7 @@ void OpenContain::putObjAtNextFirePoint( Object *obj )
 	if( m_firePointSize == 0 && m_noFirePointsInArt == false )
 	{
 
-		m_firePointSize = getObject()->getMultiLogicalBonePosition("FIREPOINT", MAX_FIRE_POINTS, NULL, m_firePoints, TRUE );
+		m_firePointSize = getObject()->getMultiLogicalBonePosition("FIREPOINT", MAX_FIRE_POINTS, nullptr, m_firePoints, TRUE );
 
 		//
 		// if there is still no firepoints in the art, we'll set a flag so that we don't
@@ -1296,7 +1296,7 @@ void OpenContain::putObjAtNextFirePoint( Object *obj )
 		}
 		firepoint.concat(suffix);
 
-		getObject()->getSingleLogicalBonePositionOnTurret(TURRET_MAIN, firepoint.str(), NULL, &matrix );
+		getObject()->getSingleLogicalBonePositionOnTurret(TURRET_MAIN, firepoint.str(), nullptr, &matrix );
 	}
 	else
 	{
@@ -1329,7 +1329,7 @@ void OpenContain::putObjAtNextFirePoint( Object *obj )
 */
 void OpenContain::onObjectWantsToEnterOrExit(Object* obj, ObjectEnterExitType wants)
 {
-	if (obj == NULL)
+	if (obj == nullptr)
 		return;
 
 	ObjectID id = obj->getID();
@@ -1352,7 +1352,7 @@ void OpenContain::pruneDeadWanters()
 	{
 		ObjectID id = (*it).first;
 		Object* obj = TheGameLogic->findObjectByID(id);
-		if (obj == NULL || obj->isEffectivelyDead())
+		if (obj == nullptr || obj->isEffectivelyDead())
 		{
 			ObjectEnterExitMap::iterator tmp = it;
 			++it;
@@ -1532,7 +1532,7 @@ void OpenContain::processDamageToContained(Real percentDamage)
 	{
 		Object *object = *it;
 
-		DEBUG_ASSERTCRASH( object, ("Contain list must not contain NULL element") );
+		DEBUG_ASSERTCRASH( object, ("Contain list must not contain null element") );
 
 		// Calculate the damage to be inflicted on each unit.
 		Real damage = object->getBodyModule()->getMaxHealth() * percentDamage;
@@ -1611,7 +1611,7 @@ const Coord3D *OpenContain::getRallyPoint( void ) const
 	if (m_rallyPointExists)
 		return &m_rallyPoint;
 
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1625,7 +1625,7 @@ Bool OpenContain::getNaturalRallyPoint( Coord3D& rallyPoint, Bool offset )  cons
 		{
 				endBone.concat("01");
 		}
-		getObject()->getSingleLogicalBonePosition( endBone.str(), &rallyPoint, NULL );
+		getObject()->getSingleLogicalBonePosition( endBone.str(), &rallyPoint, nullptr );
 	}
 	else
 	{
@@ -1903,7 +1903,7 @@ void OpenContain::loadPostProcess( void )
 		obj = TheGameLogic->findObjectByID( *idIt );
 
 		// sanity
-		if( obj == NULL )
+		if( obj == nullptr )
 		{
 
 			DEBUG_CRASH(( "OpenContain::loadPostProcess - Unable to find object to put on contain list" ));

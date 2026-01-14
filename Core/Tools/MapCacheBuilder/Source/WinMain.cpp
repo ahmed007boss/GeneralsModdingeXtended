@@ -115,19 +115,19 @@
 static SubsystemInterfaceList _TheSubsystemList;
 
 template<class SUBSYSTEM>
-void initSubsystem(SUBSYSTEM*& sysref, SUBSYSTEM* sys, const char* path1 = NULL, const char* path2 = NULL)
+void initSubsystem(SUBSYSTEM*& sysref, SUBSYSTEM* sys, const char* path1 = nullptr, const char* path2 = nullptr)
 {
 	sysref = sys;
-	_TheSubsystemList.initSubsystem(sys, path1, path2, NULL);
+	_TheSubsystemList.initSubsystem(sys, path1, path2, nullptr);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // PUBLIC DATA ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-HINSTANCE ApplicationHInstance = NULL;  ///< our application instance
+HINSTANCE ApplicationHInstance = nullptr;  ///< our application instance
 
 /// just to satisfy the game libraries we link to
-HWND ApplicationHWnd = NULL;
+HWND ApplicationHWnd = nullptr;
 
 const char* gAppPrefix = "MC_";
 
@@ -150,7 +150,7 @@ static char* nextParam(char* newSource, const char* seps)
 	}
 	if (!source)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// find first separator
@@ -186,15 +186,15 @@ static char* nextParam(char* newSource, const char* seps)
 			*end = 0;
 
 			if (!*source)
-				source = NULL;
+				source = nullptr;
 		}
 		else
 		{
-			source = NULL;
+			source = nullptr;
 		}
 
 		if (first && !*first)
-			first = NULL;
+			first = nullptr;
 	}
 
 	return first;

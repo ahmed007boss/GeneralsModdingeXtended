@@ -123,7 +123,7 @@ void ControlBarPopupDescriptionUpdateFunc(WindowLayout* layout, void* param)
 		if (theAnimateWindowManager->isFinished() && !wasFinished && theAnimateWindowManager->isReversed())
 		{
 			delete theAnimateWindowManager;
-			theAnimateWindowManager = NULL;
+			theAnimateWindowManager = nullptr;
 			TheControlBar->deleteBuildTooltipLayout();
 		}
 	}
@@ -167,7 +167,7 @@ void ControlBar::showBuildTooltipLayout(GameWindow* cmdButton)
 			//			deleteInstance(m_buildToolTipLayout);
 			//			m_buildToolTipLayout = NULL;
 			m_buildToolTipLayout->hide(TRUE);
-			prevWindow = NULL;
+			prevWindow = nullptr;
 		}
 		return;
 	}
@@ -222,7 +222,7 @@ void ControlBar::showBuildTooltipLayout(GameWindow* cmdButton)
 		// we're a generic window
 		if (!BitIsSet(cmdButton->winGetStyle(), GWS_USER_WINDOW) && !BitIsSet(cmdButton->winGetStyle(), GWS_STATIC_TEXT))
 			return;
-		populateBuildTooltipLayout(NULL, cmdButton);
+		populateBuildTooltipLayout(nullptr, cmdButton);
 	}
 	m_buildToolTipLayout->hide(FALSE);
 
@@ -986,7 +986,7 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		tempDString->setText(descrip);
 		tempDString->getSize(&newSize.x, &newSize.y);
 		TheDisplayStringManager->freeDisplayString(tempDString);
-		tempDString = NULL;
+		tempDString = nullptr;
 		diffSize = newSize.y - size.y;
 		GameWindow* parent = m_buildToolTipLayout->getFirstWindow();
 		if (!parent)
@@ -1058,10 +1058,10 @@ void ControlBar::deleteBuildTooltipLayout(void)
 //
 //	m_buildToolTipLayout->destroyWindows();
 //	deleteInstance(m_buildToolTipLayout);
-//	m_buildToolTipLayout = NULL;
+//	m_buildToolTipLayout = nullptr;
 
 	delete theAnimateWindowManager;
-	theAnimateWindowManager = NULL;
+	theAnimateWindowManager = nullptr;
 
 }
 

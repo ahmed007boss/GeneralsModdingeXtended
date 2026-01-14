@@ -90,7 +90,7 @@ public:
 
 	virtual UpdateSleepTime update();							///< called once per frame
 
-	void initStickyBomb( Object *object, const Object *bomber, const Coord3D *specificPos = NULL );
+	void initStickyBomb( Object *object, const Object *bomber, const Coord3D *specificPos = nullptr );
 	void detonate();
 	Bool isTimedBomb() const { return m_dieFrame > 0; }
 	UnsignedInt getDetonationFrame() const { return m_dieFrame; }
