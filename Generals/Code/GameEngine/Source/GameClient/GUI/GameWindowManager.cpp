@@ -917,7 +917,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 					BitClear( m_grabWindow->m_status, WIN_STATUS_ACTIVE );
 					if( m_grabWindow->winPointInWindow( mousePos->x, mousePos->y ) )
 						winSendInputMsg( m_grabWindow, GWM_LEFT_UP, packedMouseCoords, 0 );
-					else if( BitIsSet( m_grabWindow->m_status, WIN_STATUS_DRAGABLE ))
+					else if( BitIsSet( m_grabWindow->m_status, WIN_STATUS_DRAGGABLE ))
 					{
 						winSendInputMsg( m_grabWindow, GWM_LEFT_UP, packedMouseCoords, 0 );
 					}
@@ -932,7 +932,7 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 				case GWM_LEFT_DRAG:
 				{
 
-					if( BitIsSet( m_grabWindow->m_status, WIN_STATUS_DRAGABLE ) )
+					if( BitIsSet( m_grabWindow->m_status, WIN_STATUS_DRAGGABLE ) )
 					{
 						ICoord2D *mouseDelta = (ICoord2D *)data;
 						dx = mouseDelta->x;
@@ -1787,7 +1787,7 @@ GameWindow *GameWindowManager::gogoGadgetPushButton( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_PUSH_BUTTON ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create button gadget, instance data not button type" ));
+		DEBUG_LOG(( "Can't create button gadget, instance data not button type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -1855,7 +1855,7 @@ GameWindow *GameWindowManager::gogoGadgetCheckbox( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_CHECK_BOX ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create checkbox gadget, instance data not checkbox type" ));
+		DEBUG_LOG(( "Can't create checkbox gadget, instance data not checkbox type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -1922,7 +1922,7 @@ GameWindow *GameWindowManager::gogoGadgetRadioButton( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_RADIO_BUTTON ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create radioButton gadget, instance data not radioButton type" ));
+		DEBUG_LOG(( "Can't create radioButton gadget, instance data not radioButton type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -1994,7 +1994,7 @@ GameWindow *GameWindowManager::gogoGadgetTabControl( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_TAB_CONTROL ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create tabControl gadget, instance data not tabControl type" ));
+		DEBUG_LOG(( "Can't create tabControl gadget, instance data not tabControl type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -2066,7 +2066,7 @@ GameWindow *GameWindowManager::gogoGadgetListBox( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_SCROLL_LISTBOX ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create listbox gadget, instance data not listbox type" ));
+		DEBUG_LOG(( "Can't create listbox gadget, instance data not listbox type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -2266,7 +2266,7 @@ GameWindow *GameWindowManager::gogoGadgetSlider( GameWindow *parent,
 
 	// create the slider thumb button
 	WinInstanceData buttonInstData;
-	UnsignedInt statusFlags = status | WIN_STATUS_ENABLED | WIN_STATUS_DRAGABLE;
+	UnsignedInt statusFlags = status | WIN_STATUS_ENABLED | WIN_STATUS_DRAGGABLE;
 
 	buttonInstData.init();
 
@@ -2334,7 +2334,7 @@ GameWindow *GameWindowManager::gogoGadgetComboBox( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_COMBO_BOX) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create ComboBox gadget, instance data not ComboBox type" ));
+		DEBUG_LOG(( "Can't create ComboBox gadget, instance data not ComboBox type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -2538,7 +2538,7 @@ GameWindow *GameWindowManager::gogoGadgetProgressBar( GameWindow *parent,
 	if( BitIsSet( instData->getStyle(), GWS_PROGRESS_BAR ) == FALSE )
 	{
 
-		DEBUG_LOG(( "Cann't create progressBar gadget, instance data not progressBar type" ));
+		DEBUG_LOG(( "Can't create progressBar gadget, instance data not progressBar type" ));
 		assert( 0 );
 		return nullptr;
 
@@ -3672,7 +3672,7 @@ Bool GameWindowManager::initTestGUI( void )
 
 //	UnsignedByte alpha = 200;
 	GameWindow *window;
-	UnsignedInt statusFlags = WIN_STATUS_ENABLED | WIN_STATUS_DRAGABLE | WIN_STATUS_IMAGE;
+	UnsignedInt statusFlags = WIN_STATUS_ENABLED | WIN_STATUS_DRAGGABLE | WIN_STATUS_IMAGE;
 	WinInstanceData instData;
 
 	// make some windows inside each other in the upper left
@@ -3737,7 +3737,7 @@ Bool GameWindowManager::initTestGUI( void )
 																								 &instData, nullptr, TRUE );
 
 	// make window to hold radio buttons
-	window = winCreate( nullptr, WIN_STATUS_ENABLED | WIN_STATUS_DRAGABLE,
+	window = winCreate( nullptr, WIN_STATUS_ENABLED | WIN_STATUS_DRAGGABLE,
 																				200, 200, 250, 45, nullptr );
 	window->winSetInputFunc( testGrab );
 	window->winSetEnabledColor( 0, winMakeColor( 50, 50, 50, 200 ) );

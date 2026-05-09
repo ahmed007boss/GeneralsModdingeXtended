@@ -346,7 +346,7 @@ NATConnectionState NAT::connectionUpdate() {
 #ifdef DEBUG_LOGGING
 						UnsignedInt slotIP = targetSlot->getIP();
 #endif
-						DEBUG_LOG(("NAT::connectionUpdate - incomming packet has different from address than we expected, incoming: %d.%d.%d.%d expected: %d.%d.%d.%d",
+						DEBUG_LOG(("NAT::connectionUpdate - incoming packet has different from address than we expected, incoming: %d.%d.%d.%d expected: %d.%d.%d.%d",
 												PRINTF_IP_AS_4_INTS(fromIP),
 												PRINTF_IP_AS_4_INTS(slotIP)));
 						targetSlot->setIP(fromIP);
@@ -445,7 +445,7 @@ NATConnectionState NAT::connectionUpdate() {
 }
 
 // this is the function that starts the NAT/firewall negotiation process.
-// after calling this, you should call the update function untill it returns
+// after calling this, you should call the update function until it returns
 // NATSTATE_DONE.
 void NAT::establishConnectionPaths() {
 	DEBUG_LOG(("NAT::establishConnectionPaths - entering"));
@@ -606,7 +606,7 @@ void NAT::attachSlotList(GameSlot *slotList[], Int localSlot, UnsignedInt localI
 	m_slotList = slotList;
 	m_localIP = localIP;
 	m_transport = new Transport;
-	DEBUG_LOG(("NAT::attachSlotList - initting the transport socket with address %d.%d.%d.%d:%d",
+	DEBUG_LOG(("NAT::attachSlotList - initializing the transport socket with address %d.%d.%d.%d:%d",
 							PRINTF_IP_AS_4_INTS(m_localIP), getSlotPort(localSlot)));
 
 	m_startingPortNumber = NETWORK_BASE_PORT_NUMBER + ((timeGetTime() / 1000) % 20000);

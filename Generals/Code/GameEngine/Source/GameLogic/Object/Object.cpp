@@ -2465,7 +2465,7 @@ void Object::setLayer(PathfindLayerEnum layer)
 		DEBUG_LOG(("Changing layer from %d to %d", m_layer, layer));
 		if (m_layer != LAYER_GROUND) {
 			if (TheTerrainLogic->objectInteractsWithBridgeLayer(this, m_layer)) {
-				DEBUG_CRASH(("Probably shouldn't be chaging layer. jba."));
+				DEBUG_CRASH(("Probably shouldn't be changing layer. jba."));
 			}
 		}
 #endif
@@ -4030,9 +4030,17 @@ void Object::removeUpgrade( const UpgradeTemplate *upgradeT )
 //-------------------------------------------------------------------------------------------------
 void Object::onCapture( Player *oldOwner, Player *newOwner )
 {
-	// Everybody dhills when they captured so they don't keep doing something the new player might not want him to be doing
+	// Everybody chills when they captured so they don't keep doing something the new player might not want him to be doing
+	// TheSuperHackers @tweak Stubbjax 19/11/2025 Except when the new owner is an ally, so that Hackers keep on hacking, etc.
 	if( getAIUpdateInterface()  &&  (oldOwner != newOwner) )
+	{
+#if RETAIL_COMPATIBLE_CRC
 		getAIUpdateInterface()->aiIdle(CMD_FROM_AI);
+#else
+		if (oldOwner->getRelationship(newOwner->getDefaultTeam()) != ALLIES)
+			getAIUpdateInterface()->aiIdle(CMD_FROM_AI);
+#endif
+	}
 
 	// this gets the new owner some points
 	newOwner->getScoreKeeper()->addObjectCaptured(this);

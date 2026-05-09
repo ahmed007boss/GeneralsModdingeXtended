@@ -122,7 +122,7 @@ enum
 													GWS_PROGRESS_BAR,
 };
 
-// Gadget paramaters
+// Gadget parameters
 enum
 {
 
@@ -277,8 +277,8 @@ typedef struct _EntryData
 
 	DisplayString *text;						///< the entry text
 	DisplayString *sText;						///< for displaying 'secret' text
-	DisplayString *constructText;		///< for foriegn text construction
-	Bool secretText;								///< If TRUE text appears as astericks
+	DisplayString *constructText;		///< for foreign text construction
+	Bool secretText;								///< If TRUE text appears as asterisks
 	Bool numericalOnly;							///< If TRUE only numbers are allowed as input
 	Bool alphaNumericalOnly;				///< If TRUE only numbers and letters are allowed as input
 	Bool aSCIIOnly;									///< If TRUE ascii allowed as input
@@ -297,7 +297,7 @@ typedef struct _EntryData
 
 	GameWindow *constructList;	// Listbox for construct list.
 	UnsignedShort charPos;			// Position of current character
-	UnsignedShort conCharPos;		// Position of current contruct character
+	UnsignedShort conCharPos;		// Position of current construct character
 
 } EntryData;
 
@@ -376,7 +376,7 @@ typedef struct _ListboxData
 	Int					*selections;			// Pointer to array of selections (for MULTI select)
 
 	Short				displayHeight;		// Height in pixels of listbox display region
-																// this is computed based on the existance
+																// this is computed based on the existence
 																// of a title or not.
 	UnsignedInt doubleClickTime;	//
 	Short				displayPos;				// Position of current display entry in pixels

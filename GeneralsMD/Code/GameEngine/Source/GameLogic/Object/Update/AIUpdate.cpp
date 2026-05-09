@@ -2782,7 +2782,6 @@ void AIUpdateInterface::aiDoCommand(const AICommandParms* parms)
 				checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_coords[0], NULL, getObject());
 			privateFollowPath(&parms->m_coords, parms->m_obj, parms->m_cmdSource, FALSE);
 			break;
-		}
 		case AICMD_FOLLOW_PATH_APPEND:
 			// TheSuperHackers @feature Ahmed Salah 15/01/2025 Check for radio interception when AI follows path append
 			checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_pos, NULL, getObject());
@@ -2795,7 +2794,6 @@ void AIUpdateInterface::aiDoCommand(const AICommandParms* parms)
 				checkForRadioInterception(GameMessage::MSG_DO_MOVETO, &parms->m_coords[0], NULL, getObject());
 			privateFollowPath(&parms->m_coords, parms->m_obj, parms->m_cmdSource, TRUE);
 			break;
-		}
 		case AICMD_ATTACK_OBJECT:
 			privateAttackObject(parms->m_obj, parms->m_intValue, parms->m_cmdSource);
 			break;
@@ -3520,7 +3518,7 @@ void AIUpdateInterface::privateFollowPathAppend( const Coord3D *pos, CommandSour
 /**
  * Follow the path defined by the given array of points
  */
-void AIUpdateInterface::privateFollowPath( std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction )
+void AIUpdateInterface::privateFollowPath( const std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction )
 {
 	if (getObject()->isMobile() == FALSE)
 		return;
@@ -4539,7 +4537,7 @@ UnsignedInt AIUpdateInterface::getMoodMatrixActionAdjustment( MoodMatrixAction a
 {
 	// Angry Mob Members (but not Nexi) are never subject to moods. In particular,
 	// they must never, ever, ever convert a move into an attack move, or Bad Things
-	// will happend, since MobMemberSlavedUpdate expects a moveto to remain a moveto.
+	// will happen, since MobMemberSlavedUpdate expects a moveto to remain a moveto.
 	// Mark L sez that members do not, in fact, need any mood adjustment whatsoever,
 	// since the mood of the nexus wants to control all this anyway. Unfortunately, there
 	// is no KINDOF_MOB_MEMBER, and we don't want to add one at the eleventh hour...

@@ -270,7 +270,7 @@ protected:
 	virtual void privateFollowWaypointPathAsTeam( const Waypoint *way, CommandSourceType cmdSource );///< start following the path from the given point
 	virtual void privateFollowWaypointPathExact( const Waypoint *way, CommandSourceType cmdSource );///< start following the path from the given point
 	virtual void privateFollowWaypointPathAsTeamExact( const Waypoint *way, CommandSourceType cmdSource );///< start following the path from the given point
-	virtual void privateFollowPath( std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction );///< follow the path defined by the given array of points
+	virtual void privateFollowPath( const std::vector<Coord3D>* path, Object *ignoreObject, CommandSourceType cmdSource, Bool exitProduction );///< follow the path defined by the given array of points
 	virtual void privateFollowPathAppend( const Coord3D *pos, CommandSourceType cmdSource );
 	virtual void privateAttackObject( Object *victim, Int maxShotsToFire, CommandSourceType cmdSource );					///< attack given object
 	virtual void privateForceAttackObject( Object *victim, Int maxShotsToFire, CommandSourceType cmdSource );					///< attack given object
@@ -705,7 +705,7 @@ private:
 	Bool chooseLocomotorSetExplicit(LocomotorSetType wst);
 
 private:
-	UnsignedInt					m_priorWaypointID;						///< ID of the path we follwed to before the most recent one
+	UnsignedInt					m_priorWaypointID;						///< ID of the path we followed to before the most recent one
 	UnsignedInt					m_currentWaypointID;					///< ID of the most recent one...
 
 	AIStateMachine*			m_stateMachine;							///< the state machine

@@ -38,7 +38,7 @@
  *   AABTreeBuilderClass::~AABTreeBuilderClass -- Destructor                                   *
  *   AABTreeBuilderClass::Reset -- reset the builder, delete all arrays                        *
  *   AABTreeBuilderClass::Build_AABTree -- Build an AABTree for the given mesh.                *
- *   AABTreeBuilderClass::Build_Tree -- recursivly builds the culling tree                     *
+ *   AABTreeBuilderClass::Build_Tree -- recursively builds the culling tree                    *
  *   AABTreeBuilderClass::Select_Splitting_Plane -- select a partition for the given polys     *
  *   AABTreeBuilderClass::Compute_Plane_Score -- evaluate the suitability of a partition plane *
  *   AABTreeBuilderClass::Which_Side -- which side of a plane is the given poly                *
@@ -264,7 +264,7 @@ void AABTreeBuilderClass::Build_AABTree(int polycount,Vector3i * polys,int vertc
 }
 
 /***********************************************************************************************
- * AABTreeBuilderClass::Build_Tree -- recursivly builds the culling tree                       *
+ * AABTreeBuilderClass::Build_Tree -- recursively builds the culling tree                      *
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -370,7 +370,7 @@ AABTreeBuilderClass::Select_Splitting_Plane(int polycount,int * polyindices)
 {
 	WWASSERT(polyindices != nullptr);
 
-	const int NUM_TRYS = 50;
+	const int NUM_TRIES = 50;
 
 	SplitChoiceStruct best_plane_stats;
 	SplitChoiceStruct considered_plane_stats;
@@ -378,7 +378,7 @@ AABTreeBuilderClass::Select_Splitting_Plane(int polycount,int * polyindices)
 	/*
 	** Try putting axis-aligned planes through some random vertices
 	*/
-	for (int trys = 0; trys < MIN(NUM_TRYS,polycount); trys++) {
+	for (int tries = 0; tries < MIN(NUM_TRIES,polycount); tries++) {
 
 		AAPlaneClass plane;
 

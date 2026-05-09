@@ -106,7 +106,7 @@ static int thePlanSubjectCount = 0;
 static void doMoveTo( Object *obj, const Coord3D *pos )
 {
 	AIUpdateInterface *ai = obj->getAIUpdateInterface();
-	DEBUG_ASSERTCRASH(ai, ("Attemped doMoveTo() on an Object with no AI"));
+	DEBUG_ASSERTCRASH(ai, ("Attempted doMoveTo() on an Object with no AI"));
 	if (ai)
 	{
 		if (theBuildPlan)
@@ -2161,7 +2161,7 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 			Player *player = ThePlayerList->getNthPlayer(msg->getPlayerIndex());
 
 			if (player == nullptr) {
-				DEBUG_CRASH(("GameLogicDispatch - MSG_CREATE_SELECTED_GROUP had an invalid player nubmer"));
+				DEBUG_CRASH(("GameLogicDispatch - MSG_CREATE_SELECTED_GROUP had an invalid player number"));
 				break;
 			}
 
@@ -2187,7 +2187,7 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 			Player *player = ThePlayerList->getNthPlayer(msg->getPlayerIndex());
 
 			if (player == nullptr) {
-				DEBUG_CRASH(("GameLogicDispatch - MSG_CREATE_SELECTED_GROUP had an invalid player nubmer"));
+				DEBUG_CRASH(("GameLogicDispatch - MSG_CREATE_SELECTED_GROUP had an invalid player number"));
 				break;
 			}
 
@@ -2594,7 +2594,7 @@ void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )
 
 				//UnsignedInt oldCRC = m_cachedCRCs[msg->getPlayerIndex()];
 				UnsignedInt newCRC = msg->getArgument(0)->integer;
-				//DEBUG_LOG(("Recieved CRC of %8.8X from %ls on frame %d", newCRC,
+				//DEBUG_LOG(("Received CRC of %8.8X from %ls on frame %d", newCRC,
 					//thisPlayer->getPlayerDisplayName().str(), m_frame));
 				m_cachedCRCs[msg->getPlayerIndex()] = newCRC; // to mask problem: = (oldCRC < newCRC)?newCRC:oldCRC;
 			}

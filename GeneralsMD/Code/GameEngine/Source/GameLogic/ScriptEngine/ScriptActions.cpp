@@ -562,7 +562,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString& team, const AsciiS
 		dp = (DeliverPayloadAIUpdate*)transport->findUpdateModule(key_DeliverPayloadAIUpdate);
 	}
 
-	//Our tranport has a deliverPayload update module. This means it'll do airborned drops.
+	//Our transport has a deliverPayload update module. This means it'll do airborned drops.
 
 	const ThingTemplate* putInContainerTemplate  = nullptr;
 	if( dp )
@@ -2826,7 +2826,7 @@ void ScriptActions::doSpeechPlay(const AsciiString& speechName, Bool allowOverla
 	AudioEventRTS speech(speechName);
 	speech.setIsLogicalAudio(true);
 	speech.setPlayerIndex(ThePlayerList->getLocalPlayer()->getPlayerIndex());
-	speech.setUninterruptable(!allowOverlap);
+	speech.setUninterruptible(!allowOverlap);
 	TheAudio->addAudioEvent(&speech);
 
 
@@ -2839,7 +2839,7 @@ void ScriptActions::doSpeechPlay(const AsciiString& speechName, Bool allowOverla
 	UnicodeString subtitle = TheGameText->fetch(subtitleLabel, &found);
 	if( found && !subtitle.isEmpty() && subtitle.getCharAt(0) != '*')
 	{
-		// Foreign versions can specify region specifc subtitle strings if they want.
+		// Foreign versions can specify region specific subtitle strings if they want.
 		// English will have strings with / for easy translation, but they don't want to display.
 		TheInGameUI->militarySubtitle( subtitleLabel, SUBTITLE_DURATION );
 	}

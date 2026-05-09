@@ -38,7 +38,7 @@ typedef std::vector<AsciiString> AsciiStringVec;
 class Xfer;
 
 //-------------------------------------------------------------------------------------------------
-/** This is the abstract base class from which all game engine subsytems should derive from.
+/** This is the abstract base class from which all game engine subsystems should derive from.
 	* In order to provide consistent behaviors across all these systems, any implementation
 	* must obey the rules defined in here
 	*

@@ -174,7 +174,7 @@ public:
 ** plane.  The plane is defined by the x-y plane of the coordinate system
 ** (i.e. z-axis is the normal of the plane, origin is a point on the plane).
 ** Leaf nodes of this tree will have two indices.  These are indices into
-** the MeshFragments array where they put the polygons in thier front and
+** the MeshFragments array where they put the polygons in their front and
 ** back half-spaces.
 */
 class BSPClass
@@ -1180,7 +1180,7 @@ void ShatterSystem::Process_Clip_Pools
 
 					SHATTER_DEBUG_SAY(("Begin Vertex:"));
 					new_mesh->Begin_Vertex();
-					SHATTER_DEBUG_SAY(("postion: %f %f %f",pos.X,pos.Y,pos.Z));
+					SHATTER_DEBUG_SAY(("position: %f %f %f",pos.X,pos.Y,pos.Z));
 					new_mesh->Location_Inline(pos);
 					new_mesh->Normal(norm);
 

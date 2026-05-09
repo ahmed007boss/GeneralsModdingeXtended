@@ -298,7 +298,7 @@ void W3DTreeBuffer::cull(const CameraClass * camera)
 {
 	Int curTree;
 
-	// Calulate the vector direction that the camera is looking at.
+	// Calculate the vector direction that the camera is looking at.
 	Matrix3D camera_matrix = camera->Get_Transform();
 	float zmod = -1;
 	float x = zmod * camera_matrix[0][2] ;
@@ -825,7 +825,7 @@ void W3DTreeBuffer::loadTreesInVertexAndIndexBuffers(RefRenderObjListIterator *p
 				}
 				// panel start is index offset, there are 3 index per triangle.
 				if (m_trees[curTree].panelStart/3 + 2 > numIndex) {
-					continue; // not enought polygons for the offset.  jba.
+					continue; // not enough polygons for the offset.  jba.
 				}
 				for (j=0; j<6; j++) {
 					i = ((Int *)pPoly)[j+m_trees[curTree].panelStart];
@@ -1718,9 +1718,9 @@ void W3DTreeBuffer::drawTrees(CameraClass * camera, RefRenderObjListIterator *pD
 
 	if (m_dwTreeVertexShader) {
 		D3DXMATRIX matProj, matView, matWorld;
-		DX8Wrapper::_Get_DX8_Transform(D3DTS_WORLD, *(Matrix4x4*)&matWorld);
-		DX8Wrapper::_Get_DX8_Transform(D3DTS_VIEW, *(Matrix4x4*)&matView);
-		DX8Wrapper::_Get_DX8_Transform(D3DTS_PROJECTION, *(Matrix4x4*)&matProj);
+		DX8Wrapper::_Get_DX8_Transform(D3DTS_WORLD, matWorld);
+		DX8Wrapper::_Get_DX8_Transform(D3DTS_VIEW, matView);
+		DX8Wrapper::_Get_DX8_Transform(D3DTS_PROJECTION, matProj);
 		D3DXMATRIX mat;
 		D3DXMatrixMultiply( &mat, &matView, &matProj );
 		D3DXMatrixMultiply( &mat, &matWorld, &mat );

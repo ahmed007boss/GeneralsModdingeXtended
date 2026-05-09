@@ -30,7 +30,7 @@
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
 
 #include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
-#define DEFINE_GUI_COMMMAND_NAMES
+#define DEFINE_GUI_COMMAND_NAMES
 #define DEFINE_COMMAND_OPTION_NAMES
 #define DEFINE_WEAPONSLOTTYPE_NAMES
 #define DEFINE_RADIUSCURSOR_NAMES
@@ -931,7 +931,7 @@ ControlBar::ControlBar( void )
 	m_generalButtonHighlight = nullptr;
 	m_genArrow = nullptr;
 	m_sideSelectAnimateDown = FALSE;
-	updateCommanBarBorderColors(GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED);
+	updateCommandBarBorderColors(GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED,GAME_COLOR_UNDEFINED);
 
 	m_radarAttackGlowOn = FALSE;
 	m_remainingRadarAttackGlowFrames = 0;
@@ -1036,7 +1036,7 @@ void ControlBar::init( void )
 	// post process step after loading the command buttons and command sets
 	postProcessCommands();
 
-	// Init the scheme manager, this will call it's won INI init funciton.
+	// Init the scheme manager, this will call its own INI init function.
 	m_controlBarSchemeManager = NEW ControlBarSchemeManager;
 	m_controlBarSchemeManager->init();
 
@@ -2887,7 +2887,7 @@ void ControlBar::updateBuildUpClockColor( Color color)
 
 
 
-void ControlBar::updateCommanBarBorderColors(Color build, Color action, Color upgrade, Color system )
+void ControlBar::updateCommandBarBorderColors(Color build, Color action, Color upgrade, Color system )
 {
 	m_commandButtonBorderBuildColor = build;
 	m_commandButtonBorderActionColor = action;

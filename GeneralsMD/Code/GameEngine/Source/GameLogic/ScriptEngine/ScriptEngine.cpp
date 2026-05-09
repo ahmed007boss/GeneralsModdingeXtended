@@ -6959,7 +6959,7 @@ void ScriptEngine::executeScript( Script *pScript )
 		case DIFFICULTY_NORMAL : if (!pScript->isNormal()) return;  break;
 		case DIFFICULTY_HARD : if (!pScript->isHard()) return;  break;
 	}
-	// If we are doing peridic evaluation, check the frame.
+	// If we are doing periodic evaluation, check the frame.
 	if (TheGameLogic->getFrame()<pScript->getFrameToEvaluate()) {
 		return;
 	}
@@ -7706,7 +7706,7 @@ const ConditionTemplate * ScriptEngine::getConditionTemplate( Int ndx )
 }
 
 //-------------------------------------------------------------------------------------------------
-/** Fills the named object cache initally. */
+/** Fills the named object cache initially. */
 //-------------------------------------------------------------------------------------------------
 void ScriptEngine::createNamedCache( void )
 {
@@ -7878,12 +7878,13 @@ void ScriptEngine::setSequentialTimer(Team *team, Int frameCount)
 void ScriptEngine::evaluateAndProgressAllSequentialScripts( void )
 {
 	VecSequentialScriptPtrIt it;
-	SequentialScript* lastScript = nullptr;
+	size_t currIndex = 0;
+	size_t prevIndex = ~0u;
 	Bool itAdvanced = false;
 
 	Int spinCount = 0;
 	for (it = m_sequentialScripts.begin(); it != m_sequentialScripts.end(); /* empty */) {
-		if ((*it) == lastScript) {
+		if (currIndex == prevIndex) {
 			++spinCount;
 		} else {
 			spinCount = 0;
@@ -7896,11 +7897,11 @@ void ScriptEngine::evaluateAndProgressAllSequentialScripts( void )
 					seqScript->m_scriptToExecuteSequentially->getName().str()));
 			}
 			++it;
+			++currIndex;
 			continue;
 		}
 
-		lastScript = (*it);
-
+		prevIndex = currIndex;
 		itAdvanced = false;
 
 		SequentialScript *seqScript = (*it);
@@ -8008,6 +8009,7 @@ void ScriptEngine::evaluateAndProgressAllSequentialScripts( void )
 					// Check to see if executing our action told us to wait. If so, skip to the next Sequential script
 					if (seqScript->m_dontAdvanceInstruction) {
 						++it;
+						++currIndex;
 						itAdvanced = true;
 						continue;
 					}
@@ -8061,6 +8063,7 @@ void ScriptEngine::evaluateAndProgressAllSequentialScripts( void )
 
 		if (!itAdvanced) {
 			++it;
+			++currIndex;
 		}
 	}
 	m_currentPlayer = nullptr;
@@ -8980,7 +8983,7 @@ void ScriptEngine::xfer( Xfer *xfer )
 	if( xfer->getXferMode() == XFER_SAVE )
 	{
 
-		// iterate elemnts
+		// iterate elements
 		VecNamedRequestsIt it;
 		for( it = m_namedObjects.begin(); it != m_namedObjects.end(); ++it )
 		{

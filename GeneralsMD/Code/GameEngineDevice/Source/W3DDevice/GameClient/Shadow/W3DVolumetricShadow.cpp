@@ -898,7 +898,7 @@ if (!m_polyNeighbors) {
 
 // buildPolygonNeighbors ======================================================
 // Whenever we set a new geometry we want to build some information about
-// the faces in the new geometry so that we can efficienty traverse across
+// the faces in the new geometry so that we can efficiently traverse across
 // the surface to neighboring polygons
 // ============================================================================
 void W3DShadowGeometryMesh::buildPolygonNeighbors( void )
@@ -934,7 +934,7 @@ void W3DShadowGeometryMesh::buildPolygonNeighbors( void )
 	// building our neighbor information for the very first time ...
 	// if our current geometry has a different number of polygons than
 	// we had previously calculated we need to delete and reallocate a
-	// new storate space for the neighbor information
+	// new storage space for the neighbor information
 	//
 	if( numPolys != m_numPolyNeighbors )
 	{
@@ -1105,7 +1105,7 @@ Bool W3DShadowGeometryMesh::allocateNeighbors( Int numPolys )
 
 	}
 
-	// list is now acutally allocated
+	// list is now actually allocated
 	m_numPolyNeighbors = numPolys;
 
 	return TRUE;  // success!
@@ -1351,11 +1351,8 @@ void W3DVolumetricShadow::RenderMeshVolume(Int meshIndex, Int lightIndex, const 
 	if( numVerts == 0 || numPolys == 0 )
 		return;
 
-	Matrix4x4 mWorld(*meshXform);
-
-	///@todo: W3D always does transpose on all of matrix sets.  Slow???  Better to hack view matrix.
-	Matrix4x4 mWorldTransposed = mWorld.Transpose();
-	m_pDev->SetTransform(D3DTS_WORLD,(_D3DMATRIX *)&mWorldTransposed);
+	D3DMATRIX dxmWorld = To_D3DMATRIX(*meshXform);
+	m_pDev->SetTransform(D3DTS_WORLD,&dxmWorld);
 
 	W3DBufferManager::W3DVertexBufferSlot *vbSlot=m_shadowVolumeVB[lightIndex][ meshIndex ];
 	if (!vbSlot)
@@ -1468,9 +1465,8 @@ void W3DVolumetricShadow::RenderDynamicMeshVolume(Int meshIndex, Int lightIndex,
 
 	m_pDev->SetIndices(shadowIndexBufferD3D,nShadowStartBatchVertex);
 
-	Matrix4x4 mWorld(*meshXform);
-	Matrix4x4 mWorldTransposed = mWorld.Transpose();
-	m_pDev->SetTransform(D3DTS_WORLD,(_D3DMATRIX *)&mWorldTransposed);
+	D3DMATRIX dxmWorld = To_D3DMATRIX(*meshXform);
+	m_pDev->SetTransform(D3DTS_WORLD,&dxmWorld);
 
 	if (shadowVertexBufferD3D != lastActiveVertexBuffer)
 	{	m_pDev->SetStreamSource(0,shadowVertexBufferD3D,sizeof(SHADOW_DYNAMIC_VOLUME_VERTEX));
@@ -1624,8 +1620,8 @@ void W3DVolumetricShadow::RenderMeshVolumeBounds(Int meshIndex, Int lightIndex, 
 
 	//todo: replace this with mesh transform
 	Matrix4x4 mWorld(1);	//identity since boxes are pre-transformed to world space.
-	Matrix4x4 mWorldTransposed = mWorld.Transpose();
-	m_pDev->SetTransform(D3DTS_WORLD,(_D3DMATRIX *)&mWorldTransposed);
+	D3DMATRIX dxmWorld = To_D3DMATRIX(mWorld);
+	m_pDev->SetTransform(D3DTS_WORLD,&dxmWorld);
 
 	m_pDev->SetStreamSource(0,shadowVertexBufferD3D,sizeof(SHADOW_DYNAMIC_VOLUME_VERTEX));
 	m_pDev->SetVertexShader(SHADOW_DYNAMIC_VOLUME_FVF);
@@ -2053,7 +2049,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		// system change, not the translations
 		//
 		Real det;
-		D3DXMatrixInverse((D3DXMATRIX*)&worldToObject, &det, (D3DXMATRIX*)&objectToWorld);
+		Matrix4x4::Inverse(&worldToObject, &det, &objectToWorld);
 
 		// find out light position in object space
 		Matrix4x4::Transform_Vector(worldToObject,lightPosWorld,&lightPosObject);
@@ -3236,7 +3232,7 @@ void W3DVolumetricShadow::deleteShadowVolume( Int volumeIndex )
 // resetShadowVolume ==========================================================
 // Reset the contents of the shadow volume information.  Since we're using
 // a geometry class it would be ideal if these structures had a reset
-// option where their resoures were released back to a pool rather than
+// option where their resources were released back to a pool rather than
 // delete and allocate new storage space
 // ============================================================================
 void W3DVolumetricShadow::resetShadowVolume( Int volumeIndex, Int meshIndex )
@@ -3273,7 +3269,7 @@ void W3DVolumetricShadow::resetShadowVolume( Int volumeIndex, Int meshIndex )
 // allocateSilhouette =========================================================
 // Allocate space for new silhouette storage, the number of vertices passed
 // in is the total vertices in the model, a silhouette must be able to
-// accomodate that as a series of disjoint edge pairs, otherwise known
+// accommodate that as a series of disjoint edge pairs, otherwise known
 // as numVertices * 2
 // ============================================================================
 Bool W3DVolumetricShadow::allocateSilhouette(Int meshIndex, Int numVertices )
@@ -3290,7 +3286,7 @@ Bool W3DVolumetricShadow::allocateSilhouette(Int meshIndex, Int numVertices )
 	if( m_silhouetteIndex[meshIndex] == nullptr )
 	{
 
-//		DBGPRINTF(( "Unable to allcoate silhouette storage '%d'\n", numEntries ));
+//		DBGPRINTF(( "Unable to allocate silhouette storage '%d'\n", numEntries ));
 		assert( 0 );
 		return FALSE;
 
@@ -3744,7 +3740,7 @@ Bool W3DVolumetricShadowManager::ReAcquireResources(void)
 
 	LPDIRECT3DDEVICE8 m_pDev=DX8Wrapper::_Get_D3D_Device8();
 
-	DEBUG_ASSERTCRASH(m_pDev, ("Trying to ReAquireResources on W3DVolumetricShadowManager without device"));
+	DEBUG_ASSERTCRASH(m_pDev, ("Trying to ReAcquireResources on W3DVolumetricShadowManager without device"));
 
 	if (FAILED(m_pDev->CreateIndexBuffer
 	(

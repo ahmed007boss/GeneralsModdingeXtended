@@ -1878,7 +1878,7 @@ void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, co
 				// Calculate the vector of the shockwave
 				Coord3D shockWaveVector = damageDirection;
 
-				// Guard against zero vector. Make vector stright up if that is the case
+				// Guard against zero vector. Make vector straight up if that is the case
 				if (fabs(shockWaveVector.x) < WWMATH_EPSILON &&
 						fabs(shockWaveVector.y) < WWMATH_EPSILON &&
 						fabs(shockWaveVector.z) < WWMATH_EPSILON)
@@ -1886,7 +1886,7 @@ void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, co
 					shockWaveVector.z = 1.0f;
 				}
 
-				// Populate the damge information with the shockwave information
+				// Populate the damage information with the shockwave information
 				damageInfo.in.m_shockWaveVector = shockWaveVector;
 				damageInfo.in.m_shockWaveRadius = m_shockWaveRadius;
 				damageInfo.in.m_shockWaveTaperOff = m_shockWaveTaperOff;
@@ -2127,7 +2127,7 @@ void WeaponStore::resetWeaponTemplates(void)
 //-------------------------------------------------------------------------------------------------
 void WeaponStore::reset()
 {
-	// clean up any overriddes.
+	// clean up any overrides.
 	for (size_t i = 0; i < m_weaponTemplateVector.size(); ++i)
 	{
 		WeaponTemplate* wt = m_weaponTemplateVector[i];
@@ -3457,8 +3457,8 @@ Bool Weapon::isWithinTargetPitch(const Object* source, const Object* victim) con
 	const Coord3D* src = source->getPosition();
 	const Coord3D* dst = victim->getPosition();
 
-	const Real ACCCEPTABLE_DZ = 10.0f;
-	if (fabs(dst->z - src->z) < ACCCEPTABLE_DZ)
+	const Real ACCEPTABLE_DZ = 10.0f;
+	if (fabs(dst->z - src->z) < ACCEPTABLE_DZ)
 		return true;	// always good enough if dz is small, regardless of pitch
 
 	Real minPitch, maxPitch;

@@ -212,7 +212,7 @@ enum GUICommandType CPP_11(: Int)
 	GUI_COMMAND_REPLACE_COMPONENT,				///< TheSuperHackers @feature author 15/01/2025 replace damaged component
 	GUI_COMMAND_TOGGLE_COMPONENT_DISABLED,		///< TheSuperHackers @feature Ahmed Salah 15/01/2025 toggle component disabled status
 
-	//Context senstive command modes
+	//Context sensitive command modes
 	GUICOMMANDMODE_HIJACK_VEHICLE,
 	GUICOMMANDMODE_CONVERT_TO_CARBOMB,
 	GUICOMMANDMODE_SABOTAGE_BUILDING,
@@ -244,7 +244,7 @@ enum GUICommandType CPP_11(: Int)
 	GUI_COMMAND_NUM_COMMANDS
 };
 
-#ifdef DEFINE_GUI_COMMMAND_NAMES
+#ifdef DEFINE_GUI_COMMAND_NAMES
 static const char *const TheGuiCommandNames[] =
 {
 	"NONE",
@@ -978,6 +978,7 @@ public:
 
 	Color getBorderColor( void ){return m_commandBarBorderColor;}
 	void updateBorderColor( Color color) {m_commandBarBorderColor = color;	}
+	void updateCommandBarBorderColors( Color build, Color action, Color upgrade, Color system );
 
 	/// set the command data into the button
 	void setControlCommand( GameWindow *button, const CommandButton *commandButton, const CommandSet *commandSet = NULL, Int buttonIndex = -1 );

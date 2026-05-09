@@ -1201,7 +1201,7 @@ InGameUI::~InGameUI()
 	// free custom ui strings
 	freeCustomUiResources();
 
-	// delete the array for the drawbles
+	// delete the array for the drawables
 	delete [] m_placeIcon;
 	m_placeIcon = nullptr;
 
@@ -1593,7 +1593,7 @@ void InGameUI::handleBuildPlacements( void )
 		//
 		// check to see if this is a legal location to build something at and tint or "un-tint"
 		// the cursor icons as appropriate.  This involves a pathfind which could be
-		// expensive so we don't want to do it on every frame (althought that would be ideal)
+		// expensive so we don't want to do it on every frame (although that would be ideal)
 		// If we discover there are cases that this is just too slow we should increase the
 		// delay time between checks or we need to come up with a way of recording what is
 		// valid and what isn't or "fudge" the results to feel "ok"
@@ -2502,7 +2502,7 @@ void InGameUI::createMouseoverHint( const GameMessage *msg )
 		if( obj )
 		{
 
- 			//Ahh, here is a wierd exception: if the moused-over drawable is a mob-member
+ 			//Ahh, here is a weird exception: if the moused-over drawable is a mob-member
 			//(e.g. AngryMob), Lets fool the UI into creating the hint for the NEXUS instead...
  			if (obj->isKindOf( KINDOF_IGNORED_IN_GUI ))
  			{
@@ -3574,7 +3574,7 @@ const DrawableList *InGameUI::getAllSelectedLocalDrawables( void )
 }
 
 //-------------------------------------------------------------------------------------------------
-/** Return poiner to the first selected drawable, if any */
+/** Return pointer to the first selected drawable, if any */
 //-------------------------------------------------------------------------------------------------
 Drawable *InGameUI::getFirstSelectedDrawable( void )
 {
@@ -3852,7 +3852,7 @@ void InGameUI::postDraw( void )
 						{
 
 							// We don't draw our timers until we are finished with construction.
-							// It is important that let the SpecialPowerUpdate is add its timer in its contructor,,
+							// It is important that let the SpecialPowerUpdate is add its timer in its constructor,,
 							// since the science for it could be added before construction is finished,
 							// And thus the timer set to READY before the timer is first drawn, here
 							if ( owningObject->testStatus( OBJECT_STATUS_UNDER_CONSTRUCTION ))
@@ -3942,7 +3942,7 @@ void InGameUI::postDraw( void )
                 // draw the text
                 if ( !m_superweaponHiddenByScript && !marginExceeded )
                 {
-                  // Similarly, only checking timers is not truly indicitive of readyness.
+                  // Similarly, only checking timers is not truly indicative of readiness.
  								  Bool changeBolding = (readySecs != info->m_timestamp) || (isReady != info->m_ready) || info->m_forceUpdateText;
  								  if (changeBolding)
  								  {
@@ -4733,7 +4733,7 @@ Bool InGameUI::canSelectedObjectsDoSpecialPower( const CommandButton *command, c
 	//Get the special power template.
 	const SpecialPowerTemplate *spTemplate = command->getSpecialPowerTemplate();
 
-	//Order of precendence:
+	//Order of precedence:
 	//1) NO TARGET OR POS
 	//2) COMMAND_OPTION_NEED_OBJECT_TARGET
 	//3) NEED_TARGET_POS
@@ -4857,7 +4857,7 @@ Bool InGameUI::canSelectedObjectsEffectivelyUseWeapon( const CommandButton *comm
 	//Get the special power template.
 	WeaponSlotType slot = command->getWeaponSlot();
 
-	//Order of precendence:
+	//Order of precedence:
 	//1) NO TARGET OR POS
 	//2) COMMAND_OPTION_NEED_OBJECT_TARGET
 	//3) NEED_TARGET_POS
@@ -4989,7 +4989,7 @@ Int InGameUI::selectAllUnitsByTypeAcrossRegion( IRegion2D *region, KindOfMaskTyp
 }
 
 // ------------------------------------------------------------------------------------------------
-/** Selects maching units on the screen */
+/** Selects matching units on the screen */
 // ------------------------------------------------------------------------------------------------
 Int InGameUI::selectMatchingAcrossRegion( IRegion2D *region )
 {
@@ -5011,7 +5011,7 @@ Int InGameUI::selectMatchingAcrossRegion( IRegion2D *region )
 		draw = *it;
 		if( draw && draw->getObject() && draw->getObject()->isLocallyControlled() )
 		{
-			// Use the Object's thing template, doing so will prevent wierdness for disguised vehicles.
+			// Use the Object's thing template, doing so will prevent weirdness for disguised vehicles.
 			drawableList.insert( draw->getObject()->getTemplate() );
 			if( draw->getObject()->testStatus( OBJECT_STATUS_IS_CARBOMB ) )
 			{
@@ -5107,7 +5107,7 @@ Int InGameUI::selectAllUnitsByTypeAcrossScreen(KindOfMaskType mustBeSet, KindOfM
 }
 
 // ------------------------------------------------------------------------------------------------
-/** Selects maching units on the screen */
+/** Selects matching units on the screen */
 // ------------------------------------------------------------------------------------------------
 Int InGameUI::selectMatchingAcrossScreen( void )
 {
@@ -5355,7 +5355,7 @@ void InGameUI::updateFloatingText( void )
 	FloatingTextData *ftd;		// pointer to our floating point data
 	UnsignedInt currLogicFrame = TheGameLogic->getFrame();			// the current logic frame
 	UnsignedByte r, g, b, a;	// we'll need to break apart our color so we can modify the alpha
-	Int amount;								// The amout we'll change the alpha
+	Int amount;								// The amount we'll change the alpha
 	static UnsignedInt lastLogicFrameUpdate = currLogicFrame;		// We need to make sure our current frame is different then our last frame we updated.
 
 	// only update the position if we're incrementing frames
@@ -5392,7 +5392,7 @@ void InGameUI::updateFloatingText( void )
 			}
 
 		}
-		// increase our itterator
+		// increase our iterator
 		++it;
 
 	}
@@ -5853,7 +5853,7 @@ void InGameUI::selectNextIdleWorker( void )
 
 		selectDrawable( selectThisObject->getDrawable() );
 
-		/*// removed becuase we're already playing a select sound... left in, just in case i"m wrong.
+		/*// removed because we're already playing a select sound... left in, just in case i"m wrong.
 		// play the units sound
 				const AudioEventRTS *soundEvent = selectThisObject->getTemplate()->getVoiceSelect();
 				if (soundEvent)

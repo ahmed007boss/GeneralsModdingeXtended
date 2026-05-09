@@ -157,7 +157,7 @@ void W3DRenderObjectSnapshot::update(RenderObjClass *robj, DrawableInfo *drawInf
 // ------------------------------------------------------------------------------------------------
 Bool W3DRenderObjectSnapshot::addToScene(void)
 {
-	if (!m_robj->Is_In_Scene())
+	if (W3DDisplay::m_3DScene != nullptr && !m_robj->Is_In_Scene())
 	{
 		W3DDisplay::m_3DScene->Add_Render_Object(m_robj);
 		return true;
@@ -663,7 +663,7 @@ void W3DGhostObject::xfer( Xfer *xfer )
 		//
 		if( snapshotCount == 0 && m_parentSnapshots[ i ] != nullptr )
 		{
-			DEBUG_CRASH(( "W3DGhostObject::xfer - m_parentShapshots[ %d ] has data present but the count from the xfer stream is empty", i ));
+			DEBUG_CRASH(( "W3DGhostObject::xfer - m_parentSnapshots[ %d ] has data present but the count from the xfer stream is empty", i ));
 			throw INI_INVALID_DATA;
 		}
 
@@ -1214,7 +1214,7 @@ void W3DGhostObjectManager::xfer( Xfer *xfer )
 				DEBUG_ASSERTCRASH( ghostObject != nullptr,
 					("W3DGhostObjectManager::xfer - Could not create ghost object for object '%s'", object->getTemplate()->getName().str()) );
 
-				// link the ghost object and logical object togehter through partition/ghostObject dat
+				// link the ghost object and logical object together through partition/ghostObject dat
 				DEBUG_ASSERTCRASH( object->friend_getPartitionData()->getGhostObject() == nullptr,
 					("W3DGhostObjectManager::xfer - Ghost object already on object '%s'", object->getTemplate()->getName().str()) );
 

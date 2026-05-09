@@ -905,7 +905,7 @@ void W3DTerrainVisual::setRawMapHeight(const ICoord2D *gridPos, Int height)
       if ( m_clientHeightMap )
       {
         if ( height < m_clientHeightMap->getHeight( x,y ) )
-          m_clientHeightMap->setRawHeight( x, y, height ); // if the client map is heigher than this height, it will fall down to it anyway!
+          m_clientHeightMap->setRawHeight( x, y, height ); // if the client map is higher than this height, it will fall down to it anyway!
       }
 #endif
 
@@ -1189,7 +1189,7 @@ void W3DTerrainVisual::xfer( Xfer *xfer )
 		if( width != getGridWidth() )
 		{
 
-			DEBUG_CRASH(( "W3DTerainVisual::xfer - grid width mismatch '%d' should be '%d'",
+			DEBUG_CRASH(( "W3DTerrainVisual::xfer - grid width mismatch '%d' should be '%d'",
 										width, getGridWidth() ));
 			throw SC_INVALID_DATA;
 
@@ -1197,7 +1197,7 @@ void W3DTerrainVisual::xfer( Xfer *xfer )
 		if( height != getGridHeight() )
 		{
 
-			DEBUG_CRASH(( "W3DTerainVisual::xfer - grid height mismatch '%d' should be '%d'",
+			DEBUG_CRASH(( "W3DTerrainVisual::xfer - grid height mismatch '%d' should be '%d'",
 										height, getGridHeight() ));
 			throw SC_INVALID_DATA;
 

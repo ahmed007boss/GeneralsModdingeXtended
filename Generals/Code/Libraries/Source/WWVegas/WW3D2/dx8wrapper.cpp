@@ -164,8 +164,8 @@ bool								DX8Wrapper::IsDeviceLost;
 int								DX8Wrapper::ZBias;
 float								DX8Wrapper::ZNear;
 float								DX8Wrapper::ZFar;
-Matrix4x4						DX8Wrapper::ProjectionMatrix;
-Matrix4x4						DX8Wrapper::DX8Transforms[D3DTS_WORLD+1];
+D3DMATRIX						DX8Wrapper::ProjectionMatrix;
+D3DMATRIX						DX8Wrapper::DX8Transforms[D3DTS_WORLD+1];
 
 DX8Caps*							DX8Wrapper::CurrentCaps = nullptr;
 
@@ -400,7 +400,7 @@ void DX8Wrapper::Do_Onetime_Device_Dependent_Inits(void)
 	Compute_Caps(D3DFormat_To_WW3DFormat(DisplayFormat));
 
    /*
-	** Initalize any other subsystems inside of WW3D
+	** Initialize any other subsystems inside of WW3D
 	*/
 	MissingTexture::_Init();
 	TextureFilterClass::_Init_Filters((TextureFilterClass::TextureFilterMode)WW3D::Get_Texture_Filter());
@@ -477,13 +477,7 @@ void DX8Wrapper::Invalidate_Cached_Render_States(void)
 	Release_Render_State();
 
 	// (gth) clear the matrix shadows too
-	for (int i=0; i<D3DTS_WORLD+1; i++) {
-		DX8Transforms[i][0].Set(0,0,0,0);
-		DX8Transforms[i][1].Set(0,0,0,0);
-		DX8Transforms[i][2].Set(0,0,0,0);
-		DX8Transforms[i][3].Set(0,0,0,0);
-	}
-
+	memset(&DX8Transforms, 0, sizeof(DX8Transforms));
 }
 
 void DX8Wrapper::Do_Onetime_Device_Dependent_Shutdowns(void)
@@ -1972,7 +1966,7 @@ void DX8Wrapper::Draw(
 			break;
 		}
 	}
-#endif	// MESH_RENDER_SHAPSHOT_ENABLED
+#endif	// MESH_RENDER_SNAPSHOT_ENABLED
 
 
 	SNAPSHOT_SAY(("DX8 - draw %d polygons (%d vertices)",polygon_count,vertex_count));
@@ -2445,7 +2439,7 @@ IDirect3DTexture8 * DX8Wrapper::_Create_DX8_ZTexture
 
 		if (SUCCEEDED(ret))
 		{
-			WWDEBUG_SAY(("...Render target creation succesful."));
+			WWDEBUG_SAY(("...Render target creation successful."));
 		}
 		else
 		{
@@ -2536,7 +2530,7 @@ IDirect3DCubeTexture8* DX8Wrapper::_Create_DX8_Cube_Texture
 
 			if (SUCCEEDED(ret))
 			{
-				WWDEBUG_SAY(("...Render target creation succesful."));
+				WWDEBUG_SAY(("...Render target creation successful."));
 			}
 			else
 			{
@@ -2591,7 +2585,7 @@ IDirect3DCubeTexture8* DX8Wrapper::_Create_DX8_Cube_Texture
 		);
 		if (SUCCEEDED(ret))
 		{
-			WWDEBUG_SAY(("...Texture creation succesful."));
+			WWDEBUG_SAY(("...Texture creation successful."));
 		}
 		else
 		{
@@ -2670,7 +2664,7 @@ IDirect3DVolumeTexture8* DX8Wrapper::_Create_DX8_Volume_Texture
 		);
 		if (SUCCEEDED(ret))
 		{
-			WWDEBUG_SAY(("...Texture creation succesful."));
+			WWDEBUG_SAY(("...Texture creation successful."));
 		}
 		else
 		{
@@ -3498,6 +3492,34 @@ void DX8Wrapper::Set_Gamma(float gamma,float bright,float contrast,bool calibrat
 			ReleaseDC (hwnd, hdc);
 		}
 	}
+}
+
+namespace wrapper
+{
+void D3DMatrixIdentity(D3DMATRIX* dxm)
+{
+	memset(dxm, 0, sizeof(*dxm));
+	dxm->_11 = 1.0f;
+	dxm->_22 = 1.0f;
+	dxm->_33 = 1.0f;
+	dxm->_44 = 1.0f;
+}
+} // namespace wrapper
+
+void DX8Wrapper::Set_World_Identity()
+{
+	if (render_state_changed&(unsigned)WORLD_IDENTITY)
+		return;
+	wrapper::D3DMatrixIdentity(&render_state.world);
+	render_state_changed|=(unsigned)WORLD_CHANGED|(unsigned)WORLD_IDENTITY;
+}
+
+void DX8Wrapper::Set_View_Identity()
+{
+	if (render_state_changed&(unsigned)VIEW_IDENTITY)
+		return;
+	wrapper::D3DMatrixIdentity(&render_state.view);
+	render_state_changed|=(unsigned)VIEW_CHANGED|(unsigned)VIEW_IDENTITY;
 }
 
 //**********************************************************************************************
