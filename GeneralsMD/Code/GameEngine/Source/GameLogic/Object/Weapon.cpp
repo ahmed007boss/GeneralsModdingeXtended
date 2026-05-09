@@ -684,10 +684,12 @@ Int WeaponTemplate::getDelayBetweenShots(const WeaponBonus& bonus) const
 	// yes, divide, not multiply; the larger the rate-of-fire bonus, the shorter
 	// we want the delay time to be.
 	Int delayToUse;
-	if (m_minDelayBetweenShots == m_maxDelayBetweenShots)
-		delayToUse = m_minDelayBetweenShots; // Random number thing doesn't like this case
+	Int minDelay = m_minDelayBetweenShots;
+	Int maxDelay = m_maxDelayBetweenShots;
+	if (minDelay == maxDelay)
+		delayToUse = minDelay; // Random number thing doesn't like this case
 	else
-		delayToUse = GameLogicRandomValue(m_minDelayBetweenShots, m_maxDelayBetweenShots);
+		delayToUse = GameLogicRandomValue(minDelay, maxDelay);
 
 	Real bonusROF = bonus.getField(WeaponBonus::RATE_OF_FIRE);
 	//CRCDEBUG_LOG(("WeaponTemplate::getDelayBetweenShots() - min:%d max:%d val:%d, bonusROF=%g/%8.8X",
@@ -1194,22 +1196,28 @@ UnsignedInt WeaponTemplate::fireWeaponTemplate
 		}
 		else
 		{
+			// TheSuperHackers @feature author DD/MM/YYYY Use Weapon instance modifiers when available
+			Real weaponSpeed = firingWeapon ? firingWeapon->getWeaponSpeed() : getWeaponSpeed();
+			Real primaryDamageRadius = firingWeapon ? firingWeapon->getPrimaryDamageRadius(sourceObj) : getPrimaryDamageRadius(bonus);
 			handled = sourceObj->getDrawable()->handleWeaponFireFX(wslot,
 																															specificBarrelToUse,
 																															fx,
-																															getWeaponSpeed(),
+																															weaponSpeed,
 																															reAngle,
 																															reDir,
 																															&targetPos,
-																															getPrimaryDamageRadius(bonus)
+																															primaryDamageRadius
 																															);
 		}
 
 		if (handled == false && fx != NULL)
 		{
 			// bah. just play it at the drawable's pos.
+			// TheSuperHackers @feature author DD/MM/YYYY Use Weapon instance modifiers when available
+			Real weaponSpeed = firingWeapon ? firingWeapon->getWeaponSpeed() : getWeaponSpeed();
+			Real primaryDamageRadius = firingWeapon ? firingWeapon->getPrimaryDamageRadius(sourceObj) : getPrimaryDamageRadius(bonus);
 			const Coord3D* where = isContactWeapon() ? &targetPos : sourceObj->getDrawable()->getPosition();
-			FXList::doFXPos(fx, where, sourceObj->getDrawable()->getTransformMatrix(), getWeaponSpeed(), &targetPos, getPrimaryDamageRadius(bonus));
+			FXList::doFXPos(fx, where, sourceObj->getDrawable()->getTransformMatrix(), weaponSpeed, &targetPos, primaryDamageRadius);
 		}
 	}
 
@@ -2290,6 +2298,16 @@ Weapon::Weapon(const WeaponTemplate* tmpl, WeaponSlotType wslot)
 	m_numShotsForCurBarrel = m_template->getShotsPerBarrel();
 	m_lastFireFrame = 0;
 	m_suspendFXFrame = TheGameLogic->getFrame() + m_template->getSuspendFXDelay();
+	// TheSuperHackers @feature author DD/MM/YYYY Initialize weapon upgrade modifiers
+	m_addPrimaryDamage = 0.0f;
+	m_addPrimaryDamageRadius = 0.0f;
+	m_addAttackRange = 0.0f;
+	m_addMinimumAttackRange = 0.0f;
+	m_addAcceptableAimDelta = 0.0f;
+	m_addWeaponSpeed = 0.0f;
+	m_addDelayBetweenShots = 0;
+	m_addClipSize = 0;
+	m_addClipReloadTime = 0;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -2311,6 +2329,16 @@ Weapon::Weapon(const Weapon& that)
 	this->m_numShotsForCurBarrel = m_template->getShotsPerBarrel();
 	this->m_lastFireFrame = 0;
 	this->m_suspendFXFrame = that.getSuspendFXFrame();
+	// TheSuperHackers @feature author DD/MM/YYYY Copy weapon upgrade modifiers
+	this->m_addPrimaryDamage = that.m_addPrimaryDamage;
+	this->m_addPrimaryDamageRadius = that.m_addPrimaryDamageRadius;
+	this->m_addAttackRange = that.m_addAttackRange;
+	this->m_addMinimumAttackRange = that.m_addMinimumAttackRange;
+	this->m_addAcceptableAimDelta = that.m_addAcceptableAimDelta;
+	this->m_addWeaponSpeed = that.m_addWeaponSpeed;
+	this->m_addDelayBetweenShots = that.m_addDelayBetweenShots;
+	this->m_addClipSize = that.m_addClipSize;
+	this->m_addClipReloadTime = that.m_addClipReloadTime;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -2388,7 +2416,7 @@ Int Weapon::getClipReloadTime(const Object* source) const
 {
 	WeaponBonus bonus;
 	computeBonus(source, 0, bonus);
-	return m_template->getClipReloadTime(bonus);
+	return m_template->getClipReloadTime(bonus) + m_addClipReloadTime;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -2939,7 +2967,7 @@ Real Weapon::getAttackRange(const Object* source) const
 {
 	WeaponBonus bonus;
 	computeBonus(source, 0, bonus);
-	return m_template->getAttackRange(bonus);
+	return m_template->getAttackRange(bonus) + m_addAttackRange;
 
 	//Contained objects have longer ranges.
 	//const Object *container = source->getContainedBy();
@@ -3447,7 +3475,35 @@ Real Weapon::getPrimaryDamageRadius(const Object* source) const
 {
 	WeaponBonus bonus;
 	computeBonus(source, 0, bonus);
-	return m_template->getPrimaryDamageRadius(bonus);
+	return m_template->getPrimaryDamageRadius(bonus) + m_addPrimaryDamageRadius;
+}
+
+//-------------------------------------------------------------------------------------------------
+Real Weapon::getPrimaryDamage(const Object* source) const
+{
+	WeaponBonus bonus;
+	computeBonus(source, 0, bonus);
+	return m_template->getPrimaryDamage(bonus) + m_addPrimaryDamage;
+}
+
+//-------------------------------------------------------------------------------------------------
+Real Weapon::getWeaponSpeed() const
+{
+	return m_template->getWeaponSpeed() + m_addWeaponSpeed;
+}
+
+//-------------------------------------------------------------------------------------------------
+Real Weapon::getMinimumAttackRange() const
+{
+	return m_template->getMinimumAttackRange() + m_addMinimumAttackRange;
+}
+
+//-------------------------------------------------------------------------------------------------
+Int Weapon::getDelayBetweenShots(const Object* source) const
+{
+	WeaponBonus bonus;
+	computeBonus(source, 0, bonus);
+	return m_template->getDelayBetweenShots(bonus) + m_addDelayBetweenShots;
 }
 
 //-------------------------------------------------------------------------------------------------

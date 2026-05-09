@@ -48,6 +48,7 @@ class ThingTemplate;
 class Object;
 class Weapon;
 class WeaponTemplate;
+class WeaponUpgrade;
 class INI;
 class ParticleSystemTemplate;
 class SimpleObjectIterator;
@@ -366,6 +367,7 @@ typedef std::list<HistoricWeaponDamageInfo> HistoricWeaponDamageList;
 class WeaponTemplate : public MemoryPoolObject
 {
 	friend class WeaponStore;
+	friend class WeaponUpgrade;  // TheSuperHackers @feature author DD/MM/YYYY Allow WeaponUpgrade to modify weapon properties
 
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE( WeaponTemplate, "WeaponTemplate" )
 
@@ -783,7 +785,7 @@ public:
 	 UnsignedInt getRemainingAmmoIncludingReload() const { return (getStatus() == RELOADING_CLIP) ? getClipSize() : m_ammoInClip; }
 	 WeaponReloadType getReloadType() const { return m_template->getReloadType(); }
 	 Bool getAutoReloadsClip() const { return m_template->getAutoReloadsClip(); }
-	 Real getAimDelta() const { return m_template->getAimDelta(); }
+	 Real getAimDelta() const { return m_template->getAimDelta() + m_addAcceptableAimDelta; }
 	 Real getScatterRadius() const { return m_template->getScatterRadius(); }
 	 Real getScatterTargetScalar() const { return m_template->getScatterTargetScalar(); }
 	 Int getAntiMask() const { return m_template->getAntiMask(); }
@@ -798,7 +800,7 @@ public:
 	 DeathType getDeathType() const { return m_template->getDeathType(); }
 	 Real getContinueAttackRange() const { return m_template->getContinueAttackRange(); }
 	 Bool isShowsAmmoPips() const { return m_template->isShowsAmmoPips(); }
-	 Int getClipSize() const { return m_template->getClipSize(); }
+	 Int getClipSize() const { return m_template->getClipSize() + m_addClipSize; }
 	// Contact weapons (like car bombs) need to basically collide with their target.
 	 Bool isContactWeapon() const { return m_template->isContactWeapon(); }
 	
@@ -808,6 +810,21 @@ public:
 	Int getClipReloadTime(const Object *source) const;
 
 	Real getPrimaryDamageRadius(const Object *source) const;
+	Real getPrimaryDamage(const Object *source) const;  // TheSuperHackers @feature author DD/MM/YYYY Get primary damage with instance modifiers
+	Real getWeaponSpeed() const;  // TheSuperHackers @feature author DD/MM/YYYY Get weapon speed with instance modifiers
+	Real getMinimumAttackRange() const;  // TheSuperHackers @feature author DD/MM/YYYY Get minimum attack range with instance modifiers
+	Int getDelayBetweenShots(const Object *source) const;  // TheSuperHackers @feature author DD/MM/YYYY Get delay between shots with instance modifiers
+
+	// TheSuperHackers @feature author DD/MM/YYYY Weapon upgrade modifier setters
+	void addPrimaryDamage(Real value) { m_addPrimaryDamage += value; }
+	void addPrimaryDamageRadius(Real value) { m_addPrimaryDamageRadius += value; }
+	void addAttackRange(Real value) { m_addAttackRange += value; }
+	void addMinimumAttackRange(Real value) { m_addMinimumAttackRange += value; }
+	void addAcceptableAimDelta(Real value) { m_addAcceptableAimDelta += value; }
+	void addWeaponSpeed(Real value) { m_addWeaponSpeed += value; }
+	void addDelayBetweenShots(Int value) { m_addDelayBetweenShots += value; }
+	void addClipSize(Int value) { m_addClipSize += value; }
+	void addClipReloadTime(Int value) { m_addClipReloadTime += value; }
 
 	Int getPreAttackDelay( const Object *source, const Object *victim ) const;
 
@@ -899,6 +916,17 @@ private:
 	std::vector<Int>					m_scatterTargetsUnused;			///< A running memory of which targets I've used, so I can shoot them all at random
 	Bool											m_pitchLimited;
 	Bool											m_leechWeaponRangeActive;		///< This weapon has unlimited range until attack state is aborted!
+	
+	// TheSuperHackers @feature author DD/MM/YYYY Weapon upgrade modifiers (per-instance, not per-template)
+	Real											m_addPrimaryDamage;									///< additional primary damage from upgrades
+	Real											m_addPrimaryDamageRadius;							///< additional primary damage radius from upgrades
+	Real											m_addAttackRange;										///< additional attack range from upgrades
+	Real											m_addMinimumAttackRange;							///< additional minimum attack range from upgrades
+	Real											m_addAcceptableAimDelta;							///< additional acceptable aim delta from upgrades
+	Real											m_addWeaponSpeed;										///< additional weapon speed from upgrades
+	Int												m_addDelayBetweenShots;								///< additional delay between shots from upgrades
+	Int												m_addClipSize;											///< additional clip size from upgrades
+	Int												m_addClipReloadTime;									///< additional clip reload time from upgrades
 
 	// setter function for status that should not be used outside this class
 	void setStatus( WeaponStatus status) { m_status = status; }

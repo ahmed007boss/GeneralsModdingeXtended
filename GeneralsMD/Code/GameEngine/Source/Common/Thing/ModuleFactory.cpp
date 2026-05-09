@@ -218,6 +218,7 @@
 #include "GameLogic/Module/UnpauseSpecialPowerUpgrade.h"
 #include "GameLogic/Module/WeaponBonusUpgrade.h"
 #include "GameLogic/Module/WeaponSetUpgrade.h"
+#include "GameLogic/Module/WeaponUpgrade.h"
 #include "GameLogic/Module/CostModifierUpgrade.h"
 #include "GameLogic/Module/DisplayNameUpgrade.h"
 #include "GameLogic/Module/SelectPortraitUpgrade.h"  // TheSuperHackers @feature Ahmed Salah 03/01/2026
@@ -514,6 +515,7 @@ void ModuleFactory::init( void )
 	addModule( UnpauseSpecialPowerUpgrade );
 	addModule( WeaponBonusUpgrade );
 	addModule( WeaponSetUpgrade );
+	addModule( WeaponUpgrade );
 	addModule( WeaponBonusUpgrade );
 	addModule( ExperienceScalarUpgrade );
 	addModule( MaxHealthUpgrade );

@@ -298,6 +298,7 @@ static PoolSizeRec PoolSizes[] =
 	{ "WaveGuideUpdate", 16, 16 },
 	{ "WeaponBonusUpgrade", 512, 128 },
 	{ "WeaponSetUpgrade", 512, 128 },
+	{ "WeaponUpgrade", 512, 128 },
 	{ "ArmorUpgrade", 512, 128 },
 	{ "WorkerAIUpdate", 128, 128 },
 	{ "WorkerStateMachine", 128, 128 },
