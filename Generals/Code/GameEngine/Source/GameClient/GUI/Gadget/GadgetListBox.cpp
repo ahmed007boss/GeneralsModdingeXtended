@@ -47,7 +47,7 @@
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioEventRTS.h"
 #include "Common/Language.h"
@@ -727,7 +727,7 @@ WindowMsgHandledType GadgetListBoxInput( GameWindow *window, UnsignedInt msg,
 									continue;
 								for(j = 0; j < TheKeyboard->MAX_KEY_STATES; ++j)
 								{
-									if(dString->getText().getCharAt(0) == TheKeyboard->getPrintableKey(mData1, j))
+									if(dString->getText().getCharAt(0) == TheKeyboard->getPrintableKey((KeyDefType)mData1, j))
 									{
 										list->selectPos = position;
 										Int prevPos = getListboxTopEntry(list);
@@ -2205,7 +2205,7 @@ Int GadgetListBoxAddEntryText( GameWindow *listbox,
 	if (!listbox)
 		return -1;
 	if (text.isEmpty())
-		text = UnicodeString(L" ");
+		text = L" ";
 	Int index;
 	AddMessageStruct addInfo;
 	addInfo.row = row;
@@ -2576,21 +2576,24 @@ void GadgetListBoxSetListLength( GameWindow *listbox, Int newLength )
 
 }
 
-// GadgetListBoxGetListLength =================================================
-/** Get the list length data contained in the listboxData
-	* parameter. */
 //=============================================================================
 Int GadgetListBoxGetListLength( GameWindow *listbox )
 {
 	ListboxData *listboxData = (ListboxData *)listbox->winGetUserData();
-	if (listboxData->multiSelect)
-	{
+	if (listboxData)
 		return listboxData->listLength;
-	}
-	else
-	{
-		return 1;
-	}
+
+	return 0;
+}
+
+//=============================================================================
+Int GadgetListBoxGetMaxSelectedLength( GameWindow *listbox )
+{
+	ListboxData *listboxData = (ListboxData *)listbox->winGetUserData();
+	if (listboxData)
+		return listboxData->multiSelect ? listboxData->listLength : 1;
+
+	return 0;
 }
 
 // GadgetListBoxGetNumEntries =================================================

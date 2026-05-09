@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/BitFlagsIO.h"
 #include "Common/BuildAssistant.h"
@@ -158,11 +158,8 @@ ProductionEntry::ProductionEntry( void )
 	m_framesUnderConstruction = 0;
 	m_next = NULL;
 	m_prev = NULL;
-	//Added By Sadullah Nader
-	//Initializations inserted
 	m_productionQuantityProduced = 0;
 	m_productionQuantityTotal = 0;
-	//
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -360,7 +357,7 @@ void ProductionUpdate::cancelUpgrade( const UpgradeTemplate *upgrade )
 
 	// refund money back to the player
 	Money *money = player->getMoney();
-	money->deposit( production->m_upgradeToResearch->calcCostToBuild( player ) );
+	money->deposit( production->m_upgradeToResearch->calcCostToBuild( player ), TRUE, FALSE );
 
 	// remove this production from the queue
 	removeFromProductionQueue( production );
@@ -476,7 +473,7 @@ void ProductionUpdate::cancelUnitCreate( ProductionID productionID )
 			// give the player the cost of the object back
 			Player *player = getObject()->getControllingPlayer();
 			Money *money = player->getMoney();
-			money->deposit( production->m_objectToProduce->calcCostToBuild( player ) );
+			money->deposit( production->m_objectToProduce->calcCostToBuild( player ), TRUE, FALSE );
 
 			// remove from queue list
 			removeFromProductionQueue( production );
@@ -906,7 +903,7 @@ UpdateSleepTime ProductionUpdate::update( void )
 				us->getID());
 
 			// print a message to the local player, if it wants one
-			if( us->isLocallyControlled() && !upgrade->getDisplayNameLabel().isEmpty() )
+			if( us->isLocallyViewed() && !upgrade->getDisplayNameLabel().isEmpty() )
 			{
 				UnicodeString msg;
 				UnicodeString format = TheGameText->fetch( "UPGRADE:UpgradeComplete" );

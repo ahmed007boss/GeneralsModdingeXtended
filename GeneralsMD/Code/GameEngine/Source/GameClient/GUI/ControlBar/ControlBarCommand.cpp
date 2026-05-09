@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/NameKeyGenerator.h"
 #include "Common/ThingTemplate.h"
@@ -48,7 +48,6 @@
 #include "GameLogic/Module/TransportContain.h"
 #include "GameLogic/Module/MobNexusContain.h"
 #include "GameLogic/Module/SpecialAbilityUpdate.h"
-#include "GameLogic/Module/BattlePlanUpdate.h"
 #include "GameLogic/Module/VeterancyGainCreate.h"
 #include "GameLogic/Module/HackInternetAIUpdate.h"
 #include "GameLogic/Module/InventoryBehavior.h"
@@ -276,7 +275,7 @@ void ControlBar::populateCommand( Object *obj )
 	resetBuildQueueData();
 
 	// get command set
-	commandSet = TheControlBar->findCommandSet( obj->getCommandSetString() );
+	commandSet = findCommandSet( obj->getCommandSetString() );
 
 	// if no command set match is found hide all the buttons
 	if( commandSet == NULL )
@@ -428,9 +427,9 @@ void ControlBar::populateCommand( Object *obj )
 									{
 										continue;
 									}
-									commandSet1 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1() );
-									commandSet3 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3() );
-									commandSet8 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8() );
+									commandSet1 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1() );
+									commandSet3 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3() );
+									commandSet8 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8() );
 
 									if( !commandSet1 || !commandSet3 || !commandSet8 )
 									{
@@ -621,7 +620,7 @@ void ControlBar::populateBuildQueue( Object *producer )
 		m_queueData[ i ].control->winClearStatus( WIN_STATUS_USE_OVERLAY_STATES );
 
 		// set the text of the window to nothing by default
-		GadgetButtonSetText( m_queueData[ i ].control, UnicodeString( L"" ) );
+		GadgetButtonSetText( m_queueData[ i ].control, L"" );
 
 		//Clear any potential veterancy rank, or else we'll see it when it's empty!
 		GadgetButtonDrawOverlayImage( m_queueData[ i ].control, NULL );
@@ -1017,7 +1016,7 @@ const Image* ControlBar::calculateVeterancyOverlayForThing( const ThingTemplate 
 		case LEVEL_HEROIC:
 			return m_rankHeroicIcon;
 	}
-	return NULL;;
+	return NULL;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1039,7 +1038,7 @@ const Image* ControlBar::calculateVeterancyOverlayForObject( const Object *obj )
 		case LEVEL_HEROIC:
 			return m_rankHeroicIcon;
 	}
-	return NULL;;
+	return NULL;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1088,6 +1087,28 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 
 	if (obj == NULL)
 		return COMMAND_HIDDEN;	// probably better than crashing....
+
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide upgrade buttons if their upgrade is already active and HideIfUpgradeCompleted is true
+	if ((command->getCommandType() == GUI_COMMAND_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_UPGRADE ||
+			 command->getCommandType() == GUI_COMMAND_PLAYER_DOWNGRADE || command->getCommandType() == GUI_COMMAND_OBJECT_DOWNGRADE ||
+			 command->getCommandType() == GUI_COMMAND_SWITCH_PLAYER_UPGRADE || command->getCommandType() == GUI_COMMAND_SWITCH_OBJECT_UPGRADE) &&
+			command->getUpgradeTemplate() && command->getHideIfUpgradeCompleted())
+	{
+		const UpgradeTemplate *upgradeTemplate = command->getUpgradeTemplate();
+		const Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : NULL;
+
+		// Check if the upgrade is already active
+		if (upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_PLAYER)
+		{
+			if (localPlayer && localPlayer->hasUpgradeComplete(upgradeTemplate))
+				return COMMAND_HIDDEN; // Hide button - player already has this upgrade
+		}
+		else if (upgradeTemplate->getUpgradeType() == UPGRADE_TYPE_OBJECT)
+		{
+			if (obj && obj->hasUpgrade(upgradeTemplate))
+				return COMMAND_HIDDEN; // Hide button - object already has this upgrade
+		}
+	}
 
 	Player *player = obj->getControllingPlayer();
 
@@ -1327,6 +1348,78 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 			if( TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
 				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
 
+			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
+			{
+				ScienceType st = command->getScienceVec()[ i ];
+				if( !player->hasScience( st ) )
+				{
+					return COMMAND_RESTRICTED;
+				}
+			}
+			break;
+		}
+
+		case GUI_COMMAND_PLAYER_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Player downgrade command - opposite of upgrade
+			// Available only when the player upgrade exists
+			if( player->hasUpgradeComplete( command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED; // Can't downgrade if we don't have the upgrade
+
+			break;
+		}
+
+		case GUI_COMMAND_OBJECT_DOWNGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Object downgrade command - opposite of upgrade
+			// Available only when the object upgrade exists
+			if( !obj || obj->hasUpgrade( command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED; // Can't downgrade if we don't have the upgrade
+
+			break;
+		}
+
+		case GUI_COMMAND_SWITCH_PLAYER_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch player upgrade command
+			// Always available - will upgrade if not exist, downgrade if exists
+			if( queueMaxed )
+			{
+				return COMMAND_RESTRICTED;
+			}
+
+			// Check if we can afford to upgrade (if needed)
+			if( player->hasUpgradeComplete( command->getUpgradeTemplate() ) == FALSE &&
+					TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
+
+			// Check sciences for upgrade (if needed)
+			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
+			{
+				ScienceType st = command->getScienceVec()[ i ];
+				if( !player->hasScience( st ) )
+				{
+					return COMMAND_RESTRICTED;
+				}
+			}
+			break;
+		}
+
+		case GUI_COMMAND_SWITCH_OBJECT_UPGRADE:
+		{
+			// TheSuperHackers @feature Ahmed Salah 07/01/2026 Switch object upgrade command
+			// Always available - will upgrade if not exist, downgrade if exists
+			if( queueMaxed )
+			{
+				return COMMAND_RESTRICTED;
+			}
+
+			// Check if we can afford to upgrade (if needed)
+			Bool hasUpgrade = obj && obj->hasUpgrade( command->getUpgradeTemplate() );
+			if( !hasUpgrade && TheUpgradeCenter->canAffordUpgrade( player, command->getUpgradeTemplate() ) == FALSE )
+				return COMMAND_RESTRICTED;//COMMAND_CANT_AFFORD;
+
+			// Check sciences for upgrade (if needed)
 			for( size_t i = 0; i < command->getScienceVec().size(); i++ )
 			{
 				ScienceType st = command->getScienceVec()[ i ];
@@ -1665,17 +1758,15 @@ CommandAvailability ControlBar::getCommandAvailability( const CommandButton *com
 				InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
 				if (inventoryBehavior)
 				{
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData)
+					// Check all inventory items - use instance data
+					const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+					for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+						 it != inventoryItems.end(); ++it)
 					{
-						for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-							 it != moduleData->m_inventoryItems.end(); ++it)
+						const AsciiString& itemKey = it->first;
+						if (obj->isInventoryReplenishmentRestricted(itemKey))
 						{
-							const AsciiString& itemKey = it->first;
-							if (obj->isInventoryReplenishmentRestricted(itemKey))
-							{
-								return COMMAND_RESTRICTED;
-							}
+							return COMMAND_RESTRICTED;
 						}
 					}
 				}
@@ -1811,40 +1902,23 @@ CommandAvailability ControlBar::checkPrerequisites(const CommandButton* command,
 {
 
 
-	// Check visible player prerequisites
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
+	// Check visible prerequisites (now includes both player and caller unit prerequisites)
 	for (Int i = 0; i < command->getVisiblePrereqCount(); i++)
 	{
-		const PlayerPrerequisite* pre = command->getNthVisiblePrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(player) == false)
+		const ProductionPrerequisite* pre = command->getNthVisiblePrereq(i);
+		// Names are resolved lazily in isSatisfied; check both player and object prerequisites
+		if (pre->isSatisfied(player, obj) == false)
 			return COMMAND_HIDDEN;
 	}
 
-	// Check visible caller unit prerequisites
-	for (Int i = 0; i < command->getVisibleCallerUnitPrereqCount(); i++)
-	{
-		const ObjectPrerequisite* pre = command->getNthVisibleCallerUnitPrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(obj) == false)
-			return COMMAND_HIDDEN;
-	}
-
-
-	// Check enable player prerequisites
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
+	// Check enable prerequisites (now includes both player and caller unit prerequisites)
 	for (Int i = 0; i < command->getEnablePrereqCount(); i++)
 	{
-		const PlayerPrerequisite* pre = command->getNthEnablePrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(player) == false)
-			return COMMAND_RESTRICTED;
-	}
-
-	// Check enable caller unit prerequisites
-	for (Int i = 0; i < command->getEnableCallerUnitPrereqCount(); i++)
-	{
-		const ObjectPrerequisite* pre = command->getNthEnableCallerUnitPrereq(i);
-		// Names are resolved at parse time; just check satisfaction here
-		if (pre->isSatisfied(obj) == false)
+		const ProductionPrerequisite* pre = command->getNthEnablePrereq(i);
+		// Names are resolved lazily in isSatisfied; check both player and object prerequisites
+		if (pre->isSatisfied(player, obj) == false)
 			return COMMAND_RESTRICTED;
 	}
 

@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioEventRTS.h"
 #include "Common/GameAudio.h"
@@ -47,10 +47,7 @@ FlammableUpdateModuleData::FlammableUpdateModuleData()
 	m_aflameDuration = 0;
 	m_aflameDamageDelay = 0;
 	m_aflameDamageAmount = 0;
-	// Enabled By Sadullah Nader
-	// Initialization needed
 	m_burningSoundName.clear();
-	//
 	m_flameDamageLimitData = 20.0f;
 	m_flameDamageExpirationDelay = LOGICFRAMES_PER_SECOND * 2;
 }

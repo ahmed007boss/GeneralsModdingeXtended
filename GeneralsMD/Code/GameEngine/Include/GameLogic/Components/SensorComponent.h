@@ -23,6 +23,9 @@ public:
 		: m_shroudClearingRange(0.0f)
 		, m_shroudClearingRangePartial(-1.0f)
 		, m_shroudClearingRangeDisabled(0.0f)
+		, m_visionRange(0.0f)
+		, m_visionRangePartial(-1.0f)
+		, m_visionRangeDisabled(0.0f)
 		, m_jammingDamageCap(0.0f)
 		, m_jammingDamageHealRate(0)
 		, m_jammingDamageHealAmount(0.0f)
@@ -34,6 +37,7 @@ public:
 
 	// IVisionComponent
 	virtual Real getShroudClearingRange() const;
+	virtual Real getVisionRange() const;
 
 	// IElectronicsComponent
 	virtual Real getCurrentJammingDamage() const { return m_currentJammingDamage; }
@@ -72,6 +76,9 @@ private:
 	Real m_shroudClearingRange;
 	Real m_shroudClearingRangePartial;
 	Real m_shroudClearingRangeDisabled;
+	Real m_visionRange;
+	Real m_visionRangePartial;
+	Real m_visionRangeDisabled;
 
 	// Electronics data
 	Real m_jammingDamageCap;

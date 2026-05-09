@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameUtility.h"
 #include "Common/INI.h"
@@ -418,14 +418,16 @@ static Bool isMessageUsable(CommandUsableInType usableIn)
 	const Bool usableInShell = (usableIn & COMMANDUSABLE_SHELL);
 	const Bool usableInGame = (usableIn & COMMANDUSABLE_GAME);
 	const Bool usableAsObserver = (usableIn & COMMANDUSABLE_OBSERVER);
+	const Bool isShellActive = TheShell && TheShell->isShellActive();
+	const Bool isObserving = !ThePlayerList->getLocalPlayer()->isPlayerActive();
 
-	if (usableInShell && TheShell && TheShell->isShellActive())
+	if (usableInShell && isShellActive)
 		return true;
 
-	if (usableInGame && (!TheShell || !TheShell->isShellActive()))
+	if (usableInGame && !isShellActive)
 		return true;
 
-	if (usableAsObserver && rts::localPlayerIsObserving())
+	if (usableAsObserver && isObserving)
 		return true;
 
 	return false;
@@ -849,6 +851,24 @@ MetaMapRec *MetaMap::getMetaMapRec(GameMessage::Type t)
 			map->m_category = CATEGORY_SELECTION;
 			map->m_description = TheGameText->FETCH_OR_SUBSTITUTE("GUI:SelectNextIdleWorkerDescription", L"Select the next idle worker");
 			map->m_displayName = TheGameText->FETCH_OR_SUBSTITUTE("GUI:SelectNextIdleWorker", L"Next Idle Worker");
+		}
+	}
+	{
+		MetaMapRec* map = TheMetaMap->getMetaMapRec(GameMessage::MSG_META_ALT_CAMERA_ROTATE_LEFT);
+		if (map->m_key == MK_NONE) {
+			map->m_key = MK_KP4;
+			map->m_transition = DOWN;
+			map->m_modState = CTRL;
+			map->m_usableIn = COMMANDUSABLE_GAME;
+		}
+	}
+	{
+		MetaMapRec* map = TheMetaMap->getMetaMapRec(GameMessage::MSG_META_ALT_CAMERA_ROTATE_RIGHT);
+		if (map->m_key == MK_NONE) {
+			map->m_key = MK_KP6;
+			map->m_transition = DOWN;
+			map->m_modState = CTRL;
+			map->m_usableIn = COMMANDUSABLE_GAME;
 		}
 	}
 

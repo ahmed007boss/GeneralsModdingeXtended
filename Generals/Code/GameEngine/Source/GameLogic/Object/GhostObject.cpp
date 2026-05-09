@@ -27,7 +27,7 @@
 // Author: Michael S. Booth, October 2000
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Xfer.h"
 #include "GameLogic/GameLogic.h"
@@ -39,8 +39,6 @@ GhostObjectManager *TheGhostObjectManager = NULL;
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 GhostObject::GhostObject(void):
-//Added By Sadullah Nader
-//Initializations missing and needed
 m_parentAngle(0.0f),
 // TheSuperHackers @bugfix tomsons26 26/04/2025 Change initialization of m_parentGeometryIsSmall from 0.0f.
 // Assigning a float to a bool results in the compiler using a random 1 byte value to assign to the bool.

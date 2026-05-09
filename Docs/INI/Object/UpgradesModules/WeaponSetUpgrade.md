@@ -63,26 +63,26 @@ Used by objects that need to change their weapon configuration when upgrades are
 #### `WeaponSetType` Values *(v1.04)*
 **Source:** [WeaponSetType.h](../../GeneralsMD/Code/GameEngine/Include/GameLogic/WeaponSetType.h#44) - `WeaponSetType` enum definition
 
-- **`WEAPONSET_VETERAN`** *(v1.04)* - Veteran weapon set
-- **`WEAPONSET_ELITE`** *(v1.04)* - Elite weapon set
-- **`WEAPONSET_HERO`** *(v1.04)* - Hero weapon set
-- **`WEAPONSET_PLAYER_UPGRADE`** *(v1.04)* - Player upgrade weapon set
-- **`WEAPONSET_CRATEUPGRADE_ONE`** *(v1.04)* - Crate upgrade weapon set one
-- **`WEAPONSET_CRATEUPGRADE_TWO`** *(v1.04)* - Crate upgrade weapon set two
-- **`WEAPONSET_VEHICLE_HIJACK`** *(v1.04)* - Vehicle hijack weapon set
-- **`WEAPONSET_CARBOMB`** *(v1.04)* - Car bomb weapon set
-- **`WEAPONSET_MINE_CLEARING_DETAIL`** *(v1.04)* - Mine clearing weapon set
-- **`WEAPONSET_RIDER1`** *(v1.04)* - Rider weapon set one
-- **`WEAPONSET_RIDER2`** *(v1.04)* - Rider weapon set two
-- **`WEAPONSET_RIDER3`** *(v1.04)* - Rider weapon set three
-- **`WEAPONSET_RIDER4`** *(v1.04)* - Rider weapon set four
-- **`WEAPONSET_RIDER5`** *(v1.04)* - Rider weapon set five
-- **`WEAPONSET_RIDER6`** *(v1.04)* - Rider weapon set six
-- **`WEAPONSET_RIDER7`** *(v1.04)* - Rider weapon set seven
-- **`WEAPONSET_RIDER8`** *(v1.04)* - Rider weapon set eight
-- **`WEAPONSET_PLAYER_UPGRADE2`** *(v1.04)* - Player upgrade weapon set two
-- **`WEAPONSET_PLAYER_UPGRADE3`** *(v1.04)* - Player upgrade weapon set three
-- **`WEAPONSET_PLAYER_UPGRADE4`** *(v1.04)* - Player upgrade weapon set four
+- **`VETERAN`** *(v1.04)* - Veteran weapon set
+- **`ELITE`** *(v1.04)* - Elite weapon set
+- **`HERO`** *(v1.04)* - Hero weapon set
+- **`PLAYER_UPGRADE`** *(v1.04)* - Player upgrade weapon set
+- **`CRATEUPGRADE_ONE`** *(v1.04)* - Crate upgrade weapon set one
+- **`CRATEUPGRADE_TWO`** *(v1.04)* - Crate upgrade weapon set two
+- **`VEHICLE_HIJACK`** *(v1.04)* - Vehicle hijack weapon set
+- **`CARBOMB`** *(v1.04)* - Car bomb weapon set
+- **`MINE_CLEARING_DETAIL`** *(v1.04)* - Mine clearing weapon set
+- **`RIDER1`** *(v1.04)* - Rider weapon set one
+- **`RIDER2`** *(v1.04)* - Rider weapon set two
+- **`RIDER3`** *(v1.04)* - Rider weapon set three
+- **`RIDER4`** *(v1.04)* - Rider weapon set four
+- **`RIDER5`** *(v1.04)* - Rider weapon set five
+- **`RIDER6`** *(v1.04)* - Rider weapon set six
+- **`RIDER7`** *(v1.04)* - Rider weapon set seven
+- **`RIDER8`** *(v1.04)* - Rider weapon set eight
+- **`PLAYER_UPGRADE2`** *(v1.04)* - Player upgrade weapon set two
+- **`PLAYER_UPGRADE3`** *(v1.04)* - Player upgrade weapon set three
+- **`PLAYER_UPGRADE4`** *(v1.04)* - Player upgrade weapon set four
 
 ## Examples
 

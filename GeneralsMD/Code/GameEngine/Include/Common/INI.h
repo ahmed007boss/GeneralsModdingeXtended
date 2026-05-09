@@ -118,7 +118,7 @@ struct FieldParse
 	const void*					userData;					///< field-specific data
 	Int									offset;						///< offset to data field
 
-	inline void set(const char* t, INIFieldParseProc p, const void* u, Int o)
+	void set(const char* t, INIFieldParseProc p, const void* u, Int o)
 	{
 		token = t;
 		parse = p;
@@ -140,19 +140,15 @@ private:
 public:
 	MultiIniFieldParse() : m_count(0)
 	{
-		//Added By Sadullah Nader
-		//Initializations missing and needed
 		for(Int i = 0; i < MAX_MULTI_FIELDS; i++)
 			m_extraOffset[i] = 0;
-		//
-
 	}
 
 	void add(const FieldParse* f, UnsignedInt e = 0);
 
-	inline Int getCount() const { return m_count; }
-	inline const FieldParse* getNthFieldParse(Int i) const { return m_fieldParse[i]; }
-	inline UnsignedInt getNthExtraOffset(Int i) const { return m_extraOffset[i]; }
+	Int getCount() const { return m_count; }
+	const FieldParse* getNthFieldParse(Int i) const { return m_fieldParse[i]; }
+	UnsignedInt getNthExtraOffset(Int i) const { return m_extraOffset[i]; }
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -258,14 +254,14 @@ public:
 	static void parseWindowTransitions( INI* ini );
 	static void parseChallengeModeDefinition( INI* ini );
 
-	inline AsciiString getFilename( void ) const { return m_filename; }
-	inline INILoadType getLoadType( void ) const { return m_loadType; }
-	inline UnsignedInt getLineNum( void ) const { return m_lineNum; }
-	inline const char *getSeps( void ) const { return m_seps; }
-	inline const char *getSepsPercent( void ) const { return m_sepsPercent; }
-	inline const char *getSepsColon( void ) const { return m_sepsColon; }
-	inline const char *getSepsQuote( void ) { return m_sepsQuote; }
-	inline Bool isEOF( void ) const { return m_endOfFile; }
+	AsciiString getFilename( void ) const { return m_filename; }
+	INILoadType getLoadType( void ) const { return m_loadType; }
+	UnsignedInt getLineNum( void ) const { return m_lineNum; }
+	const char *getSeps( void ) const { return m_seps; }
+	const char *getSepsPercent( void ) const { return m_sepsPercent; }
+	const char *getSepsColon( void ) const { return m_sepsColon; }
+	const char *getSepsQuote( void ) { return m_sepsQuote; }
+	Bool isEOF( void ) const { return m_endOfFile; }
 
 	void initFromINI( void *what, const FieldParse* parseTable );
 	void initFromINIMulti( void *what, const MultiIniFieldParse& parseTableList );
@@ -438,7 +434,7 @@ protected:
 	const char *m_blockEndToken;							///< token to represent end of data block
 	Bool m_endOfFile;													///< TRUE when we've hit EOF
 #ifdef DEBUG_CRASHING
-	char m_curBlockStart[ INI_MAX_CHARS_PER_LINE ];	///< first line of cur block
+	char m_curBlockStart[ INI_MAX_CHARS_PER_LINE+1 ];	///< first line of cur block
 #endif
 	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Parameter storage for cascading to nested parsing operations
 	std::map<AsciiString, AsciiString> m_parameters;					///< parameters for parameter substitution (key-value pairs)

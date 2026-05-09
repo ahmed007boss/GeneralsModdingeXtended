@@ -26,7 +26,7 @@
 // Class to encapsulate polygon trigger areas.
 // Author: John Ahlquist, November 2001
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/DataChunk.h"
 #include "Common/MapObject.h"
@@ -48,11 +48,8 @@ m_numPoints(0),
 m_sizePoints(0),
 m_exportWithScripts(false),
 m_isWaterArea(false),
-//Added By Sadullah Nader
-//Initializations inserted
 m_isRiver(FALSE),
 m_riverStart(0)
-//
 {
 	if (initialAllocation < 2) initialAllocation = 2;
 	m_points = NEW ICoord3D[initialAllocation];		// pool[]ify

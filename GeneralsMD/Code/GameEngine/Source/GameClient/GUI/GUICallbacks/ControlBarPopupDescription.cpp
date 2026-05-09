@@ -65,14 +65,13 @@
 
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GlobalData.h"
 #include "Common/BuildAssistant.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/PlayerPrerequisite.h"
-#include "Common/ObjectPrerequisite.h"
+#include "Common/ProductionPrerequisite.h"
 #include "Common/SpecialPower.h"
 #include "Common/ThingTemplate.h"
 #include "Common/Upgrade.h"
@@ -90,10 +89,12 @@
 #include "GameClient/ControlBar.h"
 #include "GameClient/DisplayStringManager.h"
 #include "GameLogic/GameLogic.h"
+#include "GameLogic/Object.h"
 #include "GameLogic/Module/OverchargeBehavior.h"
 #include "GameLogic/Module/ProductionUpdate.h"
 #include "GameLogic/Module/InventoryBehavior.h"
 #include "GameLogic/Module/ActiveBody.h"
+#include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Components/Component.h"
 #include "GameLogic/ScriptEngine.h"
 
@@ -443,9 +444,29 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		{
 
 			descrip += TheGameText->fetch(commandButton->getDescriptionLabel());
-
+		}
+		else if (upgradeTemplate && upgradeTemplate->getDescriptionLabel().isNotEmpty())
+		{
+			// TheSuperHackers @feature Ahmed Salah - Use upgrade template description if command button has no description
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += TheGameText->fetch(upgradeTemplate->getDescriptionLabel());
+		}
+		else if (thingTemplate)
+		{
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button and upgrade have no description (handles template fallback internally)
 			Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
 			Object* selectedObject = draw ? draw->getObject() : NULL;
+			if (selectedObject)
+			{
+				UnicodeString objectDesc = selectedObject->getDescription();
+				if (!objectDesc.isEmpty())
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n\n";
+					descrip += objectDesc;
+				}
+			}
 			if (selectedObject)
 			{
 				//Special case: Append status of overcharge on China power plant.
@@ -529,14 +550,17 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		}
 
 
+		// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 		// ask each prerequisite to give us a list of the non satisfied prerequisites
+		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+		Object* selectedObject = draw ? draw->getObject() : NULL;
 		for (Int i = 0; i < commandButton->getEnablePrereqCount(); i++)
 		{
-			prereq = commandButton->getNthEnablePrereq(i);
-			if (!prereq->isSatisfied(player))
+			const ProductionPrerequisite* prodPrereq = commandButton->getNthEnablePrereq(i);
+			if (!prodPrereq->isSatisfied(player, selectedObject))
 			{
-				requiresList = prereq->getRequiresList(player);
-				conflictsList =  prereq->getConflictList(player);
+				requiresList = prodPrereq->getRequiresList(player, selectedObject);
+				conflictsList = prodPrereq->getConflictList(player, selectedObject);
 				if (requiresList != UnicodeString::TheEmptyString)
 				{
 					// make sure to put in 'returns' to space things correctly
@@ -556,42 +580,6 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 						conflictsFormat.concat(L", ");
 				}
 				conflictsFormat.concat(conflictsList);
-
-			}
-		}
-
-		// Check enable caller unit prerequisites
-		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
-		Object* selectedObject = draw ? draw->getObject() : NULL;
-		if (selectedObject)
-		{
-			for (Int i = 0; i < commandButton->getEnableCallerUnitPrereqCount(); i++)
-			{
-				const ObjectPrerequisite* objPrereq = commandButton->getNthEnableCallerUnitPrereq(i);
-				if (!objPrereq->isSatisfied(selectedObject))
-				{
-					requiresList = objPrereq->getRequiresList(selectedObject);
-					conflictsList = objPrereq->getConflictList(selectedObject);
-					if (requiresList != UnicodeString::TheEmptyString)
-					{
-						// make sure to put in 'returns' to space things correctly
-						if (firstRequirement)
-							firstRequirement = false;
-						else
-							requiresFormat.concat(L", ");
-					}
-					requiresFormat.concat(requiresList);
-
-					if (conflictsList != UnicodeString::TheEmptyString)
-					{
-						// make sure to put in 'returns' to space things correctly
-						if (firstConflicts)
-							firstConflicts = false;
-						else
-							conflictsFormat.concat(L", ");
-					}
-					conflictsFormat.concat(conflictsList);
-				}
 			}
 		}
 
@@ -863,6 +851,30 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 			}
 		}
 
+		// Add command button description label
+		if (commandButton->getDescriptionLabel().isNotEmpty())
+		{
+			if (!descrip.isEmpty())
+				descrip += L"\n\n";
+			descrip += TheGameText->fetch(commandButton->getDescriptionLabel());
+		}
+		else if (thingTemplate)
+		{
+			// TheSuperHackers @feature Ahmed Salah - Description support: Use object description if command button has no description (handles template fallback internally)
+			Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+			Object* selectedObject = draw ? draw->getObject() : NULL;
+			if (selectedObject)
+			{
+				UnicodeString objectDesc = selectedObject->getDescription();
+				if (!objectDesc.isEmpty())
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n\n";
+					descrip += objectDesc;
+				}
+			}
+		}
+
 		// Add button alternatives for right-click and modifier key combinations
 		// TheSuperHackers @tooltip Ahmed Salah 27/06/2025 Append alternative command button descriptions to tooltip text
 		UnicodeString alternativesText = getButtonAlternativesText(commandButton, this);
@@ -912,7 +924,7 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 			name = TheGameText->fetch("CONTROLBAR:Power");
 			descrip = TheGameText->fetch("CONTROLBAR:PowerDescription");
 
-			Player* playerToDisplay = TheControlBar->getCurrentlyViewedPlayer();
+			Player* playerToDisplay = getCurrentlyViewedPlayer();
 
 			if (playerToDisplay && playerToDisplay->getEnergy())
 			{
@@ -1002,7 +1014,7 @@ void ControlBar::populateBuildTooltipLayout(const CommandButton* commandButton, 
 		{
 			return;
 		}
-		TheControlBar->getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
 		ICoord2D curPos, offset;
 		marker->winGetScreenPosition(&curPos.x, &curPos.y);
 
@@ -1051,4 +1063,1075 @@ void ControlBar::deleteBuildTooltipLayout(void)
 	delete theAnimateWindowManager;
 	theAnimateWindowManager = NULL;
 
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Unit tooltip support
+// ---------------------------------------------------------------------------------------
+static WindowLayout* theUnitTooltipLayout = NULL;
+static AnimateWindowManager* theUnitTooltipAnimateWindowManager = NULL;
+static GameWindow* prevUnitTooltipWindow = NULL;
+static Bool useUnitTooltipAnimation = FALSE;
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Camo tooltip support
+// ---------------------------------------------------------------------------------------
+static WindowLayout* theUnitCamoTooltipLayout = NULL;
+static AnimateWindowManager* theUnitCamoTooltipAnimateWindowManager = NULL;
+static GameWindow* prevUnitCamoTooltipWindow = NULL;
+static Bool useUnitCamoTooltipAnimation = FALSE;
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Info icon tooltip support
+// ---------------------------------------------------------------------------------------
+static AnimateWindowManager* theInfoIconTooltipAnimateWindowManager = NULL;
+static GameWindow* prevInfoIconTooltipWindow = NULL;
+static Bool useInfoIconTooltipAnimation = FALSE;
+
+void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideUnitTooltipLayout();
+
+	if (theUnitTooltipAnimateWindowManager && !TheControlBar->getShowUnitTooltipLayout() && !theUnitTooltipAnimateWindowManager->isReversed())
+		theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowUnitTooltipLayout() && (!TheGlobalData->m_animateWindows || !useUnitTooltipAnimation))
+		TheControlBar->deleteUnitTooltipLayout();
+
+	if (useUnitTooltipAnimation && theUnitTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theUnitTooltipAnimateWindowManager->isFinished();
+		theUnitTooltipAnimateWindowManager->update();
+		if (theUnitTooltipAnimateWindowManager->isFinished() && !wasFinished && theUnitTooltipAnimateWindowManager->isReversed())
+		{
+			delete theUnitTooltipAnimateWindowManager;
+			theUnitTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteUnitTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showUnitTooltipLayout(GameWindow* portraitWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideUnitTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevUnitTooltipWindow == portraitWindow)
+	{
+		m_showUnitToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (m_unitToolTipLayout && !m_unitToolTipLayout->isHidden())
+	{
+		if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows && !theUnitTooltipAnimateWindowManager->isReversed())
+			theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows && theUnitTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_unitToolTipLayout->hide(TRUE);
+			prevUnitTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevUnitTooltipWindow = portraitWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_unitToolTipLayout)
+		return;
+
+	m_showUnitToolTipLayout = TRUE;
+	populateUnitTooltipLayout();
+	m_unitToolTipLayout->hide(FALSE);
+
+	if (useUnitTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theUnitTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theUnitTooltipAnimateWindowManager->reset();
+		theUnitTooltipAnimateWindowManager->registerGameWindow(m_unitToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideUnitTooltipLayout()
+{
+	if (theUnitTooltipAnimateWindowManager && theUnitTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useUnitTooltipAnimation && theUnitTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theUnitTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteUnitTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteUnitTooltipLayout(void)
+{
+	m_showUnitToolTipLayout = FALSE;
+	prevUnitTooltipWindow = NULL;
+	if (m_unitToolTipLayout)
+		m_unitToolTipLayout->hide(TRUE);
+
+	delete theUnitTooltipAnimateWindowManager;
+	theUnitTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to get display name from drawable
+// ---------------------------------------------------------------------------------------
+static UnicodeString getDisplayNameFromDrawable(const Drawable* draw)
+{
+	if (!draw)
+		return UnicodeString::TheEmptyString;
+	
+	const Object* obj = draw->getObject();
+	if (obj)
+	{
+		UnicodeString name = obj->getDisplayNameOverride();
+		if (!name.isEmpty())
+			return name;
+	}
+	
+	const ThingTemplate* thingTemplate = draw->getTemplate();
+	if (thingTemplate)
+		return thingTemplate->getDisplayName();
+	
+	return UnicodeString::TheEmptyString;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to build health and rank text
+// ---------------------------------------------------------------------------------------
+static UnicodeString buildHealthAndRankText(const Object* obj)
+{
+	if (!obj)
+		return UnicodeString::TheEmptyString;
+	
+	UnicodeString result;
+	
+	// Add health information
+	BodyModuleInterface* bodyInterface = obj->getBodyModule();
+	if (bodyInterface)
+	{
+		Real health = bodyInterface->getHealth();
+		Real maxHealth = bodyInterface->getMaxHealth();
+		if (maxHealth > 0.0f)
+		{
+			Int healthPercent = (Int)((health / maxHealth) * 100.0f);
+			UnicodeString healthText;
+			healthText.format(L"%s: %d/%d (%d%%)", 
+				TheGameText->fetch("TOOLTIP:Health").str(),
+				(Int)health, (Int)maxHealth, healthPercent);
+			result = healthText;
+		}
+	}
+
+	// Add veterancy level if applicable
+	VeterancyLevel vetLevel = obj->getVeterancyLevel();
+	if (vetLevel != LEVEL_REGULAR)
+	{
+		UnicodeString vetText;
+		switch (vetLevel)
+		{
+		case LEVEL_VETERAN:
+			vetText = TheGameText->fetch("TOOLTIP:Veteran");
+			break;
+		case LEVEL_ELITE:
+			vetText = TheGameText->fetch("TOOLTIP:Elite");
+			break;
+		case LEVEL_HEROIC:
+			vetText = TheGameText->fetch("TOOLTIP:Heroic");
+			break;
+		default:
+			break;
+		}
+		if (!vetText.isEmpty())
+		{
+			if (!result.isEmpty())
+				result += L"\n";
+			result += vetText;
+		}
+	}
+	
+	return result;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to append description with proper spacing
+// ---------------------------------------------------------------------------------------
+static void appendDescription(UnicodeString& descrip, const UnicodeString& newText, Bool useDoubleNewline = TRUE)
+{
+	if (newText.isEmpty() || wcsstr(newText.str(), L"MISSING:") != NULL)
+		return;
+	
+	if (!descrip.isEmpty())
+		descrip += (useDoubleNewline ? L"\n\n" : L"\n");
+	descrip += newText;
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @refactor Ahmed Salah 01/01/2026 Helper function to build unit descriptions
+// ---------------------------------------------------------------------------------------
+static void buildUnitDescriptions(UnicodeString& descrip, const Object* obj, const ThingTemplate* thingTemplate, Bool skipBodyModules)
+{
+	if (!obj || !thingTemplate)
+		return;
+	
+	// Add KindOf description
+	UnicodeString kindOfDesc = thingTemplate->getKindOfDescription();
+	appendDescription(descrip, kindOfDesc);
+	
+	// Add object description (handles override internally)
+	UnicodeString unitDesc = obj->getDescription();
+	appendDescription(descrip, unitDesc);
+	
+	// Add extended description from template
+	UnicodeString extendedDesc = thingTemplate->getExtendedDescription(skipBodyModules);
+	appendDescription(descrip, extendedDesc, FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateUnitTooltipLayout(void)
+{
+	if (!m_unitToolTipLayout)
+		return;
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+		return;
+
+	const ThingTemplate* thingTemplate = obj->getTemplate();
+	if (!thingTemplate)
+		return;
+
+	// Check if multiple units are selected
+	const DrawableList* selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	Int selectedCount = selectedDrawables ? (Int)selectedDrawables->size() : 1;
+
+	UnicodeString name, descrip;
+	
+	// Handle single unit selection
+	if (selectedCount == 1)
+	{
+		// Single unit - show name, HP and rank
+		UnicodeString unitName = obj->getDisplayNameOverride();
+		if (unitName.isEmpty())
+		{
+			unitName = thingTemplate->getDisplayName();
+		}
+		name = unitName;
+
+		// Build health and rank information first
+		descrip = buildHealthAndRankText(obj);
+		
+		// Add unit descriptions (skip body modules since HP is already shown)
+		buildUnitDescriptions(descrip, obj, thingTemplate, TRUE);
+	}
+	else
+	{
+		// Multiple units selected
+		
+		// Check if all selected units have the same display name
+		Bool allSameType = TRUE;
+		UnicodeString firstDisplayName = getDisplayNameFromDrawable(draw);
+		
+		if (selectedDrawables && !firstDisplayName.isEmpty())
+		{
+			for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+			{
+				const Drawable* d = *it;
+				if (!d)
+					continue;
+				
+				UnicodeString currentDisplayName = getDisplayNameFromDrawable(d);
+				if (currentDisplayName.isEmpty() || wcsstr(currentDisplayName.str(), L"MISSING:") != NULL)
+					continue;
+				
+				if (currentDisplayName != firstDisplayName)
+				{
+					allSameType = FALSE;
+					break;
+				}
+			}
+		}
+		
+		if (allSameType)
+		{
+			// All same type - use pluralized display name
+			UnicodeString pluralName = obj->getDisplayPluralNameOverride();
+			if (pluralName.isEmpty())
+			{
+				pluralName = thingTemplate->getDisplayPluralName();
+			}
+			if (!pluralName.isEmpty() && wcsstr(pluralName.str(), L"MISSING:") == NULL)
+			{
+				name.format(L"%d %ls", selectedCount, pluralName.str());
+			}
+			else
+			{
+				name.format(L"%d Units", selectedCount);
+			}
+			
+			// Show descriptions for same type group (no HP/rank)
+			buildUnitDescriptions(descrip, obj, thingTemplate, FALSE);
+		}
+		else
+		{
+			// Different display names - show "Unit Group" and list each display name with count
+			name = L"Unit Group";
+			
+			// Group units by display name and count them
+			struct UnitDisplayNameInfo
+			{
+				UnicodeString displayName;
+				Int count;
+				const Object* sampleObj; // For getting plural name
+				const ThingTemplate* sampleTemplate; // For getting plural name
+			};
+			
+			// Simple list to store unique display names
+			UnitDisplayNameInfo nameList[64]; // Max 64 different display names
+			Int nameCount = 0;
+			
+			if (selectedDrawables)
+			{
+				for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+				{
+					const Drawable* d = *it;
+					if (!d)
+						continue;
+					
+					// Get display name for this unit
+					UnicodeString currentDisplayName = getDisplayNameFromDrawable(d);
+					
+					if (currentDisplayName.isEmpty() || wcsstr(currentDisplayName.str(), L"MISSING:") != NULL)
+						continue;
+					
+					// Find if this display name already exists in our list
+					Int foundIndex = -1;
+					for (Int i = 0; i < nameCount; ++i)
+					{
+						if (nameList[i].displayName == currentDisplayName)
+						{
+							foundIndex = i;
+							break;
+						}
+					}
+					
+					if (foundIndex >= 0)
+					{
+						// Increment count
+						nameList[foundIndex].count++;
+					}
+					else if (nameCount < 64)
+					{
+						// Add new display name
+						nameList[nameCount].displayName = currentDisplayName;
+						nameList[nameCount].count = 1;
+						nameList[nameCount].sampleObj = d->getObject();
+						nameList[nameCount].sampleTemplate = d->getTemplate();
+						nameCount++;
+					}
+				}
+			}
+			
+			// Build the list description
+			for (Int i = 0; i < nameCount; ++i)
+			{
+				UnicodeString displayName = nameList[i].displayName;
+				Int unitCount = nameList[i].count;
+				const Object* sampleObj = nameList[i].sampleObj;
+				const ThingTemplate* sampleTemplate = nameList[i].sampleTemplate;
+				
+				UnicodeString unitName;
+				if (unitCount > 1)
+				{
+					// Use plural name
+					if (sampleObj)
+					{
+						unitName = sampleObj->getDisplayPluralNameOverride();
+					}
+					if (unitName.isEmpty() && sampleTemplate)
+					{
+						unitName = sampleTemplate->getDisplayPluralName();
+					}
+					// Fallback to singular if plural not available
+					if (unitName.isEmpty() || wcsstr(unitName.str(), L"MISSING:") != NULL)
+					{
+						unitName = displayName; // Use the display name we already have
+					}
+				}
+				else
+				{
+					// Use singular name (the display name we already have)
+					unitName = displayName;
+				}
+				
+				if (!unitName.isEmpty() && wcsstr(unitName.str(), L"MISSING:") == NULL)
+				{
+					if (!descrip.isEmpty())
+						descrip += L"\n";
+					UnicodeString line;
+					line.format(L" - %d %ls", unitCount, unitName.str());
+					descrip += line;
+				}
+			}
+		}
+	}
+
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, name);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for unit tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descrip);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_unitToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
+		win->winGetSize(&size.x, &size.y);
+		win->winSetSize(size.x, size.y + diffSize);
+
+		GadgetStaticTextSetText(win, descrip);
+	}
+	m_unitToolTipLayout->hide(FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Camo tooltip update function
+// ---------------------------------------------------------------------------------------
+void ControlBarUnitCamoTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideUnitCamoTooltipLayout();
+
+	if (theUnitCamoTooltipAnimateWindowManager && !TheControlBar->getShowUnitCamoTooltipLayout() && !theUnitCamoTooltipAnimateWindowManager->isReversed())
+		theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowUnitCamoTooltipLayout() && (!TheGlobalData->m_animateWindows || !useUnitCamoTooltipAnimation))
+		TheControlBar->deleteUnitCamoTooltipLayout();
+
+	if (useUnitCamoTooltipAnimation && theUnitCamoTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theUnitCamoTooltipAnimateWindowManager->isFinished();
+		theUnitCamoTooltipAnimateWindowManager->update();
+		if (theUnitCamoTooltipAnimateWindowManager->isFinished() && !wasFinished && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		{
+			delete theUnitCamoTooltipAnimateWindowManager;
+			theUnitCamoTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteUnitCamoTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showUnitCamoTooltipLayout(GameWindow* camoWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideUnitCamoTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevUnitCamoTooltipWindow == camoWindow)
+	{
+		m_showUnitCamoToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (m_unitCamoToolTipLayout && !m_unitCamoToolTipLayout->isHidden())
+	{
+		if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows && !theUnitCamoTooltipAnimateWindowManager->isReversed())
+			theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_unitCamoToolTipLayout->hide(TRUE);
+			prevUnitCamoTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevUnitCamoTooltipWindow = camoWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_unitCamoToolTipLayout)
+		return;
+
+	// Find which upgrade cameo was hovered by comparing the window pointer
+	Int upgradeCameoIndex = -1;
+	for (Int i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; ++i)
+	{
+		if (TheControlBar->m_rightHUDUpgradeCameos[i] == camoWindow)
+		{
+			upgradeCameoIndex = i;
+			break;
+		}
+	}
+
+	// Get the upgrade template from the selected object
+	const UpgradeTemplate* upgradeTemplate = NULL;
+	if (upgradeCameoIndex >= 0)
+	{
+		const ThingTemplate* thingTemplate = obj->getTemplate();
+		if (thingTemplate)
+		{
+			AsciiString upgradeName = thingTemplate->getUpgradeCameoName(upgradeCameoIndex);
+			if (!upgradeName.isEmpty())
+			{
+				upgradeTemplate = TheUpgradeCenter->findUpgrade(upgradeName);
+			}
+		}
+	}
+
+	m_showUnitCamoToolTipLayout = TRUE;
+	populateUnitCamoTooltipLayout(upgradeTemplate);
+	m_unitCamoToolTipLayout->hide(FALSE);
+
+	if (useUnitCamoTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theUnitCamoTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theUnitCamoTooltipAnimateWindowManager->reset();
+		theUnitCamoTooltipAnimateWindowManager->registerGameWindow(m_unitCamoToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideUnitCamoTooltipLayout()
+{
+	if (theUnitCamoTooltipAnimateWindowManager && theUnitCamoTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useUnitCamoTooltipAnimation && theUnitCamoTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theUnitCamoTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteUnitCamoTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteUnitCamoTooltipLayout(void)
+{
+	m_showUnitCamoToolTipLayout = FALSE;
+	prevUnitCamoTooltipWindow = NULL;
+	if (m_unitCamoToolTipLayout)
+		m_unitCamoToolTipLayout->hide(TRUE);
+
+	delete theUnitCamoTooltipAnimateWindowManager;
+	theUnitCamoTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateUnitCamoTooltipLayout(const UpgradeTemplate* upgradeTemplate)
+{
+	if (!m_unitCamoToolTipLayout)
+		return;
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj || !upgradeTemplate)
+		return;
+
+	UnicodeString name, descrip;
+	
+	// Get upgrade display name from label
+	const AsciiString& displayNameLabel = upgradeTemplate->getDisplayNameLabel();
+	if (!displayNameLabel.isEmpty())
+	{
+		name = TheGameText->fetch(displayNameLabel);
+	}
+	if (name.isEmpty() || wcsstr(name.str(), L"MISSING:") != NULL)
+	{
+		// Fallback to upgrade name if display name is missing
+		const AsciiString& upgradeName = upgradeTemplate->getUpgradeName();
+		if (!upgradeName.isEmpty())
+		{
+			// Convert AsciiString to UnicodeString
+			name.format(L"%hs", upgradeName.str());
+		}
+	}
+	
+	// Check if upgrade is active (owned by unit or player)
+	Player* player = ThePlayerList->getLocalPlayer();
+	Bool isUpgradeActive = FALSE;
+	if (obj && upgradeTemplate)
+	{
+		// Check if object has the upgrade (object-level upgrade)
+		if (obj->hasUpgrade(upgradeTemplate))
+		{
+			isUpgradeActive = TRUE;
+		}
+		// Check if player has the upgrade (player-level upgrade)
+		else if (player && player->hasUpgradeComplete(upgradeTemplate))
+		{
+			isUpgradeActive = TRUE;
+		}
+	}
+	
+	// Append "(Active)" to name if upgrade is active
+	if (isUpgradeActive && !name.isEmpty())
+	{
+		name.concat(L" (Active)");
+	}
+	
+	// Get upgrade description from label - use active description if upgrade is active, otherwise use regular description
+	const AsciiString& descriptionLabel = upgradeTemplate->getDescriptionLabel();
+	if (isUpgradeActive)
+	{
+		const AsciiString& activeDescriptionLabel = upgradeTemplate->getActiveDescriptionLabel();
+		if (!activeDescriptionLabel.isEmpty())
+		{
+			descrip = TheGameText->fetch(activeDescriptionLabel);
+		}
+		else if (!descriptionLabel.isEmpty())
+		{
+			// Fallback to regular description if active description is empty
+			descrip = TheGameText->fetch(descriptionLabel);
+		}
+	}
+	else if (!descriptionLabel.isEmpty())
+	{
+		// Use regular description when upgrade is not active
+		descrip = TheGameText->fetch(descriptionLabel);
+	}
+	
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, name);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for camo tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_unitCamoToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descrip);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_unitCamoToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
+	win->winGetSize(&size.x, &size.y);
+	win->winSetSize(size.x, size.y + diffSize);
+
+	GadgetStaticTextSetText(win, descrip);
+}
+m_unitCamoToolTipLayout->hide(FALSE);
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBarInfoIconTooltipUpdateFunc(WindowLayout* layout, void* param)
+{
+	if (TheScriptEngine->isGameEnding())
+		TheControlBar->hideInfoIconTooltipLayout();
+
+	if (theInfoIconTooltipAnimateWindowManager && !TheControlBar->getShowInfoIconTooltipLayout() && !theInfoIconTooltipAnimateWindowManager->isReversed())
+		theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+	else if (!TheControlBar->getShowInfoIconTooltipLayout() && (!TheGlobalData->m_animateWindows || !useInfoIconTooltipAnimation))
+		TheControlBar->deleteInfoIconTooltipLayout();
+
+	if (useInfoIconTooltipAnimation && theInfoIconTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+	{
+		Bool wasFinished = theInfoIconTooltipAnimateWindowManager->isFinished();
+		theInfoIconTooltipAnimateWindowManager->update();
+		if (theInfoIconTooltipAnimateWindowManager->isFinished() && !wasFinished && theInfoIconTooltipAnimateWindowManager->isReversed())
+		{
+			delete theInfoIconTooltipAnimateWindowManager;
+			theInfoIconTooltipAnimateWindowManager = NULL;
+			TheControlBar->deleteInfoIconTooltipLayout();
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::showInfoIconTooltipLayout(GameWindow* iconWindow)
+{
+	if (TheInGameUI->areTooltipsDisabled() || TheScriptEngine->isGameEnding())
+	{
+		return;
+	}
+
+	// Get the selected object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	Object* obj = draw ? draw->getObject() : NULL;
+	
+	if (!obj)
+	{
+		hideInfoIconTooltipLayout();
+		return;
+	}
+
+	Bool passedWaitTime = FALSE;
+	static Bool isInitialized = FALSE;
+	static UnsignedInt beginWaitTime;
+	if (prevInfoIconTooltipWindow == iconWindow)
+	{
+		m_showInfoIconToolTipLayout = TRUE;
+		if (!isInitialized && beginWaitTime + 500 < timeGetTime()) // 500ms delay
+		{
+			passedWaitTime = TRUE;
+		}
+
+		if (!passedWaitTime)
+			return;
+	}
+	else if (m_infoIconToolTipLayout && !m_infoIconToolTipLayout->isHidden())
+	{
+		if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows && !theInfoIconTooltipAnimateWindowManager->isReversed())
+			theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+		else if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows && theInfoIconTooltipAnimateWindowManager->isReversed())
+		{
+			return;
+		}
+		else
+		{
+			m_infoIconToolTipLayout->hide(TRUE);
+			prevInfoIconTooltipWindow = NULL;
+		}
+		return;
+	}
+
+	// will only get here the first time through the function through this window
+	if (!passedWaitTime)
+	{
+		prevInfoIconTooltipWindow = iconWindow;
+		beginWaitTime = timeGetTime();
+		isInitialized = FALSE;
+		return;
+	}
+	isInitialized = TRUE;
+
+	if (TheInGameUI->isQuitMenuVisible())
+		return;
+
+	if (TheDisconnectMenu && TheDisconnectMenu->isScreenVisible())
+		return;
+
+	if (!m_infoIconToolTipLayout)
+		return;
+
+	// Find which info icon was hovered by comparing the window pointer
+	Int iconIndex = -1;
+	for (Int i = 0; i < MAX_INFO_ICONS; ++i)
+	{
+		if (TheControlBar->m_infoIconWindows[i] == iconWindow)
+		{
+			iconIndex = i;
+			break;
+		}
+	}
+
+	if (iconIndex < 0)
+		return;
+
+	// Get all info icons and find the one that matches
+	std::vector<InfoIcon> infoIconList = obj->getAllInfoIcons();
+	if (iconIndex >= infoIconList.size())
+		return;
+
+	const InfoIcon& infoIcon = infoIconList[iconIndex];
+
+	m_showInfoIconToolTipLayout = TRUE;
+	populateInfoIconTooltipLayout(infoIcon.name, infoIcon.description);
+	m_infoIconToolTipLayout->hide(FALSE);
+
+	if (useInfoIconTooltipAnimation && TheGlobalData->m_animateWindows)
+	{
+		theInfoIconTooltipAnimateWindowManager = NEW AnimateWindowManager;
+		theInfoIconTooltipAnimateWindowManager->reset();
+		theInfoIconTooltipAnimateWindowManager->registerGameWindow(m_infoIconToolTipLayout->getFirstWindow(), WIN_ANIMATION_SLIDE_RIGHT_FAST, TRUE, 200);
+	}
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::hideInfoIconTooltipLayout()
+{
+	if (theInfoIconTooltipAnimateWindowManager && theInfoIconTooltipAnimateWindowManager->isReversed())
+		return;
+	if (useInfoIconTooltipAnimation && theInfoIconTooltipAnimateWindowManager && TheGlobalData->m_animateWindows)
+		theInfoIconTooltipAnimateWindowManager->reverseAnimateWindow();
+	else
+		deleteInfoIconTooltipLayout();
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::deleteInfoIconTooltipLayout(void)
+{
+	m_showInfoIconToolTipLayout = FALSE;
+	prevInfoIconTooltipWindow = NULL;
+	if (m_infoIconToolTipLayout)
+		m_infoIconToolTipLayout->hide(TRUE);
+
+	delete theInfoIconTooltipAnimateWindowManager;
+	theInfoIconTooltipAnimateWindowManager = NULL;
+}
+
+// ---------------------------------------------------------------------------------------
+void ControlBar::populateInfoIconTooltipLayout(const AsciiString& name, const AsciiString& description)
+{
+	if (!m_infoIconToolTipLayout)
+		return;
+
+	UnicodeString nameStr, descripStr;
+	
+	// Get name - if it's a label, fetch it, otherwise use the name directly
+	// Note: The name already has the prefix applied in getAllInfoIcons()
+	if (!name.isEmpty())
+	{
+		// Try to fetch as a label first
+		nameStr = TheGameText->fetch(name);
+		if (nameStr.isEmpty() || wcsstr(nameStr.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to using name directly
+			nameStr.format(L"%hs", name.str());
+		}
+	}
+	
+	// Get description - if it's a label, fetch it, otherwise use the description directly
+	if (!description.isEmpty())
+	{
+		// Try to fetch as a label first
+		descripStr = TheGameText->fetch(description);
+		if (descripStr.isEmpty() || wcsstr(descripStr.str(), L"MISSING:") != NULL)
+		{
+			// Fallback to using description directly
+			descripStr.format(L"%hs", description.str());
+		}
+	}
+	
+	// Set the tooltip text
+	GameWindow* win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextName"));
+	if (win)
+	{
+		GadgetStaticTextSetText(win, nameStr);
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextCost"));
+	if (win)
+	{
+		win->winHide(TRUE); // Hide cost for info icon tooltip
+	}
+
+	win = TheWindowManager->winGetWindowFromId(m_infoIconToolTipLayout->getFirstWindow(), TheNameKeyGenerator->nameToKey("ControlBarPopupDescription.wnd:StaticTextDescription"));
+	if (win)
+	{
+		static NameKeyType winNamekey = TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:BackgroundMarker"));
+		static ICoord2D lastOffset = { 0, 0 };
+
+		ICoord2D size, newSize, pos;
+		Int diffSize;
+
+		DisplayString* tempDString = TheDisplayStringManager->newDisplayString();
+		win->winGetSize(&size.x, &size.y);
+		tempDString->setFont(win->winGetFont());
+		tempDString->setWordWrap(size.x - 10);
+		tempDString->setText(descripStr);
+		tempDString->getSize(&newSize.x, &newSize.y);
+		TheDisplayStringManager->freeDisplayString(tempDString);
+		tempDString = NULL;
+		diffSize = newSize.y - size.y;
+		GameWindow* parent = m_infoIconToolTipLayout->getFirstWindow();
+		if (!parent)
+			return;
+
+		parent->winGetSize(&size.x, &size.y);
+		if (size.y + diffSize < 102) {
+			diffSize = 102 - size.y;
+		}
+
+		parent->winSetSize(size.x, size.y + diffSize);
+		parent->winGetPosition(&pos.x, &pos.y);
+
+		GameWindow* marker = TheWindowManager->winGetWindowFromId(NULL, winNamekey);
+		static ICoord2D basePos;
+		if (!marker)
+		{
+			return;
+		}
+		getBackgroundMarkerPos(&basePos.x, &basePos.y);
+		ICoord2D curPos, offset;
+		marker->winGetScreenPosition(&curPos.x, &curPos.y);
+
+		offset.x = curPos.x - basePos.x;
+		offset.y = curPos.y - basePos.y;
+
+		parent->winSetPosition(pos.x, (pos.y - diffSize) + (offset.y - lastOffset.y));
+
+		lastOffset.x = offset.x;
+		lastOffset.y = offset.y;
+
+		win->winGetSize(&size.x, &size.y);
+		win->winSetSize(size.x, size.y + diffSize);
+
+		GadgetStaticTextSetText(win, descripStr);
+	}
+	m_infoIconToolTipLayout->hide(FALSE);
 }

@@ -42,7 +42,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_SCIENCE_AVAILABILITY_NAMES
 
@@ -58,7 +58,7 @@
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
 #include "Common/PlayerTemplate.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Radar.h"
 #include "Common/ResourceGatheringManager.h"
 #include "Common/Team.h"
@@ -321,8 +321,6 @@ Player::Player( Int playerIndex )
 	m_playerTemplate = NULL;
 	m_battlePlanBonuses = NULL;
 	m_skillPointsModifier = 1.0f;
-	//Added By Sadullah
-	//Initializations inserted
 	m_canBuildUnits = TRUE;
 	m_canBuildBase  = TRUE;
 	m_cashBountyPercent = 0.0f;
@@ -339,7 +337,6 @@ Player::Player( Int playerIndex )
 	{
 		m_squads[i] = NULL;
 	}
-	//
 	for (i = 0; i < MAX_PLAYER_COUNT; ++i)
 	{
 		m_attackedBy[i] = false;
@@ -355,7 +352,7 @@ Player::Player( Int playerIndex )
 void Player::init(const PlayerTemplate* pt)
 {
 
-	DEBUG_ASSERTCRASH(m_playerTeamPrototypes.size() == 0, ("Player::m_playerTeamPrototypes is not empty at game start!"));
+	DEBUG_ASSERTCRASH(m_playerTeamPrototypes.empty(), ("Player::m_playerTeamPrototypes is not empty at game start!"));
 	m_skillPointsModifier = 1.0f;
 	m_attackedFrame = 0;
 
@@ -438,11 +435,11 @@ void Player::init(const PlayerTemplate* pt)
 			// Note that copying the entire Money class instead would also copy the player index inside of it.
 			if ( TheGameInfo )
 			{
-				m_money.deposit( TheGameInfo->getStartingCash().countMoney(), FALSE );
+				m_money.deposit( TheGameInfo->getStartingCash().countMoney(), FALSE, FALSE );
 			}
 			else
 			{
-				m_money.deposit( TheGlobalData->m_defaultStartingCash.countMoney(), FALSE );
+				m_money.deposit( TheGlobalData->m_defaultStartingCash.countMoney(), FALSE, FALSE );
 			}
 		}
 
@@ -717,13 +714,15 @@ void Player::update()
 		}
 	}
 
-#if !RETAIL_COMPATIBLE_CRC
+#if !PRESERVE_RETAIL_BEHAVIOR && !RETAIL_COMPATIBLE_CRC
 	// TheSuperHackers @bugfix Stubbjax 26/09/2025 The Tunnel System now heals
 	// all units once per frame instead of once per frame per Tunnel Network.
 	TunnelTracker* tunnelSystem = getTunnelSystem();
 	if (tunnelSystem)
 		tunnelSystem->healObjects();
 #endif
+
+	m_money.updateIncomeBucket();
 }
 
 //=============================================================================
@@ -1084,12 +1083,12 @@ void Player::becomingLocalPlayer(Bool yes)
 			{
 				// Added support for updating the perceptions of garrisoned buildings containing enemy stealth units.
 				// When changing teams, it is necessary to update this information.
+				Bool requireRadarRefresh = false;
 				ContainModuleInterface *contain = object->getContain();
 				if( contain )
 				{
 					contain->recalcApparentControllingPlayer();
-					TheRadar->removeObject( object );
-					TheRadar->addObject( object );
+					requireRadarRefresh = true;
 				}
 
 				if( object->isKindOf( KINDOF_DISGUISER ) )
@@ -1121,10 +1120,15 @@ void Player::becomingLocalPlayer(Bool yes)
 								else
 									draw->setIndicatorColor( object->getIndicatorColor() );
 							}
-							TheRadar->removeObject( object );
-							TheRadar->addObject( object );
+							requireRadarRefresh = true;
 						}
 					}
+				}
+
+				if (requireRadarRefresh)
+				{
+					TheRadar->removeObject( object );
+					TheRadar->addObject( object );
 				}
 			}
 			deleteInstance(iter);
@@ -2155,7 +2159,7 @@ void Player::transferAssetsFromThat(Player *that)
 	// transfer all his money
 	UnsignedInt allMoney = that->getMoney()->countMoney();
 	that->getMoney()->withdraw(allMoney);
-	getMoney()->deposit(allMoney);
+	getMoney()->deposit(allMoney, TRUE, FALSE);
 }
 
 //=============================================================================
@@ -2924,7 +2928,7 @@ Bool Player::canBuild(const ThingTemplate *tmplate) const
 		Bool prereqsOK = true;
 		for (Int i = 0; i < tmplate->getPrereqCount(); i++)
 		{
-			const ProductionPrerequisite *pre = tmplate->getNthPrereq(i);
+			const PlayerPrerequisite *pre = tmplate->getNthPrereq(i);
 			if (pre->isSatisfied(this) == false )
 				prereqsOK = false;
 		}
@@ -2997,7 +3001,7 @@ Upgrade *Player::findUpgrade( const UpgradeTemplate *upgradeTemplate )
 //=================================================================================================
 /** Does the player have this completed upgrade */
 //=================================================================================================
-Bool Player::hasUpgradeComplete( const UpgradeTemplate *upgradeTemplate )
+Bool Player::hasUpgradeComplete( const UpgradeTemplate *upgradeTemplate ) const
 {
 	UpgradeMaskType testMask = upgradeTemplate->getUpgradeMask();
 	return hasUpgradeComplete( testMask );
@@ -3008,7 +3012,7 @@ Bool Player::hasUpgradeComplete( const UpgradeTemplate *upgradeTemplate )
 	Does the player have this completed upgrade.  This form is exposed so Objects can do quick lookups.
 */
 //=================================================================================================
-Bool Player::hasUpgradeComplete( UpgradeMaskType testMask )
+Bool Player::hasUpgradeComplete( UpgradeMaskType testMask ) const
 {
 	return m_upgradesCompleted.testForAll( testMask );
 }
@@ -4197,7 +4201,7 @@ void Player::xfer( Xfer *xfer )
 	{
 
 		DEBUG_CRASH(( "Player::xfer - m_ai present/missing mismatch" ));
-		throw SC_INVALID_DATA;;
+		throw SC_INVALID_DATA;
 
 	}
 	if( m_ai )
@@ -4373,7 +4377,7 @@ void Player::xfer( Xfer *xfer )
 	{
 
 		// sanity, list must be empty right now
-		if( m_kindOfPercentProductionChangeList.size() != 0 )
+		if( !m_kindOfPercentProductionChangeList.empty() )
 		{
 
 			DEBUG_CRASH(( "Player::xfer - m_kindOfPercentProductionChangeList should be empty but is not" ));
@@ -4426,7 +4430,7 @@ void Player::xfer( Xfer *xfer )
 		}
 		else
 		{
-			if( m_specialPowerReadyTimerList.size() != 0 ) // sanity, list must be empty right now
+			if( !m_specialPowerReadyTimerList.empty() ) // sanity, list must be empty right now
 			{
 				DEBUG_CRASH(( "Player::xfer - m_specialPowerReadyTimerList should be empty but is not" ));
 				throw SC_INVALID_DATA;

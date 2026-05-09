@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
@@ -76,7 +76,7 @@ void ShowInGameChat( Bool immediate )
 	}
 	else
 	{
-		chatWindow = TheWindowManager->winCreateFromScript( AsciiString("InGameChat.wnd") );
+		chatWindow = TheWindowManager->winCreateFromScript( "InGameChat.wnd" );
 
 		static NameKeyType textEntryChatID = TheNameKeyGenerator->nameToKey( "InGameChat.wnd:TextEntryChat" );
 		chatTextEntry = TheWindowManager->winGetWindowFromId( NULL, textEntryChatID );
@@ -338,7 +338,7 @@ WindowMsgHandledType InGameChatSystem( GameWindow *window, UnsignedInt msg,
 		case GBM_SELECTED:
 		{
 			GameWindow *control = (GameWindow *)mData1;
-			static NameKeyType buttonClearID = TheNameKeyGenerator->nameToKey( AsciiString( "InGameChat.wnd:ButtonClear" ) );
+			static NameKeyType buttonClearID = TheNameKeyGenerator->nameToKey( "InGameChat.wnd:ButtonClear" );
 			if (control && control->winGetWindowId() == buttonClearID)
 			{
 				if (chatTextEntry)

@@ -153,6 +153,7 @@ public:
 	Int	m_waterType;
 	Bool m_showSoftWaterEdge;
 	Bool m_usingWaterTrackEditor;
+	Bool m_isWorldBuilder;
 
 	Int m_featherWater;
 
@@ -407,6 +408,10 @@ public:
 	// TheSuperHackers @feature Mauller 21/06/2025 allow the system time and game time font size to be set, a size of zero disables them
 	Int m_systemTimeFontSize;
 	Int m_gameTimeFontSize;
+
+	// TheSuperHackers @feature L3-M 21/08/2025 toggle the money per minute display, false shows only the original current money
+	Bool m_showMoneyPerMinute;
+	Bool m_allowMoneyPerMinuteForPlayer;
 
 	Real m_shakeSubtleIntensity;			///< Intensity for shaking a camera with SHAKE_SUBTLE
 	Real m_shakeNormalIntensity;			///< Intensity for shaking a camera with SHAKE_NORMAL

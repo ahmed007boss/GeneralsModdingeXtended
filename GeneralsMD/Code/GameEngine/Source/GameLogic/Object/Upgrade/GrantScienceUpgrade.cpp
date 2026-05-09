@@ -43,7 +43,7 @@
 //-----------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Player.h"
 #include "Common/Xfer.h"
@@ -97,7 +97,12 @@ void GrantScienceUpgrade::upgradeImplementation( )
 		player->grantScience( m_scienceType );
 	}
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void GrantScienceUpgrade::downgradeImplementation()
+{
+	// todo(downgrade): implement downgrade behavior here
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

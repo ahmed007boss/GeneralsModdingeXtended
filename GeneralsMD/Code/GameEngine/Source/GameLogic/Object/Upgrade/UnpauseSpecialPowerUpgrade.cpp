@@ -93,6 +93,21 @@ void UnpauseSpecialPowerUpgrade::upgradeImplementation( void )
 	}
 }
 
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void UnpauseSpecialPowerUpgrade::downgradeImplementation(void)
+{
+	// todo(downgrade): implement pausing again on downgrade?
+	/*for (BehaviorModule** m = getObject()->getBehaviorModules(); *m; ++m)
+	{
+		SpecialPowerModuleInterface* sp = (*m)->getSpecialPower();
+		if (!sp)
+			continue;
+
+		if (sp->getSpecialPowerTemplate() == getUnpauseSpecialPowerUpgradeModuleData()->m_specialPower)
+			sp->pauseCountdown(true);
+	}*/
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

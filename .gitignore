@@ -58,3 +58,8 @@ cmake-build-*/
 .ninja_deps
 .ninja_log
 build.ninja
+Docs/Gemfile.lock
+# Ignore all .code-workspace files except the main ones
+*.code-workspace
+!GeneralsModdingeXtended.code-workspace
+!GeneralsModdingeXtendedMD.code-workspace

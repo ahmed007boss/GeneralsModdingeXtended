@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Xfer.h"
 #include "GameLogic/Module/ActiveShroudUpgrade.h"
@@ -88,7 +88,13 @@ void ActiveShroudUpgrade::upgradeImplementation( void )
 		getObject()->handlePartitionCellMaintenance();// To shroud where I am without waiting.
 	}
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void ActiveShroudUpgrade::downgradeImplementation(void)
+{	
+		getObject()->setShroudRange(0);
+		getObject()->handlePartitionCellMaintenance();// To shroud where I am without waiting	
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

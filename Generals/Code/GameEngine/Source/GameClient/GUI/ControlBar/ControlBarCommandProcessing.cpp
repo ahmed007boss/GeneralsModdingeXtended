@@ -29,7 +29,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/BuildAssistant.h"
 #include "Common/Money.h"
@@ -125,7 +125,7 @@ CBCommandStatus ControlBar::processCommandUI( GameWindow *control,
 
 	// if the button is flashing, tell it to stop flashing
 	commandButton->setFlashCount(0);
-	TheControlBar->setFlash( FALSE );
+	setFlash( FALSE );
 
 	if( commandButton->getCommandType() != GUI_COMMAND_EXIT_CONTAINER )
 	{

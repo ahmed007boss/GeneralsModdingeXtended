@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Thing.h"
 #include "Common/ThingTemplate.h"
@@ -68,11 +68,8 @@ StructureCollapseUpdate::StructureCollapseUpdate( Thing *thing, const ModuleData
 	m_collapseFrame = 0;
 	m_collapseState = COLLAPSESTATE_STANDING;
 	m_collapseVelocity = 0.0f;
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_burstFrame = 0;
 	m_currentHeight = 0.0f;
-	//
 	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
 }
 

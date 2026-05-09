@@ -99,7 +99,13 @@ enum RadiusCursorType CPP_11(: Int)
 
 	RADIUSCURSOR_CLEARMINES,
 	RADIUSCURSOR_AMBULANCE,
-
+	RADIUSCURSOR_RAID_AREA,
+	RADIUSCURSOR_RAID_TANKS_AREA,
+	RADIUSCURSOR_RAID_BUILDINGS_AREA,
+	RADIUSCURSOR_RAID_DEFENCES_AREA,
+	RADIUSCURSOR_RAID_ARTILLERY_AREA,
+	RADIUSCURSOR_RAID_ANTIAIR_AREA,
+	RADIUSCURSOR_RAID_AIR_AREA,
 
 	RADIUSCURSOR_COUNT
 };
@@ -141,7 +147,13 @@ static const char *const TheRadiusCursorNames[] =
 
 	"CLEARMINES",
 	"AMBULANCE",
-
+	"RAID_AREA",
+	"RAID_TANKS_AREA",
+	"RAID_BUILDINGS_AREA",
+	"RAID_DEFENCES_AREA",
+	"RAID_ARTILLERY_AREA",
+	"RAID_ANTIAIR_AREA",
+	"RAID_AIR_AREA",
 	NULL
 };
 static_assert(ARRAY_SIZE(TheRadiusCursorNames) == RADIUSCURSOR_COUNT + 1, "Incorrect array size");
@@ -531,7 +543,7 @@ public:  // ********************************************************************
 	Bool				isDrawableCaptionBold( void )				{ return m_drawableCaptionBold; }
 	Color				getDrawableCaptionColor( void )			{ return m_drawableCaptionColor; }
 
-	inline Bool shouldMoveRMBScrollAnchor( void ) { return m_moveRMBScrollAnchor; }
+	Bool shouldMoveRMBScrollAnchor( void ) { return m_moveRMBScrollAnchor; }
 
 	Bool isClientQuiet( void ) const			{ return m_clientQuiet; }
 	Bool isInWaypointMode( void ) const			{ return m_waypointMode; }

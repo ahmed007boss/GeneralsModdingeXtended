@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 #include "Common/INI.h"
@@ -50,15 +50,27 @@ ArmorStore* TheArmorStore = NULL;					///< the ArmorTemplate store definition
 
 //-------------------------------------------------------------------------------------------------
 ArmorTemplate::ArmorTemplate()
+	: m_displayName()
+	, m_icon()
+	, m_displayDescription()
 {
-	clear();
+	// Initialize damage coefficients
+	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
+	{
+		m_damageCoefficient[i] = 1.0f;
+	}
 }
 
 //-------------------------------------------------------------------------------------------------
 void ArmorTemplate::clear()
 {
-	m_name = AsciiString();
 	m_displayName = UnicodeString();
+	// Explicitly re-initialize AsciiString members using placement new to ensure they're valid
+	// This is necessary because when objects are created in hash_map, members might not be properly initialized
+	m_icon.~AsciiString();
+	new(&m_icon) AsciiString();
+	m_displayDescription.~AsciiString();
+	new(&m_displayDescription) AsciiString();
 	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
 	{
 		m_damageCoefficient[i] = 1.0f;
@@ -66,6 +78,9 @@ void ArmorTemplate::clear()
 }
 
 void ArmorTemplate::copyFrom(const ArmorTemplate* other) {
+	m_displayName = other->m_displayName;
+	m_icon = other->m_icon;
+	m_displayDescription = other->m_displayDescription;
 	for (int i = 0; i < DAMAGE_NUM_TYPES; i++)
 	{
 		m_damageCoefficient[i] = other->m_damageCoefficient[i];
@@ -205,11 +220,10 @@ ArmorStore::~ArmorStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-const ArmorTemplate* ArmorStore::findArmorTemplate(AsciiString name) const
+const ArmorTemplate* ArmorStore::findArmorTemplate(NameKeyType namekey) const
 {
-	NameKeyType namekey = TheNameKeyGenerator->nameToKey(name);
-  ArmorTemplateMap::const_iterator it = m_armorTemplates.find(namekey);
-  if (it == m_armorTemplates.end())
+	ArmorTemplateMap::const_iterator it = m_armorTemplates.find(namekey);
+	if (it == m_armorTemplates.end())
 	{
 		return NULL;
 	}
@@ -220,11 +234,25 @@ const ArmorTemplate* ArmorStore::findArmorTemplate(AsciiString name) const
 }
 
 //-------------------------------------------------------------------------------------------------
+const ArmorTemplate* ArmorStore::findArmorTemplate(const AsciiString& name) const
+{
+	return findArmorTemplate(TheNameKeyGenerator->nameToKey(name));
+}
+
+//-------------------------------------------------------------------------------------------------
+const ArmorTemplate* ArmorStore::findArmorTemplate(const char* name) const
+{
+	return findArmorTemplate(TheNameKeyGenerator->nameToKey(name));
+}
+
+//-------------------------------------------------------------------------------------------------
 void ArmorStore::parseArmorDefinition(INI *ini)
 {
 	static const FieldParse myFieldParse[] =
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(ArmorTemplate, m_displayName) },
+		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_icon) },
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_displayDescription) },
 		{ "Armor", ArmorTemplate::parseArmorCoefficients, NULL, 0 },
 		{ "ArmorMultiplier", ArmorTemplate::parseArmorMultiplier, NULL, 0 },
 		{ NULL, NULL, NULL, 0 }
@@ -243,6 +271,8 @@ void ArmorStore::parseArmorExtendDefinition(INI* ini)
 	static const FieldParse myFieldParse[] =
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(ArmorTemplate, m_displayName) },
+		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_icon) },
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(ArmorTemplate, m_displayDescription) },
 		{ "Armor", ArmorTemplate::parseArmorCoefficients, NULL, 0 },
 		{ "ArmorMultiplier", ArmorTemplate::parseArmorMultiplier, NULL, 0 },
 				{ NULL, NULL, NULL, 0 }

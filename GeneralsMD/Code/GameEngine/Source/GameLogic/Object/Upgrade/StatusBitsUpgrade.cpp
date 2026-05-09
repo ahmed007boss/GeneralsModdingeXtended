@@ -51,7 +51,7 @@
 //-----------------------------------------------------------------------------
 // USER INCLUDES //////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_OBJECT_STATUS_NAMES
 #include "Common/Xfer.h"
@@ -106,7 +106,14 @@ void StatusBitsUpgrade::upgradeImplementation( )
 	obj->setStatus( getStatusBitsUpgradeModuleData()->m_statusToSet );
 	obj->clearStatus( getStatusBitsUpgradeModuleData()->m_statusToClear );
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void StatusBitsUpgrade::downgradeImplementation()
+{
+	Object* obj = getObject();
+	obj->clearStatus(getStatusBitsUpgradeModuleData()->m_statusToSet);
+	//obj->setStatus(getStatusBitsUpgradeModuleData()->m_statusToClear);
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

@@ -120,7 +120,7 @@ void ArchiveFileSystem::loadIntoDirectoryTree(ArchiveFile *archiveFile, Bool ove
 
 	FilenameList filenameList;
 
-	archiveFile->getFileListInDirectory(AsciiString(""), AsciiString(""), AsciiString("*"), filenameList, TRUE);
+	archiveFile->getFileListInDirectory("", "", "*", filenameList, TRUE);
 
 	FilenameListIter it = filenameList.begin();
 
@@ -305,7 +305,7 @@ Bool ArchiveFileSystem::getFileInfo(const AsciiString& filename, FileInfo *fileI
 		return FALSE;
 	}
 
-	if (filename.getLength() <= 0) {
+	if (filename.isEmpty()) {
 		return FALSE;
 	}
 

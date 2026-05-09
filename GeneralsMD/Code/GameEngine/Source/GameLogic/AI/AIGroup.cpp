@@ -25,7 +25,7 @@
 // AIGroup.cpp
 // Encapsulation of a simple group of AI agents
 // Author: Michael S. Booth, January 2002
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 #include "Common/ActionManager.h"
@@ -1049,7 +1049,7 @@ Bool AIGroup::friend_moveInfantryToPos( const Coord3D *pos, CommandSourceType cm
 		dest.y -= factor*offset*endVector.y;
 		dest.z = TheTerrainLogic->getLayerHeight( dest.x, dest.y, layer );
 
-		while (path.size()>0) {
+		while (!path.empty()) {
 			Coord2D curVector;
 			prevPos = path[path.size()-1];
 			curVector.x = dest.x-prevPos.x;
@@ -1532,7 +1532,7 @@ Bool AIGroup::friend_moveVehicleToPos( const Coord3D *pos, CommandSourceType cmd
 		dest.y -= factor*offset*endVector.y;
 		dest.z = TheTerrainLogic->getLayerHeight( dest.x, dest.y, layer );
 
-		while (path.size()>0) {
+		while (!path.empty()) {
 			Coord2D curVector;
 			prevPos = path[path.size()-1];
 			curVector.x = dest.x-prevPos.x;

@@ -29,7 +29,7 @@
 
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_SURFACECATEGORY_NAMES
 #define DEFINE_LOCO_Z_NAMES
@@ -49,6 +49,7 @@
 #include "GameLogic/Components/Component.h"
 #include "GameLogic/Components/EngineComponent.h"
 #include "GameLogic/Module/InventoryBehavior.h"
+#include "GameClient/GameText.h"  // TheSuperHackers @feature Ahmed Salah 03/01/2026 For text resources
 
 
 static const Real DONUT_TIME_DELAY_SECONDS=2.5f;
@@ -281,6 +282,8 @@ LocomotorTemplate::LocomotorTemplate()
 {
 	m_name = AsciiString();
 	m_displayName = UnicodeString();
+	m_icon = AsciiString();  // TheSuperHackers @feature Ahmed Salah
+	m_displayDescription = AsciiString();  // TheSuperHackers @feature Ahmed Salah
 	// these values mean "make the same as undamaged if not explicitly specified"
 	m_maxSpeedDamaged = -1.0f;
 	m_maxTurnRateDamaged = -1.0f;
@@ -409,6 +412,86 @@ UnicodeString LocomotorTemplate::getModuleDescription() const
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get extended description based on locomotor attributes
+//-------------------------------------------------------------------------------------------------
+UnicodeString LocomotorTemplate::getExtendedDescription(const Object* ownerObject) const
+{
+	UnicodeString result;
+	
+	// Get speed information
+	if (m_maxSpeed > 0.0f)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+
+		// Convert speed from dist/frame to dist/sec
+		// INI stores dist/sec, converted to dist/frame via: dist/frame = dist/sec * SECONDS_PER_LOGICFRAME_REAL
+		// Reverse: dist/sec = dist/frame * LOGICFRAMES_PER_SECONDS_REAL
+		Real speedInUnitsPerSec = m_maxSpeed * LOGICFRAMES_PER_SECONDS_REAL;
+		UnicodeString temp;
+		UnicodeString formatStr = TheGameText->fetch("TOOLTIP:LocomotorMaxSpeed");
+		if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+			formatStr = L"- Maximum speed of %.1f units/second.";
+		temp.format(formatStr.str(), speedInUnitsPerSec);
+		result += temp;
+	}
+
+	// Get acceleration information
+	if (m_acceleration > 0.0f)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+
+		// Convert acceleration from dist/frame² to dist/sec²
+		// INI stores dist/sec², converted to dist/frame² via: dist/frame² = dist/sec² * SECONDS_PER_LOGICFRAME_REAL²
+		// Reverse: dist/sec² = dist/frame² * LOGICFRAMES_PER_SECONDS_REAL²
+		Real accelerationInUnitsPerSec2 = m_acceleration * LOGICFRAMES_PER_SECONDS_REAL * LOGICFRAMES_PER_SECONDS_REAL;
+		UnicodeString temp;
+		UnicodeString formatStr = TheGameText->fetch("TOOLTIP:LocomotorAcceleration");
+		if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+			formatStr = L"- Acceleration of %.1f units/second².";
+		temp.format(formatStr.str(), accelerationInUnitsPerSec2);
+		result += temp;
+	}
+
+	// Get turn rate information
+	if (m_maxTurnRate > 0.0f)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+
+		// Convert turn rate from rads/frame to degrees/sec
+		// INI stores degrees/sec, converted to rads/frame via: rads/frame = degrees/sec * SECONDS_PER_LOGICFRAME_REAL * (PI/180)
+		// Reverse: degrees/sec = rads/frame / (SECONDS_PER_LOGICFRAME_REAL * PI/180) = rads/frame * LOGICFRAMES_PER_SECONDS_REAL * (180/PI)
+		const Real DEGREES_PER_RADIAN = 180.0f / PI;
+		Real turnRateInDegPerSec = m_maxTurnRate * LOGICFRAMES_PER_SECONDS_REAL * DEGREES_PER_RADIAN;
+		UnicodeString temp;
+		UnicodeString formatStr = TheGameText->fetch("TOOLTIP:LocomotorTurnRate");
+		if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+			formatStr = L"- Maximum turn rate of %.1f degrees/second.";
+		temp.format(formatStr.str(), turnRateInDegPerSec);
+		result += temp;
+	}
+	
+	// Get item consumption information
+	if (!m_consumeItem.isEmpty() && m_consumeRate > 0.0f)
+	{
+		if (!result.isEmpty())
+			result += L"\n";
+		
+		UnicodeString temp;
+		UnicodeString formatStr = TheGameText->fetch("TOOLTIP:LocomotorConsumeItem");
+		if (formatStr.isEmpty() || wcsstr(formatStr.str(), L"MISSING:") != NULL)
+			formatStr = L"- Consumes %.2f %hs per second.";
+		AsciiString itemName = m_consumeItem;
+		temp.format(formatStr.str(), m_consumeRate, itemName.str());
+		result += temp;
+	}
+	
+	return result;
+}
+
+//-------------------------------------------------------------------------------------------------
 LocomotorTemplate::~LocomotorTemplate()
 {
 
@@ -517,6 +600,8 @@ const FieldParse* LocomotorTemplate::getFieldParse() const
 	static const FieldParse TheFieldParse[] =
 	{
 		{ "DisplayName", INI::parseAndTranslateLabel, NULL, offsetof(LocomotorTemplate, m_displayName) },
+		{ "InfoIcon", INI::parseAsciiString, NULL, offsetof(LocomotorTemplate, m_icon) },  // TheSuperHackers @feature Ahmed Salah
+		{ "DisplayDescription", INI::parseAsciiString, NULL, offsetof(LocomotorTemplate, m_displayDescription) },  // TheSuperHackers @feature Ahmed Salah
 		{ "Surfaces", INI::parseBitString32, TheLocomotorSurfaceTypeNames, offsetof(LocomotorTemplate, m_surfaces) },
 		{ "Speed", INI::parseVelocityReal, NULL, offsetof(LocomotorTemplate, m_maxSpeed) },
 		{ "SpeedDamaged", INI::parseVelocityReal, NULL, offsetof( LocomotorTemplate, m_maxSpeedDamaged ) },
@@ -769,13 +854,8 @@ Locomotor::Locomotor(const LocomotorTemplate* tmpl)
 //-------------------------------------------------------------------------------------------------
 Locomotor::Locomotor(const Locomotor& that)
 {
-	//Added By Sadullah Nader
-	//Initializations
 	m_angleOffset = 0.0f;
 	m_maintainPos.zero();
-
-	//
-
 	m_template = that.m_template;
 	m_brakingFactor = that.m_brakingFactor;
 	m_maxLift = that.m_maxLift;

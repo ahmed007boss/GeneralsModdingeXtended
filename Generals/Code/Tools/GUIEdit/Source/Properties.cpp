@@ -1176,9 +1176,7 @@ void LoadImageListComboBox( HWND comboBox )
 	SendMessage( comboBox, CB_RESETCONTENT, 0, 0 );
 
 	// load the combo box with string names from the GUI image collection
-	for( image = TheMappedImageCollection->firstImage();
-			 image;
-			 image = TheMappedImageCollection->nextImage( image ) )
+  for (unsigned index=0;(image=TheMappedImageCollection->Enum(index))!=NULL;index++)
 	{
 
 		SendMessage( comboBox, CB_ADDSTRING, 0, (LPARAM)image->getName().str() );
@@ -1260,7 +1258,7 @@ const Image *ComboBoxSelectionToImage( HWND comboBox )
 	SendMessage( comboBox, CB_GETLBTEXT, selected, (LPARAM)buffer );
 
 	// return the image loc that matches the string
-	return TheMappedImageCollection->findImageByName( AsciiString( buffer ) );
+	return TheMappedImageCollection->findImageByName( buffer );
 
 }
 

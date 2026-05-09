@@ -382,6 +382,7 @@ char const * GameFileClass::Set_Name( char const *filename )
 		if( fileType == FILE_TYPE_W3D )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(W3D_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, W3D_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
@@ -389,12 +390,13 @@ char const * GameFileClass::Set_Name( char const *filename )
 		else if( isImageFileType(fileType) )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(TGA_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, TGA_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
 		}
 		else
-			strcpy( m_filePath, filename );
+			strlcpy(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
 		// see if the file exists
 		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
@@ -410,6 +412,7 @@ char const * GameFileClass::Set_Name( char const *filename )
 		if( fileType == FILE_TYPE_W3D )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(LEGACY_W3D_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, LEGACY_W3D_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
@@ -417,6 +420,7 @@ char const * GameFileClass::Set_Name( char const *filename )
 		else if( isImageFileType(fileType) )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(LEGACY_TGA_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, LEGACY_TGA_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
@@ -438,6 +442,7 @@ char const * GameFileClass::Set_Name( char const *filename )
 		if( fileType == FILE_TYPE_W3D )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(TEST_W3D_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, TEST_W3D_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
@@ -445,6 +450,7 @@ char const * GameFileClass::Set_Name( char const *filename )
 		else if( isImageFileType(fileType) )
 		{
 
+			static_assert(ARRAY_SIZE(m_filePath) >= ARRAY_SIZE(TEST_TGA_DIR_PATH), "Incorrect array size");
 			strcpy( m_filePath, TEST_TGA_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
@@ -462,14 +468,12 @@ char const * GameFileClass::Set_Name( char const *filename )
 		if( fileType == FILE_TYPE_W3D )
 		{
 			sprintf(m_filePath,USER_W3D_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_W3D_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
 		}
 		else if( isImageFileType(fileType) )
 		{
 			sprintf(m_filePath,USER_TGA_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_TGA_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
 		}
@@ -486,7 +490,6 @@ char const * GameFileClass::Set_Name( char const *filename )
 		if( fileType == FILE_TYPE_TGA ) // just TGA, since we don't do dds previews
 		{
 			sprintf(m_filePath,MAP_PREVIEW_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_TGA_DIR_PATH );
 			strlcat(m_filePath, filename, ARRAY_SIZE(m_filePath));
 
 		}

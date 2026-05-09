@@ -27,7 +27,7 @@
 // Author: Michael S. Booth, March 2001
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioEventInfo.h"
 #include "Common/DynamicAudioEventInfo.h"
@@ -353,11 +353,8 @@ Drawable::Drawable( const ThingTemplate *thingTemplate, DrawableStatusBits statu
 	// assign status bits before anything else can be done
 	m_status = statusBits;
 
-	// Added By Sadullah Nader
-	// Initialization missing and needed
 	m_nextDrawable = NULL;
 	m_prevDrawable = NULL;
-	//
 
   m_customSoundAmbientInfo = NULL;
 
@@ -369,17 +366,12 @@ Drawable::Drawable( const ThingTemplate *thingTemplate, DrawableStatusBits statu
 
 	Int i;
 
-	// Added By Sadullah Nader
-	// Initialization missing and needed
 	m_flashColor = 0;
 	m_selected = '\0';
-	//
 
 	m_expirationDate = 0;  // 0 == never expires
 
 	m_lastConstructDisplayed = -1.0f;
-
-	//Added By Sadullah Nader
 	//Fix for the building percent
 	m_constructDisplayString = TheDisplayStringManager->newDisplayString();
 	m_constructDisplayString->setFont(TheFontLibrary->getFont(TheInGameUI->getDrawableCaptionFontName(),
@@ -2817,7 +2809,7 @@ Bool Drawable::drawsAnyUIText( void )
 		return FALSE;
 
 	const Object *obj = getObject();
-	if ( !obj || obj->getControllingPlayer() != TheControlBar->getCurrentlyViewedPlayer())
+	if ( !obj || obj->getControllingPlayer() != rts::getObservedOrLocalPlayer())
 		return FALSE;
 
 	Player *owner = obj->getControllingPlayer();
@@ -2975,10 +2967,10 @@ void Drawable::drawAmmo( const IRegion2D *healthBarRegion )
 	const Object* obj = getObject();
 
 	if (!(
-		TheGlobalData->m_showObjectHealth &&
-		(isSelected() || (TheInGameUI && (TheInGameUI->getMousedOverDrawableID() == getID()))) &&
-		obj->getControllingPlayer() == ThePlayerList->getLocalPlayer()
-		))
+				TheGlobalData->m_showObjectHealth &&
+				(isSelected() || (TheInGameUI && (TheInGameUI->getMousedOverDrawableID() == getID()))) &&
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer()
+			))
 		return;
 
 	Int numTotal;  	 // getClipSize();
@@ -3104,7 +3096,7 @@ void Drawable::drawContained( const IRegion2D *healthBarRegion )
 	if (!(
 				TheGlobalData->m_showObjectHealth &&
 				(isSelected() || (TheInGameUI && (TheInGameUI->getMousedOverDrawableID() == getID()))) &&
-				obj->getControllingPlayer() == TheControlBar->getCurrentlyViewedPlayer()
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer()
 			))
 		return;
 
@@ -3622,7 +3614,7 @@ void Drawable::drawBombed(const IRegion2D* healthBarRegion)
 	UnsignedInt now = TheGameLogic->getFrame();
 
 	if( obj->testWeaponSetFlag( WEAPONSET_CARBOMB ) &&
-				obj->getControllingPlayer() == TheControlBar->getCurrentlyViewedPlayer())
+				obj->getControllingPlayer() == rts::getObservedOrLocalPlayer())
 	{
 		if( !getIconInfo()->m_icon[ ICON_CARBOMB ] )
 			getIconInfo()->m_icon[ ICON_CARBOMB ] = newInstance(Anim2D)( s_animationTemplates[ ICON_CARBOMB ], TheAnim2DCollection );
@@ -4297,44 +4289,20 @@ void Drawable::drawFuelBar(const IRegion2D* healthBarRegion, Object* obj)
 	if (!healthBarRegion || !obj)
 		return;
 
-	// Get the locomotor to check for consumed items
+	// Get the normal locomotor template to check for consumed items
 	AIUpdateInterface* ai = obj->getAIUpdateInterface();
 	if (!ai)
 		return;
 
-	LocomotorSet& locomotorSet = const_cast<LocomotorSet&>(ai->getLocomotorSet());
+	const LocomotorTemplate* normalLocoTemplate = ai->getNormalLocomotorTemplate();
+	if (!normalLocoTemplate)
+		return;
+
+	// Get consume item from the normal locomotor template
+	AsciiString consumeItem = normalLocoTemplate->getConsumeItem();
 	
-	// Check all locomotor surfaces for consumed items
-	Locomotor* groundLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_GROUND);
-	Locomotor* waterLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_WATER);
-	Locomotor* airLoco = locomotorSet.findLocomotor(LOCOMOTORSURFACE_AIR);
-	
-	Locomotor* activeLoco = nullptr;
-	AsciiString consumeItem;
-	Int consumeRate = 0;
-	
-	// Find the first locomotor with a consumed item
-	if (groundLoco && !groundLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = groundLoco;
-		consumeItem = groundLoco->getConsumeItem();
-		consumeRate = groundLoco->getConsumeRate();
-	}
-	else if (waterLoco && !waterLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = waterLoco;
-		consumeItem = waterLoco->getConsumeItem();
-		consumeRate = waterLoco->getConsumeRate();
-	}
-	else if (airLoco && !airLoco->getConsumeItem().isEmpty())
-	{
-		activeLoco = airLoco;
-		consumeItem = airLoco->getConsumeItem();
-		consumeRate = airLoco->getConsumeRate();
-	}
-	
-	// If no locomotor has consumed items, don't draw anything
-	if (!activeLoco || consumeItem.isEmpty())
+	// If no consumed item, don't draw anything
+	if (consumeItem.isEmpty())
 		return;
 
 	// Get inventory behavior to check current item count
@@ -4344,12 +4312,8 @@ void Drawable::drawFuelBar(const IRegion2D* healthBarRegion, Object* obj)
 
 	Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
 	
-	// Get max storage from module data
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if (!moduleData)
-		return;
-	
-	Int maxStorage = moduleData->getMaxStorageCount(consumeItem);
+	// Get max storage from instance data to respect upgrades
+	Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
 	
 	// If no max storage or current amount, don't draw
 	if (maxStorage <= 0 || currentAmount < 0)

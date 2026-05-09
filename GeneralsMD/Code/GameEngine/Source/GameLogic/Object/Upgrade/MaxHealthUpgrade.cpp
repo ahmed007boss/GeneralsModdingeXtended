@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_MAXHEALTHCHANGETYPE_NAMES
 #include "Common/Xfer.h"
@@ -144,7 +144,36 @@ void MaxHealthUpgrade::upgradeImplementation( )
 		body->setMaxHealth( currentMaxHealth + healthChange, data->m_maxHealthChangeType );
 	}
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void MaxHealthUpgrade::downgradeImplementation()
+{
+	const MaxHealthUpgradeModuleData* data = getMaxHealthUpgradeModuleData();
 
+	Object* obj = getObject();
+
+	BodyModuleInterface* body = obj->getBodyModule();
+	if (body)
+	{
+		Real currentMaxHealth = body->getMaxHealth();
+		Real healthChange = data->m_addMaxHealth;
+
+		// Apply value based on type (reverse of upgrade)
+		if (data->m_valueType == VALUE_TYPE_PERCENTAGE)
+		{
+			// For percentage, we need to reverse the multiplication
+			// This is approximate since we don't store the original health
+			healthChange = -(currentMaxHealth * (data->m_addMaxHealth / (100.0f + data->m_addMaxHealth)));
+		}
+		else
+		{
+			// For absolute, just subtract the added amount
+			healthChange = -healthChange;
+		}
+
+		body->setMaxHealth(currentMaxHealth + healthChange, data->m_maxHealthChangeType);
+	}
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

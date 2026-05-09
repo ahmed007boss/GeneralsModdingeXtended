@@ -29,7 +29,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/GameUtility.h"
 #include "Common/NameKeyGenerator.h"
@@ -52,6 +52,7 @@
 #include "GameClient/Keyboard.h"
 #include "GameClient/LanguageFilter.h"
 #include "GameClient/CommandXlat.h"
+#include "GameClient/View.h"
 
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/ScriptEngine.h"
@@ -379,6 +380,33 @@ WindowMsgHandledType ControlBarInput( GameWindow *window, UnsignedInt msg,
 	return MSG_IGNORED;
 
 }
+
+//-------------------------------------------------------------------------------------------------
+/** Input procedure for the portrait window - handles double-click to jump camera */
+//-------------------------------------------------------------------------------------------------
+WindowMsgHandledType PortraitWindowInput( GameWindow *window, UnsignedInt msg,
+																			WindowMsgData mData1, WindowMsgData mData2 )
+{
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Jump camera to selected unit on portrait double-click
+	if (msg == GWM_LEFT_DOWN)
+	{
+		// Get the first selected drawable
+		Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+		if (draw && draw->getObject())
+		{
+			Object* obj = draw->getObject();
+			const Coord3D* pos = obj->getPosition();
+			if (pos)
+			{
+				// Jump camera to the unit's position
+				TheTacticalView->lookAt(pos);
+				return MSG_HANDLED;
+			}
+		}
+	}
+	
+	return MSG_IGNORED;
+}
 void ToggleQuitMenu(void);
 //-------------------------------------------------------------------------------------------------
 /** System callback for the control bar parent */
@@ -397,7 +425,7 @@ WindowMsgHandledType ControlBarSystem( GameWindow *window, UnsignedInt msg,
 		{
 
 			// get ids for our children controls
-			buttonCommunicator = TheNameKeyGenerator->nameToKey( AsciiString("ControlBar.wnd:PopupCommunicator") );
+			buttonCommunicator = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:PopupCommunicator" );
 
 			break;
 
@@ -551,7 +579,7 @@ void ShowControlBar( Bool immediate )
 
 	TheControlBar->showSpecialPowerShortcut();
 
-	Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+	Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 	GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (window)
@@ -586,7 +614,7 @@ void HideControlBar( Bool immediate )
 
 	TheControlBar->hideSpecialPowerShortcut();
 
-	Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+	Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 	GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (window)
@@ -622,7 +650,7 @@ void ToggleControlBar( Bool immediate )
 
 	toggleReplayControls();
 
-	Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+	Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 	GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (window)

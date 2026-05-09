@@ -28,6 +28,20 @@ Real VisionComponent::getShroudClearingRange() const
 	}
 	return m_shroudClearingRange;
 }
+
+Real VisionComponent::getVisionRange() const
+{
+	const ComponentStatus status = getStatus();
+	if (status == COMPONENT_STATUS_DOWNED || status == COMPONENT_STATUS_USER_DISABLED)
+	{
+		return m_visionRangeDisabled;
+	}
+	if (status == COMPONENT_STATUS_PARTIALLY_FUNCTIONAL)
+	{
+		return (m_visionRangePartial >= 0.0f) ? m_visionRangePartial : m_visionRange;
+	}
+	return m_visionRange;
+}
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Static parse method for VisionComponent inheritance support
 //-------------------------------------------------------------------------------------------------
@@ -71,6 +85,9 @@ void VisionComponent::buildFieldParse(MultiIniFieldParse& p)
 		{ "ShroudClearingRange", INI::parseReal, NULL, offsetof(VisionComponent, m_shroudClearingRange) },
 		{ "PartiallyFunctionalShroudClearingRange", INI::parseReal, NULL, offsetof(VisionComponent, m_shroudClearingRangePartial) },
 		{ "DisabledShroudClearingRange", INI::parseReal, NULL, offsetof(VisionComponent, m_shroudClearingRangeDisabled) },
+		{ "VisionRange", INI::parseReal, NULL, offsetof(VisionComponent, m_visionRange) },
+		{ "PartiallyFunctionalVisionRange", INI::parseReal, NULL, offsetof(VisionComponent, m_visionRangePartial) },
+		{ "DisabledVisionRange", INI::parseReal, NULL, offsetof(VisionComponent, m_visionRangeDisabled) },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -93,6 +110,9 @@ Component* VisionComponent::clone() const
 	copy->m_shroudClearingRange = m_shroudClearingRange;
 	copy->m_shroudClearingRangePartial = m_shroudClearingRangePartial;
 	copy->m_shroudClearingRangeDisabled = m_shroudClearingRangeDisabled;
+	copy->m_visionRange = m_visionRange;
+	copy->m_visionRangePartial = m_visionRangePartial;
+	copy->m_visionRangeDisabled = m_visionRangeDisabled;
 	
 	return copy;
 }

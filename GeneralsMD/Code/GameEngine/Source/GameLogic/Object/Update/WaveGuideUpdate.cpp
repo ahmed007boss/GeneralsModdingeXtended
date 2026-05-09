@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Radar.h"
 #include "Common/ThingFactory.h"
@@ -58,12 +58,9 @@
 // ------------------------------------------------------------------------------------------------
 WaveGuideUpdateModuleData::WaveGuideUpdateModuleData( void )
 {
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_bridgeParticleAngleFudge = 0.0f;
 	m_randomSplashSoundFrequency = 0;
 	m_waveDelay = 0.0f;
-	//
 	m_ySize = 0.0f;
 	m_linearWaveSpacing = 0.0f;
 	m_waveBendMagnitude = 0.0f;

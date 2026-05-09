@@ -21,15 +21,22 @@ class MultiIniFieldParse;
 class VisionComponent : public Component
 {
 public:
-	VisionComponent() : m_shroudClearingRange(0.0f), m_shroudClearingRangePartial(-1.0f), m_shroudClearingRangeDisabled(0.0f) {}
+	VisionComponent() : m_shroudClearingRange(0.0f), m_shroudClearingRangePartial(-1.0f), m_shroudClearingRangeDisabled(0.0f), m_visionRange(0.0f), m_visionRangePartial(-1.0f), m_visionRangeDisabled(0.0f) {}
 
 	// Shroud clearing ranges per health state
 	Real m_shroudClearingRange;             ///< Range when fully functional
 	Real m_shroudClearingRangePartial;      ///< Range when partially functional
 	Real m_shroudClearingRangeDisabled;     ///< Range when downed or user-disabled
 
+	// Vision ranges per health state
+	Real m_visionRange;                     ///< Range when fully functional
+	Real m_visionRangePartial;              ///< Range when partially functional
+	Real m_visionRangeDisabled;             ///< Range when downed or user-disabled
+
 	// Returns appropriate shroud clearing range based on current component status
 	Real getShroudClearingRange() const;
+	// Returns appropriate vision range based on current component status
+	Real getVisionRange() const;
 
 	static void parseVisionComponent(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void buildFieldParse(MultiIniFieldParse& p);

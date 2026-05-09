@@ -34,6 +34,7 @@
 #include "GameLogic/Module/DieModule.h"
 #include "GameLogic/Module/UpdateModule.h"
 #include "Common/UnicodeString.h"
+#include "Common/GameType.h"
 
 // Forward declaration for RunwayReservationType
 enum RunwayReservationType : Int;
@@ -55,6 +56,8 @@ public:
 	// TheSuperHackers @feature Ahmed Salah 30/09/2025 Inventory and component restoration properties
 	std::vector<AsciiString>	m_replenishItems;		///< List of inventory items to replenish for parked vehicles
 	std::vector<AsciiString>	m_restoreComponents;	///< List of components to restore to max health for parked vehicles
+	Real						m_republishamount;		///< Amount to restore per second (percentage or absolute)
+	ValueType					m_republishamountValueType;	///< Whether republishamount is percentage or absolute
 
 	ParkingPlaceBehaviorModuleData()
 	{
@@ -71,6 +74,8 @@ public:
 		// TheSuperHackers @feature Ahmed Salah 30/09/2025 Initialize restoration properties
 		m_replenishItems.clear();
 		m_restoreComponents.clear();
+		m_republishamount = 5.0f;
+		m_republishamountValueType = VALUE_TYPE_PERCENTAGE;
 	}
 
 	static void buildFieldParse(MultiIniFieldParse& p)
@@ -88,6 +93,8 @@ public:
 			{ "HealAmountPerSecond",     INI::parseReal, NULL, offsetof( ParkingPlaceBehaviorModuleData, m_healAmount ) },
 			{ "ReplenishItems",			     parseReplenishItems, NULL, 0 },
 			{ "RestoreComponents",	     parseRestoreComponents, NULL, 0 },
+			{ "RepublishAmount",			     parseRepublishAmount, NULL, 0 },
+			{ "RepublishAmountValueType", INI::parseIndexList, TheValueTypeNames, offsetof( ParkingPlaceBehaviorModuleData, m_republishamountValueType ) },
 //			{ "ExtraHealAmount4Helicopters",  INI::parseReal, NULL, offsetof( ParkingPlaceBehaviorModuleData, m_extraHealAmount4Helicopters ) },
 
 
@@ -107,6 +114,7 @@ public:
 	// TheSuperHackers @feature Ahmed Salah 30/09/2025 Static parsing functions for restoration properties
 	static void parseReplenishItems(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseRestoreComponents(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
+	static void parseRepublishAmount(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 
 private:
 
@@ -228,6 +236,7 @@ private:
 	std::vector<RunwayInfo>				m_runways;
 	std::list<HealingInfo>				m_healing;	// note, this list can vary in size, and be larger than the parking space count
 	UnsignedInt										m_nextHealFrame;
+	UnsignedInt										m_nextRestoreFrame;  ///< TheSuperHackers @feature Ahmed Salah Frame when restoration should run next (once per second)
 	Bool													m_gotInfo;
 
 	Bool postponeRunwayReservation(UnsignedInt spaceIndex, Bool forLanding);

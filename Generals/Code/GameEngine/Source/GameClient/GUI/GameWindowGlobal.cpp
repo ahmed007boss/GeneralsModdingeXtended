@@ -45,7 +45,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
 #include "GameClient/Image.h"
@@ -131,7 +131,7 @@ const Image *GameWindowManager::winFindImage( const char *name )
 
 	assert( TheMappedImageCollection );
 	if( TheMappedImageCollection )
-		return TheMappedImageCollection->findImageByName( AsciiString( name ) );
+		return TheMappedImageCollection->findImageByName( name );
 
 	return NULL;
 
@@ -184,6 +184,9 @@ void GameWindowManager::winGetTextSize( GameFont *font, UnicodeString text,
 //=============================================================================
 Int GameWindowManager::winFontHeight( GameFont *font )
 {
+
+	if (font == NULL)
+		return 0;
 
 	return font->height;
 

@@ -27,7 +27,7 @@
 // Author: Michael S. Booth, October 2000
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/AudioAffect.h"
 #include "Common/AudioHandleSpecialValues.h"
@@ -218,8 +218,6 @@ void setFPMode( void )
 // ------------------------------------------------------------------------------------------------
 GameLogic::GameLogic( void )
 {
-	//Added By Sadullah Nader
-	//Initializations missing and necessary
 	m_background = NULL;
 	m_CRC = 0;
 	m_isInUpdate = FALSE;
@@ -235,7 +233,6 @@ GameLogic::GameLogic( void )
 	m_shouldValidateCRCs = FALSE;
 
 	m_startNewGame = FALSE;
-	//
 
 	m_frame = 0;
 	m_hasUpdated = FALSE;
@@ -1319,7 +1316,6 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
 			TheMouse->setVisibility(FALSE);
 			m_loadScreen->init(game);
 
-			//
 			updateLoadProgress( LOAD_PROGRESS_START );
 		}
 	}
@@ -1514,7 +1510,7 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
 		Dict d;
 		d.setAsciiString(TheKey_playerName, "ReplayObserver");
 		d.setBool(TheKey_playerIsHuman, TRUE);
-		d.setUnicodeString(TheKey_playerDisplayName, UnicodeString(L"Observer"));
+		d.setUnicodeString(TheKey_playerDisplayName, L"Observer");
 		const PlayerTemplate* pt;
 		pt = ThePlayerTemplateStore->findPlayerTemplate( TheNameKeyGenerator->nameToKey("FactionObserver") );
 		if (pt)
@@ -1583,7 +1579,7 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
 			{
 				ChunkInputStream *pStrm = &theInputStream;
 				DataChunkInput file( pStrm );
-				file.registerParser( AsciiString("PlayerScriptsList"), AsciiString::TheEmptyString, ScriptList::ParseScriptsDataChunk );
+				file.registerParser( "PlayerScriptsList", AsciiString::TheEmptyString, ScriptList::ParseScriptsDataChunk );
 				if (!file.parse(NULL)) {
 					DEBUG_LOG(("ERROR - Unable to read in multiplayer scripts."));
 					return;
@@ -1706,8 +1702,8 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
 	Region3D extent;
 	TheTerrainLogic->getExtent( &extent );
 
-	TheGameLogic->setWidth( extent.hi.x - extent.lo.x );
-	TheGameLogic->setHeight( extent.hi.y - extent.lo.y );
+	setWidth( extent.hi.x - extent.lo.x );
+	setHeight( extent.hi.y - extent.lo.y );
 
 	// anytime the world's size changes, must reset the partition mgr
 	ThePartitionManager->init();
@@ -2270,7 +2266,7 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
 		if (!TheGlobalData->m_headless)
 		{
 			if(TheShell->getScreenCount() == 0)
-				TheShell->push( AsciiString("Menus/MainMenu.wnd") );
+				TheShell->push( "Menus/MainMenu.wnd" );
 			else if (TheShell->top())
 			{
 				TheShell->top()->hide(FALSE);
@@ -2396,8 +2392,6 @@ void GameLogic::startNewGame( Bool loadingSaveGame )
     }
   }
 
-	//Added By Sadullah Nader
-	//Added to fix the quit menu
 	//ReAllows quit menu to work during loading scene
 	//setGameLoading(FALSE);
 	setLoadingMap( FALSE );
@@ -2463,20 +2457,18 @@ void GameLogic::loadMapINI( AsciiString mapName )
 		return;
 	}
 
-	char filename[_MAX_PATH];
-	char fullFledgeFilename[_MAX_PATH];
-
-	memset(filename, 0, _MAX_PATH);
-	strcpy(filename, mapName.str());
-
 	//
 	// if map name begins with a "SAVE_DIRECTORY\", then the map refers to a map
 	// that has been extracted from a save game file ... in that case we need to get
 	// the pristine map name string in order to manipulate and load the right map.ini
 	// for that map from it's original location
 	//
-	if (TheGameState->isInSaveDirectory(filename))
-		strcpy( filename, TheGameState->getSaveGameInfo()->pristineMapName.str() );
+	const char* pristineMapName = TheGameState->isInSaveDirectory(mapName.str())
+		? TheGameState->getSaveGameInfo()->pristineMapName.str()
+		: mapName.str();
+
+	char filename[_MAX_PATH];
+	strlcpy(filename, pristineMapName, ARRAY_SIZE(filename));
 
 	// sanity
 	int length = strlen(filename);
@@ -2492,6 +2484,7 @@ void GameLogic::loadMapINI( AsciiString mapName )
 	*extension = 0;
 
 
+	char fullFledgeFilename[_MAX_PATH];
 	sprintf(fullFledgeFilename, "%s\\map.ini", filename);
 	if (TheFileSystem->doesFileExist(fullFledgeFilename)) {
 		DEBUG_LOG(("Loading map.ini"));
@@ -3067,7 +3060,7 @@ void GameLogic::popSleepyUpdate()
 void GameLogic::friend_awakenUpdateModule(Object* obj, UpdateModulePtr u, UnsignedInt whenToWakeUp)
 {
 	//USE_PERF_TIMER(friend_awakenUpdateModule)
-	UnsignedInt now = TheGameLogic->getFrame();
+	UnsignedInt now = getFrame();
 	DEBUG_ASSERTCRASH(whenToWakeUp >= now, ("setWakeFrame frame is in the past... are you sure this is what you want?"));
 
 	if (u == m_curUpdateModule)
@@ -3456,7 +3449,7 @@ static void unitTimings(void)
       {
         if (sides[side] == "*")
         {
-          if ( btt->getDefaultOwningSide() == ("") )// wildcard for unspecified side
+          if ( btt->getDefaultOwningSide().isEmpty() )// wildcard for unspecified side
             unspecified = TRUE;
           else
             continue;
@@ -3699,7 +3692,7 @@ void GameLogic::update( void )
 	}
 
 	// send the current time to the GameClient
-	UnsignedInt now = TheGameLogic->getFrame();
+	UnsignedInt now = getFrame();
 	TheGameClient->setFrame(now);
 
 	// update (execute) scripts
@@ -3895,7 +3888,7 @@ void GameLogic::preUpdate()
 		Bool pause = TRUE;
 		Bool pauseMusic = FALSE;
 		Bool pauseInput = FALSE;
-		TheGameLogic->setGamePaused(pause, pauseMusic, pauseInput);
+		setGamePaused(pause, pauseMusic, pauseInput);
 	}
 }
 
@@ -3967,7 +3960,7 @@ void GameLogic::registerObject( Object *obj )
 	// add object to lookup table
 	addObjectToLookupTable( obj );
 
-	UnsignedInt now = TheGameLogic->getFrame();
+	UnsignedInt now = getFrame();
 	if (now == 0)
 		now = 1;
 	for (BehaviorModule** b = obj->getBehaviorModules(); *b; ++b)
@@ -5213,7 +5206,7 @@ void GameLogic::loadPostProcess( void )
 #ifdef ALLOW_NONSLEEPY_UPDATES
 	m_normalUpdates.clear();
 #else
-	UnsignedInt now = TheGameLogic->getFrame();
+	UnsignedInt now = getFrame();
 	if (now == 0)
 		now = 1;
 #endif

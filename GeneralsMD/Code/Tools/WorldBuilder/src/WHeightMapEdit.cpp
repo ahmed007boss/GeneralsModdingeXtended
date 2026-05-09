@@ -426,15 +426,14 @@ void WorldHeightMapEdit::loadDirectoryOfImages(const char *pFilePath)
 	}
 
 	FilenameList filenameList;
-	TheFileSystem->getFileListInDirectory(AsciiString(dirBuf), AsciiString("*.*"), filenameList, TRUE);
+	TheFileSystem->getFileListInDirectory(AsciiString(dirBuf), "*.*", filenameList, TRUE);
 
-	if (filenameList.size() == 0) {
+	if (filenameList.empty()) {
 		return;
 	}
 	FilenameList::iterator it = filenameList.begin();
 	do {
 		AsciiString filename = *it;
-		//strcpy(fileBuf, dirBuf);
 		strlcpy(fileBuf, filename.str(), ARRAY_SIZE(fileBuf));
 		loadBitmap(fileBuf, filename.str());
 
@@ -980,7 +979,7 @@ Int WorldHeightMapEdit::getTileNdxForClass(Int xIndex, Int yIndex, Int textureCl
 		/* there are actually 4 subcells in a tile.  So be funky. :) */
 		tileNdx = tileNdx << 2;
 		Int ySubIndex = yIndex&0x01;
-		Int xSubIndex = xIndex&0x01;;
+		Int xSubIndex = xIndex&0x01;
 		tileNdx += 2*ySubIndex;
 		tileNdx += xSubIndex;
 	}
@@ -2156,7 +2155,7 @@ Bool WorldHeightMapEdit::selectInvalidTeam(void)
 		}
 	}
 
-	AsciiString report = "";
+	AsciiString report;
 	AsciiString line;
 
 #if 0
@@ -3351,7 +3350,7 @@ void WorldHeightMapEdit::changeBoundary(Int ndx, ICoord2D *border)
 
 void WorldHeightMapEdit::removeLastBoundary(void)
 {
-	if (m_boundaries.size() == 0) {
+	if (m_boundaries.empty()) {
 		DEBUG_CRASH(("Invalid border remove request. jkmcd"));
 		return;
 	}

@@ -62,9 +62,19 @@ void DisplayNameUpgradeModuleData::buildFieldParse(MultiIniFieldParse& p)
 	static const FieldParse dataFieldParse[] =
 	{
 		{ "DisplayName",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayName) },
+		{ "DisplayPluralName",	INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
+		{ "DisplayDescription",		INI::parseAndTranslateLabel , NULL ,offsetof(DisplayNameUpgradeModuleData, m_displayDescription) }, // TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 		{ 0, 0, 0, 0 }
 	};
 	p.add(dataFieldParse);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Override getModuleDescription to return empty string instead of base description
+//-------------------------------------------------------------------------------------------------
+UnicodeString DisplayNameUpgradeModuleData::getModuleDescription() const
+{
+	return UnicodeString::TheEmptyString;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -85,7 +95,33 @@ void DisplayNameUpgrade::upgradeImplementation()
 {
 	const DisplayNameUpgradeModuleData* data = getDisplayNameUpgradeModuleData();
 	getObject()->setDisplayName(data->m_displayName);
-
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Also set plural name if specified
+	if (!data->m_displayPluralName.isEmpty())
+	{
+		getObject()->setDisplayPluralName(data->m_displayPluralName);
+	}
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	if (!data->m_displayDescription.isEmpty())
+	{
+		getObject()->setDescription(data->m_displayDescription);
+	}
+}
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void DisplayNameUpgrade::downgradeImplementation()
+{
+	const DisplayNameUpgradeModuleData* data = getDisplayNameUpgradeModuleData();
+	getObject()->setDisplayName(L"");
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Also set plural name if specified
+	if (!data->m_displayPluralName.isEmpty())
+	{
+		getObject()->setDisplayPluralName(L"");
+	}
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	if (!data->m_displayDescription.isEmpty())
+	{
+		getObject()->setDescription(L"");
+	}
 }
 
 //------------------------------------------------------------------------------------------------

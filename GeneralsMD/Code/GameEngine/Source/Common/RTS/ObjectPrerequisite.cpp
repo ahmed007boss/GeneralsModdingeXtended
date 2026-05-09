@@ -57,7 +57,7 @@
 #include "GameClient/GameText.h"
 
 //-----------------------------------------------------------------------------
-ObjectPrerequisite::ObjectPrerequisite()
+ObjectPrerequisite::ObjectPrerequisite() : m_namesResolved(false)
 {
 	init();
 }
@@ -111,6 +111,8 @@ void ObjectPrerequisite::init()
 	m_objectItemStorageFull.clear();
 	m_objectItemStorageNotFull.clear();
 	m_objectItemStorageEmpty.clear();
+	
+	m_namesResolved = false;	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Initialize resolution flag
 }
 
 //=============================================================================
@@ -234,6 +236,12 @@ void ObjectPrerequisite::resolveNames()
 //-----------------------------------------------------------------------------
 Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 {
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Lazy initialization: resolve names if not already resolved
+	if (!m_namesResolved)
+	{
+		const_cast<ObjectPrerequisite*>(this)->resolveNames();
+		m_namesResolved = true;
+	}
 	
 	if (!object)
 		return false;
@@ -267,13 +275,13 @@ Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 	// Check upgrade prerequisites
 	if (m_objectHasUpgradeMask.any())
 	{
-		if (!object->getObjectCompletedUpgradeMask().testForAll(m_objectHasUpgradeMask))
+		if (!object->getObjectCompletedUpgradeMask().testForAny(m_objectHasUpgradeMask))
 			return false;
 	}
 
 	if (m_objectHasNotUpgradeMask.any())
 	{
-		if (object->getObjectCompletedUpgradeMask().testForAny(m_objectHasNotUpgradeMask))
+		if (object->getObjectCompletedUpgradeMask().testForAll(m_objectHasNotUpgradeMask))
 			return false;
 	}
 
@@ -494,11 +502,8 @@ Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount >= maxStorage)
 			{
@@ -523,11 +528,8 @@ Bool ObjectPrerequisite::isSatisfied(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount < maxStorage)
 			{
@@ -952,11 +954,8 @@ UnicodeString ObjectPrerequisite::getRequiresList(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount >= maxStorage)
 			{
@@ -1002,11 +1001,8 @@ UnicodeString ObjectPrerequisite::getRequiresList(const Object* object) const
 			InventoryBehavior* inventoryBehavior = object->getInventoryBehavior();
 			if (inventoryBehavior)
 			{
-				const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-				if (moduleData)
-				{
-					maxStorage = moduleData->getMaxStorageCount(itemName);
-				}
+				// Use instance data to respect upgrades
+				maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 			}
 			if (maxStorage > 0 && currentCount < maxStorage)
 			{
@@ -1515,11 +1511,6 @@ void ObjectPrerequisite::parseObjectPrerequisites(INI* ini, void* instance, void
 
 	ini->initFromINI(prereqVector, myFieldParse);
 
-	// Resolve prerequisite names now
-	for (size_t i = 0; i < prereqVector->size(); ++i)
-	{
-		(*prereqVector)[i].resolveNames();
-	}
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1527,7 +1518,10 @@ void ObjectPrerequisite::parseObjectIs(INI* ini, void* instance, void* /*store*/
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectIsPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectIsPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1536,7 +1530,10 @@ void ObjectPrerequisite::parseObjectIsNot(INI* ini, void* instance, void* /*stor
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectIsNotPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectIsNotPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1545,7 +1542,10 @@ void ObjectPrerequisite::parseObjectIsKindOf(INI* ini, void* instance, void* /*s
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectIsKindOfPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectIsKindOfPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1554,7 +1554,10 @@ void ObjectPrerequisite::parseObjectIsNoKindOf(INI* ini, void* instance, void* /
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectIsNoKindOfPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectIsNoKindOfPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1563,7 +1566,10 @@ void ObjectPrerequisite::parseObjectHasUpgrade(INI* ini, void* instance, void* /
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasUpgradePrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasUpgradePrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1572,7 +1578,10 @@ void ObjectPrerequisite::parseObjectHasNotUpgrade(INI* ini, void* instance, void
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasNotUpgradePrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasNotUpgradePrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1581,7 +1590,10 @@ void ObjectPrerequisite::parseObjectLevelMoreThan(INI* ini, void* instance, void
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectLevelMoreThanPrereq(atoi(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectLevelMoreThanPrereq(atoi(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1590,7 +1602,10 @@ void ObjectPrerequisite::parseObjectLevelLessThan(INI* ini, void* instance, void
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectLevelLessThanPrereq(atoi(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectLevelLessThanPrereq(atoi(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1675,7 +1690,10 @@ void ObjectPrerequisite::parseObjectHasModelConditionFlag(INI* ini, void* instan
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasModelConditionFlagPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasModelConditionFlagPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1684,7 +1702,10 @@ void ObjectPrerequisite::parseObjectHasNoModelConditionFlag(INI* ini, void* inst
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasNoModelConditionFlagPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasNoModelConditionFlagPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1693,7 +1714,10 @@ void ObjectPrerequisite::parseObjectHasStatusFlag(INI* ini, void* instance, void
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasStatusFlagPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasStatusFlagPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1702,7 +1726,10 @@ void ObjectPrerequisite::parseObjectHasNoStatusFlag(INI* ini, void* instance, vo
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasNoStatusFlagPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasNoStatusFlagPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1711,7 +1738,10 @@ void ObjectPrerequisite::parseObjectHasComponent(INI* ini, void* instance, void*
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasComponentPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasComponentPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1720,7 +1750,10 @@ void ObjectPrerequisite::parseObjectHasNoComponent(INI* ini, void* instance, voi
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasNoComponentPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasNoComponentPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1729,7 +1762,10 @@ void ObjectPrerequisite::parseObjectHasWorkingComponent(INI* ini, void* instance
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasWorkingComponentPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasWorkingComponentPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 
@@ -1738,7 +1774,10 @@ void ObjectPrerequisite::parseObjectHasNoWorkingComponent(INI* ini, void* instan
 {
 	std::vector<ObjectPrerequisite>* v = (std::vector<ObjectPrerequisite>*)instance;
 	ObjectPrerequisite prereq;
-	prereq.addObjectHasNoWorkingComponentPrereq(AsciiString(ini->getNextToken()));
+	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
+	{
+		prereq.addObjectHasNoWorkingComponentPrereq(AsciiString(token));
+	}
 	v->push_back(prereq);
 }
 

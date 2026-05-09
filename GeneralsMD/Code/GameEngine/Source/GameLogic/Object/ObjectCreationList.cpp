@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_SHADOW_NAMES								// for TheShadowNames[]
 #define DEFINE_WEAPONSLOTTYPE_NAMES
@@ -256,15 +256,9 @@ public:
 		m_convergenceFactor( 0.0f )
 	{
 		//Note: m_data is constructed with default values.
-
-		// Added by Sadullah Nader
-		// Initialization missing and needed
-
 		m_payload.clear();
 		m_putInContainerName.clear();
 		m_transportName.clear();
-
-		// End Add
 	}
 
 	virtual Object* create(const Object *primaryObj, const Coord3D *primary, const Coord3D *secondary, Real angle, UnsignedInt lifetimeFrames = 0 ) const
@@ -764,9 +758,9 @@ public:
 		m_fadeIn(false),
 		m_fadeOut(false),
 		m_fadeFrames(0),
-		m_fadeSoundName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_particleSysName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_putInContainer(AsciiString::TheEmptyString), // Added By Sadullah Nader
+		m_fadeSoundName(AsciiString::TheEmptyString),
+		m_particleSysName(AsciiString::TheEmptyString),
+		m_putInContainer(AsciiString::TheEmptyString),
 		m_minMag(0.0f),
 		m_maxMag(0.0f),
 		m_minPitch(0.0f),
@@ -776,10 +770,8 @@ public:
 		m_shadowType(SHADOW_NONE),
 		m_fxFinal(NULL),
 		m_preserveLayer(true),
-		m_objectCount(0) // Added By Sadullah Nader
+		m_objectCount(0)
 	{
-		// Change Made by Sadullah Nader
-		// for init purposes, easier to read
 		m_offset.zero();
 	}
 
@@ -961,7 +953,7 @@ protected:
 				if (di)
 				{
 					di->setModelName(modelName, m_okToChangeModelColor ? obj->getIndicatorColor() : 0, m_shadowType);
-					if (m_animSets.size() > 0)
+					if (!m_animSets.empty())
 					{
 						Int which = GameLogicRandomValue(0, m_animSets.size()-1);
 						di->setAnimNames(m_animSets[which].m_animInitial, m_animSets[which].m_animFlying, m_animSets[which].m_animFinal, m_fxFinal);
@@ -1312,7 +1304,7 @@ protected:
 	{
 		static const ThingTemplate* debrisTemplate = TheThingFactory->findTemplate("GenericDebris");
 
-		if (m_names.size() <= 0)
+		if (m_names.empty())
 			return NULL;
 
 		if (m_requiresLivePlayer && (!sourceObj || !sourceObj->getControllingPlayer() || !sourceObj->getControllingPlayer()->isPlayerActive()))
@@ -1421,7 +1413,7 @@ protected:
 			}
 		}
 
-#if !RETAIL_COMPATIBLE_CRC && !RETAIL_COMPATIBLE_BUG
+#if !RETAIL_COMPATIBLE_CRC && !PRESERVE_RETAIL_BEHAVIOR
 		ObjectID sinkID = sourceObj->getExperienceTracker()->getExperienceSink();
 		firstObject->getExperienceTracker()->setExperienceSink(sinkID != INVALID_ID ? sinkID : sourceObj->getID());
 #endif

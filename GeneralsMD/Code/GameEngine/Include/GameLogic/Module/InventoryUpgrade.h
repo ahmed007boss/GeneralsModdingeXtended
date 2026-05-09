@@ -98,6 +98,7 @@ public:
 protected:
     // UpgradeMux implementation
     virtual void upgradeImplementation();
+		virtual void downgradeImplementation();
     virtual Bool isSubObjectsUpgrade() { return FALSE; }
 
 private:

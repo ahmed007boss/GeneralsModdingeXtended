@@ -1,0 +1,33 @@
+name: Sync Docs to Wiki
+
+on:
+  push:
+    branches:
+      - main # Trigger this workflow on pushes to the main branch
+    paths:
+      - 'Docs/**' # Only run if files in the 'Docs' folder change
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grant write permissions to the GITHUB_TOKEN
+
+    steps:
+    - name: Checkout main repository
+      uses: actions/checkout@v4
+
+    - name: Publish documentation to Wiki
+      uses: Andrew-Chen-Wang/github-wiki-action@v3
+      env:
+        # The action requires GH_TOKEN as an environment variable
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Username for git commits to the wiki
+        GH_NAME: ahmed007boss
+        # Email for git commits to the wiki
+        GH_MAIL: ahmed007boss@gmail.com
+      with:
+        # The path to your markdown files within the main repo
+        WIKI_DIR: Docs
+

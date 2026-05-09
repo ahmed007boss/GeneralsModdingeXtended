@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Xfer.h"
 #include "GameLogic/Object.h"
@@ -64,7 +64,20 @@ void PassengersFireUpgrade::upgradeImplementation( )
   }
 
 }
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void PassengersFireUpgrade::downgradeImplementation()
+{
+	// Just need to flag the containmodule having the passengersallowedtofire true, .
+	Object* obj = getObject();
+	//	obj->setWeaponSetFlag( WEAPONSET_PLAYER_UPGRADE );
 
+	ContainModuleInterface* contain = obj->getContain();
+	if (contain)
+	{
+		contain->setPassengerAllowedToFire(false);
+	}
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

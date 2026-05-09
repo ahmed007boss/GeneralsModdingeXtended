@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Xfer.h"
 #include "GameLogic/Module/StealthUpgrade.h"
@@ -61,6 +61,24 @@ void StealthUpgrade::upgradeImplementation( )
 		if( sbInterface )
 		{
 			sbInterface->giveSlavesStealthUpgrade( TRUE );
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------------
+void StealthUpgrade::downgradeImplementation()
+{
+	// The logic that does the stealthupdate will notice this and start stealthing
+	Object* me = getObject();
+	me->clearStatus(MAKE_OBJECT_STATUS_MASK(OBJECT_STATUS_CAN_STEALTH));
+
+	//Grant stealth to spawns if applicable.
+	if (me->isKindOf(KINDOF_SPAWNS_ARE_THE_WEAPONS))
+	{
+		SpawnBehaviorInterface* sbInterface = me->getSpawnBehaviorInterface();
+		if (sbInterface)
+		{
+			sbInterface->giveSlavesStealthUpgrade(FALSE);
 		}
 	}
 }

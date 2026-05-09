@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_LOCOMOTORSET_NAMES
 
@@ -103,7 +103,14 @@ void LocomotorSetUpgrade::upgradeImplementation( )
 	if (ai)
 		ai->setLocomotorUpgrade(data->m_upgradeLevel);
 }
-
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void LocomotorSetUpgrade::downgradeImplementation()
+{
+	AIUpdateInterface* ai = getObject()->getAIUpdateInterface();
+	if (ai)
+		ai->setLocomotorUpgrade(LOCOMOTORSET_NORMAL);
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

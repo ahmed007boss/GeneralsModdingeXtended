@@ -39,7 +39,7 @@
 #include "Common/KindOf.h"
 #include "Common/ModuleFactory.h"
 #include "Common/Overridable.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Science.h"
 #include "Common/UnicodeString.h"
 
@@ -53,7 +53,7 @@ class AIUpdateModuleData;
 class Image;
 class Object;
 class Drawable;
-class ProductionPrerequisite;
+class PlayerPrerequisite;
 struct FieldParse;
 class Player;
 class INI;
@@ -418,7 +418,7 @@ public:
 	EditorSortingType getEditorSorting() const { return (EditorSortingType)m_editorSorting; }
 
 	/// return true iff the template has the specified kindOf flag set.
-	inline Bool isKindOf(KindOfType t) const
+	Bool isKindOf(KindOfType t) const
 	{
 		return TEST_KINDOFMASK(m_kindof, t);
 	}
@@ -430,18 +430,24 @@ public:
 	}
 
 	/// convenience for doing multiple kindof testing at once.
-	inline Bool isKindOfMulti(const KindOfMaskType& mustBeSet, const KindOfMaskType& mustBeClear) const
+	Bool isKindOfMulti(const KindOfMaskType& mustBeSet, const KindOfMaskType& mustBeClear) const
 	{
 		return TEST_KINDOFMASK_MULTI(m_kindof, mustBeSet, mustBeClear);
 	}
 
-	inline Bool isAnyKindOf( const KindOfMaskType& anyKindOf ) const
+	Bool isAnyKindOf( const KindOfMaskType& anyKindOf ) const
 	{
 		return TEST_KINDOFMASK_ANY(m_kindof, anyKindOf);
 	}
 
 	/// set the display name
 	const UnicodeString& getDisplayName() const { return m_displayName; }  ///< return display name
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get pluralized display name
+	UnicodeString getDisplayPluralName() const;  ///< return pluralized display name (e.g., "Tanks" instead of "Tank")
+	
+	// TheSuperHackers @feature Ahmed Salah - DisplayDescription support
+	const UnicodeString& getDisplayDescription() const { return m_displayDescription; }  ///< return display description
 
 	// TheSuperHackers @feature author 15/01/2025 Get the original INI file path where this template was defined
 	const AsciiString& getIniFilePath() const { return m_iniFilePath; }
@@ -493,12 +499,14 @@ public:
 	ModuleInfo& getClientUpdateModuleInfo() { return m_clientUpdateModuleInfo; }
 
 	// TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
-	UnicodeString getExtendedDescription() const;
+	// TheSuperHackers @feature Ahmed Salah - Optional parameter to skip body modules (that provide HP info)
+	UnicodeString getExtendedDescription(Bool skipBodyModules = FALSE) const;
 
 	// TheSuperHackers @feature author 01/01/2025 Get KindOf description from thing types
 	UnicodeString getKindOfDescription() const;
 
 	const Image *getSelectedPortraitImage( void ) const { return m_selectedPortraitImage; }
+	const AsciiString& getSelectedPortraitVideoName( void ) const { return m_selectedPortraitVideoName; }	///< TheSuperHackers @feature Ahmed Salah 03/01/2026
 	const Image *getButtonImage( void ) const { return m_buttonImage; }
 
 	//Code renderer handles these states now.
@@ -608,10 +616,10 @@ public:
 	// these are intended ONLY for the private use of ThingFactory and do not use
 	// the m_override pointer, it deals only with templates at the "top" level
 	//
-	inline void friend_setTemplateName( const AsciiString& name ) { m_nameString = name; }
-	inline ThingTemplate *friend_getNextTemplate() const { return m_nextThingTemplate; }
-	inline void friend_setNextTemplate(ThingTemplate *tmplate) { m_nextThingTemplate = tmplate; }
-	inline void friend_setTemplateID(UnsignedShort id) { m_templateID = id; }
+	void friend_setTemplateName( const AsciiString& name ) { m_nameString = name; }
+	ThingTemplate *friend_getNextTemplate() const { return m_nextThingTemplate; }
+	void friend_setNextTemplate(ThingTemplate *tmplate) { m_nextThingTemplate = tmplate; }
+	void friend_setTemplateID(UnsignedShort id) { m_templateID = id; }
 
 	Int getEnergyProduction() const { return m_energyProduction; }
 	Int getEnergyBonus() const { return m_energyBonus; }
@@ -635,7 +643,7 @@ public:
 #endif
 		return m_prereqInfo.size();
 	}
-	const ProductionPrerequisite *getNthPrereq(Int i) const { return &m_prereqInfo[i]; }
+	const PlayerPrerequisite *getNthPrereq(Int i) const { return &m_prereqInfo[i]; }
 
 	/**
 		return the BuildFacilityTemplate, if any.
@@ -745,6 +753,8 @@ private:
 
 	// ---- Strings
 	UnicodeString			m_displayName;			///< UI display for onscreen display
+	UnicodeString			m_displayPluralName;	///< UI display for plural form (e.g., "Tanks" instead of "Tank") - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	UnicodeString			m_displayDescription;			///< Display description text - TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 	AsciiString				m_nameString;					///< name of this thing template
 	AsciiString				m_defaultOwningSide;	///< default owning side (owning player is inferred)
 	AsciiString				m_commandSetString;
@@ -752,6 +762,7 @@ private:
 	AsciiString				m_commandSet3String;
 	AsciiString				m_commandSet4String;
 	AsciiString				m_selectedPortraitImageName;
+	AsciiString				m_selectedPortraitVideoName;	///< TheSuperHackers @feature Ahmed Salah 03/01/2026 Video to play before showing static portrait
 	AsciiString				m_buttonImageName;
 	AsciiString				m_upgradeCameoUpgradeNames[MAX_UPGRADE_CAMEO_UPGRADES];	///< Use these to find the upgrade images to display on the control bar
 	AsciiString				m_shadowTextureName;					///< name of texture to use for shadow decal
@@ -784,7 +795,7 @@ private:
 	typedef SparseMatchFinder<ArmorTemplateSet, ArmorSetFlags, SparseMatchFinderFlags_NoCopy> ArmorTemplateSetFinder;
 
 	// ---- STL-sized things
-	std::vector<ProductionPrerequisite>	m_prereqInfo;				///< the unit Prereqs for this tech
+	std::vector<PlayerPrerequisite>	m_prereqInfo;				///< the unit Prereqs for this tech
 	std::vector<AsciiString>						m_buildVariations;	/**< if we build a unit of this type via script or ui, randomly choose one
 																														of these templates instead. (doesn't apply to MapObject-created items) */
 	WeaponTemplateSetVector							m_weaponTemplateSets;					///< our weaponsets

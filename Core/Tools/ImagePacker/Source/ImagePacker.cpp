@@ -179,7 +179,7 @@ Bool ImagePacker::validateImages( void )
 
 		proceed = DialogBox( ApplicationHInstance,
 												 (LPCTSTR)IMAGE_ERRORS,
-												 TheImagePacker->getWindowHandle(),
+												 getWindowHandle(),
 												 (DLGPROC)ImageErrorProc );
 
 	}
@@ -317,7 +317,7 @@ void ImagePacker::writeFinalTextures( void )
 
 		DialogBox( ApplicationHInstance,
 							 (LPCTSTR)PAGE_ERRORS,
-							 TheImagePacker->getWindowHandle(),
+							 getWindowHandle(),
 							 (DLGPROC)PageErrorProc );
 
 	}
@@ -385,8 +385,8 @@ void ImagePacker::addImagesInDirectory( char *dir )
 
 		// if this is a file count it
 		if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-				strcmp( item.cFileName, "." ) &&
-				strcmp( item.cFileName, ".." ) )
+				strcmp( item.cFileName, "." ) != 0 &&
+				strcmp( item.cFileName, ".." ) != 0 )
 		{
 
 			len = strlen( item.cFileName );
@@ -410,8 +410,8 @@ void ImagePacker::addImagesInDirectory( char *dir )
 
 			// if this is a file count it
 			if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					strcmp( item.cFileName, "." ) &&
-					strcmp( item.cFileName, ".." ) )
+					strcmp( item.cFileName, "." ) != 0 &&
+					strcmp( item.cFileName, ".." ) != 0 )
 			{
 
 				len = strlen( item.cFileName );
@@ -473,8 +473,8 @@ Bool ImagePacker::checkOutputDirectory( void )
 
 		// if this is a file count it
 		if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-				 strcmp( item.cFileName, "." ) &&
-				 strcmp( item.cFileName, ".." ) )
+				 strcmp( item.cFileName, "." ) != 0 &&
+				 strcmp( item.cFileName, ".." ) != 0 )
 			fileCount++;
 
 		// find the rest of the files
@@ -483,8 +483,8 @@ Bool ImagePacker::checkOutputDirectory( void )
 
 			// if this is a file count it
 			if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					 strcmp( item.cFileName, "." ) &&
-					 strcmp( item.cFileName, ".." ) )
+					 strcmp( item.cFileName, "." ) != 0 &&
+					 strcmp( item.cFileName, ".." ) != 0 )
 				fileCount++;
 
 		}
@@ -526,8 +526,8 @@ Bool ImagePacker::checkOutputDirectory( void )
 
 			// if this is a file count it
 			if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					 strcmp( item.cFileName, "." ) &&
-					 strcmp( item.cFileName, ".." ) )
+					 strcmp( item.cFileName, "." ) != 0 &&
+					 strcmp( item.cFileName, ".." ) != 0 )
 				DeleteFile( item.cFileName );
 
 			// find the rest of the files
@@ -536,8 +536,8 @@ Bool ImagePacker::checkOutputDirectory( void )
 
 				// if this is a file count it
 				if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-						 strcmp( item.cFileName, "." ) &&
-						 strcmp( item.cFileName, ".." ) )
+						 strcmp( item.cFileName, "." ) != 0 &&
+						 strcmp( item.cFileName, ".." ) != 0 )
 					DeleteFile( item.cFileName );
 
 			}
@@ -687,8 +687,8 @@ void ImagePacker::addDirectory( char *path, Bool subDirs )
 
 		// if this is a file count it
 		if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-				strcmp( item.cFileName, "." ) &&
-				strcmp( item.cFileName, ".." ) )
+				strcmp( item.cFileName, "." ) != 0 &&
+				strcmp( item.cFileName, ".." ) != 0 )
 		{
 
 			len = strlen( item.cFileName );
@@ -707,8 +707,8 @@ void ImagePacker::addDirectory( char *path, Bool subDirs )
 
 			// if this is a file count it
 			if( !(item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					strcmp( item.cFileName, "." ) &&
-					strcmp( item.cFileName, ".." ) )
+					strcmp( item.cFileName, "." ) != 0 &&
+					strcmp( item.cFileName, ".." ) != 0 )
 			{
 
 				len = strlen( item.cFileName );
@@ -743,8 +743,8 @@ void ImagePacker::addDirectory( char *path, Bool subDirs )
 
 			// if this is a file count it
 			if( (item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-					strcmp( item.cFileName, "." ) &&
-					strcmp( item.cFileName, ".." ) )
+					strcmp( item.cFileName, "." ) != 0 &&
+					strcmp( item.cFileName, ".." ) != 0 )
 			{
 
 				sprintf( subDir, "%s%s\\", path, item.cFileName );
@@ -758,8 +758,8 @@ void ImagePacker::addDirectory( char *path, Bool subDirs )
 
 				// if this is a file count it
 				if( (item.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
-						strcmp( item.cFileName, "." ) &&
-						strcmp( item.cFileName, ".." ) )
+						strcmp( item.cFileName, "." ) != 0 &&
+						strcmp( item.cFileName, ".." ) != 0 )
 				{
 
 					sprintf( subDir, "%s%s\\", path, item.cFileName );
@@ -998,33 +998,33 @@ Bool ImagePacker::getSettingsFromDialog( HWND dialog )
 	Bool outputAlpha = FALSE;
 	if( IsDlgButtonChecked( dialog, CHECK_ALPHA ) == BST_CHECKED )
 		outputAlpha = TRUE;
-	TheImagePacker->setOutputAlpha( outputAlpha );
+	setOutputAlpha( outputAlpha );
 
 	// get create INI option
 	Bool createINI = FALSE;
 	if( IsDlgButtonChecked( dialog, CHECK_INI ) == BST_CHECKED )
 		createINI = TRUE;
-	TheImagePacker->setINICreate( createINI );
+	setINICreate( createINI );
 
 	// get preview with image option
 	Bool useBitmap = FALSE;
 	if( IsDlgButtonChecked( dialog, CHECK_BITMAP_PREVIEW ) == BST_CHECKED )
 		useBitmap = TRUE;
-	TheImagePacker->setUseTexturePreview( useBitmap );
+	setUseTexturePreview( useBitmap );
 
 	// get option to compress final textures
 	Bool compress = FALSE;
 	if( IsDlgButtonChecked( dialog, CHECK_COMPRESS ) == BST_CHECKED )
 		compress = TRUE;
-	TheImagePacker->setCompressTextures( compress );
+	setCompressTextures( compress );
 
 	// get options for the gap options
-	TheImagePacker->clearGapMethod( ImagePacker::GAP_METHOD_EXTEND_RGB );
+	clearGapMethod( ImagePacker::GAP_METHOD_EXTEND_RGB );
 	if( IsDlgButtonChecked( dialog, CHECK_GAP_EXTEND_RGB ) == BST_CHECKED )
-		TheImagePacker->setGapMethod( ImagePacker::GAP_METHOD_EXTEND_RGB );
-	TheImagePacker->clearGapMethod( ImagePacker::GAP_METHOD_GUTTER );
+		setGapMethod( ImagePacker::GAP_METHOD_EXTEND_RGB );
+	clearGapMethod( ImagePacker::GAP_METHOD_GUTTER );
 	if( IsDlgButtonChecked( dialog, CHECK_GAP_GUTTER ) == BST_CHECKED )
-		TheImagePacker->setGapMethod( ImagePacker::GAP_METHOD_GUTTER );
+		setGapMethod( ImagePacker::GAP_METHOD_GUTTER );
 
 	// get gutter size whether we are using that option or not
 	Int gutter = GetDlgItemInt( dialog, EDIT_GUTTER, NULL, FALSE );

@@ -8,6 +8,7 @@ class IVisionComponent
 public:
 	virtual ~IVisionComponent() {}
 	virtual Real getShroudClearingRange() const = 0;
+	virtual Real getVisionRange() const = 0;
 };
 
 #endif // VISION_COMPONENT_INTERFACE_H

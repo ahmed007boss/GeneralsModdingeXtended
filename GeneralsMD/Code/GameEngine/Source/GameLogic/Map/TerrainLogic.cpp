@@ -27,7 +27,7 @@
 // Author: Colin Day, April 2001
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 #include "Common/DataChunk.h"
@@ -959,11 +959,8 @@ TerrainLogic::TerrainLogic()
 {
 	Int i;
 
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
 	m_activeBoundary = 0;
 	m_waterGridEnabled = FALSE;
-	//
 	for( i = 0; i < MAX_DYNAMIC_WATER; ++i )
 	{
 
@@ -1272,7 +1269,7 @@ Bool TerrainLogic::loadMap( AsciiString filename, Bool query )
 		DataChunkInput file( pStrm );
 		if (file.isValidFileType()) {	// Backwards compatible files aren't valid data chunk files.
 			// Read the waypoints.
-			file.registerParser( AsciiString("WaypointsList"), AsciiString::TheEmptyString, parseWaypointDataChunk );
+			file.registerParser( "WaypointsList", AsciiString::TheEmptyString, parseWaypointDataChunk );
 			if (!file.parse(this)) {
 				DEBUG_CRASH(("Unable to read waypoint info."));
 				return false;
@@ -2702,7 +2699,7 @@ void TerrainLogic::flattenTerrain(Object *obj)
 						match = true;
 					}
 					if (match) {
-						totalHeight += TheTerrainLogic->getGroundHeight(testPt.X, testPt.Y);
+						totalHeight += getGroundHeight(testPt.X, testPt.Y);
 						numSamples++;
 					}
 				}
@@ -2713,7 +2710,7 @@ void TerrainLogic::flattenTerrain(Object *obj)
 
 			// Compare to the height at the building's origin, because setRawMapHeight will only lower,
 			// not raise.  jba
-			Int centerHeight = REAL_TO_INT_FLOOR(TheTerrainLogic->getGroundHeight(pos->x, pos->y)/MAP_HEIGHT_SCALE);
+			Int centerHeight = REAL_TO_INT_FLOOR(getGroundHeight(pos->x, pos->y)/MAP_HEIGHT_SCALE);
 			if (rawDataHeight>centerHeight) rawDataHeight = centerHeight;
 
 			for (i=iMin.x; i<=iMax.x; i++) {
@@ -2791,7 +2788,7 @@ void TerrainLogic::flattenTerrain(Object *obj)
 						match = true;
 					}
 					if (match) {
-						totalHeight += TheTerrainLogic->getGroundHeight(testPt.X, testPt.Y);
+						totalHeight += getGroundHeight(testPt.X, testPt.Y);
 						numSamples++;
 					}
 				}

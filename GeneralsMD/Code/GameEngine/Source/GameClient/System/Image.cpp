@@ -31,7 +31,7 @@
 //						all parts of the engine that need images.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #define DEFINE_IMAGE_STATUS_NAMES
 #include "Lib/BaseType.h"
@@ -205,7 +205,7 @@ ImageCollection::ImageCollection( void )
 //-------------------------------------------------------------------------------------------------
 ImageCollection::~ImageCollection( void )
 {
-  for (std::map<unsigned,Image *>::iterator i=m_imageMap.begin();i!=m_imageMap.end();++i)
+  for (ImageMap::iterator i=m_imageMap.begin();i!=m_imageMap.end();++i)
     deleteInstance(i->second);
 }
 
@@ -218,12 +218,26 @@ void ImageCollection::addImage( Image *image )
 }
 
 //-------------------------------------------------------------------------------------------------
+const Image *ImageCollection::findImage( NameKeyType namekey ) const
+{
+	ImageMap::const_iterator i = m_imageMap.find(namekey);
+	return i == m_imageMap.end() ? NULL : i->second;
+}
+
+//-------------------------------------------------------------------------------------------------
 /** Find an image given the image name */
 //-------------------------------------------------------------------------------------------------
-const Image *ImageCollection::findImageByName( const AsciiString& name )
+const Image *ImageCollection::findImageByName( const AsciiString& name ) const
 {
-  std::map<unsigned,Image *>::iterator i=m_imageMap.find(TheNameKeyGenerator->nameToLowercaseKey(name));
-  return i==m_imageMap.end()?NULL:i->second;
+	return findImage(TheNameKeyGenerator->nameToLowercaseKey(name));
+}
+
+//-------------------------------------------------------------------------------------------------
+/** Find an image given the image name */
+//-------------------------------------------------------------------------------------------------
+const Image *ImageCollection::findImageByName( const char* name ) const
+{
+	return findImage(TheNameKeyGenerator->nameToLowercaseKey(name));
 }
 
 //-------------------------------------------------------------------------------------------------

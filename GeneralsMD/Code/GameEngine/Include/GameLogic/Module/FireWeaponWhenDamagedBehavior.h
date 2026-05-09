@@ -133,7 +133,10 @@ protected:
 	{
 		setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 	}
-
+	virtual void downgradeImplementation()
+	{
+		setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
+	}
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{
 		getFireWeaponWhenDamagedBehaviorModuleData()->m_upgradeMuxData.getUpgradeActivationMasks(activation, conflicting,requireAnyOf,requireAllOf);
@@ -155,7 +158,7 @@ protected:
 		return getFireWeaponWhenDamagedBehaviorModuleData()->m_upgradeMuxData.m_requiresAllTriggers;
 	}
 
-	inline Bool isUpgradeActive() const { return isAlreadyUpgraded(); }
+	Bool isUpgradeActive() const { return isAlreadyUpgraded(); }
 
 	virtual Bool isSubObjectsUpgrade() { return false; }
 

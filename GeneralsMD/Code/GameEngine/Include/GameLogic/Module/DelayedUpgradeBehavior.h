@@ -119,6 +119,7 @@ protected:
 	virtual Bool resetUpgrade(UpgradeMaskType keyMask);  // When this upgrade is removed, we reset our triggers.
 
 	virtual void upgradeImplementation();
+	virtual void downgradeImplementation();
 
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const
 	{

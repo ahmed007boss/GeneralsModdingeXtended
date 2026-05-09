@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 
 #include "Lib/BaseType.h"
@@ -240,6 +240,7 @@ void PopulateReplayFileListbox(GameWindow *listbox)
 		return;
 
 	GadgetListBoxReset(listbox);
+	const Int listboxLength = GadgetListBoxGetListLength(listbox);
 
 	// TheSuperHackers @tweak xezon 08/06/2025 Now shows missing maps in red color.
 	enum {
@@ -272,7 +273,6 @@ void PopulateReplayFileListbox(GameWindow *listbox)
 	TheFileSystem->getFileListInDirectory(TheRecorder->getReplayDir(), asciisearch, replayFilenames, FALSE);
 
 	TheMapCache->updateCache();
-
 
 	for (it = replayFilenames.begin(); it != replayFilenames.end(); ++it)
 	{
@@ -312,11 +312,7 @@ void PopulateReplayFileListbox(GameWindow *listbox)
 
 			const Bool hasMap = mapData != NULL;
 
-			const Bool isCrcCompatible =
-				   header.versionString == TheVersion->getUnicodeVersion()
-				&& header.versionNumber == TheVersion->getVersionNumber()
-				&& header.exeCRC == TheGlobalData->m_exeCRC
-				&& header.iniCRC == TheGlobalData->m_iniCRC;
+			const Bool isCrcCompatible = RecorderClass::replayMatchesGameVersion(header);
 
 			if (isCrcCompatible)
 			{
@@ -355,10 +351,15 @@ void PopulateReplayFileListbox(GameWindow *listbox)
 					mapColor = colors[COLOR_MISSING_MAP_CRC_MISMATCH];
 			}
 
-			Int insertionIndex = GadgetListBoxAddEntryText(listbox, replayNameToShow, color, -1, 0);
+			const Int insertionIndex = GadgetListBoxAddEntryText(listbox, replayNameToShow, color, -1, 0);
+			DEBUG_ASSERTCRASH(insertionIndex >= 0, ("Expects valid index"));
 			GadgetListBoxAddEntryText(listbox, displayTimeBuffer, color, insertionIndex, 1);
 			GadgetListBoxAddEntryText(listbox, header.versionString, color, insertionIndex, 2);
 			GadgetListBoxAddEntryText(listbox, mapStr, mapColor, insertionIndex, 3);
+
+			// TheSuperHackers @performance Now stops processing when the list is full.
+			if (insertionIndex == listboxLength - 1)
+				break;
 		}
 	}
 	GadgetListBoxSetSelected(listbox, 0);
@@ -372,12 +373,12 @@ void ReplayMenuInit( WindowLayout *layout, void *userData )
 	TheShell->showShellMap(TRUE);
 
 	// get ids for our children controls
-	parentReplayMenuID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ParentReplayMenu") );
-	buttonLoadID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ButtonLoadReplay") );
-	buttonBackID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ButtonBack") );
-	listboxReplayFilesID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ListboxReplayFiles") );
-	buttonDeleteID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ButtonDeleteReplay") );
-	buttonCopyID = TheNameKeyGenerator->nameToKey( AsciiString("ReplayMenu.wnd:ButtonCopyReplay") );
+	parentReplayMenuID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ParentReplayMenu" );
+	buttonLoadID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ButtonLoadReplay" );
+	buttonBackID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ButtonBack" );
+	listboxReplayFilesID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ListboxReplayFiles" );
+	buttonDeleteID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ButtonDeleteReplay" );
+	buttonCopyID = TheNameKeyGenerator->nameToKey( "ReplayMenu.wnd:ButtonCopyReplay" );
 
 	parentReplayMenu = TheWindowManager->winGetWindowFromId( NULL, parentReplayMenuID );
 	buttonLoad = TheWindowManager->winGetWindowFromId( parentReplayMenu, buttonLoadID );
@@ -396,7 +397,7 @@ void ReplayMenuInit( WindowLayout *layout, void *userData )
 	instData.init();
 	BitSet( instData.m_style, GWS_PUSH_BUTTON | GWS_MOUSE_TRACK );
 	instData.m_textLabelString = "Debug: Analyze Replay";
-	instData.setTooltipText(UnicodeString(L"Only Used in Debug and Internal!"));
+	instData.setTooltipText(L"Only Used in Debug and Internal!");
 	buttonAnalyzeReplay = TheWindowManager->gogoGadgetPushButton( parentReplayMenu,
 																									 WIN_STATUS_ENABLED | WIN_STATUS_IMAGE,
 																									 4, 4,
@@ -656,7 +657,7 @@ WindowMsgHandledType ReplayMenuSystem( GameWindow *window, UnsignedInt msg,
 					GadgetListBoxGetSelected( listboxReplayFiles,  &selected );
 					if(selected < 0)
 					{
-						MessageBoxOk(UnicodeString(L"Blah Blah"),UnicodeString(L"Please select something munkee boy"), NULL);
+						MessageBoxOk(L"Blah Blah",L"Please select something munkee boy", NULL);
 						break;
 					}
 

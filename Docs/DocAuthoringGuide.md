@@ -80,7 +80,7 @@ This guide defines the exact process and format for creating or updating documen
 
 5. **⚠️ Create/Update Retail Documentation (MANDATORY - DO NOT SKIP THIS STEP)**:
    - **CRITICAL**: After creating/updating the GMX documentation, you MUST check if the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04).
-   - **MANDATORY ACTION**: If Retail features exist, you MUST create or update a Retail documentation file in the Retail codebase path at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\Docs\...` (or equivalent path for Retail Generals). **THIS IS NOT OPTIONAL. THIS STEP MUST BE COMPLETED.**
+   - **MANDATORY ACTION**: If Retail features exist, you MUST create or update a Retail documentation file in the Retail codebase path at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...` (or equivalent path for Retail Generals). **THIS IS NOT OPTIONAL. THIS STEP MUST BE COMPLETED.**
    - **Retail document rules** (see detailed section below):
      - Include ONLY Retail features (remove all GMX-only content).
      - Use Retail version flags only (e.g., `*(v1.04)*`, `*(v1.04, Zero Hour only)*`).
@@ -106,7 +106,7 @@ This is a MANDATORY step in the documentation workflow (see step 5 in "Mandatory
 - **If Retail features exist**: Create or update the Retail document.
 - **If GMX-only feature**: Do NOT create Retail documents (e.g., `Component.md` is GMX Zero Hour only, so no Retail document).
 
-**Retail document location**: `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\Docs\...` (or equivalent path for Retail Generals)
+**Retail document location**: `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...` (or equivalent path for Retail Generals)
 
 **Retail document rules**:
 - **GMX-only features**: Do NOT create Retail documents (e.g., `Component.md` is GMX Zero Hour only, so no Retail document).
@@ -116,12 +116,143 @@ This is a MANDATORY step in the documentation workflow (see step 5 in "Mandatory
 - **Version flags in mirror**: Use Retail version flags only (e.g., `*(v1.04)*`, `*(v1.04, Zero Hour only)*`). Do not mention GMX in mirror files.
 - **Examples in mirror**: Use Retail examples only (from `Sources/Zero Hour` or `Sources/Generals` paths), remove GMX examples.
 - **Structure**: Follow the exact same document structure and rules as the GMX document (same sections, linking, examples, version flags), but exclude GMX-only properties/sections entirely.
+ - **Parity with GMX (CRITICAL)**: For functionality that exists in both GMX and Retail, mirror the depth and clarity of the GMX doc in the Retail doc. Copy and adapt shared Usage bullets (Limitations/Conditions/Dependencies), Notes, and Template inline comments to ensure equivalent coverage. Do not leave the Retail doc with shorter or poorer descriptions for shared functionality.
 
 **Example**: For `ActiveBody.md`:
 - **GMX version** (`Docs/ObjectModules/ActiveBody.md`): Includes all GMX features (jamming damage GMX Zero Hour only, components GMX Zero Hour only, etc.) plus Retail features (MaxHealth, InitialHealth, subdual damage).
-- **Retail mirror** (`E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\Docs\ObjectModules\ActiveBody.md`): Includes ONLY Retail features (MaxHealth, InitialHealth, subdual damage for Zero Hour only). No jamming damage, no components, no GMX-only content.
+- **Retail mirror** (`E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\ObjectBody\ActiveBody.md`): Includes ONLY Retail features (MaxHealth, InitialHealth, subdual damage for Zero Hour only). No jamming damage, no components, no GMX-only content.
 
 **🚨 CRITICAL - THIS STEP MUST BE COMPLETED FOR EVERY DOCUMENTATION UPDATE. DO NOT SKIP CREATING/UPDATING RETAIL MIRROR FILES WHEN RETAIL FEATURES ARE PRESENT. THIS IS A MANDATORY REQUIREMENT, NOT AN OPTIONAL STEP.**
+
+### Full TODO Flow (CRITICAL & MANDATORY)
+Before you create or edit ANY documentation file, you MUST generate this full TODO list and follow it step-by-step. Do NOT wait for review to begin; execute the list immediately. When you are asked to “follow the instruction,” you MUST generate and use this Full TODO Flow without deviation. Each item references sections in this guide for details.
+
+0) Identify all code files across the four versions (CRITICAL)
+- Locate header/source files for the target in: GMX Zero Hour, Retail Zero Hour 1.04, GMX Generals, Retail Generals 1.04
+- Record exact relative paths (headers, sources, factories/registration points)
+- If a version is not present, explicitly note "not present" and proceed
+
+1) Identify scope and availability (see “Versioning Rules” and “Overview”)
+- Confirm entity/module name and placement path in Docs
+- Check availability across ALL 4 versions (GMX ZH → Retail ZH 1.04 → GMX Gens → Retail Gens 1.04)
+- Decide: GMX-only, Retail-only, or mixed; note GMX-only styling rules (Title/Section coloring)
+
+2) Collect source references (see “Source Files” and “Version Comparison”)
+- Find headers and sources for GMX (GeneralsMD and Generals if applicable)
+- Find Retail headers/sources if feature exists in Retail
+- Note base class(es) for Source Files (list base first)
+
+3) Deep code study (MANDATORY) (see “Mandatory Research Workflow”, “Property Parsing and Validation”, “Cross-Usage Research”)
+- Read headers and sources end-to-end for the target across ALL 4 versions in this exact order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04
+- Inspect parse tables (`FieldParse`/`buildFieldParse`), custom parsers, and child-block parsers
+- Verify member defaults from constructors/member initializers
+- Find and read all getters/setters and call sites that consume parsed members (UI, gameplay, AI)
+- Check error/validation paths (asserts, throws, clamps) and document user-facing effects
+- Enumerate enums and corresponding name arrays; confirm order and full value set (GMX-first)
+- Note base classes and interfaces that affect INI behavior
+
+4) Extract parse surface (see “Property Format” and “Enum Format”)
+- Copy property names from parse tables exactly
+- Map `offsetof`/members; record defaults from constructors
+- Identify enums and string arrays; collect all values (GMX-first)
+ - Identify child/parent nested parsers and document as separate child entities where required
+
+5) Draft document skeleton (see “Required Document Structure”)
+- Title + Status; Overview with availability line
+- Table of Contents with internal anchors
+- Properties categories; per-property blocks using Property Format
+- Enum Value Lists with values and flags
+- Examples; Usage (Limitations/Conditions/Dependencies)
+- Template with inline comments for EVERY property line
+- Notes; Modder Scenarios (placeholder); Source Files; Changes History; Document Log; Status/Reviewers
+
+6) Link pass (internal/external) (see “Internal Linking — Mandatory” and “Cross-References (Mandatory)”) 
+- Add internal links for every in-doc property/enum mention
+- Add external links for referenced entities (Object, Upgrade, Science, Weapon, FXList, etc.)
+- Add per-property “invalid reference” notes where names are referenced (Object/Science/Upgrade/KindOf/Item)
+ - Ensure links are OUTSIDE backticks and anchors exist where linked
+
+7) Retail document gate (see “Retail Documentation Files (MANDATORY)”) 
+- If feature exists in Retail: create/update Retail doc with ONLY Retail content and flags
+- Remove all GMX-only content from Retail doc; adjust examples/template
+- Keep structure identical to GMX doc sans GMX-only content; update version flags and examples to Retail
+
+8) Version flags and styling (see “Versioning Rules” and “Title/Section Headings and Availability”)
+- Add version lines to all properties/sections/enums
+- Apply GMX-only blue heading styling: title for GMX-only docs; section headings for mixed docs
+
+9) Final validation (CRITICAL — verify against ALL rules in this guide)
+- Availability lines present and correct in Overview and each property/enum/category
+- Version flags applied everywhere required (sections, properties, enums, enum values) with correct formats
+- GMX-only styling rules followed (title colored for GMX-only docs; GMX-only sections colored in mixed docs)
+- Retail document created/updated when Retail features exist; Retail doc contains ONLY Retail content
+ - Retail↔GMX parity achieved for all shared functionality (Usage, Notes, Template comments match in depth)
+- Internal property linking applied in ALL sections (outside code blocks); anchors exist and work
+- External links for referenced entities (Object, Upgrade, Science, Weapon, FXList, etc.) use correct relative paths
+- Per-property inline Example line exists in Properties; no examples duplicated outside unless required by section
+- Template includes concise inline comments for EVERY property line
+- Invalid-reference behavior included in property descriptions where names are referenced (Object/Science/Upgrade/KindOf/Item)
+- Enum sections list ALL values (GMX-first) with individual version flags; source/array references noted
+- Usage section includes Limitations, Conditions, Dependencies with correct content (no duplication)
+- Examples compile as INI; no comment lines inside fenced blocks; demonstrate OR/AND semantics where relevant
+- Source Files: base class listed first; all file links are clickable; GMX/Retail paths accurate
+- Changes History covers feature/code changes only; Document Log covers documentation edits only
+- Status block updated (Documentation Status, Last Updated, Certification); Reviewers section has open slots
+- Cross-Usage checklist scanned; discovered interactions reflected in Usage
+- Spot-check link integrity (property anchors and relative paths)
+
+10) Status and reviewers (see “Review and Certification Workflow”) 
+- Set Status block; add/update Last Updated
+- Leave at least two reviewer slots
+
+11) Retail-specific TODO (execute now)
+ - Set target Retail doc path under `CnC_Generals_Zero_Hour/Docs/...` (or Retail Generals path)
+ - Port skeleton and sections; strip GMX-only properties/sections/examples
+ - Replace version flags with Retail ones; use Retail examples
+ - Re-run link pass for Retail paths; update Source Files to Retail-only if needed
+ - Run full Final validation checklist for the Retail doc
+ - Add Status/Reviewers and Document Log entries for the Retail doc
+ 
+### Richness and Parity Requirements (CRITICAL)
+- Parity with strongest reference: When documenting a derived/similar entity, mirror the Usage and Notes depth of the richest related doc (e.g., `ImmortalBody` should match `ActiveBody`’s Usage/Notes scope where behavior is shared). If content is intentionally omitted, add a one-line justification in Notes.
+ - Retail↔GMX mirror parity (CRITICAL): For features available in both GMX and Retail, ensure the Retail mirror has equivalent depth to the GMX doc for all shared functionality. Explicitly copy and adapt shared Usage bullets, Notes, and Template inline comments. Differences should only reflect version-specific availability, not content quality.
+- Section completeness gates (block merge if missing):
+  - Overview, Table of Contents
+  - Properties (with per-property inline Example lines)
+  - Usage with three subsections: Limitations, Conditions, Dependencies
+  - Template with concise inline comments for every line
+  - Notes
+  - Source Files (base class first)
+  - Changes History and Document Log
+  - Status and Reviewers
+- Minimum content rules:
+  - Examples: ≥2 for simple modules; 4–5 for complex/base entities
+  - Notes: ≥5 bullets for modules with gameplay interactions
+  - Usage must include ObjectExtend/ObjectReskin behavior when applicable
+- Reference doc alignment step: If a doc inherits or shares behavior (e.g., `ImmortalBody` → `ActiveBody`), copy relevant shared bullets (adapt/adapt the text) into Usage/Notes rather than only linking.
+
+### Reviewer Checklist (Expanded)
+- Full TODO Flow present and followed (including Retail-specific TODO if applicable)
+- Parity with base/peer doc verified (Usage/Notes richness, examples count, template comments)
+- Per-property examples present; per-line template comments present
+- All internal/external links valid; anchors exist; links outside backticks
+- Version flags and availability lines correct everywhere
+- Retail doc created/updated correctly (Retail-only content, flags, examples)
+ - Retail↔GMX parity verified for shared functionality (no “poor content” in Retail mirror)
+- Final Validation checklist items all satisfied; Richness and Parity requirements satisfied
+
+### Optional Automation (Recommended)
+- Diff-lint for parity: warn when a derived doc is missing sections/bullets present in its base reference doc
+- Line-count/section-count heuristic: flag docs significantly shorter than base/peer without justification
+
+### Block Merge Policy (CRITICAL)
+- PRs must be blocked if any of the following fail:
+  - Full TODO Flow step missing or not executed (including Retail-specific TODO when applicable)
+  - Section completeness gates not met
+  - Richness/Parity audit fails without documented justification
+  - Final Validation checklist not fully satisfied
+
+Execution rule: Generate this TODO in your workspace and follow it immediately without asking for approval. If new findings arise, update the TODO and continue.
 
 **CRITICAL VERSION CHECKING PROCESS**:
 - **MANDATORY**: Check ALL 4 versions in EXACT order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04
@@ -571,6 +702,14 @@ The following enums have their own documentation files:
 - In Properties, if the description mentions another type or module (e.g., uses an `FXList` or requires `ActiveBody`), link those names in-line to their Docs pages.
 - For enum-using properties, link the property's Available Values line to the enum section, and add a short note in the enum section mentioning which properties consume it.
 
+### Reference Property Error Semantics (MANDATORY)
+- For any property that references other entities (Object, Science, Upgrade, KindOf, Component, Item names), include a concise “Invalid references handling (from code)” note in Limitations/Notes. Use these rules:
+  - Science: invalid names cause a hard load error (throws INI_INVALID_DATA) and prevent game start.
+  - Upgrade: invalid names cause a hard load error (throws INI_INVALID_DATA).
+  - Object template: invalid names trigger a debug assertion during name resolution; in non-debug builds behavior is undefined and may crash later (e.g., when generating requirement/conflict text). Treat as fatal; require valid names.
+  - KindOf: invalid names abort parsing via index scanning; treat as fatal.
+  - Inventory item names (free-form): not validated at load; conditions simply never match at runtime (effectively ignored).
+
 ### Property Parsing and Validation (Critical)
 - Document how each property is parsed, referencing the specific field parse line when possible.
 - Common parser patterns:
@@ -684,7 +823,7 @@ The following enums have their own documentation files:
 - I duplicated and included inherited INI properties in derived docs (modules, entities, components).
 - **I scanned for getters/setters and indirect usage** of properties (e.g., `get*`, `set*`, `has*`, `consume*`) across the codebase and documented discovered behaviors in Usage (Limitations/Conditions/Dependencies) as needed.
 - **I completed the Cross-Usage Interactions Checklist** (Weapons, Locomotor, AI/Updates, Resupply systems, Commands/UI, Game flow glue/dispatch, Upgrades) and added all relevant interactions with links.
-- **⚠️ I created/updated Retail Mirror Documentation files (MANDATORY if Retail features exist)** - This is a MANDATORY step. If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), I created or updated the Retail mirror file at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\Docs\...` (see step 5 in "Mandatory Research Workflow" and "Retail Mirror Documentation Files (Mandatory)" section). **DO NOT SKIP THIS STEP.**
+- **⚠️ I created/updated Retail Mirror Documentation files (MANDATORY if Retail features exist)** - This is a MANDATORY step. If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), I created or updated the Retail mirror file at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...` (see step 5 in "Mandatory Research Workflow" and "Retail Mirror Documentation Files (Mandatory)" section). **DO NOT SKIP THIS STEP.**
 
 ### Submission Gate (Hard Requirements — Block Merge if any fail)
 - Version matrix completed for ALL properties/enums/entities across the four versions in order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04.
@@ -716,7 +855,7 @@ The following enums have their own documentation files:
 
 ---
 
-**🚨 FINAL REMINDER BEFORE SUBMITTING: Did you create/update the Retail mirror documentation file? If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), you MUST create or update the Retail mirror file at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\Docs\...`. This is a MANDATORY requirement, not optional. DO NOT SUBMIT DOCUMENTATION WITHOUT COMPLETING THIS STEP IF RETAIL FEATURES EXIST.**
+**🚨 FINAL REMINDER BEFORE SUBMITTING: Did you create/update the Retail mirror documentation file? If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), you MUST create or update the Retail mirror file at `E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...`. This is a MANDATORY requirement, not optional. DO NOT SUBMIT DOCUMENTATION WITHOUT COMPLETING THIS STEP IF RETAIL FEATURES EXIST.**
 
 Adhering to this guide ensures consistent, accurate, and reviewer-certifiable documentation that modders can trust.
 

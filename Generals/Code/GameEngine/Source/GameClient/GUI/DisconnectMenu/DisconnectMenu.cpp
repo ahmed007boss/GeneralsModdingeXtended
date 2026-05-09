@@ -22,7 +22,7 @@
 //																																						//
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "GameClient/DisconnectMenu.h"
 #include "GameClient/GUICallbacks.h"
@@ -122,7 +122,7 @@ void DisconnectMenu::setPlayerName(Int playerNum, UnicodeString name) {
 	GameWindow *control = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (control != NULL) {
-		if (name.getLength() > 0) {
+		if (!name.isEmpty()) {
 			GadgetStaticTextSetText(control, name);
 //			showPlayerControls(playerNum);
 		}
@@ -132,12 +132,12 @@ void DisconnectMenu::setPlayerName(Int playerNum, UnicodeString name) {
 	control = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (control != NULL) {
-		if (name.getLength() > 0) {
-			GadgetStaticTextSetText(control, UnicodeString(L""));
+		if (!name.isEmpty()) {
+			GadgetStaticTextSetText(control, L"");
 		}
 	}
 
-	if (name.getLength() > 0) {
+	if (!name.isEmpty()) {
 		showPlayerControls(playerNum);
 	} else {
 		hidePlayerControls(playerNum);
@@ -241,7 +241,7 @@ void DisconnectMenu::showPacketRouterTimeout() {
 	control = TheWindowManager->winGetWindowFromId(NULL, id);
 
 	if (control != NULL) {
-		GadgetStaticTextSetText(control, UnicodeString(L"")); // start it off with a blank string.
+		GadgetStaticTextSetText(control, L""); // start it off with a blank string.
 		control->winHide(FALSE);
 	}
 }

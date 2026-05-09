@@ -94,6 +94,7 @@ public:
 protected:
 
 	virtual void upgradeImplementation();
+	virtual void downgradeImplementation();
 	virtual Bool isSubObjectsUpgrade() { return false; }
 
 	virtual void getUpgradeActivationMasks(UpgradeMaskType& activation, UpgradeMaskType& conflicting, UpgradeMaskType& requireAnyOf, UpgradeMaskType& requireAllOf) const

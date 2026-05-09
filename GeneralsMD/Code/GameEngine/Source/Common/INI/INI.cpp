@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #define DEFINE_DEATH_NAMES
 #define DEFINE_WEAPONBONUSCONDITION_NAMES
 
@@ -386,7 +386,8 @@ UnsignedInt INI::loadDirectory(AsciiString dirName, INILoadType loadType, Xfer* 
 				|| tempname.endsWithNoCase(".upgrade.ini")
 				|| tempname.endsWithNoCase(".upgrades.ini")
 				|| tempname.endsWithNoCase(".weapon.ini")
-				|| tempname.endsWithNoCase(".weapons.ini")
+				|| tempname.endsWithNoCase(".video.ini")
+				|| tempname.endsWithNoCase(".videos.ini")
 				) {
 				++it;
 				continue;
@@ -531,7 +532,8 @@ UnsignedInt INI::load( AsciiString filename, INILoadType loadType, Xfer *pXfer )
 					extractBlockParameters(token, currentLine);
 					
 					#ifdef DEBUG_CRASHING
-						strcpy(m_curBlockStart, m_buffer);
+					static_assert(ARRAY_SIZE(m_curBlockStart) >= ARRAY_SIZE(m_buffer), "Incorrect array size");
+					strcpy(m_curBlockStart, m_buffer);
 					#endif
 					try {
 						(*parse)( this );
@@ -937,7 +939,7 @@ AsciiString INI::getNextQuotedAsciiString()
 			Bool done=FALSE;
 			if ((strLen=strlen(token)) > 1)
 			{
-				strcpy(buff, &token[1]);	//skip the starting quote
+				strlcpy(buff, &token[1], ARRAY_SIZE(buff));	//skip the starting quote
 				//Check for end of quoted string.  Checking here fixes cases where quoted string on same line with other data.
 				if (buff[strLen-2]=='"')	//skip ending quote if present
 				{	buff[strLen-2]='\0';
@@ -986,7 +988,7 @@ AsciiString INI::getNextAsciiString()
 			buff[0] = 0;
 			if (strlen(token) > 1)
 			{
-				strcpy(buff, &token[1]);
+				strlcpy(buff, &token[1], ARRAY_SIZE(buff));
 			}
 
 			token = getNextTokenOrNull(getSepsQuote());
@@ -1039,7 +1041,7 @@ void INI::parseMappedImage( INI *ini, void * /*instance*/, void *store, const vo
 	if( TheMappedImageCollection )
 	{
 		typedef const Image* ConstImagePtr;
-		*(ConstImagePtr*)store = TheMappedImageCollection->findImageByName( AsciiString( token ) );
+		*(ConstImagePtr*)store = TheMappedImageCollection->findImageByName( token );
 	}
 
 	//KM: If we are in the worldbuilder, we want to parse commandbuttons for informational purposes,
@@ -1544,7 +1546,7 @@ void INI::parseUpgradeTemplate( INI* ini, void * /*instance*/, void *store, cons
 		throw ERROR_BUG;
 	}
 
-	const UpgradeTemplate *uu = TheUpgradeCenter->findUpgrade( AsciiString( token ) );
+	const UpgradeTemplate *uu = TheUpgradeCenter->findUpgrade( token );
 	DEBUG_ASSERTCRASH( uu || stricmp( token, "None" ) == 0, ("Upgrade %s not found!",token) );
 
 	typedef const UpgradeTemplate* ConstUpgradeTemplatePtr;
@@ -1783,6 +1785,7 @@ void INI::continueParsing( void *what, const FieldParse* parseTable, const std::
 		// Apply parameter substitution to the current line on-the-fly
 		applyParameterSubstitution(m_buffer);
 
+
 		// check for end token
 		const char* field = strtok( m_buffer, INI::getSeps() );
 		if( field )
@@ -1922,7 +1925,8 @@ void INI::applyParameterSubstitution( char* buffer )
 			strcpy(buffer, newLine);
 			
 			// Find next occurrence from the current position
-			searchStart = newLine + beforeLen + strlen(it->second.str());
+			// TheSuperHackers @bugfix Ahmed Salah 03/01/2026 Use buffer instead of newLine to avoid pointer arithmetic between different memory regions
+			searchStart = buffer + beforeLen + strlen(it->second.str());
 			pos = strstr(searchStart, placeholder);
 		}
 	}

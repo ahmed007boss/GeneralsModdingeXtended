@@ -59,17 +59,19 @@ public:
 	*/
 	Real adjustDamage(DamageType t, Real damage) const;
 
-	inline AsciiString getName() const { return m_name; }
 	UnicodeString getDisplayName() const;
 	inline void setDisplayName(const UnicodeString& newName) { m_displayName = newName; }
 	UnicodeString getModuleDescription() const;
+	inline const AsciiString& getIcon() const { return m_icon; }
+	inline const AsciiString& getDisplayDescription() const { return m_displayDescription; }
 
 	static void parseArmorCoefficients( INI* ini, void *instance, void* /* store */, const void* userData );
 	static void parseArmorMultiplier( INI* ini, void *instance, void* /* store */, const void* userData );
 
 public:
-	AsciiString m_name;											///< name for this armor
 	UnicodeString m_displayName;					///< Display Name
+	AsciiString m_icon;											///< Icon name for this armor
+	AsciiString m_displayDescription;									///< Display description label for this armor
 
 protected:
 
@@ -91,7 +93,6 @@ public:
 		return m_template ? m_template->adjustDamage(t, damage) : damage;
 	}
 
-	inline AsciiString getName() const { return m_template ? m_template->getName() : AsciiString(); }
 	UnicodeString getDisplayName() const;
 
 	inline void clear()
@@ -120,10 +121,12 @@ public:
 	void reset() { }
 	void update() { }
 
+	const ArmorTemplate* findArmorTemplate(NameKeyType namekey) const;
 	/**
 		Find the Armor with the given name. If no such Armor exists, return null.
 	*/
-	const ArmorTemplate* findArmorTemplate(AsciiString name) const;
+	const ArmorTemplate* findArmorTemplate(const AsciiString& name) const;
+	const ArmorTemplate* findArmorTemplate(const char* name) const;
 
 	inline Armor makeArmor(const ArmorTemplate *tmpl) const
 	{

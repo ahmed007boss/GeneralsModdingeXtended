@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #include "GameClient/GameClient.h"
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
@@ -98,10 +98,7 @@ GameClient::GameClient()
 	m_numTranslators = 0;
 	m_commandTranslator = NULL;
 
-	// Added By Sadullah Nader
-	// Initializations missing and needed
 	m_drawableTOC.clear();
-	//
 	m_textBearingDrawableList.clear();
 
 	m_frame = 0;
@@ -1075,7 +1072,7 @@ void GameClient::preloadAssets( TimeOfDay timeOfDay )
 			draw->preloadAssets( timeOfDay );
 
 			// destroy the drawable
-			TheGameClient->destroyDrawable( draw );
+			destroyDrawable( draw );
 
 		}
 
@@ -1499,7 +1496,7 @@ void GameClient::xfer( Xfer *xfer )
 				const ThingTemplate* drawTemplate = draw->getTemplate();
 				if (drawTemplate->getFinalOverride() != thingTemplate->getFinalOverride())
 				{
-					TheGameClient->destroyDrawable( draw );
+					destroyDrawable( draw );
 					draw = TheThingFactory->newDrawable( thingTemplate );
 					TheGameLogic->bindObjectAndDrawable(object, draw);
 				}

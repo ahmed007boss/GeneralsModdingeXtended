@@ -28,7 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #include <vector>
 #include <algorithm>
 
@@ -51,7 +51,7 @@
 #include "Common/ModuleFactory.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
-#include "Common/ProductionPrerequisite.h"
+#include "Common/PlayerPrerequisite.h"
 #include "Common/Radar.h"
 #include "Common/RandomValue.h"
 #include "Common/Science.h"
@@ -70,6 +70,7 @@
 #include "GameLogic/ArmorSet.h"
 #include "GameLogic/Locomotor.h"
 #include "GameLogic/Module/AIUpdate.h"
+#include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/SpecialPowerModule.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/Powers.h"
@@ -141,6 +142,8 @@ AudioEventRTS ThingTemplate::s_audioEventNoSound;
 const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 {
 	{ "DisplayName",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayName) },
+	{ "DisplayPluralName",			INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayPluralName) }, // TheSuperHackers @feature Ahmed Salah 03/01/2026
+	{ "DisplayDescription",					INI::parseAndTranslateLabel,					NULL,								offsetof(ThingTemplate, m_displayDescription) }, // TheSuperHackers @feature Ahmed Salah - DisplayDescription support
 	{ "RadarPriority",				INI::parseByteSizedIndexList,					RadarPriorityNames, offsetof(ThingTemplate, m_radarPriority) },
 	{ "TransportSlotCount",		INI::parseUnsignedByte,								NULL,		offsetof(ThingTemplate, m_transportSlotCount) },
 	{ "FenceWidth",						INI::parseReal,												NULL,		offsetof(ThingTemplate, m_fenceWidth) },
@@ -197,6 +200,8 @@ const FieldParse ThingTemplate::s_objectFieldParseTable[] =
 			// NOTE NOTE NOTE -- s_objectFieldParseTable and s_objectReskinFieldParseTable must be updated in tandem -- see comment above
 
 				{ "SelectPortrait",					INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_selectedPortraitImageName) },
+				// TheSuperHackers @feature Ahmed Salah 03/01/2026 Video to play before showing static portrait
+				{ "SelectPortraitVideo",		INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_selectedPortraitVideoName) },
 				{ "ButtonImage",						INI::parseAsciiString,	NULL,		offsetof(ThingTemplate, m_buttonImageName) },
 
 				//Code renderer handles these states now.
@@ -693,7 +698,7 @@ void ThingTemplate::parseIntList(INI* ini, void* instance, void* store, const vo
 void ThingTemplate::parsePrerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
 	ThingTemplate* self = (ThingTemplate*)instance;
-	ProductionPrerequisite::parsePrerequisites(ini, &self->m_prereqInfo, store, userData);
+	PlayerPrerequisite::parsePrerequisites(ini, &self->m_prereqInfo, store, userData);
 }
 
 
@@ -1028,11 +1033,6 @@ UnicodeString ArmorTemplateSet::buildSideSpecificDescription() const
 		if (sideArmor != NULL)
 		{
 			UnicodeString armorName = sideArmor->getDisplayName();
-			if (armorName.isEmpty() && m_template != NULL)
-			{
-				// Fallback to m_template name if display name is empty
-				armorName = TheGameText->fetch(m_template->getName().str());
-			}
 			
 			if (!armorName.isEmpty())
 			{
@@ -1122,11 +1122,6 @@ UnicodeString ArmorTemplateSet::buildSideSpecificDescription() const
 			
 			// Add armor name
 			UnicodeString armorName = group.armorTemplate->getDisplayName();
-			if (armorName.isEmpty() && m_template != NULL)
-			{
-				// Fallback to m_template name if display name is empty
-				armorName = TheGameText->fetch(m_template->getName().str());
-			}
 			
 			if (!armorName.isEmpty())
 			{
@@ -1868,7 +1863,7 @@ Int ThingTemplate::calcCostToBuild(const Player* player) const
 #if defined( RTS_DEBUG )
 	if (TheGlobalData->m_disableCost)
 	{
-		return 1;
+		return 0;
 	}
 #endif
 	// changePercent format is "-.2 equals 20% cheaper"
@@ -1949,9 +1944,43 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 }
 
 //-------------------------------------------------------------------------------------------------
-// TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get pluralized display name
 //-------------------------------------------------------------------------------------------------
-UnicodeString ThingTemplate::getExtendedDescription() const
+UnicodeString ThingTemplate::getDisplayPluralName() const
+{
+	// If a custom plural name is defined, use it
+	if( !m_displayPluralName.isEmpty() )
+	{
+		return m_displayPluralName;
+	}
+	
+	// Otherwise, generate plural form automatically
+	UnicodeString pluralName = m_displayName;
+	Int len = m_displayName.getLength();
+	if( len > 0 )
+	{
+		WideChar lastChar = m_displayName.getCharAt( len - 1 );
+		WideChar secondLastChar = (len > 1) ? m_displayName.getCharAt( len - 2 ) : L'\0';
+		
+		// Add "es" for words ending in s, x, z, ch, sh; otherwise add "s"
+		if( lastChar == L's' || lastChar == L'x' || lastChar == L'z' ||
+			(lastChar == L'h' && (secondLastChar == L'c' || secondLastChar == L's')) )
+		{
+			pluralName.concat( L"es" );
+		}
+		else
+		{
+			pluralName.concat( L"s" );
+		}
+	}
+	return pluralName;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
+// TheSuperHackers @feature Ahmed Salah - Optional parameter to skip body modules (that provide HP info)
+//-------------------------------------------------------------------------------------------------
+UnicodeString ThingTemplate::getExtendedDescription(Bool skipBodyModules) const
 {
 	UnicodeString description = L"";
 
@@ -2052,6 +2081,17 @@ UnicodeString ThingTemplate::getExtendedDescription() const
 		const ModuleData* moduleData = behaviorModuleInfo.getNthData(i);
 		if (moduleData)
 		{
+			// TheSuperHackers @feature Ahmed Salah - Skip body modules if requested (they provide HP info already shown)
+			if (skipBodyModules)
+			{
+				// Check if this is a body module by trying to cast to BodyModuleData
+				const BodyModuleData* bodyModuleData = dynamic_cast<const BodyModuleData*>(moduleData);
+				if (bodyModuleData)
+				{
+					continue; // Skip body modules
+				}
+			}
+			
 			UnicodeString moduleDesc = moduleData->getModuleDescription();
 			if (!moduleDesc.isEmpty())
 			{
@@ -2067,6 +2107,17 @@ UnicodeString ThingTemplate::getExtendedDescription() const
 		const ModuleData* moduleData = updateModuleInfo.getNthData(i);
 		if (moduleData)
 		{
+			// TheSuperHackers @feature Ahmed Salah - Skip body modules if requested (they provide HP info already shown)
+			if (skipBodyModules)
+			{
+				// Check if this is a body module by trying to cast to BodyModuleData
+				const BodyModuleData* bodyModuleData = dynamic_cast<const BodyModuleData*>(moduleData);
+				if (bodyModuleData)
+				{
+					continue; // Skip body modules
+				}
+			}
+			
 			UnicodeString moduleDesc = moduleData->getModuleDescription();
 			if (!moduleDesc.isEmpty())
 			{

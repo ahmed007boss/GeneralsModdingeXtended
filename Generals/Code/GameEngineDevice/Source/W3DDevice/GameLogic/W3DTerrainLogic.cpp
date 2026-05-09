@@ -117,22 +117,6 @@ Bool W3DTerrainLogic::loadMap( AsciiString filename , Bool query )
 
 	WorldHeightMap *terrainHeightMap;				///< holds raw heightmap data samples
 
-	char	tempBuf[_MAX_PATH];
-	char	filenameBuf[_MAX_PATH];
-	int length = 0;
-
-	strcpy(tempBuf, filename.str());
-
-	length = strlen( tempBuf );
-	if( length >= 4 )
-	{
-		strlcpy( filenameBuf, tempBuf, length - 4 + 1);
-	}
-
-//	const char *fname = filename.reverseFind('\\');
-//	if (fname)
-//		filename = fname+1;
-
 	CachedFileInputStream fileStrm;
 	if ( !fileStrm.open(filename) )
 	{
@@ -199,7 +183,7 @@ void W3DTerrainLogic::getExtent( Region3D *extent ) const
 
 	// Note - m_boundaries are stored in height map grids wide, so we have to
 	// multiply by the grid width.
-	if (m_boundaries.size() > 0) {
+	if (!m_boundaries.empty()) {
 		extent->hi.x = m_boundaries[m_activeBoundary].x*MAP_XY_FACTOR;
 		extent->hi.y = m_boundaries[m_activeBoundary].y*MAP_XY_FACTOR;
 	} else {

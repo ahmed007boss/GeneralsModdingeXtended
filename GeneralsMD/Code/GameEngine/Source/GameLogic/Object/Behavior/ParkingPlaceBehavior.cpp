@@ -28,10 +28,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #include "Common/CRCDebug.h"
 #include "Common/Xfer.h"
 #include "Common/ThingTemplate.h"
+#include "Common/GameType.h"
 #include "GameClient/Drawable.h"
 #include "GameLogic/AI.h"
 #include "GameLogic/AIPathfind.h"
@@ -87,20 +88,54 @@ void ParkingPlaceBehaviorModuleData::parseRestoreComponents(INI* ini, void* inst
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah Custom parser for RepublishAmount that auto-detects percentage values
+//-------------------------------------------------------------------------------------------------
+void ParkingPlaceBehaviorModuleData::parseRepublishAmount(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
+{
+
+	ParkingPlaceBehaviorModuleData* self = (ParkingPlaceBehaviorModuleData*)instance;
+	// Get the token and check if it contains a percentage symbol
+	const char* token = ini->getNextToken();
+	if (!token) return;
+	
+	// Check if the token contains a percentage symbol
+	const char* percentPos = strchr(token, '%');
+	if (percentPos != NULL)
+	{
+		// Extract the numeric value (copy everything before the %)
+		char valueBuffer[256];
+		strncpy(valueBuffer, token, percentPos - token);
+		valueBuffer[percentPos - token] = '\0';
+		
+		// Parse the numeric value
+		Real value = 0.0f;
+		if (sscanf(valueBuffer, "%f", &value) == 1)
+		{
+			self->m_republishamount = value;
+			self->m_republishamountValueType = VALUE_TYPE_PERCENTAGE;
+		}
+	}
+	else
+	{
+		// Parse as absolute value
+		Real value = 0.0f;
+		if (sscanf(token, "%f", &value) == 1)
+		{
+			self->m_republishamount = value;
+			self->m_republishamountValueType = VALUE_TYPE_ABSOLUTE;
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 ParkingPlaceBehavior::ParkingPlaceBehavior( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
 {
 	m_gotInfo = false;
-
-	//Added By Sadullah Nader
-	//Initializations
-
 	m_heliRallyPoint.zero();
-
-	//
-
 	m_heliRallyPointExists = FALSE;
 	m_nextHealFrame = FOREVER;
+	m_nextRestoreFrame = 0;  // TheSuperHackers @feature Ahmed Salah Start restoration immediately on first update
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 }
 
@@ -772,22 +807,36 @@ void ParkingPlaceBehavior::restoreParkedVehicle(Object* vehicle, const ParkingPl
 		InventoryBehavior* inventoryBehavior = vehicle->getInventoryBehavior();
 		if (inventoryBehavior)
 		{
+
 			for (std::vector<AsciiString>::const_iterator it = data->m_replenishItems.begin();
 				 it != data->m_replenishItems.end(); ++it)
 			{
 				const AsciiString& itemName = *it;
 				if (!itemName.isEmpty())
 				{
-					// Get current amount and max storage
-					Int currentAmount = inventoryBehavior->getItemCount(itemName);
-					Int maxStorage = inventoryBehavior->getInventoryModuleData() ? 
-						inventoryBehavior->getInventoryModuleData()->getMaxStorageCount(itemName) : 0;
+					// Get current amount and max storage - use instance data to respect upgrades
+					Real currentAmount = inventoryBehavior->getItemCount(itemName);
+					Real maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 					
-					// Replenish to max capacity if needed
-					if (currentAmount < maxStorage)
+					// Restore amount based on RepublishAmount and RepublishAmountValueType
+					if (currentAmount < maxStorage && maxStorage > 0)
 					{
-						Int neededAmount = maxStorage - currentAmount;
-						inventoryBehavior->addItem(itemName, neededAmount);
+						Real restoreAmount = data->m_republishamount;
+						
+						// Apply value based on type
+						if (data->m_republishamountValueType == VALUE_TYPE_PERCENTAGE)
+						{
+							// Percentage: multiply maxStorage by the percentage
+							restoreAmount = maxStorage * (data->m_republishamount / 100.0f);
+						}
+						// For VALUE_TYPE_ABSOLUTE, use the value directly
+						
+						Real newAmount = currentAmount + restoreAmount;
+						if (newAmount > maxStorage)
+							restoreAmount = maxStorage - currentAmount;
+						
+						if (restoreAmount > 0.0f)
+							inventoryBehavior->addItem(itemName, restoreAmount);
 					}
 				}
 			}
@@ -834,10 +883,12 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 	purgeDead();
 
 	UnsignedInt now = TheGameLogic->getFrame();
+	const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+	Bool shouldRestore = (now >= m_nextRestoreFrame);
+	
 	if (now >= m_nextHealFrame)
 	{
 		m_nextHealFrame = now + HEAL_RATE_FRAMES;
-		const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
 		for (std::list<HealingInfo>::iterator it = m_healing.begin(); it != m_healing.end(); /*++it*/)
 		{
 			if (it->m_gettingHealedID != INVALID_ID)
@@ -861,12 +912,21 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 					BodyModuleInterface *body = objToHeal->getBodyModule();
 					body->attemptHealing( &healInfo );
 					
-					// TheSuperHackers @feature Ahmed Salah 30/09/2025 Restore inventory items and components
-					restoreParkedVehicle(objToHeal, d);
+					// TheSuperHackers @feature Ahmed Salah 30/09/2025 Restore inventory items and components (once per second)
+					if (shouldRestore)
+					{
+						restoreParkedVehicle(objToHeal, d);
+					}
 					
 					++it;
 				}
 			}
+		}
+		
+		// Update restore frame after processing all vehicles
+		if (shouldRestore)
+		{
+			m_nextRestoreFrame = now + LOGICFRAMES_PER_SECOND; // Run once per second
 		}
 	}
 

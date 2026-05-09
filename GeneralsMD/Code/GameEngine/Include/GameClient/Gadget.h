@@ -434,6 +434,8 @@ typedef struct _PushButtonData
 	const Image *overlayImage2; ///< A second overlay image for additional visual indicators
 	const Image *overlayImage3; ///< A third overlay image for additional visual indicators
 	DisplayString *overlayText; ///< TheSuperHackers @feature author 15/01/2025 Text overlay for inventory counts
+	Int overlayTextX; ///< TheSuperHackers @feature Ahmed Salah 06/01/2026 Custom X position for overlay text (-1 = use default auto-positioning)
+	Int overlayTextY; ///< TheSuperHackers @feature Ahmed Salah 06/01/2026 Custom Y position for overlay text (-1 = use default auto-positioning)
 	AsciiString altSound;		///< use an alternitive sound if one is set
 } PushButtonData;
 

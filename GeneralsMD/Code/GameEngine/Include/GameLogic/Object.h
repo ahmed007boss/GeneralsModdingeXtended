@@ -125,9 +125,6 @@ enum WeaponStatus CPP_11(: Int);
 enum RadarPriorityType CPP_11(: Int);
 enum CanAttackResult CPP_11(: Int);
 
-// For ObjectStatusTypes
-#include "Common/ObjectStatusTypes.h"
-
 // For ObjectScriptStatusBit
 #include "GameLogic/ObjectScriptStatusBits.h"
 
@@ -146,6 +143,15 @@ struct TTriggerInfo
 	TTriggerInfo() : entered(false), exited(false), isInside(false), padding(false), pTrigger(NULL) { }
 
 };
+
+	//-------------------------------------------------------------------------------------------------
+	// TheSuperHackers @feature Ahmed Salah - Info icon structure
+	struct InfoIcon
+	{
+		AsciiString icon;			///< Icon name
+		AsciiString name;			///< Name (with prefix already applied)
+		AsciiString description;	///< Description label
+	};
 
 //----------------------------------------------------
 
@@ -259,8 +265,26 @@ public:
 	inline const UnicodeString& getDisplayNameOverride() const {
 		return m_displayNameOverride;
 	}
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	inline const UnicodeString& getDisplayPluralNameOverride() const {
+		return m_displayPluralNameOverride;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Description support: Get description with override fallback
+	UnicodeString getDescription() const;
 	inline void setName( const AsciiString& newName ) { m_name = newName; }
 	inline void setDisplayName( const UnicodeString& newName ) { m_displayNameOverride = newName; }
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	inline void setDisplayPluralName( const UnicodeString& newName ) { m_displayPluralNameOverride = newName; }
+	// TheSuperHackers @feature Ahmed Salah - Description override support
+	inline void setDescription( const UnicodeString& newDescription ) { m_descriptionOverride = newDescription; }
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+	inline const AsciiString& getSelectPortraitOverride() const { return m_selectPortraitOverride; }
+	inline const AsciiString& getSelectPortraitVideoOverride() const { return m_selectPortraitVideoOverride; }
+	inline void setSelectPortrait( const AsciiString& name ) { m_selectPortraitOverride = name; }
+	inline void setSelectPortraitVideo( const AsciiString& name ) { m_selectPortraitVideoOverride = name; }
+	const Image* getSelectedPortraitImage() const;
+	const AsciiString& getSelectedPortraitVideoName() const;
 
 	inline Team* getTeam() { return m_team; }
 	inline const Team *getTeam() const { return m_team; }
@@ -279,7 +303,10 @@ public:
 	void setCustomIndicatorColor(Color c);
 	void removeCustomIndicatorColor();
 
+	Bool isLogicallyVisible() const; ///< Returns whether the object is logically visible to the player, irrespective of shroud.
+
 	Bool isLocallyControlled() const;
+	Bool isLocallyViewed() const;
 	Bool isNeutralControlled() const;
 
 	Bool getIsUndetectedDefector(void) const { return BitIsSet(m_privateStatus, UNDETECTED_DEFECTOR); }
@@ -308,7 +335,8 @@ public:
 	BehaviorModule** getBehaviorModules() const { return m_behaviors; }
 
 	// TheSuperHackers @feature author 01/01/2025 Get extended description from actual module instances
-	UnicodeString getExtendedDescription() const;
+	// TheSuperHackers @feature Ahmed Salah - Optional parameter to skip body modules (that provide HP info)
+	UnicodeString getExtendedDescription(Bool skipBodyModules = FALSE) const;
 
 	BodyModuleInterface* getBodyModule() const { return m_body; }
 	
@@ -475,7 +503,8 @@ public:
 	void onRemovedFrom( Object *removedFrom );
 	Int getTransportSlotCount() const;
 	void friend_setContainedBy( Object *containedBy ) { m_containedBy = containedBy; }
-	Object* getEnclosingContainedBy(); ///< Find the first enclosing container in the containment chain.
+	const Object* getEnclosingContainedBy() const; ///< Find the first enclosing container in the containment chain.
+	const Object* getOuterObject() const; ///< Get the top-level object
 
 	// slaved objects management
 	void addSlavedObject( Object *slavedObject );
@@ -536,6 +565,9 @@ public:
 	UnsignedInt getWeaponInWeaponSlotCommandSourceMask( WeaponSlotType wSlot ) const { return m_weaponSet.getNthCommandSourceMask( wSlot ); }
 	Bool getWeaponInWeaponSlotSyncedToSlot(WeaponSlotType thisSlot, WeaponSlotType otherSlot) const;
 	WeaponSlotType getCurWeaponSlot() const { return m_weaponSet.getCurWeaponSlot(); }
+	
+	// TheSuperHackers @feature Ahmed Salah - Get all info icons (weapons and armor)
+	std::vector<InfoIcon> getAllInfoIcons() const;
 	
 	// Range decal control
 	WeaponSlotType getRangeDecalShownForSlot() const { return m_rangeDecalShownForSlot; }
@@ -813,6 +845,10 @@ private:
 	Drawable*			m_drawable;									///< drawable (if any) for this object
 	AsciiString		m_name;										  ///< internal name
 	UnicodeString	m_displayNameOverride;			///< Display Name
+	UnicodeString	m_displayPluralNameOverride;	///< Display Plural Name - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	UnicodeString	m_descriptionOverride;			///< Description override - TheSuperHackers @feature Ahmed Salah - Description support
+	AsciiString		m_selectPortraitOverride;		///< Select Portrait override - TheSuperHackers @feature Ahmed Salah 03/01/2026
+	AsciiString		m_selectPortraitVideoOverride;	///< Select Portrait Video override - TheSuperHackers @feature Ahmed Salah 03/01/2026
 
 	Object *			m_next;
 	Object *			m_prev;

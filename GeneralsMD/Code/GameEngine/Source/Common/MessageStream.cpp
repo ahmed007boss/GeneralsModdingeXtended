@@ -26,7 +26,7 @@
 // Implementation of the message stream
 // Author: Michael S. Booth, February 2001
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/MessageStream.h"
 #include "Common/Player.h"
@@ -618,6 +618,8 @@ const char *GameMessage::getCommandTypeAsString(GameMessage::Type t)
 	CASE_LABEL(MSG_SET_RALLY_POINT)
 	CASE_LABEL(MSG_PURCHASE_SCIENCE)
 	CASE_LABEL(MSG_QUEUE_UPGRADE)
+	CASE_LABEL(MSG_DOWNGRADE)
+	CASE_LABEL(MSG_SWITCH_UPGRADE)
 	CASE_LABEL(MSG_CANCEL_UPGRADE)
 	CASE_LABEL(MSG_QUEUE_UNIT_CREATE)
 	CASE_LABEL(MSG_CANCEL_UNIT_CREATE)

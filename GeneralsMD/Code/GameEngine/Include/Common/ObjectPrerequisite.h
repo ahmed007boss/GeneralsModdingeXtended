@@ -196,6 +196,8 @@ private:
 	mutable std::vector<AsciiString>		m_objectItemStorageNotFull;
 	mutable std::vector<AsciiString>		m_objectItemStorageEmpty;
 
+	mutable Bool							m_namesResolved;	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Track if names have been resolved for lazy initialization
+
 	// Helper methods
 	static void parseObjectIs(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseObjectIsNot(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);

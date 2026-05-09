@@ -37,6 +37,7 @@
 #include "Common/ThingTemplate.h"
 #include "Common/Upgrade.h"
 #include "Common/Xfer.h"
+#include "Common/Player.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Module/BodyModule.h"
@@ -355,4 +356,84 @@ void UpgradeMuxData::getUpgradeActivationMasks(UpgradeMaskType& activation, Upgr
 	 conflicting = m_conflictingMask;
 	 requireAllOf = m_requireAllOfMask;
 	 requireAnyOf = m_requireAnyOfMask;
+}
+
+//-------------------------------------------------------------------------------------------------
+Bool UpgradeMuxData::requiresAllActivationUpgrades() const
+{
+	return m_requiresAllTriggers;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Test if upgrade conditions are met for a given upgrade mask
+//-------------------------------------------------------------------------------------------------
+Bool UpgradeMuxData::testUpgradeConditions(const UpgradeMaskType& keyMask) const
+{
+	UpgradeMaskType activation, conflicting, requireAnyOf, requireAllOf;
+	getUpgradeActivationMasks(activation, conflicting, requireAnyOf, requireAllOf);
+	
+	Bool anyCond = TRUE;
+	if (requireAnyOf.any())
+	{
+		anyCond = keyMask.testForAny(requireAnyOf);
+	}
+	Bool allCond = TRUE;
+	if (requireAllOf.any())
+	{
+		allCond = keyMask.testForAll(requireAllOf);
+	}
+	
+	// Make sure we don't have any conflicting upgrades
+	if (!keyMask.any() || !keyMask.testForAny(conflicting))
+	{
+		// Make sure we have activation conditions
+		if (activation.any())
+		{
+			// Check if activation conditions match
+			if (requiresAllActivationUpgrades())
+			{
+				// Make sure ALL triggers requirements are upgraded
+				if (keyMask.testForAll(activation) && allCond && anyCond)
+				{
+					return TRUE;
+				}
+			}
+			else
+			{
+				// Check if ANY trigger requirements are met
+				if (keyMask.testForAny(activation) && allCond && anyCond)
+				{
+					return TRUE;
+				}
+			}
+		}
+		else
+		{
+			// This upgrade is relying only on not having conflicts
+			return TRUE;
+		}
+	}
+	
+	return FALSE;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Test if upgrade conditions are met for a given object (overload)
+//-------------------------------------------------------------------------------------------------
+Bool UpgradeMuxData::testUpgradeConditions(const Object* obj) const
+{
+	if (!obj)
+		return FALSE;
+	
+	// Get upgrade mask from object (object + player upgrades)
+	UpgradeMaskType keyMask = obj->getObjectCompletedUpgradeMask();
+	const Player* player = obj->getControllingPlayer();
+	if (player)
+	{
+		UpgradeMaskType playerMask = player->getCompletedUpgradeMask();
+		keyMask.set(playerMask);
+	}
+	
+	// Call the existing testUpgradeConditions method with the combined mask
+	return testUpgradeConditions(keyMask);
 }

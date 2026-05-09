@@ -113,7 +113,6 @@
 #include <INI.h>
 #include <windows.h>
 #include <d3dx8core.h>
-#include "texture.h"
 #include "wwprofile.h"
 #include "assetstatus.h"
 #include "ringobj.h"
@@ -1483,8 +1482,8 @@ Font3DDataClass* WW3DAssetManager::Get_Font3DData(const char* name)
 	WWPROFILE("WW3DAssetManager::Get_Font3DData");
 	// loop through and see if the Font3D we are looking for has already been
 	// allocated and thus we can just return it.
-	for (SLNode<Font3DDataClass>* node = Font3DDatas.Head(); node; node = node->Next()) {
-		if (!stricmp(name, node->Data()->Name)) {
+	for (	SLNode<Font3DDataClass> *node = Font3DDatas.Head(); node; node = node->Next()) {
+		if (stricmp(name, node->Data()->Name) == 0) {
 			node->Data()->Add_Ref();
 			return node->Data();
 		}
@@ -1598,12 +1597,17 @@ FontCharsClass* WW3DAssetManager::Get_FontChars(const char* name, int point_size
 		}
 	}
 
-	// If one hasn't been found, create it
-	FontCharsClass* font = NEW_REF(FontCharsClass, ());
-	font->Initialize_GDI_Font(name, point_size, is_bold);
-	font->Add_Ref();
-	FontCharsList.Add(font);			// add it to the list
-	return font;							// return it
+	// If one hasn't been found, try create it
+	FontCharsClass * font = NEW_REF( FontCharsClass, () );
+	if (font->Initialize_GDI_Font( name, point_size, is_bold ))
+	{
+		font->Add_Ref();
+		FontCharsList.Add( font );
+		return font;
+	}
+
+	font->Release_Ref();
+	return NULL;
 }
 
 

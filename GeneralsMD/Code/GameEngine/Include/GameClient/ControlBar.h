@@ -34,8 +34,7 @@
 #include "Common/GameType.h"
 #include "Common/Overridable.h"
 #include "Common/Science.h"
-#include "Common/PlayerPrerequisite.h"
-#include "Common/ObjectPrerequisite.h"
+#include "Common/ProductionPrerequisite.h"
 #include "GameClient/Color.h"
 
 // FORWARD REFERENCES /////////////////////////////////////////////////////////////////////////////
@@ -234,6 +233,12 @@ enum GUICommandType CPP_11(: Int)
 	GUI_COMMAND_SWITCH_COMMAND_SET3,
 	GUI_COMMAND_SWITCH_COMMAND_SET4,
 
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 Downgrade and switch upgrade commands
+	GUI_COMMAND_PLAYER_DOWNGRADE,					///< remove an upgrade that applies to the player
+	GUI_COMMAND_OBJECT_DOWNGRADE,					///< remove an object upgrade
+	GUI_COMMAND_SWITCH_PLAYER_UPGRADE,			///< upgrade if not exist, downgrade if exists (player upgrade)
+	GUI_COMMAND_SWITCH_OBJECT_UPGRADE,			///< upgrade if not exist, downgrade if exists (object upgrade)
+
 	// add more commands here, don't forget to update the string command list below too ...
 
 	GUI_COMMAND_NUM_COMMANDS
@@ -300,6 +305,11 @@ static const char *const TheGuiCommandNames[] =
 	"COMMAND_SWITCH_COMMAND_SET2",
 	"COMMAND_SWITCH_COMMAND_SET3",
 	"COMMAND_SWITCH_COMMAND_SET4",
+
+	"PLAYER_DOWNGRADE",
+	"OBJECT_DOWNGRADE",
+	"SWITCH_PLAYER_UPGRADE",
+	"SWITCH_OBJECT_UPGRADE",
 
 	NULL
 };
@@ -379,12 +389,15 @@ public:
 	void setHotkeyOverride(const AsciiString& override) const { m_hotkeyOverride = override; }
 	void clearHotkeyOverride() const { m_hotkeyOverride.clear(); }
 
+	// TheSuperHackers @feature Ahmed Salah 07/01/2026 HideIfUpgradeCompleted property getter
+	Bool getHideIfUpgradeCompleted() const { return m_hideIfUpgradeCompleted; }
 
 
-	std::vector<PlayerPrerequisite>	m_enablePrereqInfo;
-	std::vector<PlayerPrerequisite>	m_visiblePrereqInfo;
-	std::vector<ObjectPrerequisite>	m_enableCallerUnitPrereqInfo;
-	std::vector<ObjectPrerequisite>	m_visibleCallerUnitPrereqInfo;
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
+	std::vector<ProductionPrerequisite>	m_enablePrereqInfo;
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
+	std::vector<ProductionPrerequisite>	m_visiblePrereqInfo;
 
 	Bool m_prereqInfoResloved;
 
@@ -441,17 +454,13 @@ public:
 	const CommandButton* getNext() const { return m_next; }
 
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	Int getEnablePrereqCount() const {	return m_enablePrereqInfo.size();	}
-	const PlayerPrerequisite* getNthEnablePrereq(Int i) const { return &m_enablePrereqInfo[i]; }
+	const ProductionPrerequisite* getNthEnablePrereq(Int i) const { return &m_enablePrereqInfo[i]; }
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	Int getVisiblePrereqCount() const { return m_visiblePrereqInfo.size(); }
-	const PlayerPrerequisite* getNthVisiblePrereq(Int i) const { return &m_visiblePrereqInfo[i]; }
-
-	Int getEnableCallerUnitPrereqCount() const { return m_enableCallerUnitPrereqInfo.size(); }
-	const ObjectPrerequisite* getNthEnableCallerUnitPrereq(Int i) const { return &m_enableCallerUnitPrereqInfo[i]; }
-
-	Int getVisibleCallerUnitPrereqCount() const { return m_visibleCallerUnitPrereqInfo.size(); }
-	const ObjectPrerequisite* getNthVisibleCallerUnitPrereq(Int i) const { return &m_visibleCallerUnitPrereqInfo[i]; }
+	const ProductionPrerequisite* getNthVisiblePrereq(Int i) const { return &m_visiblePrereqInfo[i]; }
 
 	void setName(const AsciiString& n) { m_name = n; }
 
@@ -470,22 +479,16 @@ public:
 	void friend_addToList(CommandButton** list) {	m_next = *list;	*list = this; }
 	CommandButton* friend_getNext() { return m_next; }
 
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	static void parseEnablePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	static void parseVisiblePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseEnableCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseVisibleCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 
-	// Alternative button prerequisite parsing functions
+	// Alternative button prerequisite parsing functions (merged player and object prerequisites)
 	static void parseAlternativeButton1Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton2Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton3Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 	static void parseAlternativeButton4Prerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-
-	// Alternative button object prerequisite parsing functions
-	static void parseAlternativeButton1ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton2ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton3ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
-	static void parseAlternativeButton4ObjectPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/);
 
 	// TheSuperHackers @alternative Ahmed Salah 27/06/2025 Helper function to check all alternative buttons
 	const CommandButton* getAlternativeButtonByIndex(Int index) const;
@@ -526,6 +529,7 @@ private:
 	mutable AsciiString								m_hotkeyOverride;						///< TheSuperHackers @feature author 15/01/2025 Per-CommandSet hotkey override (empty means use default)
 	Int												m_amount;											///< TheSuperHackers @feature author 15/01/2025 Amount of units to queue when button is pressed (default 1)
 	Bool											m_enableMassProduction;					///< TheSuperHackers @feature author 15/01/2025 Enable mass production with modifier keys (default true)
+	Bool											m_hideIfUpgradeCompleted;				///< TheSuperHackers @feature Ahmed Salah 07/01/2026 Hide button if its upgrade is already completed (default true for upgrade buttons)
 	GameWindow*										m_window;											///< used during the run-time assignment of a button to a gadget button window
 	AudioEventRTS									m_unitSpecificSound;					///< Unit sound played whenever button is clicked.
 
@@ -563,17 +567,11 @@ private:
 	AsciiString							m_alternativeButton3Name;					///< name for alternative button 3
 	AsciiString							m_alternativeButton4Name;					///< name for alternative button 4
 
-	// Prerequisites for alternative buttons
-	std::vector<PlayerPrerequisite>	m_alternativeButton1Prereq;				///< prerequisites for alternative button 1
-	std::vector<PlayerPrerequisite>	m_alternativeButton2Prereq;				///< prerequisites for alternative button 2
-	std::vector<PlayerPrerequisite>	m_alternativeButton3Prereq;				///< prerequisites for alternative button 3
-	std::vector<PlayerPrerequisite>	m_alternativeButton4Prereq;				///< prerequisites for alternative button 4
-
-	// Object-based prerequisites for alternative buttons
-	std::vector<ObjectPrerequisite>	m_alternativeButton1ObjectPrereq;		///< object prerequisites for alternative button 1
-	std::vector<ObjectPrerequisite>	m_alternativeButton2ObjectPrereq;		///< object prerequisites for alternative button 2
-	std::vector<ObjectPrerequisite>	m_alternativeButton3ObjectPrereq;		///< object prerequisites for alternative button 3
-	std::vector<ObjectPrerequisite>	m_alternativeButton4ObjectPrereq;		///< object prerequisites for alternative button 4
+	// Prerequisites for alternative buttons (merged player and object prerequisites)
+	std::vector<ProductionPrerequisite>	m_alternativeButton1Prereq;				///< prerequisites for alternative button 1
+	std::vector<ProductionPrerequisite>	m_alternativeButton2Prereq;				///< prerequisites for alternative button 2
+	std::vector<ProductionPrerequisite>	m_alternativeButton3Prereq;				///< prerequisites for alternative button 3
+	std::vector<ProductionPrerequisite>	m_alternativeButton4Prereq;				///< prerequisites for alternative button 4
 
 	// Cached button references (assigned once when first accessed)
 	mutable const CommandButton*			m_leftClickCtrlButton;						///< cached button for Ctrl+left-click
@@ -607,6 +605,7 @@ private:
 //-------------------------------------------------------------------------------------------------
 enum { MAX_COMMANDS_PER_SET = 32 };  // user interface max is 14 (but internally it's 18 for script only buttons!)
 enum { MAX_RIGHT_HUD_UPGRADE_CAMEOS = 9};
+enum { MAX_INFO_ICONS = 10 };  // Maximum number of info icons to display on portrait
 enum {
 			 MAX_PURCHASE_SCIENCE_RANK_1 = 7,
 			 MAX_PURCHASE_SCIENCE_RANK_3 = 21,
@@ -660,8 +659,6 @@ class SideSelectWindowData
 public:
 	SideSelectWindowData(void)
 	{
-		//Added By Sadullah Nader
-		//Initializations
 		generalSpeak = NULL;
 		m_currColor = 0;
 		m_gereralsNameWin = NULL;
@@ -685,7 +682,6 @@ public:
 		m_upgradeLabel3Win = NULL;
 		m_upgradeLabel4Win = NULL;
 		sideWindow = NULL;
-		//
 	}
 	~SideSelectWindowData(void);
 
@@ -971,8 +967,6 @@ public:
 	Player* getCurrentlyViewedPlayer();
 	/// Returns the relationship with the currently viewed player. May return NEUTRAL if no player is selected while observing.
 	Relationship getCurrentlyViewedPlayerRelationship(const Team* team);
-	/// Returns the currently viewed player. Returns "Observer" if no player is selected while observing.
-	AsciiString getCurrentlyViewedPlayerSide();
 
 //	ControlBarResizer *getControlBarResizer( void ) {return m_controlBarResizer;}
 
@@ -1046,6 +1040,12 @@ protected:
 
 	/// show/hide the portrait window image using the image from the object
 	void setPortraitByObject( Object *obj );
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get selection overlay text (unit name and count)
+	UnicodeString getSelectionOverlayText( const ThingTemplate *thing, const Object *obj ) const;
+
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows for portrait display
+	void updatePortraitBars(Object* obj);
 
 	/// show rally point at world location, a NULL location will hide any visible rally point marker
 	void showRallyPoint( const Coord3D *loc );
@@ -1131,7 +1131,18 @@ protected:
 	GameWindow *m_rightHUDWindow;									///< window of the right HUD display
 	GameWindow *m_rightHUDCameoWindow;									///< window of the right HUD display
 	GameWindow *m_rightHUDUpgradeCameos[MAX_RIGHT_HUD_UPGRADE_CAMEOS];
+	
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
+	ObjectID m_portraitVideoObjectID;										///< Object ID of the unit whose portrait video is playing/played
+	AsciiString m_portraitVideoName;										///< Name of the video currently playing/played
+	DisplayString *m_portraitDisplayString;									///< Display string for unit name overlay on portrait
 	GameWindow *m_rightHUDUnitSelectParent;
+	
+	// TheSuperHackers @feature Ahmed Salah - Info icon windows for portrait
+	GameWindow *m_infoIconWindows[MAX_INFO_ICONS];						///< Windows for displaying info icons on portrait
+
+	GameWindow *m_healthBarWindow;									///< Window for displaying health bar below portrait
+	GameWindow *m_fuelBarWindow;									///< Window for displaying fuel bar below portrait
 
 	GameWindow *m_communicatorButton;             ///< button for the communicator
 
@@ -1202,6 +1213,12 @@ protected:
 
 	WindowLayout *m_buildToolTipLayout;										///< The window that will slide on/display tooltips
 	Bool m_showBuildToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not.
+	WindowLayout *m_unitToolTipLayout;										///< The window that will display unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	Bool m_showUnitToolTipLayout;											///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	WindowLayout *m_unitCamoToolTipLayout;									///< The window that will display camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool m_showUnitCamoToolTipLayout;										///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah
+	WindowLayout *m_infoIconToolTipLayout;									///< The window that will display info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool m_showInfoIconToolTipLayout;										///< every frame we test to see if we are going to continue showing this or not. - TheSuperHackers @feature Ahmed Salah
 public:
 	void showBuildTooltipLayout( GameWindow *cmdButton );
 	void hideBuildTooltipLayout( void );
@@ -1209,6 +1226,22 @@ public:
 	Bool getShowBuildTooltipLayout( void ){return m_showBuildToolTipLayout;	}
 	void populateBuildTooltipLayout( const CommandButton *commandButton, GameWindow *tooltipWin = NULL );
 	void repopulateBuildTooltipLayout( void );
+	void showUnitTooltipLayout( GameWindow *portraitWindow );				///< Show unit details tooltip when hovering over SelectPortrait - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void hideUnitTooltipLayout( void );										///< Hide unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void deleteUnitTooltipLayout( void );									///< Delete unit details tooltip - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	Bool getShowUnitTooltipLayout( void ){return m_showUnitToolTipLayout;	}	///< Get unit tooltip visibility state - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void populateUnitTooltipLayout( void );									///< Populate unit details tooltip with object information - TheSuperHackers @feature Ahmed Salah 01/01/2026
+	void showUnitCamoTooltipLayout( GameWindow *camoWindow );				///< Show camo (upgrade) tooltip when hovering over upgrade cameo - TheSuperHackers @feature Ahmed Salah
+	void hideUnitCamoTooltipLayout( void );									///< Hide camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	void deleteUnitCamoTooltipLayout( void );								///< Delete camo (upgrade) tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool getShowUnitCamoTooltipLayout( void ){return m_showUnitCamoToolTipLayout;	}	///< Get camo tooltip visibility state - TheSuperHackers @feature Ahmed Salah
+	void populateUnitCamoTooltipLayout( const UpgradeTemplate* upgradeTemplate );	///< Populate camo (upgrade) tooltip with upgrade information - TheSuperHackers @feature Ahmed Salah
+	void showInfoIconTooltipLayout( GameWindow *iconWindow );				///< Show info icon tooltip when hovering over icon - TheSuperHackers @feature Ahmed Salah
+	void hideInfoIconTooltipLayout( void );									///< Hide info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	void deleteInfoIconTooltipLayout( void );								///< Delete info icon tooltip - TheSuperHackers @feature Ahmed Salah
+	Bool getShowInfoIconTooltipLayout( void ){return m_showInfoIconToolTipLayout;	}	///< Get info icon tooltip visibility state - TheSuperHackers @feature Ahmed Salah
+	void populateInfoIconTooltipLayout( const AsciiString& name, const AsciiString& description );	///< Populate info icon tooltip with name and description - TheSuperHackers @feature Ahmed Salah
+	void updateInfoIcons( Object *obj );											///< Update and render info icons (weapons and armor) on portrait - TheSuperHackers @feature Ahmed Salah
 private:
 
 

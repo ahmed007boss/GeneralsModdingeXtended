@@ -50,7 +50,7 @@
 //-----------------------------------------------------------------------------
 // USER INCLUDES //////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/Player.h"
 #include "Common/Xfer.h"
@@ -170,8 +170,19 @@ void CostModifierUpgrade::upgradeImplementation( void )
 	// update the player with another TypeOfProductionCostChange
 	player->addKindOfProductionCostChange(getCostModifierUpgradeModuleData()->m_kindOf,getCostModifierUpgradeModuleData()->m_percentage );
 
-}
 
+}
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void CostModifierUpgrade::downgradeImplementation(void)
+{
+	Player* player = getObject()->getControllingPlayer();
+
+	// update the player with another TypeOfProductionCostChange
+	player->removeKindOfProductionCostChange(getCostModifierUpgradeModuleData()->m_kindOf, getCostModifierUpgradeModuleData()->m_percentage);
+
+
+}
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------

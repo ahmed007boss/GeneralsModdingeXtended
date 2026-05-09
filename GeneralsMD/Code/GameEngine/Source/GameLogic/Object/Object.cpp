@@ -28,16 +28,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
+#include <vector>
 #include "GameLogic/Damage.h"
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #define DEFINE_WEAPONCONDITIONMAP
 #include "Common/BitFlagsIO.h"
 #include "Common/BuildAssistant.h"
 #include "Common/Dict.h"
 #include "Common/GameCommon.h"
 #include "Common/GameEngine.h"
-#include "Common/GameCommon.h"
+#include "GameClient/Image.h"
 #include "Common/GameState.h"
+#include "Common/GameUtility.h"
 #include "Common/ModuleFactory.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
@@ -47,6 +49,7 @@
 #include "Common/ThingFactory.h"
 #include "Common/ThingTemplate.h"
 #include "Common/Upgrade.h"
+#include "GameLogic/ArmorSet.h"
 #include "Common/WellKnownKeys.h"
 #include "Common/Xfer.h"
 #include "Common/XferCRC.h"
@@ -57,6 +60,7 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/Eva.h"
 #include "GameClient/GameClient.h"
+#include "GameClient/GameText.h"  // TheSuperHackers @feature Ahmed Salah - For text resources
 #include "GameClient/InGameUI.h"
 
 #include "GameLogic/AI.h"
@@ -277,11 +281,8 @@ Object::Object(const ThingTemplate* tt, const ObjectStatusMaskType& objectStatus
 	Int i, modIdx;
 	AsciiString modName;
 
-	//Added By Sadullah Nader
-	//Initializations inserted
 	m_formationOffset.x = m_formationOffset.y = 0.0f;
 	m_iPos.zero();
-	//
 	for (i = 0; i < MAX_PLAYER_COUNT; ++i)
 	{
 		m_visionSpiedBy[i] = 0;
@@ -778,9 +779,9 @@ Int Object::getTransportSlotCount() const
 	return count;
 }
 
-Object* Object::getEnclosingContainedBy()
+const Object* Object::getEnclosingContainedBy() const
 {
-	for (Object* child = this, *container = getContainedBy(); container; child = container, container = container->getContainedBy())
+	for (const Object* child = this, *container = getContainedBy(); container; child = container, container = container->getContainedBy())
 	{
 		ContainModuleInterface* containModule = container->getContain();
 		if (containModule && containModule->isEnclosingContainerFor(child))
@@ -788,6 +789,14 @@ Object* Object::getEnclosingContainedBy()
 	}
 
 	return NULL;
+}
+
+const Object* Object::getOuterObject() const
+{
+	if (const Object* enclosing = getEnclosingContainedBy())
+		return enclosing;
+
+	return this;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1846,11 +1855,44 @@ Color Object::getNightIndicatorColor() const
 }
 
 //=============================================================================
+// Object::isLogicallyVisible
+//=============================================================================
+Bool Object::isLogicallyVisible() const
+{
+	const Object* obj = getOuterObject();
+
+	// Disguisers are always visible to all players, irrespective of any stealth
+	// status. We thus need to check the type rather than the status as the
+	// disguise status is absent during the disguise transition phase.
+	if (obj->isKindOf(KINDOF_DISGUISER))
+		return true;
+
+	if (obj->testStatus(OBJECT_STATUS_STEALTHED) && !obj->testStatus(OBJECT_STATUS_DETECTED))
+	{
+		const Player* player = rts::getObservedOrLocalPlayer();
+		const Relationship relationship = player->getRelationship(getTeam());
+
+		if (player->isPlayerActive() && relationship != ALLIES)
+			return false;
+	}
+
+	return true;
+}
+
+//=============================================================================
 // Object::isLocallyControlled
 //=============================================================================
 Bool Object::isLocallyControlled() const
 {
 	return getControllingPlayer() == ThePlayerList->getLocalPlayer();
+}
+
+//=============================================================================
+// Object::isLocallyViewed
+//=============================================================================
+Bool Object::isLocallyViewed() const
+{
+	return getControllingPlayer() == rts::getObservedOrLocalPlayer();
 }
 
 //=============================================================================
@@ -2600,13 +2642,10 @@ void Object::updateUpgradeModules()
 	if (getControllingPlayer() == NULL)
 		return;  // This can only happen in game teardown.  No upgrades for you without a player.  Weird crashes are bad.
 
-	UpgradeMaskType playerMask = getControllingPlayer()->getCompletedUpgradeMask();
-	UpgradeMaskType objectMask = getObjectCompletedUpgradeMask();
-	UpgradeMaskType maskToCheck = playerMask;
-	maskToCheck.set(objectMask);
-	// We need to add in all of the already owned upgrades to handle "AND" requiring upgrades.
-	// We combine all the masks in case someone has a Object AND Player combination
-
+	// TheSuperHackers @bugfix Ahmed Salah 11/01/2026 Refresh the mask inside the loop to handle
+	// upgrade removals from RemoveUpgradeOnUpgrade modules. Previously, the mask was computed once
+	// at the start, causing modules that were reset during iteration (when their trigger upgrade
+	// was removed) to execute again because the stale mask still contained the removed upgrade.
 	for (BehaviorModule** module = m_behaviors; *module; ++module)
 	{
 		UpgradeModuleInterface* upgrade = (*module)->getUpgrade();
@@ -2615,6 +2654,14 @@ void Object::updateUpgradeModules()
 
 		if (!upgrade->isAlreadyUpgraded())
 		{
+			// Refresh maskToCheck before each attempt to handle removals from previous modules
+			// We need to add in all of the already owned upgrades to handle "AND" requiring upgrades.
+			// We combine all the masks in case someone has a Object AND Player combination
+			UpgradeMaskType playerMask = getControllingPlayer()->getCompletedUpgradeMask();
+			UpgradeMaskType objectMask = getObjectCompletedUpgradeMask();
+			UpgradeMaskType maskToCheck = playerMask;
+			maskToCheck.set(objectMask);
+
 			upgrade->attemptUpgrade(maskToCheck);
 		}
 	}
@@ -3372,10 +3419,7 @@ void Object::onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel new
 	Bool doAnimation = provideFeedback
 		&& newLevel > oldLevel
 		&& !isKindOf(KINDOF_IGNORED_IN_GUI)
-		&& (isLocallyControlled()
-			|| !testStatus(OBJECT_STATUS_STEALTHED)
-			|| testStatus(OBJECT_STATUS_DETECTED)
-			|| testStatus(OBJECT_STATUS_DISGUISED));
+		&& isLogicallyVisible();
 
 	if (doAnimation && TheGameLogic->getDrawIconUI())
 	{
@@ -3499,7 +3543,7 @@ Bool Object::isAbleToAttack() const
 			{
 				//The turret is enable, meaning we have an enabled weapon. Quit.
 				anyEnabled = TRUE;
-				break;;
+				break;
 			}
 		}
 		if (anyWeapon && !anyEnabled)
@@ -4285,7 +4329,7 @@ void Object::xfer(Xfer* xfer)
 {
 
 	// version
-	const XferVersion currentVersion = 9;
+	const XferVersion currentVersion = 10; // TheSuperHackers @feature Ahmed Salah 03/01/2026 Added m_displayPluralNameOverride
 	XferVersion version = currentVersion;
 	xfer->xferVersion(&version, currentVersion);
 
@@ -4343,6 +4387,14 @@ void Object::xfer(Xfer* xfer)
 	// internal name
 	xfer->xferAsciiString(&m_name);
 	xfer->xferUnicodeString(&m_displayNameOverride);
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Plural name override support
+	if (version >= 10)
+	{
+		xfer->xferUnicodeString(&m_displayPluralNameOverride);
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+		xfer->xferAsciiString(&m_selectPortraitOverride);
+		xfer->xferAsciiString(&m_selectPortraitVideoOverride);
+	}
 
 	// status
 	if (version >= 8)
@@ -4873,7 +4925,7 @@ void Object::onDie(DamageInfo* damageInfo)
 	if (m_team)
 		m_team->notifyTeamOfObjectDeath();
 
-	if (isLocallyControlled() && !selfInflicted) // wasLocallyControlled? :-)
+	if (isLocallyViewed() && !selfInflicted) // wasLocallyViewed? :-)
 	{
 		if (isKindOf(KINDOF_STRUCTURE) && isKindOf(KINDOF_MP_COUNT_FOR_VICTORY))
 		{
@@ -5390,10 +5442,37 @@ void Object::unshroud()
 //-------------------------------------------------------------------------------------------------
 Real Object::getVisionRange() const
 {
+	Real visionRange = m_visionRange;
+
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Aggregate vision range from Vision components (includes Sensor)
+	const ActiveBody* activeBody = static_cast<const ActiveBody*>(getBodyModule());
+	if (activeBody)
+	{
+		// Collect all components and consider those implementing IVisionComponent; take the largest effective range
+		std::vector<Component*> comps = activeBody->GetComponentsOfType<Component>();
+		for (std::vector<Component*>::const_iterator it = comps.begin(); it != comps.end(); ++it)
+		{
+			IVisionComponent* vc = dynamic_cast<IVisionComponent*>(*it);
+			if (vc)
+			{
+				Real r = vc->getVisionRange();
+				if (r > visionRange)
+					visionRange = r;
+			}
+		}
+	}
+
+	if (getStatusBits().test(OBJECT_STATUS_UNDER_CONSTRUCTION))
+	{
+		//structures under construction have limited vision range.  For now, base it
+		//on the geometry extents so the structure can only see itself.
+		visionRange = getGeometryInfo().getBoundingCircleRadius();
+	}
+
 #if defined(RTS_DEBUG)
 	if (TheGlobalData->m_debugVisibility)
 	{
-		Vector3 pos(m_visionRange, 0, 0);
+		Vector3 pos(visionRange, 0, 0);
 		for (int i = 0; i < TheGlobalData->m_debugVisibilityTileCount; ++i)
 		{
 			pos.Rotate_Z(1.0f * i / TheGlobalData->m_debugVisibilityTileCount * 2 * PI);
@@ -5405,7 +5484,7 @@ Real Object::getVisionRange() const
 		}
 	}
 #endif
-	return m_visionRange;
+	return visionRange;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -6683,6 +6762,30 @@ const AsciiString& Object::getCommandSetString() const
 }
 
 //=============================================================================
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait override support
+//=============================================================================
+const Image* Object::getSelectedPortraitImage() const
+{
+	if (m_selectPortraitOverride.isNotEmpty())
+	{
+		return TheMappedImageCollection->findImageByName(m_selectPortraitOverride);
+	}
+	return getTemplate()->getSelectedPortraitImage();
+}
+
+//=============================================================================
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Select portrait video override support
+//=============================================================================
+const AsciiString& Object::getSelectedPortraitVideoName() const
+{
+	if (m_selectPortraitVideoOverride.isNotEmpty())
+	{
+		return m_selectPortraitVideoOverride;
+	}
+	return getTemplate()->getSelectedPortraitVideoName();
+}
+
+//=============================================================================
 Bool Object::canProduceUpgrade(const UpgradeTemplate* upgrade)
 {
 	// TheSuperHackers @logic-client-separation helmutbuhler 11/04/2025
@@ -6847,10 +6950,8 @@ void Object::goInvulnerable(UnsignedInt time)
 // ------------------------------------------------------------------------------------------------
 RadarPriorityType Object::getRadarPriority(void) const
 {
-	RadarPriorityType priority = RADAR_PRIORITY_INVALID;
-
 	// first, get the priority at the thing template level
-	priority = getTemplate()->getDefaultRadarPriority();
+	RadarPriorityType priority = getTemplate()->getDefaultRadarPriority();
 
 	//
 	// there are some objects that we want to show up on the radar when they have
@@ -7015,13 +7116,35 @@ ObjectID Object::calculateCountermeasureToDivertTo(const Object& victim)
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 01/01/2025 Get extended description from template modules
 //-------------------------------------------------------------------------------------------------
-UnicodeString Object::getExtendedDescription() const
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+UnicodeString Object::getDescription() const
+{
+	// TheSuperHackers @feature Ahmed Salah - Description support: Get description with override fallback
+	// Check override first, then fall back to template
+	if (!m_descriptionOverride.isEmpty())
+	{
+		return m_descriptionOverride;
+	}
+	
+	const ThingTemplate* template_ = getTemplate();
+	if (template_)
+	{
+		return template_->getDisplayDescription();
+	}
+	
+	return UnicodeString::TheEmptyString;
+}
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+UnicodeString Object::getExtendedDescription(Bool skipBodyModules) const
 {
 	// Delegate to ThingTemplate which has access to module data
 	const ThingTemplate* template_ = getTemplate();
 	if (template_)
 	{
-		return template_->getExtendedDescription();
+		return template_->getExtendedDescription(skipBodyModules);
 	}
 	
 	return UnicodeString();
@@ -7044,6 +7167,301 @@ std::vector<Component> Object::getComponents() const
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Get all info icons (weapons and armor)
+//-------------------------------------------------------------------------------------------------
+std::vector<InfoIcon> Object::getAllInfoIcons() const
+{
+	std::vector<InfoIcon> infoIconList;
+	
+	// Iterate through all weapon slots
+	for (Int i = 0; i < WEAPONSLOT_COUNT; ++i)
+	{
+		WeaponSlotType slot = (WeaponSlotType)i;
+		Weapon* weapon = getWeaponInWeaponSlot(slot);
+		
+		// Only include active weapons (non-null and functional)
+		if (weapon && weapon->isWeaponSlotFunctional(this))
+		{
+			const WeaponTemplate* template_ = weapon->getTemplate();
+			if (template_)
+			{
+				InfoIcon info;
+				info.icon = template_->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:ArmedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Armed by";
+				}
+
+				// Get weapon display name (not the internal name)
+				UnicodeString weaponDisplayName = template_->getDisplayName();
+				if (weaponDisplayName.isEmpty() || wcsstr(weaponDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to internal name if display name is missing
+					AsciiString weaponName = template_->getName();
+					weaponDisplayName.format(L"%hs", weaponName.str());
+				}
+				
+				prefix = prefix + L" ";
+				// Convert to AsciiString for storage
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString weaponNameAscii;
+				weaponNameAscii.translate(weaponDisplayName);
+				if (!prefixAscii.isEmpty() && !weaponNameAscii.isEmpty())
+				{
+					info.name = prefixAscii + weaponNameAscii;
+				}
+				else if (!weaponNameAscii.isEmpty())
+				{
+					info.name = weaponNameAscii;
+				}
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+
+				// Fetch description using localization key
+				AsciiString weaponDescKey = template_->getDisplayDescription();
+				UnicodeString weaponDescUnicode = TheGameText->fetch(weaponDescKey.str());
+				info.description.translate(weaponDescUnicode);
+						
+				
+				// Only add if all fields are not empty
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
+				{
+					
+					UnicodeString extendedDesc = template_->getExtendedDescription(this);
+					if (!extendedDesc.isEmpty())
+					{
+						if (!info.description.isEmpty())
+							info.description += "\n\n";
+						AsciiString extendedDescAscii;
+						extendedDescAscii.translate(extendedDesc);
+						info.description += extendedDescAscii;
+					}
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	// Get armor information - only include the currently active armor set
+	const ThingTemplate* template_ = getTemplate();
+	if (template_)
+	{
+		// Build ArmorSetFlags from the object's current armor set flags
+		ArmorSetFlags currentArmorSetFlags;
+		currentArmorSetFlags.clear();
+		
+		// Test each armor set type flag and set it in the flags
+		for (Int i = 0; i < ARMORSET_COUNT; ++i)
+		{
+			ArmorSetType ast = (ArmorSetType)i;
+			if (testArmorSetFlag(ast))
+			{
+				currentArmorSetFlags.set(ast, 1);
+			}
+		}
+		
+		// Find the armor set that matches the current flags
+		const ArmorTemplateSet* activeArmorSet = template_->findArmorTemplateSet(currentArmorSetFlags);
+		if (activeArmorSet)
+		{
+			const ArmorTemplate* armorTemplate = activeArmorSet->getArmorTemplate();
+			if (armorTemplate)
+			{
+				InfoIcon info;
+				info.icon = armorTemplate->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:ProtectedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Protected by";
+				}
+				
+				// Get armor display name (m_name is never set, so use getDisplayName)
+				UnicodeString armorDisplayName = armorTemplate->getDisplayName();
+				if (armorDisplayName.isEmpty() || wcsstr(armorDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// If display name is missing, skip this armor (no fallback since m_name is always empty)
+					armorDisplayName.clear();
+				}
+				prefix = prefix + L" ";
+				// Convert prefix and display name to AsciiString and combine
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString armorNameAscii;
+				armorNameAscii.translate(armorDisplayName);
+				if (!prefixAscii.isEmpty() && !armorNameAscii.isEmpty())
+				{
+					info.name = prefixAscii + armorNameAscii;
+				}
+				else if (!armorNameAscii.isEmpty())
+				{
+					info.name = armorNameAscii;
+				}
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+				
+				info.description = armorTemplate->getDisplayDescription();
+				
+				// Only add if icon and name are not empty (icon and name are required for display)
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
+				{
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	// Get locomotor information - only include the currently active locomotor
+	if (getAIUpdateInterface())
+	{
+		const Locomotor* locomotor = getAIUpdateInterface()->getCurLocomotor();
+		if (locomotor)
+		{
+			InfoIcon info;
+			info.icon = locomotor->getIcon();
+			
+			// Get prefix text from resources
+			UnicodeString prefix = TheGameText->fetch("TOOLTIP:EquippedBy");
+			if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+			{
+				// Fallback to direct text if label is missing
+				prefix = L"Equipped By";
+			}
+			
+			// Get locomotor display name
+			UnicodeString locomotorDisplayName = locomotor->getDisplayName();
+			if (locomotorDisplayName.isEmpty() || wcsstr(locomotorDisplayName.str(), L"MISSING:") != NULL)
+			{
+				// Fallback to internal name if display name is missing
+				AsciiString locomotorName = locomotor->getName();
+				locomotorDisplayName.format(L"%hs", locomotorName.str());
+			}
+			
+			prefix = prefix + L" ";
+			// Convert prefix and display name to AsciiString and combine
+			AsciiString prefixAscii;
+			prefixAscii.translate(prefix);
+			AsciiString locomotorNameAscii;
+			locomotorNameAscii.translate(locomotorDisplayName);
+			if (!prefixAscii.isEmpty() && !locomotorNameAscii.isEmpty())
+			{
+				info.name = prefixAscii + locomotorNameAscii;
+			}
+			else if (!locomotorNameAscii.isEmpty())
+			{
+				info.name = locomotorNameAscii;
+			}
+			else
+			{
+				// Skip if no display name available
+				info.name.clear();
+			}
+			
+			// Fetch description using localization key
+			AsciiString locomotorDescKey = locomotor->getDisplayDescription();
+			UnicodeString locomotorDescUnicode = TheGameText->fetch(locomotorDescKey.str());
+			info.description.translate(locomotorDescUnicode);
+			
+			// Only add if icon and name are not empty (icon and name are required for display)
+			if (!info.icon.isEmpty() && !info.name.isEmpty())
+			{
+				// Get locomotor template to access getExtendedDescription
+				const LocomotorTemplate* locomotorTemplate = locomotor->getTemplate();
+				if (locomotorTemplate)
+				{
+					UnicodeString extendedDesc = locomotorTemplate->getExtendedDescription(this);
+					if (!extendedDesc.isEmpty())
+					{
+						if (!info.description.isEmpty())
+							info.description += "\n\n";
+						AsciiString extendedDescAscii;
+						extendedDescAscii.translate(extendedDesc);
+						info.description += extendedDescAscii;
+					}
+				}
+				infoIconList.push_back(info);
+			}
+		}
+	}
+	
+	// Get component information - include all components that have icon, name, and description
+	const ActiveBody* activeBody = static_cast<const ActiveBody*>(getBodyModule());
+	if (activeBody)
+	{
+		std::vector<Component*> comps = activeBody->GetComponentsOfType<Component>();
+		for (std::vector<Component*>::const_iterator it = comps.begin(); it != comps.end(); ++it)
+		{
+			const Component* component = *it;
+			if (component)
+			{
+				InfoIcon info;
+				info.icon = component->getIcon();
+				
+				// Get prefix text from resources
+				UnicodeString prefix = TheGameText->fetch("TOOLTIP:EquippedBy");
+				if (prefix.isEmpty() || wcsstr(prefix.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to direct text if label is missing
+					prefix = L"Equipped By";
+				}
+				
+				// Get component display name
+				UnicodeString componentDisplayName = component->getDisplayName();
+				if (componentDisplayName.isEmpty() || wcsstr(componentDisplayName.str(), L"MISSING:") != NULL)
+				{
+					// Fallback to internal name if display name is missing
+					AsciiString componentName = component->getName();
+					componentDisplayName.format(L"%hs", componentName.str());
+				}
+				
+				prefix = prefix + L" ";
+				// Convert prefix and display name to AsciiString and combine
+				AsciiString prefixAscii;
+				prefixAscii.translate(prefix);
+				AsciiString componentNameAscii;
+				componentNameAscii.translate(componentDisplayName);
+				if (!prefixAscii.isEmpty() && !componentNameAscii.isEmpty())
+				{
+					info.name = prefixAscii + componentNameAscii;
+				}
+				else if (!componentNameAscii.isEmpty())
+				{
+					info.name = componentNameAscii;
+				}
+				else
+				{
+					// Skip if no display name available
+					info.name.clear();
+				}
+				
+				info.description = component->getDisplayDescription();
+				
+				// Only add if icon and name are not empty (icon and name are required for display)
+				if (!info.icon.isEmpty() && !info.name.isEmpty())
+				{
+					infoIconList.push_back(info);
+				}
+			}
+		}
+	}
+	
+	return infoIconList;
+}
+
+//-------------------------------------------------------------------------------------------------
 // TheSuperHackers @feature author 15/01/2025 Get amount needed to replenish inventory item
 //-------------------------------------------------------------------------------------------------
 Int Object::getInventoryReplenishAmount(const AsciiString& itemName) const
@@ -7052,12 +7470,9 @@ Int Object::getInventoryReplenishAmount(const AsciiString& itemName) const
 	if (!inventoryBehavior)
 		return 0;
 
-	const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-	if (!moduleData)
-		return 0;
-
 	Int currentAmount = inventoryBehavior->getItemCount(itemName);
-	Int maxStorage = moduleData->getMaxStorageCount(itemName);
+	// Use instance data (not module data) to respect upgrades
+	Int maxStorage = inventoryBehavior->getMaxStorageCount(itemName);
 	
 	Int ammoInClips = 0;
 	for (Int i = PRIMARY_WEAPON; i < WEAPONSLOT_COUNT; ++i)

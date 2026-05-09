@@ -29,7 +29,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/BuildAssistant.h"
 #include "Common/GlobalData.h"
@@ -53,7 +53,6 @@
 #include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/CreateModule.h"
 #include "GameLogic/Module/ProductionUpdate.h"
-#include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/ParkingPlaceBehavior.h"
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +249,7 @@ void BuildAssistant::update( void )
 					sellValue = REAL_TO_UNSIGNEDINT( obj->getTemplate()->calcCostToBuild( player ) *
 																										 TheGlobalData->m_sellPercentage );
 
-				player->getMoney()->deposit( sellValue );
+				player->getMoney()->deposit( sellValue, TRUE, FALSE );
 				// this money shouldn't be scored since it wasn't really "earned."
 //				player->getScoreKeeper()->addMoneyEarned( sellValue );
 

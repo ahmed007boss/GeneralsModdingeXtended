@@ -29,7 +29,7 @@
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 #define DEFINE_GUI_COMMMAND_NAMES
 #define DEFINE_COMMAND_OPTION_NAMES
 #define DEFINE_WEAPONSLOTTYPE_NAMES
@@ -49,7 +49,7 @@
 #include "Common/ThingFactory.h"
 #include "Common/Upgrade.h"
 #include "Common/Recorder.h"
-#include "Common/ProductionPrerequisite.h"
+
 
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Object.h"
@@ -64,6 +64,8 @@
 #include "GameLogic/Components/Component.h"
 #include "GameLogic/ScriptEngine.h"
 #include "GameLogic/Weapon.h"
+#include "GameLogic/Module/AIUpdate.h"
+#include "GameLogic/Locomotor.h"
 
 #include "GameClient/AnimateWindowManager.h"
 #include "GameClient/ControlBar.h"
@@ -71,6 +73,9 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/Display.h"
 #include "GameClient/DisplayStringManager.h"
+#include "GameClient/Image.h"
+#include "GameClient/GameFont.h"
+#include "GameClient/GlobalLanguage.h"
 #include "GameClient/GameClient.h"
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/GameText.h"
@@ -87,6 +92,13 @@
 #include "GameClient/GUICallbacks.h"
 
 #include "GameNetwork/GameInfo.h"
+
+// Forward declaration for unit tooltip update function - TheSuperHackers @feature Ahmed Salah 01/01/2026
+void ControlBarUnitTooltipUpdateFunc(WindowLayout* layout, void* param);
+// Forward declaration for camo tooltip update function - TheSuperHackers @feature Ahmed Salah
+void ControlBarUnitCamoTooltipUpdateFunc(WindowLayout* layout, void* param);
+// Forward declaration for info icon tooltip update function - TheSuperHackers @feature Ahmed Salah
+void ControlBarInfoIconTooltipUpdateFunc(WindowLayout* layout, void* param);
 
 
 // PUBLIC /////////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +136,7 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "ComponentName",					INI::parseAsciiString,			 NULL, offsetof( CommandButton, m_componentName ) },
 	{ "Amount",							INI::parseInt,							 NULL, offsetof( CommandButton, m_amount ) },
 	{ "EnableMassProduction",			INI::parseBool,							 NULL, offsetof( CommandButton, m_enableMassProduction ) },
+	{ "HideIfUpgradeCompleted",		INI::parseBool,							 NULL, offsetof( CommandButton, m_hideIfUpgradeCompleted ) },
 	{ "CursorName",						INI::parseAsciiString,			 NULL, offsetof( CommandButton, m_cursorName ) },
 	{ "InvalidCursorName",		INI::parseAsciiString,       NULL, offsetof( CommandButton, m_invalidCursorName ) },
 	{ "ButtonBorderType",			INI::parseLookupList,				 CommandButtonMappedBorderTypeNames, offsetof( CommandButton, m_commandButtonBorder ) },
@@ -131,10 +144,12 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "UnitSpecificSound",		INI::parseAudioEventRTS,		 NULL, offsetof( CommandButton, m_unitSpecificSound ) },
 	{ "RequireElectronics",		INI::parseBool,							 NULL, offsetof( CommandButton, m_isRequireElectronics) },
 	{ "TargetKindOf",				CommandButton::parseTargetKindOf,	NULL, 0 },
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 	{ "EnablePrerequisites",				CommandButton::parseEnablePrerequisites,	0, 0 },
+	{ "EnableCallerPrerequisites",				CommandButton::parseEnablePrerequisites,	0, 0 },
+	// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 	{ "VisiblePrerequisites",				CommandButton::parseVisiblePrerequisites,	0, 0 },
-	{ "EnableCallerPrerequisites",				CommandButton::parseEnableCallerUnitPrerequisites,	0, 0 },
-	{ "VisibleCallerPrerequisites",				CommandButton::parseVisibleCallerUnitPrerequisites,	0, 0 },
+	{ "VisibleCallerPrerequisites",				CommandButton::parseVisiblePrerequisites,	0, 0 },
 
 	// Modifier key and click type button name strings
 	{ "ClickCtrlButton",					INI::parseAsciiString, NULL, offsetof( CommandButton, m_leftClickCtrlButtonName ) },
@@ -163,10 +178,6 @@ const FieldParse CommandButton::s_commandButtonFieldParseTable[] =
 	{ "AlternativeButton2Prerequisites",	CommandButton::parseAlternativeButton2Prerequisites,	0, 0 },
 	{ "AlternativeButton3Prerequisites",	CommandButton::parseAlternativeButton3Prerequisites,	0, 0 },
 	{ "AlternativeButton4Prerequisites",	CommandButton::parseAlternativeButton4Prerequisites,	0, 0 },
-	{ "AlternativeButton1ObjectPrerequisites",	CommandButton::parseAlternativeButton1ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton2ObjectPrerequisites",	CommandButton::parseAlternativeButton2ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton3ObjectPrerequisites",	CommandButton::parseAlternativeButton3ObjectPrerequisites,	0, 0 },
-	{ "AlternativeButton4ObjectPrerequisites",	CommandButton::parseAlternativeButton4ObjectPrerequisites,	0, 0 },
 
 	{ NULL,						NULL,												 NULL, 0 }  // keep this last
 
@@ -206,6 +217,401 @@ static void commandButtonTooltip(GameWindow *window,
 													UnsignedInt mouse)
 {
 	TheControlBar->showBuildTooltipLayout(window);
+}
+
+// TheSuperHackers @feature Ahmed Salah 01/01/2026 Unit tooltip callback for portrait window
+static void unitPortraitTooltip(GameWindow *window,
+													WinInstanceData *instData,
+													UnsignedInt mouse)
+{
+	TheControlBar->showUnitTooltipLayout(window);
+}
+static void unitCamoTooltip(GameWindow *window,
+	WinInstanceData *instData,
+	UnsignedInt mouse)
+{
+TheControlBar->showUnitCamoTooltipLayout(window);
+}
+static void infoIconTooltip(GameWindow *window,
+	WinInstanceData *instData,
+	UnsignedInt mouse)
+{
+TheControlBar->showInfoIconTooltipLayout(window);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 06/01/2026 Check if info icons and bars should be shown
+// Returns TRUE if only one unit is selected or all selected units are the same type
+//-------------------------------------------------------------------------------------------------
+static Bool shouldShowInfoIconsAndBars(Object* obj)
+{
+	if (!obj)
+		return FALSE;
+
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	if (!selectedDrawables)
+		return FALSE;
+
+	Int selectedCount = (Int)selectedDrawables->size();
+	
+	// Show if only one unit selected
+	if (selectedCount <= 1)
+		return TRUE;
+	
+	// Check if all selected units are the same type
+	const ThingTemplate *objTemplate = obj->getTemplate();
+	if (!objTemplate)
+		return FALSE;
+
+	for (DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it)
+	{
+		const Drawable *d = *it;
+		if (d && d->getTemplate() && d->getTemplate()->getName() != objTemplate->getName())
+		{
+			return FALSE; // Different type found
+		}
+	}
+	
+	return TRUE; // All same type
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows for portrait display
+//-------------------------------------------------------------------------------------------------
+void ControlBar::updatePortraitBars(Object* obj)
+{
+	// Hide bars by default
+	if (m_healthBarWindow)
+		m_healthBarWindow->winHide(TRUE);
+	if (m_fuelBarWindow)
+		m_fuelBarWindow->winHide(TRUE);
+
+	if (!obj || !m_rightHUDCameoWindow)
+		return;
+
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Only show bars if all selected units are same type or only one selected
+	if (!shouldShowInfoIconsAndBars(obj))
+		return;
+
+	// Get portrait window size (bars are now children of portrait, so coordinates are relative to it)
+	Int portraitWidth = 0;
+	Int portraitHeight = 0;
+	m_rightHUDCameoWindow->winGetSize(&portraitWidth, &portraitHeight);
+
+	// Bars are overlayed on top of the portrait image, at the bottom, below the unit name.
+	// Coordinates here are relative to the portrait window itself (0,0 is top-left of portrait).
+	const Int barMarginX   = 2;                   // small horizontal margin from edges
+	const Int barHeight    = 4;                   // small, unobtrusive bars
+	const Int barWidth     = portraitWidth - (barMarginX * 2); // Full width minus small margins
+	
+	// Position bars at the very bottom, stacked without gap
+	// Name text will be drawn above the bars (we'll adjust text position to raise it up)
+	const Int bottomMargin = 2;  // Small margin from bottom edge
+	
+	// Calculate fuel consumption status first
+	Bool hasFuel = FALSE;
+
+	AIUpdateInterface* ai = obj->getAIUpdateInterface();
+	if (ai)
+	{
+		const LocomotorTemplate* normalLocoTemplate = ai->getNormalLocomotorTemplate();
+		if (normalLocoTemplate)
+		{
+			AsciiString consumeItem = normalLocoTemplate->getConsumeItem();
+			if (!consumeItem.isEmpty())
+			{
+				InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
+				if (inventoryBehavior)
+				{
+					Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
+					// Use instance data (not module data) to respect upgrades
+					Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
+					if (maxStorage > 0 && currentAmount >= 0)
+					{
+						hasFuel = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	// Calculate bar positions: fuel bar at bottom, health bar above it (or at bottom if no fuel bar)
+	Int fuelBarY = portraitHeight - barHeight - bottomMargin;   // Bottom bar at bottom edge
+	Int healthBarY;
+	if (hasFuel)
+	{
+		healthBarY = fuelBarY - barHeight;  // Health bar directly above fuel bar (no gap)
+	}
+	else
+	{
+		healthBarY = fuelBarY;  // Health bar at bottom if no fuel bar
+	}
+	Int barLeft = barMarginX;  // Left edge with margin (full width bars)
+
+	// Update health bar (always show in portrait, unlike world health bars)
+	if (m_healthBarWindow)
+	{
+		BodyModuleInterface *body = obj->getBodyModule();
+		if (body)
+		{
+			Real health = body->getHealth();
+			Real maxHealth = body->getMaxHealth();
+
+			if (maxHealth > 0.0f && health >= 0.0f)
+			{
+				// Position and show the health bar window
+				m_healthBarWindow->winSetPosition(barLeft, healthBarY);
+				m_healthBarWindow->winSetSize(barWidth, barHeight);
+				m_healthBarWindow->winEnable(TRUE);
+				m_healthBarWindow->winHide(FALSE);
+			}
+		}
+	}
+
+	// Show fuel bar only if unit has fuel consumption
+	if (m_fuelBarWindow)
+	{
+		if (hasFuel)
+		{
+			// Position and show the fuel bar window at bottom (very bottom)
+			m_fuelBarWindow->winSetPosition(barLeft, fuelBarY);
+			m_fuelBarWindow->winSetSize(barWidth, barHeight);
+			m_fuelBarWindow->winEnable(TRUE);
+			m_fuelBarWindow->winHide(FALSE);
+		}
+		else
+		{
+			// Hide fuel bar if unit doesn't consume fuel
+			m_fuelBarWindow->winHide(TRUE);
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 06/01/2026 Draw function for health bar window
+//-------------------------------------------------------------------------------------------------
+static void drawHealthBarWindow(GameWindow *window, WinInstanceData *instData)
+{
+	if (!window)
+		return;
+
+	// Convert window-local region to screen coordinates (since TheDisplay uses screen space)
+	IRegion2D region;
+	window->winGetRegion(&region);
+
+	Int screenX = region.lo.x;
+	Int screenY = region.lo.y;
+
+	GameWindow* parent = window->winGetParent();
+	while (parent)
+	{
+		IRegion2D parentRegion;
+		parent->winGetRegion(&parentRegion);
+		screenX += parentRegion.lo.x;
+		screenY += parentRegion.lo.y;
+		parent = parent->winGetParent();
+	}
+
+	Int barWidth  = region.hi.x - region.lo.x;
+	Int barHeight = region.hi.y - region.lo.y;
+
+	// Get selected drawables
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	if (!selectedDrawables || selectedDrawables->empty())
+		return;
+
+	// Use lowest health from first 10 selected units
+	Drawable* draw = NULL;
+	Object* obj = NULL;
+	Real lowestHealthRatio = 2.0f; // Start with value > 1.0 (impossible health ratio)
+	Real health = 0.0f;
+	Real maxHealth = 1.0f;
+	Int checkedCount = 0;
+	const Int MAX_UNITS_TO_CHECK = 10;
+
+	for (DrawableList::const_iterator it = selectedDrawables->begin();
+		 it != selectedDrawables->end() && checkedCount < MAX_UNITS_TO_CHECK;
+		 ++it, ++checkedCount)
+	{
+		const Drawable *d = *it;
+		if (!d || !d->isSelected())
+			continue;
+
+		Object* currentObj = const_cast<Object*>(d->getObject());
+		if (!currentObj)
+			continue;
+
+		BodyModuleInterface *body = currentObj->getBodyModule();
+		if (!body)
+			continue;
+
+		Real currentHealth = body->getHealth();
+		Real currentMaxHealth = body->getMaxHealth();
+
+		if (currentMaxHealth <= 0.0f || currentHealth < 0.0f)
+			continue;
+
+		Real healthRatio = currentHealth / currentMaxHealth;
+
+		// Track the unit with the lowest health ratio
+		if (healthRatio < lowestHealthRatio)
+		{
+			lowestHealthRatio = healthRatio;
+			health = currentHealth;
+			maxHealth = currentMaxHealth;
+			draw = const_cast<Drawable*>(d);
+			obj = currentObj;
+		}
+	}
+
+	if (!draw || !obj || maxHealth <= 0.0f || health < 0.0f)
+		return;
+
+	Real healthRatio = lowestHealthRatio;
+
+	// Determine health bar color
+	Color healthColor, outlineColor;
+	if (obj->getStatusBits().test(OBJECT_STATUS_UNDER_CONSTRUCTION) || obj->getDisabledFlags().any())
+	{
+		healthColor = GameMakeColor(0, (Int)(healthRatio * 255.0f), 255, 255); // blue to cyan
+		outlineColor = GameMakeColor(0, (Int)(healthRatio * 128.0f), 128, 255);
+	}
+	else
+	{
+		RGBColor inColor, outColor;
+		inColor.blue = 0;
+		outColor.blue = 0;
+
+		if (healthRatio >= 0.5f)
+		{
+			inColor.red = 1.0f - ((healthRatio - 0.5f) / 0.5f);
+			inColor.green = 1.0f;
+		}
+		else
+		{
+			inColor.red = 1.0f;
+			inColor.green = 1.0f - ((0.5f - healthRatio) / 0.5f);
+		}
+
+		outColor.red = inColor.red * 0.5f;
+		outColor.green = inColor.green * 0.5f;
+
+		if (draw->getModelConditionFlags().test(MODELCONDITION_REALLY_DAMAGED))
+		{
+			inColor.red = (1.0f + inColor.red) * 0.5f;
+			inColor.green *= 0.5f;
+		}
+		else if (draw->getModelConditionFlags().test(MODELCONDITION_DAMAGED) == FALSE)
+		{
+			inColor.green = (1.0f + inColor.green) * 0.5f;
+			inColor.red *= 0.5f;
+		}
+
+		healthColor = GameMakeColor((Int)(255.0f * inColor.red), (Int)(255.0f * inColor.green), (Int)(255.0f * inColor.blue), 255);
+		outlineColor = GameMakeColor((Int)(255.0f * outColor.red), (Int)(255.0f * outColor.green), (Int)(255.0f * outColor.blue), 255);
+	}
+
+	// Draw outline (screen space)
+	TheDisplay->drawOpenRect(screenX, screenY, barWidth, barHeight, 1, outlineColor);
+
+	// Draw filled bar (screen space)
+	TheDisplay->drawFillRect(screenX + 1, screenY + 1,
+							(barWidth - 2) * healthRatio, barHeight - 2, healthColor);
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 06/01/2026 Draw function for fuel bar window
+//-------------------------------------------------------------------------------------------------
+static void drawFuelBarWindow(GameWindow *window, WinInstanceData *instData)
+{
+	if (!window)
+		return;
+
+	// Convert window-local region to screen coordinates (since TheDisplay uses screen space)
+	IRegion2D region;
+	window->winGetRegion(&region);
+
+	Int screenX = region.lo.x;
+	Int screenY = region.lo.y;
+
+	GameWindow* parent = window->winGetParent();
+	while (parent)
+	{
+		IRegion2D parentRegion;
+		parent->winGetRegion(&parentRegion);
+		screenX += parentRegion.lo.x;
+		screenY += parentRegion.lo.y;
+		parent = parent->winGetParent();
+	}
+
+	Int barWidth  = region.hi.x - region.lo.x;
+	Int barHeight = region.hi.y - region.lo.y;
+
+	// Get the currently selected drawable and object
+	Drawable* draw = TheInGameUI->getFirstSelectedDrawable();
+	if (!draw || !draw->isSelected())
+		return;
+
+	Object* obj = draw->getObject();
+	if (!obj)
+		return;
+
+	// Check if unit consumes fuel
+	Real fuelRatio = 0.0f;
+	Bool hasFuelConsumption = FALSE;
+
+	AIUpdateInterface* ai = obj->getAIUpdateInterface();
+	if (ai)
+	{
+		const LocomotorTemplate* normalLocoTemplate = ai->getNormalLocomotorTemplate();
+		if (normalLocoTemplate)
+		{
+			AsciiString consumeItem = normalLocoTemplate->getConsumeItem();
+			if (!consumeItem.isEmpty())
+			{
+				// Get inventory behavior
+				InventoryBehavior* inventoryBehavior = obj->getInventoryBehavior();
+				if (inventoryBehavior)
+				{
+					Int currentAmount = inventoryBehavior->getItemCount(consumeItem);
+					// Use instance data (not module data) to respect upgrades
+					Int maxStorage = inventoryBehavior->getMaxStorageCount(consumeItem);
+					if (maxStorage > 0 && currentAmount >= 0)
+					{
+						fuelRatio = (Real)currentAmount / (Real)maxStorage;
+						hasFuelConsumption = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	Color fuelColor, fuelOutlineColor;
+
+	if (hasFuelConsumption)
+	{
+		// Fuel bar color (olive to brown progression)
+		Real redComponent = 0.5f + (0.5f * (1.0f - fuelRatio));
+		Real greenComponent = 0.5f + (0.5f * (1.0f - fuelRatio));
+		Real blueComponent = 0.0f;
+
+		fuelColor = GameMakeColor((Int)(255.0f * redComponent), (Int)(255.0f * greenComponent), (Int)(255.0f * blueComponent), 255);
+		fuelOutlineColor = GameMakeColor(0, 0, 0, 255); // Black outline
+	}
+	else
+	{
+		// No fuel consumption - show gray bar
+		fuelColor = GameMakeColor(128, 128, 128, 255); // Gray
+		fuelOutlineColor = GameMakeColor(64, 64, 64, 255); // Dark gray outline
+		fuelRatio = 1.0f; // Show full bar in gray
+	}
+
+	// Draw outline (screen space)
+	TheDisplay->drawOpenRect(screenX, screenY, barWidth, barHeight, 1, fuelOutlineColor);
+
+	// Draw filled bar (screen space)
+	TheDisplay->drawFillRect(screenX + 1, screenY + 1,
+							(barWidth - 2) * fuelRatio, barHeight - 2, fuelColor);
 }
 
 /// mark the UI as dirty so the context of everything is re-evaluated
@@ -253,14 +659,6 @@ Relationship ControlBar::getCurrentlyViewedPlayerRelationship(const Team* team)
 	return NEUTRAL;
 }
 
-AsciiString ControlBar::getCurrentlyViewedPlayerSide()
-{
-	if (Player* player = getCurrentlyViewedPlayer())
-		return player->getSide();
-
-	return ThePlayerList->getLocalPlayer()->getSide();
-}
-
 void ControlBar::populatePurchaseScience( Player* player )
 {
 //	TheInGameUI->deselectAllDrawables();
@@ -276,9 +674,9 @@ void ControlBar::populatePurchaseScience( Player* player )
 			player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3().isEmpty() ||
 			player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8().isEmpty())
 		return;
-	commandSet1 = TheControlBar->findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
-	commandSet3 = TheControlBar->findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
-	commandSet8 = TheControlBar->findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
+	commandSet1 = findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
+	commandSet3 = findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
+	commandSet8 = findCommandSet(player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
 
 	for( i = 0; i < MAX_PURCHASE_SCIENCE_RANK_1; i++ )
 		if (m_sciencePurchaseWindowsRank1[i]!=nullptr)
@@ -552,7 +950,7 @@ void ControlBar::populatePurchaseScience( Player* player )
 		u.translate(foo);
 		GadgetListBoxAddEntryText(win, u, color, -1, -1);
 	}
-	GadgetListBoxAddEntryText(win, UnicodeString(L"Cancel"), color, -1, -1);*/
+	GadgetListBoxAddEntryText(win, L"Cancel", color, -1, -1);*/
 
 }
 
@@ -564,90 +962,48 @@ void ControlBar::populatePurchaseScience( Player* player )
 //-------------------------------------------------------------------------------------------------
 void CommandButton::parseAlternativeButton1Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton1Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton1Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton2Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton2Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton2Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton3Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @refactor author 15/01/2025 Wrapper function for generic parsePrerequisites with resolveNames=TRUE
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton3Prereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton3Prereq, store, userData);
 }
 
 void CommandButton::parseAlternativeButton4Prerequisites(INI* ini, void* instance, void* store, const void* userData)
 {
-	// TheSuperHackers @alternative Ahmed Salah 27/06/2025 Parse prerequisites for alternative button 4
+	// TheSuperHackers @refactor Ahmed Salah 15/01/2025 Merged player and object prerequisites into ProductionPrerequisite
 	CommandButton* self = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton4Prereq, store, userData);
-}
-
-//-------------------------------------------------------------------------------------------------
-/** Alternative button object prerequisite parsing functions */
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseAlternativeButton1ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton1ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton2ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton2ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton3ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton3ObjectPrereq, store, userData);
-}
-
-void CommandButton::parseAlternativeButton4ObjectPrerequisites(INI* ini, void* instance, void* store, const void* userData)
-{
-	// TheSuperHackers @feature author 15/01/2025 Wrapper function for generic parseObjectPrerequisites
-	CommandButton* self = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &self->m_alternativeButton4ObjectPrereq, store, userData);
+	ProductionPrerequisite::parsePrerequisites(ini, &self->m_alternativeButton4Prereq, store, userData);
 }
 
 //-------------------------------------------------------------------------------------------------
 // TheSuperHackers @refactor author 15/01/2025 Implement missing prerequisite parsing methods
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged EnablePrerequisites and EnableCallerPrerequisites to ProductionPrerequisite
 void CommandButton::parseEnablePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
 {
 	CommandButton* button = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &button->m_enablePrereqInfo, NULL, NULL);
+	ProductionPrerequisite::parsePrerequisites(ini, &button->m_enablePrereqInfo, NULL, NULL);
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 15/01/2025 Merged VisiblePrerequisites and VisibleCallerPrerequisites to ProductionPrerequisite
 void CommandButton::parseVisiblePrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
 {
 	CommandButton* button = (CommandButton*)instance;
-	PlayerPrerequisite::parsePrerequisites(ini, &button->m_visiblePrereqInfo, NULL, NULL);
-}
-
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseEnableCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
-{
-	CommandButton* button = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &button->m_enableCallerUnitPrereqInfo, NULL, NULL);
-}
-
-//-------------------------------------------------------------------------------------------------
-void CommandButton::parseVisibleCallerUnitPrerequisites(INI* ini, void* instance, void* /*store*/, const void* /*userData*/)
-{
-	CommandButton* button = (CommandButton*)instance;
-	ObjectPrerequisite::parseObjectPrerequisites(ini, &button->m_visibleCallerUnitPrereqInfo, NULL, NULL);
+	ProductionPrerequisite::parsePrerequisites(ini, &button->m_visiblePrereqInfo, NULL, NULL);
 }
 
 
@@ -759,10 +1115,6 @@ CommandButton::CommandButton( void )
 	//m_pushedImage = NULL;
 
 	m_flashCount = 0;
-
-	// Added by Sadullah Nader
-	// The purpose is to initialize these variable to values that are zero or empty
-
 	m_conflictingLabel.clear();
 	m_cursorName.clear();
 	m_descriptionLabel.clear();
@@ -809,11 +1161,11 @@ CommandButton::CommandButton( void )
 	m_alternativeButton3Name.clear();
 	m_alternativeButton4Name.clear();
 
-	// Initialize alternative button object prerequisite vectors
-	m_alternativeButton1ObjectPrereq.clear();
-	m_alternativeButton2ObjectPrereq.clear();
-	m_alternativeButton3ObjectPrereq.clear();
-	m_alternativeButton4ObjectPrereq.clear();
+	// Initialize alternative button prerequisite vectors (merged player and object prerequisites)
+	m_alternativeButton1Prereq.clear();
+	m_alternativeButton2Prereq.clear();
+	m_alternativeButton3Prereq.clear();
+	m_alternativeButton4Prereq.clear();
 
 	// Initialize cached button references to NULL
 	m_leftClickCtrlButton = NULL;
@@ -1036,31 +1388,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton1Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton1Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton1Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton1Prereq.empty())
-			{
-				if (!m_alternativeButton1ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton1ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton1ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1081,31 +1415,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton2Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton2Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton2Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton2Prereq.empty())
-			{
-				if (!m_alternativeButton2ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton2ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton2ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1126,31 +1442,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton3Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton3Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton3Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton3Prereq.empty())
-			{
-				if (!m_alternativeButton3ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton3ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton3ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1171,31 +1469,13 @@ const CommandButton* CommandButton::getAlternativeButtonForPrerequisites(const P
 		{
 			Bool allPrereqsSatisfied = true;
 			
-			// Check player prerequisites
+			// Check production prerequisites (merged player and object prerequisites)
 			for (size_t i = 0; i < m_alternativeButton4Prereq.size(); ++i)
 			{
-				if (!m_alternativeButton4Prereq[i].isSatisfied(player))
+				if (!m_alternativeButton4Prereq[i].isSatisfied(player, object))
 				{
 					allPrereqsSatisfied = false;
 					break;
-				}
-			}
-			
-			// Check object prerequisites (OR logic - if player prereqs are empty, check object prereqs)
-			if (allPrereqsSatisfied || m_alternativeButton4Prereq.empty())
-			{
-				if (!m_alternativeButton4ObjectPrereq.empty())
-				{
-					Bool objectPrereqsSatisfied = true;
-					for (size_t i = 0; i < m_alternativeButton4ObjectPrereq.size(); ++i)
-					{
-						if (!m_alternativeButton4ObjectPrereq[i].isSatisfied(object))
-						{
-							objectPrereqsSatisfied = false;
-							break;
-						}
-					}
-					allPrereqsSatisfied = objectPrereqsSatisfied;
 				}
 			}
 			
@@ -1292,18 +1572,15 @@ UnsignedInt CommandButton::getCostOfExecution(const Player* player, const Object
 			if (!inventoryBehavior)
 				return 0;
 
-			const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-			if (!moduleData)
-				return 0;
-
 			const AsciiString& itemToReplenish = getItemToReplenish();
 			UnsignedInt totalCost = 0;
 
 			if (itemToReplenish.isEmpty())
 			{
-				// Calculate cost for all items
-				for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = moduleData->m_inventoryItems.begin();
-					 it != moduleData->m_inventoryItems.end(); ++it)
+				// Calculate cost for all items - use instance data to respect upgrades
+				const std::map<AsciiString, InventoryItemConfig>& inventoryItems = inventoryBehavior->getInventoryItems();
+				for (std::map<AsciiString, InventoryItemConfig>::const_iterator it = inventoryItems.begin();
+					 it != inventoryItems.end(); ++it)
 				{
 					const AsciiString& itemKey = it->first;
 					const InventoryItemConfig& config = it->second;
@@ -1318,12 +1595,12 @@ UnsignedInt CommandButton::getCostOfExecution(const Player* player, const Object
 			}
 			else
 			{
-				// Calculate cost for specific item
+				// Calculate cost for specific item - use instance data to respect upgrades
 				Int neededAmount = object->getInventoryReplenishAmount(itemToReplenish);
 				
 				if (neededAmount > 0)
 				{
-					Int costPerItem = moduleData->getCostPerItem(itemToReplenish);
+					Int costPerItem = inventoryBehavior->getCostPerItem(itemToReplenish);
 					totalCost = neededAmount * costPerItem;
 				}
 			}
@@ -1784,9 +2061,16 @@ ControlBar::ControlBar( void )
 	m_observedPlayer = NULL;
 	m_buildToolTipLayout = NULL;
 	m_showBuildToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Initialize unit tooltip members
+	m_unitToolTipLayout = NULL;
+	m_showUnitToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Initialize camo tooltip members
+	m_unitCamoToolTipLayout = NULL;
+	m_showUnitCamoToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Initialize info icon tooltip members
+	m_infoIconToolTipLayout = NULL;
+	m_showInfoIconToolTipLayout = FALSE;
 
-	// Added By Sadullah Nader
-	// initializing vars to zero
 	m_animateDownWin1Pos.x = m_animateDownWin1Pos.y = 0;
 	m_animateDownWin1Size.x = m_animateDownWin1Size.y = 0;
 	m_animateDownWin2Pos.x = m_animateDownWin2Pos.y = 0;
@@ -1803,11 +2087,10 @@ ControlBar::ControlBar( void )
 	m_currContext = CB_CONTEXT_NONE;
 	m_defaultControlBarPosition.x = m_defaultControlBarPosition.y = 0;
 	m_genStarFlash = FALSE;
-  m_genStarOff = NULL;
+	m_genStarOff = NULL;
 	m_genStarOn  = NULL;
 	m_UIDirty    = FALSE;
-	//
-//	m_controlBarResizer = NULL;
+	//	m_controlBarResizer = NULL;
 	m_buildUpClockColor = GameMakeColor(0,0,0,100);
 	m_commandBarBorderColor = GameMakeColor(0,0,0,100);
 	for( i = 0; i < NUM_CONTEXT_PARENTS; i++ )
@@ -1840,6 +2123,15 @@ ControlBar::ControlBar( void )
 	for( i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; i++ )
 		m_rightHUDUpgradeCameos[i];
 	m_rightHUDUnitSelectParent = NULL;
+	// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support initialization
+	m_portraitVideoObjectID = INVALID_ID;
+	m_portraitVideoName.clear();
+	m_portraitDisplayString = NULL;
+	// TheSuperHackers @feature Ahmed Salah - Initialize info icon windows
+	for( i = 0; i < MAX_INFO_ICONS; i++ )
+		m_infoIconWindows[i] = NULL;
+	m_healthBarWindow = NULL;
+	m_fuelBarWindow = NULL;
 	m_communicatorButton = NULL;
 	m_currentSelectedDrawable = NULL;
 	m_currContext = CB_CONTEXT_NONE;
@@ -1936,6 +2228,27 @@ ControlBar::~ControlBar( void )
 		deleteInstance(m_buildToolTipLayout);
 		m_buildToolTipLayout = NULL;
 	}
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Cleanup unit tooltip layout
+	if(m_unitToolTipLayout)
+	{
+		m_unitToolTipLayout->destroyWindows();
+		deleteInstance(m_unitToolTipLayout);
+		m_unitToolTipLayout = NULL;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Cleanup camo tooltip layout
+	if(m_unitCamoToolTipLayout)
+	{
+		m_unitCamoToolTipLayout->destroyWindows();
+		deleteInstance(m_unitCamoToolTipLayout);
+		m_unitCamoToolTipLayout = NULL;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Cleanup info icon tooltip layout
+	if(m_infoIconToolTipLayout)
+	{
+		m_infoIconToolTipLayout->destroyWindows();
+		deleteInstance(m_infoIconToolTipLayout);
+		m_infoIconToolTipLayout = NULL;
+	}
 
 	if(m_specialPowerLayout)
 	{
@@ -1963,12 +2276,12 @@ void ControlBar::init( void )
 	INI ini;
 	m_sideSelectAnimateDown = FALSE;
 	// load the command buttons
-	ini.loadFileDirectory( AsciiString( "Data\\INI\\Default\\CommandButton" ), INI_LOAD_OVERWRITE, NULL );
-	ini.loadFileDirectory( AsciiString( "Data\\INI\\CommandButton" ), INI_LOAD_OVERWRITE, NULL );
-	ini.loadDirectory( AsciiString( "Data\\INI\\Object" ), AsciiString( "CommandButton.ini" ), INI_LOAD_MULTIFILE, NULL );
+	ini.loadFileDirectory( "Data\\INI\\Default\\CommandButton" , INI_LOAD_OVERWRITE, NULL );
+	ini.loadFileDirectory( "Data\\INI\\CommandButton" , INI_LOAD_OVERWRITE, NULL );
+	ini.loadDirectory(  "Data\\INI\\Object" ,  "CommandButton.ini" , INI_LOAD_MULTIFILE, NULL );
 	// load the command sets
-	ini.loadFileDirectory( AsciiString( "Data\\INI\\CommandSet" ), INI_LOAD_OVERWRITE, NULL );
-	ini.loadDirectory( AsciiString( "Data\\INI\\Object" ), AsciiString( "CommandSet.ini" ), INI_LOAD_MULTIFILE, NULL );
+	ini.loadFileDirectory(  "Data\\INI\\CommandSet" , INI_LOAD_OVERWRITE, NULL );
+	ini.loadDirectory(  "Data\\INI\\Object" ,  "CommandSet.ini", INI_LOAD_MULTIFILE, NULL );
 	// post process step after loading the command buttons and command sets
 	postProcessCommands();
 
@@ -2097,9 +2410,22 @@ void ControlBar::init( void )
 
 		id = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:WinUnitSelected" );
 		m_rightHUDUnitSelectParent = TheWindowManager->winGetWindowFromId( NULL, id );
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Set tooltip callback on portrait window
+		if (m_rightHUDUnitSelectParent)
+		{
+			m_rightHUDUnitSelectParent->winSetTooltipFunc(unitPortraitTooltip);
+		}
 
 		id = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:CameoWindow" );
 		m_rightHUDCameoWindow = TheWindowManager->winGetWindowFromId( NULL, id );
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Set tooltip callback on cameo window
+		if (m_rightHUDCameoWindow)
+		{
+			m_rightHUDCameoWindow->winSetTooltipFunc(unitPortraitTooltip);
+			// TheSuperHackers @feature Ahmed Salah 15/01/2025 Set input handler for double-click to jump camera
+			extern WindowMsgHandledType PortraitWindowInput( GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2 );
+			m_rightHUDCameoWindow->winSetInputFunc(PortraitWindowInput);
+		}
 		for( i = 0; i < MAX_RIGHT_HUD_UPGRADE_CAMEOS; i++ )
 		{
 			windowName.format( "ControlBar.wnd:UnitUpgrade%d", i+1 );
@@ -2108,6 +2434,72 @@ void ControlBar::init( void )
 				TheWindowManager->winGetWindowFromId( m_rightHUDWindow, id );
 			if (m_rightHUDUpgradeCameos[i] != nullptr) {
 				m_rightHUDUpgradeCameos[i]->winSetStatus(WIN_STATUS_USE_OVERLAY_STATES);
+				// TheSuperHackers @feature Ahmed Salah - Set camo tooltip callback on upgrade cameo windows
+				m_rightHUDUpgradeCameos[i]->winSetTooltipFunc(unitCamoTooltip);
+			}
+		}
+		
+		// TheSuperHackers @feature Ahmed Salah - Create info icon windows as children of unit select parent
+		// This ensures they render on top of the portrait window
+		if (m_rightHUDUnitSelectParent != nullptr)
+		{
+			for( i = 0; i < MAX_INFO_ICONS; i++ )
+			{
+				if (m_infoIconWindows[i] == nullptr)
+				{
+					m_infoIconWindows[i] = TheWindowManager->winCreate(
+						m_rightHUDUnitSelectParent,
+						WIN_STATUS_IMAGE,
+						0, 0, 20, 20,
+						NULL,
+						NULL
+					);
+					if (m_infoIconWindows[i] != nullptr)
+					{
+						m_infoIconWindows[i]->winHide(TRUE);  // Hide by default
+						// TheSuperHackers @feature Ahmed Salah - Set tooltip callback on info icon windows
+						m_infoIconWindows[i]->winSetTooltipFunc(infoIconTooltip);
+					}
+				}
+			}
+		}
+
+		// TheSuperHackers @feature Ahmed Salah 06/01/2026 Create HP and fuel bar windows as children of the portrait window
+		// This makes their coordinates relative to the portrait window, so we can overlay them directly on the image
+		if (m_rightHUDCameoWindow != nullptr)
+		{
+			// Create health bar window
+			if (m_healthBarWindow == nullptr)
+			{
+				m_healthBarWindow = TheWindowManager->winCreate(
+					m_rightHUDCameoWindow,  // Child of portrait window
+					WIN_STATUS_USE_OVERLAY_STATES,  // Allow custom drawing
+					0, 0, 60, 6,  // Default size, will be positioned and sized dynamically
+					NULL,
+					NULL
+				);
+				if (m_healthBarWindow != nullptr)
+				{
+					m_healthBarWindow->winHide(TRUE);  // Hide by default
+					m_healthBarWindow->winSetDrawFunc(drawHealthBarWindow);
+				}
+			}
+
+			// Create fuel bar window
+			if (m_fuelBarWindow == nullptr)
+			{
+				m_fuelBarWindow = TheWindowManager->winCreate(
+					m_rightHUDCameoWindow,  // Child of portrait window
+					WIN_STATUS_USE_OVERLAY_STATES,  // Allow custom drawing
+					0, 0, 60, 6,  // Default size, will be positioned and sized dynamically
+					NULL,
+					NULL
+				);
+				if (m_fuelBarWindow != nullptr)
+				{
+					m_fuelBarWindow->winHide(TRUE);  // Hide by default
+					m_fuelBarWindow->winSetDrawFunc(drawFuelBarWindow);
+				}
 			}
 		}
 
@@ -2171,9 +2563,9 @@ void ControlBar::init( void )
 		m_radarAttackGlowWindow = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinUAttack"));
 
 
-		win = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( AsciiString( "ControlBar.wnd:BackgroundMarker" ) ));
+		win = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( "ControlBar.wnd:BackgroundMarker" ));
 		win->winGetScreenPosition(&m_controlBarForegroundMarkerPos.x, &m_controlBarForegroundMarkerPos.y);
-		win = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( AsciiString( "ControlBar.wnd:BackgroundMarker" ) ));
+		win = TheWindowManager->winGetWindowFromId(NULL,TheNameKeyGenerator->nameToKey( "ControlBar.wnd:BackgroundMarker" ));
 		win->winGetScreenPosition(&m_controlBarBackgroundMarkerPos.x,&m_controlBarBackgroundMarkerPos.y);
 
 		if(!m_videoManager)
@@ -2190,6 +2582,30 @@ void ControlBar::init( void )
 			m_buildToolTipLayout->hide(TRUE);
 			m_buildToolTipLayout->setUpdate(ControlBarPopupDescriptionUpdateFunc);
 		}
+		// TheSuperHackers @feature Ahmed Salah 01/01/2026 Initialize unit tooltip layout
+		m_unitToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_unitToolTipLayout)
+		{
+			m_unitToolTipLayout->hide(TRUE);
+			m_unitToolTipLayout->setUpdate(ControlBarUnitTooltipUpdateFunc);
+		}
+		m_showUnitToolTipLayout = FALSE;
+		// TheSuperHackers @feature Ahmed Salah - Initialize camo tooltip layout
+		m_unitCamoToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_unitCamoToolTipLayout)
+		{
+			m_unitCamoToolTipLayout->hide(TRUE);
+			m_unitCamoToolTipLayout->setUpdate(ControlBarUnitCamoTooltipUpdateFunc);
+		}
+		m_showUnitCamoToolTipLayout = FALSE;
+		// TheSuperHackers @feature Ahmed Salah - Initialize info icon tooltip layout
+		m_infoIconToolTipLayout = TheWindowManager->winCreateLayout( "ControlBarPopupDescription.wnd" );
+		if(m_infoIconToolTipLayout)
+		{
+			m_infoIconToolTipLayout->hide(TRUE);
+			m_infoIconToolTipLayout->setUpdate(ControlBarInfoIconTooltipUpdateFunc);
+		}
+		m_showInfoIconToolTipLayout = FALSE;
 
 		m_genStarOn = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarON") : NULL;
 		m_genStarOff = TheMappedImageCollection ? (Image *)TheMappedImageCollection->findImageByName("BarButtonGenStarOFF") : NULL;
@@ -2239,6 +2655,18 @@ void ControlBar::reset( void )
 	if(m_buildToolTipLayout)
 		m_buildToolTipLayout->hide(TRUE);
 	m_showBuildToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Reset unit tooltip layout
+	if(m_unitToolTipLayout)
+		m_unitToolTipLayout->hide(TRUE);
+	m_showUnitToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Reset camo tooltip layout
+	if(m_unitCamoToolTipLayout)
+		m_unitCamoToolTipLayout->hide(TRUE);
+	m_showUnitCamoToolTipLayout = FALSE;
+	// TheSuperHackers @feature Ahmed Salah - Reset info icon tooltip layout
+	if(m_infoIconToolTipLayout)
+		m_infoIconToolTipLayout->hide(TRUE);
+	m_showInfoIconToolTipLayout = FALSE;
 
 	if(m_animateWindowManager)
 		m_animateWindowManager->reset();
@@ -2329,7 +2757,7 @@ void ControlBar::update( void )
 		{
 			if (m_animateWindowManager->isFinished() && m_animateWindowManager->isReversed())
 			{
-				Int id = (Int)TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));
+				Int id = (Int)TheNameKeyGenerator->nameToKey("ControlBar.wnd:ControlBarParent");
 				GameWindow *window = TheWindowManager->winGetWindowFromId(NULL, id);
 				if (window && !window->winIsHidden())
 					window->winHide(TRUE);
@@ -2359,6 +2787,24 @@ void ControlBar::update( void )
 	{
 		hideBuildTooltipLayout();
 	}*/
+	// TheSuperHackers @feature Ahmed Salah 01/01/2026 Update unit tooltip layout
+	if( m_unitToolTipLayout && !m_unitToolTipLayout->isHidden())
+	{
+		m_unitToolTipLayout->runUpdate();
+		m_showUnitToolTipLayout = FALSE;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Update camo tooltip layout
+	if( m_unitCamoToolTipLayout && !m_unitCamoToolTipLayout->isHidden())
+	{
+		m_unitCamoToolTipLayout->runUpdate();
+		m_showUnitCamoToolTipLayout = FALSE;
+	}
+	// TheSuperHackers @feature Ahmed Salah - Update info icon tooltip layout
+	if( m_infoIconToolTipLayout && !m_infoIconToolTipLayout->isHidden())
+	{
+		m_infoIconToolTipLayout->runUpdate();
+		m_showInfoIconToolTipLayout = FALSE;
+	}
 
 	updateSpecialPowerShortcut();
 	// if we're an observer, don't do the complete update
@@ -3545,7 +3991,7 @@ void ControlBar::setControlCommand( GameWindow *button, const CommandButton *com
 		button->winSetTooltipFunc(commandButtonTooltip);
 	}
 	else
-		GadgetButtonSetText( button, UnicodeString( L"" ) );
+		GadgetButtonSetText( button, L"" );
 
 	// TheSuperHackers @feature author 15/01/2025 Add inventory count to button text for weapon commands
 	if (commandButton->getCommandType() == GUI_COMMAND_FIRE_WEAPON || commandButton->getCommandType() == GUI_COMMAND_SWITCH_WEAPON)
@@ -3577,19 +4023,16 @@ void ControlBar::setControlCommand( GameWindow *button, const CommandButton *com
 					Int itemCount = inventoryBehavior->getItemCount(consumeInventory);					
 					itemCount += weapon->getRemainingAmmoIncludingReload();
 													
-					// Get display name and max storage count from module data
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData) {
-						const UnicodeString& displayName = moduleData->getDisplayName(consumeInventory);
-						Int maxStorageCount = moduleData->getMaxStorageCount(consumeInventory);
-						
-						// Format text with display name and count (current/max)
-						UnicodeString newText;
-						newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
-						
-						// Set the modified text
-						GadgetButtonSetText(button, newText);
-					}
+					// Get display name and max storage count from instance data to respect upgrades
+					const UnicodeString& displayName = inventoryBehavior->getDisplayName(consumeInventory);
+					Int maxStorageCount = inventoryBehavior->getMaxStorageCount(consumeInventory);
+					
+					// Format text with display name and count (current/max)
+					UnicodeString newText;
+					newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
+					
+					// Set the modified text
+					GadgetButtonSetText(button, newText);
 				}
 			}
 			else
@@ -3624,19 +4067,16 @@ void ControlBar::setControlCommand( GameWindow *button, const CommandButton *com
 					const AsciiString& consumeInventory = specialPowerTemplate->getConsumeInventory();
 					Int itemCount = currentObj->getTotalInventoryItemCount(consumeInventory);
 					
-					// Get display name and max storage count from module data
-					const InventoryBehaviorModuleData* moduleData = inventoryBehavior->getInventoryModuleData();
-					if (moduleData) {
-						const UnicodeString& displayName = moduleData->getDisplayName(consumeInventory);
-						Int maxStorageCount = moduleData->getMaxStorageCount(consumeInventory);
-						
-						// Format text with display name and count (current/max)
-						UnicodeString newText;
-						newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
-						
-						// Set the modified text
-						GadgetButtonSetText(button, newText);
-					}
+					// Get display name and max storage count from instance data to respect upgrades
+					const UnicodeString& displayName = inventoryBehavior->getDisplayName(consumeInventory);
+					Int maxStorageCount = inventoryBehavior->getMaxStorageCount(consumeInventory);
+					
+					// Format text with display name and count (current/max)
+					UnicodeString newText;
+					newText.format(L"%s (%d/%d)", displayName.str(), itemCount, maxStorageCount);
+					
+					// Set the modified text
+					GadgetButtonSetText(button, newText);
 				}
 			}
 			else
@@ -3768,6 +4208,76 @@ void ControlBar::setPortraitByImage( const Image *image )
 }
 
 //-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah 03/01/2026 Get selection overlay text (unit name and count)
+//-------------------------------------------------------------------------------------------------
+UnicodeString ControlBar::getSelectionOverlayText( const ThingTemplate *thing, const Object *obj ) const
+{
+	UnicodeString overlayText;
+	
+	const DrawableList *selectedDrawables = TheInGameUI->getAllSelectedDrawables();
+	Int selectedCount = selectedDrawables ? (Int)selectedDrawables->size() : 1;
+	
+	// Check for display name override from object (e.g., from DisplayNameUpgrade)
+	UnicodeString unitName = obj ? obj->getDisplayNameOverride() : UnicodeString::TheEmptyString;
+	if( unitName.isEmpty() )
+	{
+		unitName = thing->getDisplayName();
+	}
+	
+	// Skip if name contains "MISSING:" (missing localization)
+	if( wcsstr( unitName.str(), L"MISSING:" ) != NULL )
+	{
+		return UnicodeString::TheEmptyString;
+	}
+	
+	if( selectedCount > 1 )
+	{
+		// Check if all selected units are the same type (ThingTemplate)
+		Bool allSameType = TRUE;
+		if( selectedDrawables )
+		{
+			for( DrawableList::const_iterator it = selectedDrawables->begin(); it != selectedDrawables->end(); ++it )
+			{
+				const Drawable *d = *it;
+				if( d && d->getTemplate() && d->getTemplate()->getName() != thing->getName() )
+				{
+					allSameType = FALSE;
+					break;
+				}
+			}
+		}
+		
+		if( allSameType )
+		{
+			// All same type - use pluralized display name
+			// Check for plural name override from object first
+			UnicodeString pluralName = obj ? obj->getDisplayPluralNameOverride() : UnicodeString::TheEmptyString;
+			if( pluralName.isEmpty() )
+			{
+				pluralName = thing->getDisplayPluralName();
+			}
+			// Skip if plural name contains "MISSING:" (missing localization)
+			if( wcsstr( pluralName.str(), L"MISSING:" ) != NULL )
+			{
+				return UnicodeString::TheEmptyString;
+			}
+			overlayText.format( L"%d %ls", selectedCount, pluralName.str() );
+		}
+		else
+		{
+			// Different types - show generic "units"
+			overlayText.format( L"%d Units", selectedCount );
+		}
+	}
+	else
+	{
+		overlayText = unitName;
+	}
+	
+	return overlayText;
+}
+
+//-------------------------------------------------------------------------------------------------
 /** show/hide the portrait image by object.  We like to use this method as opposed to the
 	* plain image one above so that we can build more intelligence into what portrait to
 	* show for an object given its current state or object type */
@@ -3798,7 +4308,7 @@ void ControlBar::setPortraitByObject( Object *obj )
 				setPortraitByObject( NULL );
 				return;
 			}
-      StealthUpdate *stealth = obj->getStealth();
+      		StealthUpdate *stealth = obj->getStealth();
 			if( stealth && stealth->isDisguised() )
 			{
 				//Fake player upgrades too!
@@ -3806,7 +4316,135 @@ void ControlBar::setPortraitByObject( Object *obj )
 			}
 		}
 
-		const Image* portrait = thing->getSelectedPortraitImage();
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Portrait video support
+		// If unit has video and video manager exists, show video. Otherwise show image.
+		// Use object getter which checks override first, then falls back to template
+		const AsciiString& videoName = obj->getSelectedPortraitVideoName();
+		ObjectID objID = obj->getID();
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Display unit name and selection count overlay
+		UnicodeString overlayText = getSelectionOverlayText( thing, obj );
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Trim portrait text to 20 characters and add ellipsis if trimmed
+		const Int MAX_PORTRAIT_TEXT_LENGTH = 20;
+		if( overlayText.getLength() > MAX_PORTRAIT_TEXT_LENGTH )
+		{
+			UnicodeString trimmedText;
+			const wchar_t* originalStr = overlayText.str();
+			if( originalStr )
+			{
+				// Create a new string with first 20 characters
+				wchar_t buffer[24]; // 20 chars + "..." + null terminator
+				wcsncpy( buffer, originalStr, MAX_PORTRAIT_TEXT_LENGTH );
+				buffer[MAX_PORTRAIT_TEXT_LENGTH] = L'\0';
+				trimmedText = buffer;
+				trimmedText += L"...";
+			}
+			overlayText = trimmedText;
+		}
+		
+		// Create or update the display string for text overlay
+		if( !m_portraitDisplayString )
+		{
+			m_portraitDisplayString = TheDisplayStringManager->newDisplayString();
+			if( m_portraitDisplayString )
+			{
+				m_portraitDisplayString->setFont( TheFontLibrary->getFont( AsciiString("Arial"), 
+					TheGlobalLanguageData->adjustFontSize(5), TRUE ) );
+			}
+		}
+		if( m_portraitDisplayString )
+		{
+			m_portraitDisplayString->setText( overlayText );
+			// TheSuperHackers @feature Ahmed Salah 06/01/2026 Draw portrait name above HP/fuel bars
+			// Calculate custom position: text above the two stacked bars (2 bars * 4px each = 8px total height)
+			// with 2px margin from bottom and 2px padding between text and bars
+			Int portraitX = 0, portraitY = 0;
+			Int portraitWidth = 0, portraitHeight = 0;
+			m_rightHUDCameoWindow->winGetScreenPosition(&portraitX, &portraitY);
+			m_rightHUDCameoWindow->winGetSize(&portraitWidth, &portraitHeight);
+
+			Int textWidth = 0, textHeight = 0;
+			m_portraitDisplayString->getSize(&textWidth, &textHeight);
+
+			const Int barHeightPixels = 4 * 2;      // Two stacked bars, each 4px high = 8px total
+			const Int barBottomMargin = 2;          // Margin from bottom edge of portrait
+			const Int textBottomPadding = 2;        // Gap between text bottom and bars
+
+			// Calculate absolute screen coordinates for text
+			// X: 4px from left edge of portrait
+			// Y: Position above bars (bottom - barHeight - margin - padding - textHeight)
+			Int textX = portraitX + 4;
+			Int textY = portraitY + portraitHeight - (barHeightPixels + barBottomMargin + textBottomPadding + textHeight);
+
+			GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, m_portraitDisplayString, textX, textY );
+		}
+
+		if( videoName.isNotEmpty() && m_videoManager )
+		{
+			// Unit has video - show video only, no image
+			if( objID != m_portraitVideoObjectID || videoName != m_portraitVideoName )
+			{
+				// Different object or different video, start new video
+				m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
+				m_portraitVideoObjectID = objID;
+				m_portraitVideoName = videoName;
+				m_videoManager->playMovie( m_rightHUDCameoWindow, videoName, WINDOW_PLAY_MOVIE_LOOP );
+			}
+			
+			// Show the video window
+			m_rightHUDUnitSelectParent->winHide(FALSE);
+			m_rightHUDWindow->winClearStatus( WIN_STATUS_IMAGE );
+			
+			// Hide upgrade cameos while video is showing
+			for(Int i = 0; i < MAX_UPGRADE_CAMEO_UPGRADES; ++i)
+			{
+				if (m_rightHUDUpgradeCameos[i] != nullptr)
+					m_rightHUDUpgradeCameos[i]->winHide(TRUE);
+			}
+			
+			// TheSuperHackers @feature Ahmed Salah - Update info icons for video portrait
+			updateInfoIcons(obj);
+			
+			// TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows for video portrait
+			updatePortraitBars(obj);
+			
+			// TheSuperHackers @feature Ahmed Salah 06/01/2026 Recalculate overlay text position for video (in case window size/position changed)
+			if( m_portraitDisplayString )
+			{
+				Int portraitX = 0, portraitY = 0;
+				Int portraitWidth = 0, portraitHeight = 0;
+				m_rightHUDCameoWindow->winGetScreenPosition(&portraitX, &portraitY);
+				m_rightHUDCameoWindow->winGetSize(&portraitWidth, &portraitHeight);
+
+				Int textWidth = 0, textHeight = 0;
+				m_portraitDisplayString->getSize(&textWidth, &textHeight);
+
+				const Int barHeightPixels = 4 * 2;      // Two stacked bars, each 4px high = 8px total
+				const Int barBottomMargin = 2;          // Margin from bottom edge of portrait
+				const Int textBottomPadding = 2;        // Gap between text bottom and bars
+
+				// Calculate absolute screen coordinates for text
+				Int textX = portraitX + 4;
+				Int textY = portraitY + portraitHeight - (barHeightPixels + barBottomMargin + textBottomPadding + textHeight);
+
+				GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, m_portraitDisplayString, textX, textY );
+			}
+			
+			return;  // Video is showing, don't show image
+		}
+		
+		// No video or no video manager - show image
+		if( m_portraitVideoObjectID != INVALID_ID && m_videoManager )
+		{
+			// Clean up any previous video
+			m_videoManager->stopAndRemoveMovie( m_rightHUDCameoWindow );
+			m_portraitVideoObjectID = INVALID_ID;
+			m_portraitVideoName.clear();
+		}
+		
+		// Use object getter which checks override first, then falls back to template
+		const Image* portrait = obj->getSelectedPortraitImage();
 
 		m_rightHUDUnitSelectParent->winHide(FALSE);
 		// enable the window window as an image window and set the image
@@ -3815,6 +4453,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 		//Display the veterancy rank of the object on the portrait.
 		const Image *image = calculateVeterancyOverlayForObject( obj );
 		GadgetButtonDrawOverlayImage( m_rightHUDCameoWindow, image );
+
+		// TheSuperHackers @feature Ahmed Salah 06/01/2026 Update HP and fuel bar windows
+		updatePortraitBars(obj);
 
 		//m_rightHUDWindow->winSetEnabledImage( 0, portrait );
 		m_rightHUDWindow->winClearStatus( WIN_STATUS_IMAGE );
@@ -3856,6 +4497,9 @@ void ControlBar::setPortraitByObject( Object *obj )
 				m_rightHUDUpgradeCameos[i]->winEnable( FALSE );
 			}
 		}
+		
+		// TheSuperHackers @feature Ahmed Salah - Update info icons for image portrait
+		updateInfoIcons(obj);
 
 
 	}
@@ -3864,17 +4508,138 @@ void ControlBar::setPortraitByObject( Object *obj )
 		m_rightHUDUnitSelectParent->winHide(TRUE);
 		m_rightHUDWindow->winSetStatus( WIN_STATUS_IMAGE );
 		m_rightHUDCameoWindow->winClearStatus( WIN_STATUS_IMAGE );
+		
+		// TheSuperHackers @feature Ahmed Salah - Hide all info icons when no object is selected
+		updateInfoIcons(NULL);
 		for(Int i = 0; i < MAX_UPGRADE_CAMEO_UPGRADES; ++i)
 			if (m_rightHUDUpgradeCameos[i] != nullptr)
 				m_rightHUDUpgradeCameos[i]->winHide(TRUE);
+
+		// TheSuperHackers @feature Ahmed Salah 06/01/2026 Hide HP and fuel bars when no object is selected
+		if (m_healthBarWindow)
+			m_healthBarWindow->winHide(TRUE);
+		if (m_fuelBarWindow)
+			m_fuelBarWindow->winHide(TRUE);
 
 		//Clear any overlay the portrait had on it.
 		GadgetButtonDrawOverlayImage( m_rightHUDCameoWindow, NULL );
 		//TheSuperHackers @overlay Ahmed Salah 27/06/2025 Clear all overlay images when clearing portrait overlay
 		GadgetButtonDrawOverlayImage2( m_rightHUDCameoWindow, NULL );
 		GadgetButtonDrawOverlayImage3( m_rightHUDCameoWindow, NULL );
+		
+		// TheSuperHackers @feature Ahmed Salah 03/01/2026 Clear unit name overlay text
+		GadgetButtonDrawOverlayText( m_rightHUDCameoWindow, NULL );
 	}
 
+}
+
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Update and render info icons (weapons and armor) on portrait
+//-------------------------------------------------------------------------------------------------
+// TheSuperHackers @feature Ahmed Salah - Update and render info icons (weapons and armor) on portrait
+//-------------------------------------------------------------------------------------------------
+void ControlBar::updateInfoIcons( Object *obj )
+{
+	// Ensure parent window and portrait window exist
+	if (m_rightHUDUnitSelectParent == nullptr || m_rightHUDCameoWindow == nullptr)
+		return;
+	
+	if (obj == nullptr)
+	{
+		// Hide all info icons when no object is provided
+		for (Int i = 0; i < MAX_INFO_ICONS; i++)
+		{
+			if (m_infoIconWindows[i] != nullptr)
+			{
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		return;
+	}
+
+	// TheSuperHackers @feature Ahmed Salah 06/01/2026 Only show icons if all selected units are same type or only one selected
+	if (!shouldShowInfoIconsAndBars(obj))
+	{
+		// Hide all info icons when multiple different types are selected
+		for (Int i = 0; i < MAX_INFO_ICONS; i++)
+		{
+			if (m_infoIconWindows[i] != nullptr)
+			{
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		return;
+	}
+	
+	// Get all info icons (weapons and armor)
+	std::vector<InfoIcon> infoIconList = obj->getAllInfoIcons();
+	Int iconSize = 20;
+	Int iconSpacing = 4;  // Spacing between icons
+	Int startOffset = 4;  // Space after start position
+	
+	// Get portrait window position relative to parent to position icons correctly
+	Int portraitX = 0;
+	Int portraitY = 0;
+	if (m_rightHUDCameoWindow != nullptr)
+	{
+		m_rightHUDCameoWindow->winGetPosition(&portraitX, &portraitY);
+	}
+	
+	Int startX = portraitX + startOffset;  // Top-left corner X position (relative to parent) with offset
+	Int startY = portraitY + startOffset;  // Top-left corner Y position (relative to parent) with offset
+	
+	// Limit to maximum number of icons
+	Int numIconsToShow = (infoIconList.size() < MAX_INFO_ICONS) ? infoIconList.size() : MAX_INFO_ICONS;
+	
+	// Show and position info icons
+	for (Int i = 0; i < MAX_INFO_ICONS; i++)
+	{
+		if (m_infoIconWindows[i] == nullptr)
+			continue;
+			
+		if (i < numIconsToShow)
+		{
+			const InfoIcon& infoIcon = infoIconList[i];
+			
+			// Load the icon image
+			const Image* iconImage = NULL;
+			if (TheMappedImageCollection && !infoIcon.icon.isEmpty())
+			{
+				iconImage = TheMappedImageCollection->findImageByName(infoIcon.icon.str());
+			}
+			
+			if (iconImage != NULL)
+			{
+				// Calculate position (stacked horizontally from top-left corner of portrait)
+				Int iconX = startX + (i * (iconSize + iconSpacing));
+				Int iconY = startY;
+				
+				// Position and size the window
+				m_infoIconWindows[i]->winSetPosition(iconX, iconY);
+				m_infoIconWindows[i]->winSetSize(iconSize, iconSize);
+				
+				// Ensure window has IMAGE status
+				m_infoIconWindows[i]->winSetStatus(WIN_STATUS_IMAGE);
+				
+				// Set the image
+				m_infoIconWindows[i]->winSetEnabledImage(0, iconImage);
+				
+				// Show and enable the window
+				m_infoIconWindows[i]->winHide(FALSE);
+				m_infoIconWindows[i]->winEnable(TRUE);
+			}
+			else
+			{
+				// No valid image, hide the window
+				m_infoIconWindows[i]->winHide(TRUE);
+			}
+		}
+		else
+		{
+			// No more icons to show, hide this window
+			m_infoIconWindows[i]->winHide(TRUE);
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -3919,7 +4684,7 @@ void ControlBar::showRallyPoint(const Coord3D* loc)
 	marker->setOrientation(TheGlobalData->m_downwindAngle); // To blow down wind -- ML
 
 	// set the marker colors to that of the local player
-	Player* player = TheControlBar->getCurrentlyViewedPlayer();
+	Player* player = getCurrentlyViewedPlayer();
 	if (player)
 	{
 		if (TheGlobalData->m_timeOfDay == TIME_OF_DAY_NIGHT)
@@ -4485,7 +5250,7 @@ void ControlBar::populateSpecialPowerShortcut( Player *player)
 	// get command set
 	if(player->getPlayerTemplate()->getSpecialPowerShortcutCommandSet().isEmpty() )
 		return;
-	commandSet = TheControlBar->findCommandSet(player->getPlayerTemplate()->getSpecialPowerShortcutCommandSet()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
+	commandSet = findCommandSet(player->getPlayerTemplate()->getSpecialPowerShortcutCommandSet()); // TEMP WILL CHANGE TO PROPER WAY ONCE WORKING
 	if(!commandSet)
 		return;
 	// populate the button with commands defined
@@ -4589,9 +5354,9 @@ void ControlBar::populateSpecialPowerShortcut( Player *player)
 							{
 								continue;
 							}
-							commandSet1 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1() );
-							commandSet3 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3() );
-							commandSet8 = TheControlBar->findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8() );
+							commandSet1 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank1() );
+							commandSet3 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank3() );
+							commandSet8 = findCommandSet( player->getPlayerTemplate()->getPurchaseScienceCommandSetRank8() );
 
 							if( !commandSet1 || !commandSet3 || !commandSet8 )
 							{
@@ -4808,7 +5573,7 @@ void ControlBar::updateSpecialPowerShortcut( void )
 					if (enableButtonIfAnyPowerAvailable)
 					{
 						availability = COMMAND_RESTRICTED;
-						const CommandSet* commandSet = TheControlBar->findCommandSet(obj->getCommandSetString());
+						const CommandSet* commandSet = findCommandSet(obj->getCommandSetString());
 						if (commandSet)
 						{
 

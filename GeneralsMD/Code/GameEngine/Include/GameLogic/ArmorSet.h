@@ -29,6 +29,7 @@
 #include "Lib/BaseType.h"
 #include "Common/GameType.h"
 #include "GameLogic/Damage.h"
+#include "Common/SparseMatchFinder.h"
 
 //-------------------------------------------------------------------------------------------------
 class ArmorTemplate;
@@ -71,12 +72,12 @@ private:
 	mutable UnicodeString* m_description;	///< Cached description for UI display
 
 public:
-	inline ArmorTemplateSet()
+	ArmorTemplateSet()
 	{
 		clear();
 	}
 
-	inline void clear()
+	void clear()
 	{
 		m_types.clear();
 		m_template = NULL;
@@ -88,19 +89,19 @@ public:
 		m_description = NULL;
 	}
 
-	inline const ArmorTemplate* getArmorTemplate() const { return m_template; }
-	inline const ArmorTemplate* getSideArmorTemplate(HitSide side) const 
+	const ArmorTemplate* getArmorTemplate() const { return m_template; }
+	const ArmorTemplate* getSideArmorTemplate(HitSide side) const 
 	{ 
 		if (side >= 0 && side < HIT_SIDE_COUNT && m_sideTemplates[side] != NULL)
 			return m_sideTemplates[side];
 		return m_template; // Fallback to default armor
 	}
-	inline const DamageFX* getDamageFX() const { return m_fx; }
+	const DamageFX* getDamageFX() const { return m_fx; }
 
-	inline Int getConditionsYesCount() const { return 1; }
-	inline const ArmorSetFlags& getNthConditionsYes(Int i) const { return m_types; }
+	Int getConditionsYesCount() const { return 1; }
+	const ArmorSetFlags& getNthConditionsYes(Int i) const { return m_types; }
 #if defined(RTS_DEBUG)
-	inline AsciiString getDescription() const { return AsciiString("ArmorTemplateSet"); }
+	inline AsciiString getDescription() const { return "ArmorTemplateSet"; }
 #endif
 
 	void parseArmorTemplateSet( INI* ini );
