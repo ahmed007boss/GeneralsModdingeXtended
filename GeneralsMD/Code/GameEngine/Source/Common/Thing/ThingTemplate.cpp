@@ -652,6 +652,14 @@ void ThingTemplate::parseModuleName(INI* ini, void* instance, void* store, const
 
 	ModuleData* data = TheModuleFactory->newModuleDataFromINI(ini, tokenStr, type, moduleTagStr);
 
+	// TheSuperHackers @bugfix OpenAI 09/05/2026 Guard null ModuleData and report source INI context
+	if (data == nullptr)
+	{
+		DEBUG_CRASH(("[LINE: %d - FILE: '%s'] Failed to create ModuleData for Object '%s', Module '%s', Tag '%s'.",
+			ini->getLineNum(), ini->getFilename().str(), self->getName().str(), tokenStr.str(), moduleTagStr.str()));
+		throw INI_INVALID_DATA;
+	}
+
 	if (data->isAiModuleData())
 	{
 		Bool replaced = mi->clearAiModuleInfo();
