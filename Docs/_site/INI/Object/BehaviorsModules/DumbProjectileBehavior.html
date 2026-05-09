@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DumbProjectileBehavior | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="DumbProjectileBehavior" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DumbProjectileBehavior" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"DumbProjectileBehavior","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">DumbProjectileBehavior</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="dumbprojectilebehavior">DumbProjectileBehavior</h1>
+
+<p>DumbProjectileBehavior provides ballistic trajectory behavior for unguided projectiles that follow curved flight paths without active guidance systems.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">DumbProjectileBehavior</code> class manages unguided projectiles that follow ballistic trajectories using Bezier curves. These projectiles cannot actively track targets but can adjust their flight path within limited parameters. The behavior is commonly used for artillery shells, grenades, and other ballistic weapons that follow predictable arc trajectories.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Used by projectile objects that need to follow simple ballistic physics without homing or guidance capabilities. This is a <strong>behavior module</strong> that must be embedded within object definitions. Use the <a href="#template">Template</a> below by copying it into your object definition. Then, customize it as needed, making sure to review any limitations, conditions, or dependencies related to its usage.</p>
+
+<p><strong>Limitations</strong>:</p>
+<ul>
+  <li>Requires valid target objects or coordinates to function</li>
+  <li>Projectile flight path is determined by Bezier curve control points</li>
+  <li>Collision detection works with terrain and objects</li>
+  <li>Projectile behavior is limited by flight time and distance constraints</li>
+  <li>Projectiles automatically clean up when they reach their destination or collide</li>
+</ul>
+
+<p><strong>Conditions</strong>:</p>
+<ul>
+  <li>DumbProjectileBehavior provides automatic projectile flight paths using Bezier curves</li>
+  <li>The behavior handles collision detection with terrain and objects during flight</li>
+  <li>Projectiles can be configured with different flight patterns and collision behaviors</li>
+  <li>Flight paths are calculated using first and second height control points</li>
+  <li>Collision detection can trigger different behaviors based on what is hit</li>
+  <li>The behavior supports both direct targeting and area effect projectiles</li>
+  <li><strong>Multiple instances behavior</strong>: Only one instance should be used per projectile object; multiple instances may cause conflicts in flight path calculations</li>
+</ul>
+
+<p><strong>Dependencies</strong>:</p>
+<ul>
+  <li>The behavior integrates with the weapon system for projectile creation and management</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#properties">Properties</a>
+    <ul>
+      <li><a href="#flight-path-control">Flight Path Control</a></li>
+      <li><a href="#behavior-settings">Behavior Settings</a></li>
+      <li><a href="#garrison-hit-settings">Garrison Hit Settings</a></li>
+      <li><a href="#target-tracking">Target Tracking</a></li>
+    </ul>
+  </li>
+  <li><a href="#enum-value-lists">Enum Value Lists</a></li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#template">Template</a></li>
+  <li><a href="#notes">Notes</a></li>
+</ul>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="flight-path-control">Flight Path Control</h3>
+
+<h4 id="firstheight-v104"><code class="language-plaintext highlighter-rouge">FirstHeight</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code></li>
+  <li><strong>Description</strong>: Height of the first Bezier control point above the highest intervening terrain</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FirstHeight = 10.0</code></li>
+</ul>
+
+<h4 id="secondheight-v104"><code class="language-plaintext highlighter-rouge">SecondHeight</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code></li>
+  <li><strong>Description</strong>: Height of the second Bezier control point above the highest intervening terrain</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SecondHeight = 33.0</code></li>
+</ul>
+
+<h4 id="firstpercentindent-v104"><code class="language-plaintext highlighter-rouge">FirstPercentIndent</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (percentage)</li>
+  <li><strong>Description</strong>: Percentage of shot distance where the first control point is placed along the target line</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FirstPercentIndent = 50%</code></li>
+</ul>
+
+<h4 id="secondpercentindent-v104"><code class="language-plaintext highlighter-rouge">SecondPercentIndent</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (percentage)</li>
+  <li><strong>Description</strong>: Percentage of shot distance where the second control point is placed along the target line</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SecondPercentIndent = 75%</code></li>
+</ul>
+
+<h3 id="behavior-settings">Behavior Settings</h3>
+
+<h4 id="maxlifespan-v104"><code class="language-plaintext highlighter-rouge">MaxLifespan</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Maximum time the projectile can exist before being destroyed</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">MaxLifespan = 10000</code></li>
+</ul>
+
+<h4 id="tumblerandomly-v104"><code class="language-plaintext highlighter-rouge">TumbleRandomly</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether the projectile should tumble randomly during flight</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">TumbleRandomly = Yes</code></li>
+</ul>
+
+<h4 id="detonatecallskill-v104"><code class="language-plaintext highlighter-rouge">DetonateCallsKill</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether detonation should call the kill method instead of just destroying the object</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DetonateCallsKill = Yes</code></li>
+</ul>
+
+<h4 id="orienttoflightpath-v104"><code class="language-plaintext highlighter-rouge">OrientToFlightPath</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether the projectile should orient itself to face the direction of flight</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">OrientToFlightPath = Yes</code></li>
+</ul>
+
+<h3 id="garrison-hit-settings">Garrison Hit Settings</h3>
+
+<h4 id="garrisonhitkillrequiredkindof-v104"><code class="language-plaintext highlighter-rouge">GarrisonHitKillRequiredKindOf</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">KindOfMaskType</code> (bit flags) (see <a href="#kindofmasktype-values">KindOfMaskType Values</a> section)</li>
+  <li><strong>Description</strong>: Units must have at least one of these KindOf bits to be killed when hitting garrisoned buildings</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">GarrisonHitKillRequiredKindOf = INFANTRY VEHICLE</code></li>
+</ul>
+
+<h4 id="garrisonhitkillforbiddenkindof-v104"><code class="language-plaintext highlighter-rouge">GarrisonHitKillForbiddenKindOf</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">KindOfMaskType</code> (bit flags) (see <a href="#kindofmasktype-values">KindOfMaskType Values</a> section)</li>
+  <li><strong>Description</strong>: Units must have NONE of these KindOf bits to be killed when hitting garrisoned buildings</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">GarrisonHitKillForbiddenKindOf = STRUCTURE</code></li>
+  <li><strong>Available Values</strong>: See <a href="#kindofmasktype-values">KindOfMaskType Values</a> section</li>
+</ul>
+
+<h4 id="garrisonhitkillcount-v104"><code class="language-plaintext highlighter-rouge">GarrisonHitKillCount</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Int</code></li>
+  <li><strong>Description</strong>: Maximum number of garrisoned units to kill when hitting a building</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">GarrisonHitKillCount = 3</code></li>
+</ul>
+
+<h4 id="garrisonhitkillfx-v104"><code class="language-plaintext highlighter-rouge">GarrisonHitKillFX</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">FXList</code> (see <a href="../FXList.md">FXList documentation</a>)</li>
+  <li><strong>Description</strong>: Visual effects played when killing garrisoned units</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">GarrisonHitKillFX = FX_FlashBang</code></li>
+</ul>
+
+<h3 id="target-tracking">Target Tracking</h3>
+
+<h4 id="flightpathadjustdistpersecond-v104"><code class="language-plaintext highlighter-rouge">FlightPathAdjustDistPerSecond</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (distance per second)</li>
+  <li><strong>Description</strong>: Maximum speed at which the projectile can adjust its flight path to follow a moving target</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FlightPathAdjustDistPerSecond = 99.0</code></li>
+</ul>
+
+<h2 id="enum-value-lists">Enum Value Lists</h2>
+
+<h4 id="kindofmasktype-values-v104"><code class="language-plaintext highlighter-rouge">KindOfMaskType</code> Values <em>(v1.04)</em></h4>
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Source/Common/System/KindOf.cpp#35">KindOf.cpp</a> - <code class="language-plaintext highlighter-rouge">KindOfMaskType::s_bitNameList[]</code> array definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OBSTACLE</code></strong> <em>(v1.04)</em> - Obstacle objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SELECTABLE</code></strong> <em>(v1.04)</em> - Selectable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IMMOBILE</code></strong> <em>(v1.04)</em> - Immobile objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_ATTACK</code></strong> <em>(v1.04)</em> - Objects that can attack</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">STICK_TO_TERRAIN_SLOPE</code></strong> <em>(v1.04)</em> - Objects that stick to terrain slopes</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_CAST_REFLECTIONS</code></strong> <em>(v1.04)</em> - Objects that can cast reflections</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SHRUBBERY</code></strong> <em>(v1.04)</em> - Shrubbery/vegetation</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">STRUCTURE</code></strong> <em>(v1.04)</em> - Building structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">INFANTRY</code></strong> <em>(v1.04)</em> - Infantry units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">VEHICLE</code></strong> <em>(v1.04)</em> - Vehicle units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">AIRCRAFT</code></strong> <em>(v1.04)</em> - Aircraft units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HUGE_VEHICLE</code></strong> <em>(v1.04)</em> - Large vehicle units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DOZER</code></strong> <em>(v1.04)</em> - Dozer vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HARVESTER</code></strong> <em>(v1.04)</em> - Harvester vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMANDCENTER</code></strong> <em>(v1.04)</em> - Command center buildings</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">LINEBUILD</code></strong> <em>(v1.04)</em> - Line building structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SALVAGER</code></strong> <em>(v1.04)</em> - Salvager units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">WEAPON_SALVAGER</code></strong> <em>(v1.04)</em> - Weapon salvager units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TRANSPORT</code></strong> <em>(v1.04)</em> - Transport units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BRIDGE</code></strong> <em>(v1.04)</em> - Bridge structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">LANDMARK_BRIDGE</code></strong> <em>(v1.04)</em> - Landmark bridge structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BRIDGE_TOWER</code></strong> <em>(v1.04)</em> - Bridge tower structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PROJECTILE</code></strong> <em>(v1.04)</em> - Projectile objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PRELOAD</code></strong> <em>(v1.04)</em> - Preloaded objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NO_GARRISON</code></strong> <em>(v1.04)</em> - Objects that cannot be garrisoned</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">WAVEGUIDE</code></strong> <em>(v1.04)</em> - Wave guide objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">WAVE_EFFECT</code></strong> <em>(v1.04)</em> - Wave effect objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NO_COLLIDE</code></strong> <em>(v1.04)</em> - Objects that don’t collide</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REPAIR_PAD</code></strong> <em>(v1.04)</em> - Repair pad structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HEAL_PAD</code></strong> <em>(v1.04)</em> - Heal pad structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">STEALTH_GARRISON</code></strong> <em>(v1.04)</em> - Stealth garrison structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CASH_GENERATOR</code></strong> <em>(v1.04)</em> - Cash generator structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DRAWABLE_ONLY</code></strong> <em>(v1.04)</em> - Drawable only objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MP_COUNT_FOR_VICTORY</code></strong> <em>(v1.04)</em> - Multiplayer victory count objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REBUILD_HOLE</code></strong> <em>(v1.04)</em> - Rebuild hole structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SCORE</code></strong> <em>(v1.04)</em> - Score objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SCORE_CREATE</code></strong> <em>(v1.04)</em> - Score creation objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SCORE_DESTROY</code></strong> <em>(v1.04)</em> - Score destruction objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NO_HEAL_ICON</code></strong> <em>(v1.04)</em> - Objects without heal icon</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_RAPPEL</code></strong> <em>(v1.04)</em> - Objects that can rappel</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PARACHUTABLE</code></strong> <em>(v1.04)</em> - Parachutable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_BE_REPULSED</code></strong> <em>(v1.04)</em> - Objects that can be repulsed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MOB_NEXUS</code></strong> <em>(v1.04)</em> - Mob nexus objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IGNORED_IN_GUI</code></strong> <em>(v1.04)</em> - Objects ignored in GUI</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CRATE</code></strong> <em>(v1.04)</em> - Crate objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAPTURABLE</code></strong> <em>(v1.04)</em> - Capturable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CLEARED_BY_BUILD</code></strong> <em>(v1.04)</em> - Objects cleared by building</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SMALL_MISSILE</code></strong> <em>(v1.04)</em> - Small missile projectiles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ALWAYS_VISIBLE</code></strong> <em>(v1.04)</em> - Always visible objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">UNATTACKABLE</code></strong> <em>(v1.04)</em> - Unattackable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MINE</code></strong> <em>(v1.04)</em> - Mine objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CLEANUP_HAZARD</code></strong> <em>(v1.04)</em> - Cleanup hazard objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PORTABLE_STRUCTURE</code></strong> <em>(v1.04)</em> - Portable structure objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ALWAYS_SELECTABLE</code></strong> <em>(v1.04)</em> - Always selectable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ATTACK_NEEDS_LINE_OF_SIGHT</code></strong> <em>(v1.04)</em> - Objects requiring line of sight to attack</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">WALK_ON_TOP_OF_WALL</code></strong> <em>(v1.04)</em> - Objects that walk on top of walls</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEFENSIVE_WALL</code></strong> <em>(v1.04)</em> - Defensive wall structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_POWER</code></strong> <em>(v1.04)</em> - Firestorm power structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_FACTORY</code></strong> <em>(v1.04)</em> - Firestorm factory structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_BASE_DEFENSE</code></strong> <em>(v1.04)</em> - Firestorm base defense structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_TECHNOLOGY</code></strong> <em>(v1.04)</em> - Firestorm technology structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">AIRCRAFT_PATH_AROUND</code></strong> <em>(v1.04)</em> - Objects aircraft path around</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">LOW_OVERLAPPABLE</code></strong> <em>(v1.04)</em> - Low overlappable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FORCEATTACKABLE</code></strong> <em>(v1.04)</em> - Force attackable objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">AUTO_RALLYPOINT</code></strong> <em>(v1.04)</em> - Auto rally point objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TECH_BUILDING</code></strong> <em>(v1.04)</em> - Technology buildings</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">POWERED</code></strong> <em>(v1.04)</em> - Powered structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PRODUCED_AT_HELIPAD</code></strong> <em>(v1.04)</em> - Objects produced at helipad</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DRONE</code></strong> <em>(v1.04)</em> - Drone objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_SEE_THROUGH_STRUCTURE</code></strong> <em>(v1.04)</em> - Objects that can see through structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BALLISTIC_MISSILE</code></strong> <em>(v1.04)</em> - Ballistic missile projectiles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CLICK_THROUGH</code></strong> <em>(v1.04)</em> - Click through objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SUPPLY_SOURCE_ON_PREVIEW</code></strong> <em>(v1.04)</em> - Supply source on preview objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PARACHUTE</code></strong> <em>(v1.04)</em> - Parachute objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">GARRISONABLE_UNTIL_DESTROYED</code></strong> <em>(v1.04)</em> - Garrisonable until destroyed objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BOAT</code></strong> <em>(v1.04)</em> - Boat objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IMMUNE_TO_CAPTURE</code></strong> <em>(v1.04)</em> - Immune to capture objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HULK</code></strong> <em>(v1.04)</em> - Hulk objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SHOW_PORTRAIT_WHEN_CONTROLLED</code></strong> <em>(v1.04)</em> - Show portrait when controlled objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SPAWNS_ARE_THE_WEAPONS</code></strong> <em>(v1.04)</em> - Spawns are the weapons objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CANNOT_BUILD_NEAR_SUPPLIES</code></strong> <em>(v1.04)</em> - Cannot build near supplies objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SUPPLY_SOURCE</code></strong> <em>(v1.04)</em> - Supply source objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REVEAL_TO_ALL</code></strong> <em>(v1.04)</em> - Reveal to all objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DISGUISER</code></strong> <em>(v1.04)</em> - Disguiser objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">INERT</code></strong> <em>(v1.04)</em> - Inert objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HERO</code></strong> <em>(v1.04)</em> - Hero objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IGNORES_SELECT_ALL</code></strong> <em>(v1.04)</em> - Ignores select all objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DONT_AUTO_CRUSH_INFANTRY</code></strong> <em>(v1.04)</em> - Don’t auto crush infantry objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CLIFF_JUMPER</code></strong> <em>(v1.04)</em> - Cliff jumper objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_SUPPLY_DROPZONE</code></strong> <em>(v1.04)</em> - Firestorm supply dropzone structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_SUPERWEAPON</code></strong> <em>(v1.04)</em> - Firestorm superweapon structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_BLACK_MARKET</code></strong> <em>(v1.04)</em> - Firestorm black market structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_SUPPLY_CENTER</code></strong> <em>(v1.04)</em> - Firestorm supply center structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_STRATEGY_CENTER</code></strong> <em>(v1.04)</em> - Firestorm strategy center structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MONEY_HACKER</code></strong> <em>(v1.04)</em> - Money hacker objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ARMOR_SALVAGER</code></strong> <em>(v1.04)</em> - Armor salvager objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REVEALS_ENEMY_PATHS</code></strong> <em>(v1.04)</em> - Reveals enemy paths objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BOOBY_TRAP</code></strong> <em>(v1.04)</em> - Booby trap objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_FAKE</code></strong> <em>(v1.04)</em> - Firestorm fake structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_INTERNET_CENTER</code></strong> <em>(v1.04)</em> - Firestorm internet center structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BLAST_CRATER</code></strong> <em>(v1.04)</em> - Blast crater objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PROP</code></strong> <em>(v1.04)</em> - Prop objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OPTIMIZED_TREE</code></strong> <em>(v1.04)</em> - Optimized tree objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_ADVANCED_TECH</code></strong> <em>(v1.04)</em> - Firestorm advanced tech structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_BARRACKS</code></strong> <em>(v1.04)</em> - Firestorm barracks structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_WARFACTORY</code></strong> <em>(v1.04)</em> - Firestorm war factory structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FS_AIRFIELD</code></strong> <em>(v1.04)</em> - Firestorm airfield structures</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">AIRCRAFT_CARRIER</code></strong> <em>(v1.04)</em> - Aircraft carrier objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NO_SELECT</code></strong> <em>(v1.04)</em> - No select objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REJECT_UNMANNED</code></strong> <em>(v1.04)</em> - Reject unmanned objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CANNOT_RETALIATE</code></strong> <em>(v1.04)</em> - Cannot retaliate objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TECH_BASE_DEFENSE</code></strong> <em>(v1.04)</em> - Tech base defense objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EMP_HARDENED</code></strong> <em>(v1.04)</em> - EMP hardened objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEMOTRAP</code></strong> <em>(v1.04)</em> - Demo trap objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CONSERVATIVE_BUILDING</code></strong> <em>(v1.04)</em> - Conservative building objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IGNORE_DOCKING_BONES</code></strong> <em>(v1.04)</em> - Ignore docking bones objects</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TANK</code></strong> <em>(v1.04)</em> - Tank vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">APC</code></strong> <em>(v1.04)</em> - Armored Personnel Carrier vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IFV</code></strong> <em>(v1.04)</em> - Infantry Fighting Vehicle vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TRUCK</code></strong> <em>(v1.04)</em> - Truck vehicles</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">VTOL</code></strong> <em>(v1.04)</em> - Vertical Take-Off and Landing aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">JET</code></strong> <em>(v1.04)</em> - Jet aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HELICOPTER</code></strong> <em>(v1.04)</em> - Helicopter aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HOT_AIR_BALLOON</code></strong> <em>(v1.04)</em> - Hot air balloon aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BLIMP</code></strong> <em>(v1.04)</em> - Blimp aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">LARGE_AIRCRAFT</code></strong> <em>(v1.04)</em> - Large aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MEDIUM_AIRCRAFT</code></strong> <em>(v1.04)</em> - Medium aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SMALL_AIRCRAFT</code></strong> <em>(v1.04)</em> - Small aircraft</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ARTILLERY</code></strong> <em>(v1.04)</em> - Artillery units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HEAVY_ARTILLERY</code></strong> <em>(v1.04)</em> - Heavy artillery units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ANTI_AIR</code></strong> <em>(v1.04)</em> - Anti-air units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SAM</code></strong> <em>(v1.04)</em> - Surface-to-Air Missile units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SCOUT</code></strong> <em>(v1.04)</em> - Scout units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMANDO</code></strong> <em>(v1.04)</em> - Commando units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HEAVY_INFANTRY</code></strong> <em>(v1.04)</em> - Heavy infantry units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SUPERHEAVY_VEHICLE</code></strong> <em>(v1.04)</em> - Super heavy vehicle units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_RADAR</code></strong> <em>(v1.04)</em> - Electronic Warfare radar units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_RADAR_JAMMER</code></strong> <em>(v1.04)</em> - Electronic Warfare radar jammer units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_RADIO_JAMMER</code></strong> <em>(v1.04)</em> - Electronic Warfare radio jammer units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_JAMMABLE</code></strong> <em>(v1.04)</em> - Electronic Warfare jammable units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_DIRECT_JAMMABLE</code></strong> <em>(v1.04)</em> - Electronic Warfare directly jammable units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_AREA_JAMMABLE</code></strong> <em>(v1.04)</em> - Electronic Warfare area jammable units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EW_RADIO_JAMMABLE</code></strong> <em>(v1.04)</em> - Electronic Warfare radio jammable units</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EXTRA1</code></strong> through <strong><code class="language-plaintext highlighter-rouge">EXTRA16</code></strong> <em>(v1.04)</em> - Custom KindOf types</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="basic-artillery-shell">Basic Artillery Shell</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">DumbProjectileBehavior ModuleTag_06</span>
+  <span class="py">DetonateCallsKill</span> <span class="p">=</span> <span class="s">Yes</span>
+  <span class="py">FirstHeight</span> <span class="p">=</span> <span class="s">10.0</span>
+  <span class="py">SecondHeight</span> <span class="p">=</span> <span class="s">33.0</span>
+  <span class="py">FirstPercentIndent</span> <span class="p">=</span> <span class="s">50%</span>
+  <span class="py">SecondPercentIndent</span> <span class="p">=</span> <span class="s">75%</span>
+  <span class="py">FlightPathAdjustDistPerSecond</span> <span class="p">=</span> <span class="s">99.0</span>
+  <span class="py">MaxLifespan</span> <span class="p">=</span> <span class="s">10000</span>
+  <span class="py">OrientToFlightPath</span> <span class="p">=</span> <span class="s">Yes</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="grenade-with-garrison-clearing">Grenade with Garrison Clearing</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">DumbProjectileBehavior ModuleTag_04</span>
+  <span class="py">DetonateCallsKill</span> <span class="p">=</span> <span class="s">Yes</span>
+  <span class="py">FirstHeight</span> <span class="p">=</span> <span class="s">33.0</span>
+  <span class="py">SecondHeight</span> <span class="p">=</span> <span class="s">133.0</span>
+  <span class="py">FirstPercentIndent</span> <span class="p">=</span> <span class="s">50%</span>
+  <span class="py">SecondPercentIndent</span> <span class="p">=</span> <span class="s">75%</span>
+  <span class="py">FlightPathAdjustDistPerSecond</span> <span class="p">=</span> <span class="s">99.0</span>
+  <span class="py">GarrisonHitKillCount</span> <span class="p">=</span> <span class="s">2</span>
+  <span class="py">GarrisonHitKillRequiredKindOf</span> <span class="p">=</span> <span class="s">INFANTRY</span>
+  <span class="py">GarrisonHitKillFX</span> <span class="p">=</span> <span class="s">FX_FlashBang</span>
+  <span class="py">TumbleRandomly</span> <span class="p">=</span> <span class="s">Yes</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="high-arc-mortar-round">High-Arc Mortar Round</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">DumbProjectileBehavior ModuleTag_03</span>
+  <span class="py">DetonateCallsKill</span> <span class="p">=</span> <span class="s">Yes</span>
+  <span class="py">FirstHeight</span> <span class="p">=</span> <span class="s">50.0</span>
+  <span class="py">SecondHeight</span> <span class="p">=</span> <span class="s">100.0</span>
+  <span class="py">FirstPercentIndent</span> <span class="p">=</span> <span class="s">30%</span>
+  <span class="py">SecondPercentIndent</span> <span class="p">=</span> <span class="s">60%</span>
+  <span class="py">FlightPathAdjustDistPerSecond</span> <span class="p">=</span> <span class="s">50.0</span>
+  <span class="py">MaxLifespan</span> <span class="p">=</span> <span class="s">15000</span>
+  <span class="py">OrientToFlightPath</span> <span class="p">=</span> <span class="s">No</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="template">Template</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">DumbProjectileBehavior ModuleTag_XX</span>
+  <span class="c">; Flight Path Control
+</span>  <span class="py">FirstHeight</span> <span class="p">=</span> <span class="s">10.0              ; // height of first Bezier control point above terrain *(v1.04)*</span>
+  <span class="py">SecondHeight</span> <span class="p">=</span> <span class="s">33.0             ; // height of second Bezier control point above terrain *(v1.04)*</span>
+  <span class="py">FirstPercentIndent</span> <span class="p">=</span> <span class="s">50%        ; // percentage of distance for first control point *(v1.04)*</span>
+  <span class="py">SecondPercentIndent</span> <span class="p">=</span> <span class="s">75%       ; // percentage of distance for second control point *(v1.04)*</span>
+
+  <span class="c">; Behavior Settings
+</span>  <span class="py">MaxLifespan</span> <span class="p">=</span> <span class="s">10000             ; // maximum projectile lifetime in milliseconds *(v1.04)*</span>
+  <span class="py">TumbleRandomly</span> <span class="p">=</span> <span class="s">No             ; // whether projectile tumbles randomly during flight *(v1.04)*</span>
+  <span class="py">DetonateCallsKill</span> <span class="p">=</span> <span class="s">Yes         ; // whether detonation calls kill method *(v1.04)*</span>
+  <span class="py">OrientToFlightPath</span> <span class="p">=</span> <span class="s">Yes        ; // whether projectile orients to flight direction *(v1.04)*</span>
+
+  <span class="c">; Garrison Hit Settings
+</span>  <span class="py">GarrisonHitKillCount</span> <span class="p">=</span> <span class="s">0        ; // max garrisoned units to kill on building hit *(v1.04)*</span>
+  <span class="py">GarrisonHitKillRequiredKindOf</span> <span class="p">=</span> <span class="c">; // required KindOf bits for garrison kills *(v1.04)*
+</span>  <span class="s">GarrisonHitKillForbiddenKindOf = ; // forbidden KindOf bits for garrison kills *(v1.04)*</span>
+  <span class="py">GarrisonHitKillFX</span> <span class="p">=</span>             <span class="c">; // effects when killing garrisoned units *(v1.04)*
+</span>
+  <span class="c">; Target Tracking
+</span>  <span class="py">FlightPathAdjustDistPerSecond</span> <span class="p">=</span> <span class="s">99.0 ; // max speed to adjust flight path for moving targets *(v1.04)*</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>DumbProjectileBehavior uses Bezier curves with four control points to define flight paths</li>
+  <li>The first and last control points are automatically set to the launcher and target positions</li>
+  <li>The middle two control points are calculated based on FirstHeight, SecondHeight, and the percentage indents</li>
+  <li>Projectiles can only adjust their flight path within the limits set by FlightPathAdjustDistPerSecond</li>
+  <li>Garrison hit settings allow projectiles to clear garrisoned units from buildings on impact</li>
+  <li>This behavior is commonly used for artillery, mortars, grenades, and other ballistic weapons</li>
+  <li>Projectiles use detonation weapons (see <a href="../Weapon.md">Weapon documentation</a>) for explosion effects</li>
+</ul>
+
+<h2 id="source-files">Source Files</h2>
+
+<p><strong>Base Class:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h"><code class="language-plaintext highlighter-rouge">UpdateModule</code></a>, <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DumbProjectileBehavior.h"><code class="language-plaintext highlighter-rouge">ProjectileUpdateInterface</code></a></p>
+
+<ul>
+  <li>Header: <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DumbProjectileBehavior.h"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DumbProjectileBehavior.h</code></a></li>
+  <li>Source: <a href="../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Behavior/DumbProjectileBehavior.cpp"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Behavior/DumbProjectileBehavior.cpp</code></a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

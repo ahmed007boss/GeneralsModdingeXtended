@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>GMX Documentation Authoring Guide (Prompt/Instructions) | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="GMX Documentation Authoring Guide (Prompt/Instructions)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="GMX Documentation Authoring Guide (Prompt/Instructions)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"GMX Documentation Authoring Guide (Prompt/Instructions)","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">GMX Documentation Authoring Guide (Prompt/Instructions)</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="gmx-documentation-authoring-guide-promptinstructions">GMX Documentation Authoring Guide (Prompt/Instructions)</h2>
+
+<p><strong>CRITICAL: READ THIS ENTIRE GUIDE COMPLETELY BEFORE CREATING OR EDITING ANY DOCUMENTATION FILE</strong></p>
+
+<p><strong>MANDATORY</strong>: This instruction file must be read in its entirety from start to finish before creating or editing any documentation file. Do NOT skip any sections. Do NOT ignore any rules or requirements. Every section contains critical information that must be followed. Missing even a single requirement can result in incorrect, incomplete, or inconsistent documentation that will require rework and delays the review process.</p>
+
+<p><strong>CRITICAL POLICY - DO NOT SKIP ANYTHING</strong>: Every required section, link, version flag, Retail document, cross-reference, inline property example, and Source Files link must be completed for each doc. If a property references another documented entity (e.g., Science, Upgrade, Object), link it in the Type field (e.g., “see Science documentation”) and provide a minimal inline Example line. Always create/update the Retail document if the feature exists in Retail.</p>
+
+<p><strong>⚠️ CRITICAL REMINDER - RETAIL DOCUMENTATION (DO NOT SKIP):</strong> After completing the GMX documentation, you MUST create or update the Retail documentation file if the feature exists in Retail versions. This is a MANDATORY step that must be completed for every documentation update. See step 5 in “Mandatory Research Workflow” and the “Retail Documentation Files (Mandatory)” section below. <strong>DO NOT SUBMIT OR COMPLETE DOCUMENTATION WITHOUT CREATING/UPDATING THE RETAIL DOCUMENT IF RETAIL FEATURES EXIST.</strong></p>
+
+<p>This guide defines the exact process and format for creating or updating documentation in <code class="language-plaintext highlighter-rouge">Docs/</code>, optimized for modders. It standardizes structure, review flow, version marking, cross-references, examples, and templates, following the current best sample (<code class="language-plaintext highlighter-rouge">ObjectBehaviorsModules/AutoHealBehavior.md</code>) and expanding it with strict versioning and research requirements.</p>
+
+<h3 id="scope-and-goals">Scope and Goals</h3>
+<ul>
+  <li>Provide modder-facing docs for INI-configurable content with zero executable code; only references/links and INI examples are allowed.</li>
+  <li>Cover three doc families:
+    <ul>
+      <li>Global config (one block per game): <code class="language-plaintext highlighter-rouge">AIData</code>, <code class="language-plaintext highlighter-rouge">GameData</code>, <code class="language-plaintext highlighter-rouge">multiplayer</code>.</li>
+      <li>Entry lists (many entries modder-defined): e.g., <code class="language-plaintext highlighter-rouge">Science</code>, <code class="language-plaintext highlighter-rouge">ParticleSystem</code>, <code class="language-plaintext highlighter-rouge">Weapon</code>.</li>
+      <li>Modules/behaviors/components added inside <code class="language-plaintext highlighter-rouge">Object</code> entries: e.g., <code class="language-plaintext highlighter-rouge">AutoHealBehavior</code>, <code class="language-plaintext highlighter-rouge">CashBountyPower</code>, <code class="language-plaintext highlighter-rouge">FireWeaponCollide</code>, Upgrade/Update modules, Draw/Body components, etc.</li>
+    </ul>
+  </li>
+  <li>Ensure accuracy by studying the code and its dependencies thoroughly before edits.</li>
+</ul>
+
+<h3 id="global-rule-avoid-technical-code-terminology">Global Rule: Avoid Technical Code Terminology</h3>
+<p><strong>CRITICAL</strong>: Write documentation in modder-friendly language. Avoid technical code terms, implementation details, internal function names, or programming concepts that modders won’t understand.</p>
+
+<p><strong>What to avoid</strong>:</p>
+<ul>
+  <li>Internal function names (e.g., <code class="language-plaintext highlighter-rouge">GetComponent</code>, <code class="language-plaintext highlighter-rouge">parseComponent</code>, <code class="language-plaintext highlighter-rouge">buildFieldParse</code>)</li>
+  <li>Internal status codes or enum values not exposed to modders (e.g., <code class="language-plaintext highlighter-rouge">COMPONENT_STATUS_NONE</code>, <code class="language-plaintext highlighter-rouge">OBJECT_STATUS_CAN_STEALTH</code>)</li>
+  <li>Implementation details (e.g., “returns NULL”, “early return”, “lookup method”)</li>
+  <li>Programming concepts (e.g., “singleton”, “polymorphism”, “virtual function”)</li>
+  <li>Internal data structures (e.g., “std::vector”, “map”, “iterator”)</li>
+</ul>
+
+<p><strong>What IS allowed</strong>:</p>
+<ul>
+  <li>References to source files (<code class="language-plaintext highlighter-rouge">.h</code> and <code class="language-plaintext highlighter-rouge">.cpp</code> files) in the Source Files section — these help modders who want to check the actual code</li>
+  <li>Base class references in Source Files — these help developers understand inheritance</li>
+  <li>INI property names exactly as they appear in parse tables — these are what modders use</li>
+  <li>Enum string values as they appear in INI files (e.g., “NORMAL”, “PRISTINE”) — these are what modders type</li>
+</ul>
+
+<p><strong>Rewrite approach</strong>: When describing behavior, focus on what happens from a modder’s perspective. Instead of “GetComponent lookups will only find the first match”, write “systems that look up components by name will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.” Instead of “returns COMPONENT_STATUS_NONE”, write “does not function and cannot be damaged, healed, or accessed by any systems.” Instead of mentioning implementation details like “lazy loading” or “resolved lazily”, link to the actual entity/type that the property references (e.g., if a property references an Animation2d template, say “References an animation template defined in <a href="../Animation2d.md">Animation2d</a> configuration” and link the type in the Type field).</p>
+
+<h3 id="mandatory-research-workflow-before-writing">Mandatory Research Workflow (Before Writing)</h3>
+
+<p><strong>CRITICAL</strong>: Before creating or editing any documentation, you MUST thoroughly study the class across ALL 4 versions in this exact order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04. Do NOT skip any version. Do NOT assume availability. This includes verifying actual property names from parse tables, not guessing or assuming based on outdated documentation.</p>
+
+<p><strong>CRITICAL PROCESS COMPLIANCE</strong>: Follow this workflow EXACTLY as instructed. Do NOT miss any step. Do NOT skip version checks. Do NOT assume availability without checking all 4 versions.</p>
+
+<ol>
+  <li>Identify the class/feature to document and collect source locations (GMX-first):
+    <ul>
+      <li>GMX (primary): <code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/</code> and <code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/</code> (and <code class="language-plaintext highlighter-rouge">Generals/</code> equivalents when relevant).</li>
+      <li>Retail code (Retail Zero Hour 1.04 and Retail Generals 1.04): <code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\GeneralsMD</code> and <code class="language-plaintext highlighter-rouge">...\Generals</code> (header/source), plus their INI folders.</li>
+    </ul>
+  </li>
+  <li>Read both header and source files of the target class and any directly used dependencies across ALL versions. Track:
+    <ul>
+      <li><strong>Parse tables</strong> (<code class="language-plaintext highlighter-rouge">buildFieldParse</code> or <code class="language-plaintext highlighter-rouge">FieldParse</code> arrays) in source <code class="language-plaintext highlighter-rouge">.cpp</code> files - these define the EXACT property names as they appear in INI files. Verify property names match what you document.</li>
+      <li>Member variables linked via <code class="language-plaintext highlighter-rouge">offsetof(Class, member)</code> in parse tables - these show which member each property fills.</li>
+      <li>Constructor defaults - read constructor implementation to get actual default values, not guesses.</li>
+      <li>Enums and corresponding name arrays (string tables), keeping order consistent.</li>
+      <li>Base classes and module interfaces (UpdateModule, SpecialPowerModule, CollideModule, UpgradeMux, DamageModuleInterface, etc.).</li>
+      <li>For each property, identify the exact parser function used (e.g., <code class="language-plaintext highlighter-rouge">INI::parseReal</code>, <code class="language-plaintext highlighter-rouge">INI::parseDurationUnsignedInt</code>, <code class="language-plaintext highlighter-rouge">INI::parseIndexList</code>, or custom like <code class="language-plaintext highlighter-rouge">ObjectPrerequisite::parseObjectPrerequisites</code>). Note implications (units, normalization, validation).</li>
+      <li><strong>CRITICAL - Base class documentation check</strong>: If the class has a base class that has documentation (e.g., <code class="language-plaintext highlighter-rouge">Component.md</code> is the base for <code class="language-plaintext highlighter-rouge">ElectronicsComponent.md</code>), you MUST read and review the base class documentation to ensure consistency. Inherited properties, enum values, descriptions, limitations, conditions, and dependencies must match exactly between base and derived documentation. This ensures modders get consistent information regardless of which documentation they read.
+       - <strong>CRITICAL - Parent/Child parsing pattern recognition</strong>: When examining parse tables, look for entries that use custom parser functions (not standard <code class="language-plaintext highlighter-rouge">INI::parse*</code> functions). These often indicate parent/child relationships. Common patterns:</li>
+      <li><strong>Pattern 1 - Nested blocks</strong>: Parent parse table has entry like <code class="language-plaintext highlighter-rouge">{ "ChildName", ChildClass::parseChildClass, NULL, 0 }</code> where <code class="language-plaintext highlighter-rouge">parseChildClass</code> is a static function that creates and parses child entities. The child name in the parse table matches the INI block name.</li>
+      <li><strong>Pattern 2 - Container storage</strong>: The custom parser function typically creates a new instance, parses its properties, and adds it to a container (vector, list, etc.) in the parent. Look for <code class="language-plaintext highlighter-rouge">new ChildClass()</code>, <code class="language-plaintext highlighter-rouge">initFromINIMulti()</code>, and <code class="language-plaintext highlighter-rouge">parent-&gt;addChild()</code> or <code class="language-plaintext highlighter-rouge">parent-&gt;m_children.push_back()</code> patterns.</li>
+      <li><strong>Pattern 3 - Multiple instances</strong>: If multiple child blocks of the same type can exist, they’re stored in a container. If only one child block can exist, it’s stored as a single member variable.</li>
+      <li><strong>Documentation implications</strong>:
+        <ul>
+          <li>Child entities should have their own separate documentation files.</li>
+          <li>Parent documentation should reference child entities with links to their documentation.</li>
+          <li>Parent documentation should NOT duplicate all child properties - only mention that children can be added and link to child documentation.</li>
+          <li>Use clear terminology that describes the parent/child relationship (e.g., “child entities are nested within parent entities”).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Version comparison (MANDATORY):
+    <ul>
+      <li><strong>CRITICAL</strong>: You MUST check all 4 versions in this exact order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04. Do NOT skip any version. Do NOT assume availability based on GMX alone.</li>
+      <li><strong>CRITICAL</strong>: Compare parse tables, headers, and enum definitions across ALL 4 versions. Record availability per version/game for every property, enum value, and entity.</li>
+      <li><strong>CRITICAL</strong>: Check if the feature exists in Generals/Code path (GMX Generals) vs GeneralsMD/Code path (GMX Zero Hour). If a Components/ directory doesn’t exist in Generals/, it’s Zero Hour only. If it exists in both, it’s in both GMX variants.</li>
+      <li>Compare GMX vs Retail (Retail Zero Hour 1.04 / Retail Generals 1.04) parse tables and headers for additions/removals/changed semantics.</li>
+      <li>Compare Generals vs Zero Hour variants in both GMX and Retail when applicable.</li>
+      <li><strong>Verify property names</strong> - ensure the property names in your documentation exactly match those in the parse tables (e.g., <code class="language-plaintext highlighter-rouge">JammingDamageCap</code> not <code class="language-plaintext highlighter-rouge">EWDamageCap</code>, <code class="language-plaintext highlighter-rouge">CanBeJammedByDirectJammers</code> not <code class="language-plaintext highlighter-rouge">CanBeJammedDirect</code>).</li>
+    </ul>
+  </li>
+  <li>Examples research (GMX-first):
+    <ul>
+      <li>GMX examples: <code class="language-plaintext highlighter-rouge">e:\Games\Command and Conquer - Generals - Work\Patches\WW2030\INI\...</code></li>
+      <li>Retail examples: <code class="language-plaintext highlighter-rouge">e:\Games\Command and Conquer - Generals - Work\Generals Source\Sources\Generals\...\INI\...</code> (Retail Generals 1.04) and <code class="language-plaintext highlighter-rouge">e:\Games\Command and Conquer - Generals - Work\Generals Source\Sources\Zero Hour\...\INI\...</code> (Retail Zero Hour 1.04)</li>
+      <li>Remove all comment lines in example snippets.</li>
+      <li>Use real examples that demonstrate actual property usage in the codebase.</li>
+    </ul>
+  </li>
+  <li><strong>⚠️ Create/Update Retail Documentation (MANDATORY - DO NOT SKIP THIS STEP)</strong>:
+    <ul>
+      <li><strong>CRITICAL</strong>: After creating/updating the GMX documentation, you MUST check if the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04).</li>
+      <li><strong>MANDATORY ACTION</strong>: If Retail features exist, you MUST create or update a Retail documentation file in the Retail codebase path at <code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...</code> (or equivalent path for Retail Generals). <strong>THIS IS NOT OPTIONAL. THIS STEP MUST BE COMPLETED.</strong></li>
+      <li><strong>Retail document rules</strong> (see detailed section below):
+        <ul>
+          <li>Include ONLY Retail features (remove all GMX-only content).</li>
+          <li>Use Retail version flags only (e.g., <code class="language-plaintext highlighter-rouge">*(v1.04)*</code>, <code class="language-plaintext highlighter-rouge">*(v1.04, Zero Hour only)*</code>).</li>
+          <li>Use Retail examples only (from <code class="language-plaintext highlighter-rouge">Sources/Zero Hour</code> or <code class="language-plaintext highlighter-rouge">Sources/Generals</code> paths).</li>
+          <li>Follow the same document structure, but exclude GMX-only sections entirely.</li>
+        </ul>
+      </li>
+      <li><strong>If GMX-only feature</strong>: Do NOT create Retail documents (e.g., <code class="language-plaintext highlighter-rouge">Component.md</code> is GMX Zero Hour only, so no Retail document).</li>
+      <li><strong>⚠️ THIS STEP IS MANDATORY - DO NOT SKIP IT. DO NOT COMPLETE DOCUMENTATION WITHOUT CREATING/UPDATING THE RETAIL DOCUMENT IF RETAIL FEATURES EXIST. EVERY RETAIL FEATURE MUST HAVE A CORRESPONDING RETAIL DOCUMENT.</strong></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="file-placement-and-naming">File Placement and Naming</h3>
+<ul>
+  <li>Create or edit the relevant doc file under <code class="language-plaintext highlighter-rouge">Docs/</code> (or subfolder) matching the feature area:
+    <ul>
+      <li>Global configs at <code class="language-plaintext highlighter-rouge">Docs/AIData.md</code>, <code class="language-plaintext highlighter-rouge">Docs/GameData.md</code>, <code class="language-plaintext highlighter-rouge">Docs/multiplayer.md</code>.</li>
+      <li>Entities at <code class="language-plaintext highlighter-rouge">Docs/Science.md</code>, <code class="language-plaintext highlighter-rouge">Docs/ParticleSystem.md</code>, <code class="language-plaintext highlighter-rouge">Docs/Weapon.md</code>, etc.</li>
+      <li>Modules under <code class="language-plaintext highlighter-rouge">Docs/ObjectBehaviorsModules/</code>, <code class="language-plaintext highlighter-rouge">Docs/ObjectModules/</code>, <code class="language-plaintext highlighter-rouge">Docs/ModuleBase/</code>, etc.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="️-retail-documentation-files-mandatory---do-not-skip">⚠️ Retail Documentation Files (MANDATORY - DO NOT SKIP)</h3>
+
+<p><strong>🚨 CRITICAL - THIS IS A MANDATORY STEP THAT MUST BE COMPLETED FOR EVERY DOCUMENTATION UPDATE</strong></p>
+
+<p>This is a MANDATORY step in the documentation workflow (see step 5 in “Mandatory Research Workflow”). For features that exist in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), you MUST create or update a Retail documentation file in the Retail codebase path. <strong>THIS IS NOT OPTIONAL. DO NOT SKIP THIS STEP.</strong></p>
+
+<p><strong>When to create Retail documents</strong>:</p>
+<ul>
+  <li><strong>After creating/updating GMX documentation</strong>: Once the GMX documentation is complete, check if any of the documented features exist in Retail versions.</li>
+  <li><strong>If Retail features exist</strong>: Create or update the Retail document.</li>
+  <li><strong>If GMX-only feature</strong>: Do NOT create Retail documents (e.g., <code class="language-plaintext highlighter-rouge">Component.md</code> is GMX Zero Hour only, so no Retail document).</li>
+</ul>
+
+<p><strong>Retail document location</strong>: <code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...</code> (or equivalent path for Retail Generals)</p>
+
+<p><strong>Retail document rules</strong>:</p>
+<ul>
+  <li><strong>GMX-only features</strong>: Do NOT create Retail documents (e.g., <code class="language-plaintext highlighter-rouge">Component.md</code> is GMX Zero Hour only, so no Retail document).</li>
+  <li><strong>Retail features</strong>: Create/edit the Retail document with ONLY Retail features (no GMX-only content).</li>
+  <li><strong>Remove GMX-only sections</strong>: Remove all GMX-only properties, enums, conditions, limitations, examples, and notes from the mirror.</li>
+  <li><strong>Keep Retail features only</strong>: Include only properties, enums, and features that exist in Retail Zero Hour 1.04 or Retail Generals 1.04.</li>
+  <li><strong>Version flags in mirror</strong>: Use Retail version flags only (e.g., <code class="language-plaintext highlighter-rouge">*(v1.04)*</code>, <code class="language-plaintext highlighter-rouge">*(v1.04, Zero Hour only)*</code>). Do not mention GMX in mirror files.</li>
+  <li><strong>Examples in mirror</strong>: Use Retail examples only (from <code class="language-plaintext highlighter-rouge">Sources/Zero Hour</code> or <code class="language-plaintext highlighter-rouge">Sources/Generals</code> paths), remove GMX examples.</li>
+  <li><strong>Structure</strong>: Follow the exact same document structure and rules as the GMX document (same sections, linking, examples, version flags), but exclude GMX-only properties/sections entirely.</li>
+  <li><strong>Parity with GMX (CRITICAL)</strong>: For functionality that exists in both GMX and Retail, mirror the depth and clarity of the GMX doc in the Retail doc. Copy and adapt shared Usage bullets (Limitations/Conditions/Dependencies), Notes, and Template inline comments to ensure equivalent coverage. Do not leave the Retail doc with shorter or poorer descriptions for shared functionality.</li>
+</ul>
+
+<p><strong>Example</strong>: For <code class="language-plaintext highlighter-rouge">ActiveBody.md</code>:</p>
+<ul>
+  <li><strong>GMX version</strong> (<code class="language-plaintext highlighter-rouge">Docs/ObjectModules/ActiveBody.md</code>): Includes all GMX features (jamming damage GMX Zero Hour only, components GMX Zero Hour only, etc.) plus Retail features (MaxHealth, InitialHealth, subdual damage).</li>
+  <li><strong>Retail mirror</strong> (<code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\ObjectBody\ActiveBody.md</code>): Includes ONLY Retail features (MaxHealth, InitialHealth, subdual damage for Zero Hour only). No jamming damage, no components, no GMX-only content.</li>
+</ul>
+
+<p><strong>🚨 CRITICAL - THIS STEP MUST BE COMPLETED FOR EVERY DOCUMENTATION UPDATE. DO NOT SKIP CREATING/UPDATING RETAIL MIRROR FILES WHEN RETAIL FEATURES ARE PRESENT. THIS IS A MANDATORY REQUIREMENT, NOT AN OPTIONAL STEP.</strong></p>
+
+<h3 id="full-todo-flow-critical--mandatory">Full TODO Flow (CRITICAL &amp; MANDATORY)</h3>
+<p>Before you create or edit ANY documentation file, you MUST generate this full TODO list and follow it step-by-step. Do NOT wait for review to begin; execute the list immediately. When you are asked to “follow the instruction,” you MUST generate and use this Full TODO Flow without deviation. Each item references sections in this guide for details.</p>
+
+<p>0) Identify all code files across the four versions (CRITICAL)</p>
+<ul>
+  <li>Locate header/source files for the target in: GMX Zero Hour, Retail Zero Hour 1.04, GMX Generals, Retail Generals 1.04</li>
+  <li>Record exact relative paths (headers, sources, factories/registration points)</li>
+  <li>If a version is not present, explicitly note “not present” and proceed</li>
+</ul>
+
+<p>1) Identify scope and availability (see “Versioning Rules” and “Overview”)</p>
+<ul>
+  <li>Confirm entity/module name and placement path in Docs</li>
+  <li>Check availability across ALL 4 versions (GMX ZH → Retail ZH 1.04 → GMX Gens → Retail Gens 1.04)</li>
+  <li>Decide: GMX-only, Retail-only, or mixed; note GMX-only styling rules (Title/Section coloring)</li>
+</ul>
+
+<p>2) Collect source references (see “Source Files” and “Version Comparison”)</p>
+<ul>
+  <li>Find headers and sources for GMX (GeneralsMD and Generals if applicable)</li>
+  <li>Find Retail headers/sources if feature exists in Retail</li>
+  <li>Note base class(es) for Source Files (list base first)</li>
+</ul>
+
+<p>3) Deep code study (MANDATORY) (see “Mandatory Research Workflow”, “Property Parsing and Validation”, “Cross-Usage Research”)</p>
+<ul>
+  <li>Read headers and sources end-to-end for the target across ALL 4 versions in this exact order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04</li>
+  <li>Inspect parse tables (<code class="language-plaintext highlighter-rouge">FieldParse</code>/<code class="language-plaintext highlighter-rouge">buildFieldParse</code>), custom parsers, and child-block parsers</li>
+  <li>Verify member defaults from constructors/member initializers</li>
+  <li>Find and read all getters/setters and call sites that consume parsed members (UI, gameplay, AI)</li>
+  <li>Check error/validation paths (asserts, throws, clamps) and document user-facing effects</li>
+  <li>Enumerate enums and corresponding name arrays; confirm order and full value set (GMX-first)</li>
+  <li>Note base classes and interfaces that affect INI behavior</li>
+</ul>
+
+<p>4) Extract parse surface (see “Property Format” and “Enum Format”)</p>
+<ul>
+  <li>Copy property names from parse tables exactly</li>
+  <li>Map <code class="language-plaintext highlighter-rouge">offsetof</code>/members; record defaults from constructors</li>
+  <li>Identify enums and string arrays; collect all values (GMX-first)</li>
+  <li>Identify child/parent nested parsers and document as separate child entities where required</li>
+</ul>
+
+<p>5) Draft document skeleton (see “Required Document Structure”)</p>
+<ul>
+  <li>Title + Status; Overview with availability line</li>
+  <li>Table of Contents with internal anchors</li>
+  <li>Properties categories; per-property blocks using Property Format</li>
+  <li>Enum Value Lists with values and flags</li>
+  <li>Examples; Usage (Limitations/Conditions/Dependencies)</li>
+  <li>Template with inline comments for EVERY property line</li>
+  <li>Notes; Modder Scenarios (placeholder); Source Files; Changes History; Document Log; Status/Reviewers</li>
+</ul>
+
+<p>6) Link pass (internal/external) (see “Internal Linking — Mandatory” and “Cross-References (Mandatory)”)</p>
+<ul>
+  <li>Add internal links for every in-doc property/enum mention</li>
+  <li>Add external links for referenced entities (Object, Upgrade, Science, Weapon, FXList, etc.)</li>
+  <li>Add per-property “invalid reference” notes where names are referenced (Object/Science/Upgrade/KindOf/Item)</li>
+  <li>Ensure links are OUTSIDE backticks and anchors exist where linked</li>
+</ul>
+
+<p>7) Retail document gate (see “Retail Documentation Files (MANDATORY)”)</p>
+<ul>
+  <li>If feature exists in Retail: create/update Retail doc with ONLY Retail content and flags</li>
+  <li>Remove all GMX-only content from Retail doc; adjust examples/template</li>
+  <li>Keep structure identical to GMX doc sans GMX-only content; update version flags and examples to Retail</li>
+</ul>
+
+<p>8) Version flags and styling (see “Versioning Rules” and “Title/Section Headings and Availability”)</p>
+<ul>
+  <li>Add version lines to all properties/sections/enums</li>
+  <li>Apply GMX-only blue heading styling: title for GMX-only docs; section headings for mixed docs</li>
+</ul>
+
+<p>9) Final validation (CRITICAL — verify against ALL rules in this guide)</p>
+<ul>
+  <li>Availability lines present and correct in Overview and each property/enum/category</li>
+  <li>Version flags applied everywhere required (sections, properties, enums, enum values) with correct formats</li>
+  <li>GMX-only styling rules followed (title colored for GMX-only docs; GMX-only sections colored in mixed docs)</li>
+  <li>Retail document created/updated when Retail features exist; Retail doc contains ONLY Retail content</li>
+  <li>Retail↔GMX parity achieved for all shared functionality (Usage, Notes, Template comments match in depth)</li>
+  <li>Internal property linking applied in ALL sections (outside code blocks); anchors exist and work</li>
+  <li>External links for referenced entities (Object, Upgrade, Science, Weapon, FXList, etc.) use correct relative paths</li>
+  <li>Per-property inline Example line exists in Properties; no examples duplicated outside unless required by section</li>
+  <li>Template includes concise inline comments for EVERY property line</li>
+  <li>Invalid-reference behavior included in property descriptions where names are referenced (Object/Science/Upgrade/KindOf/Item)</li>
+  <li>Enum sections list ALL values (GMX-first) with individual version flags; source/array references noted</li>
+  <li>Usage section includes Limitations, Conditions, Dependencies with correct content (no duplication)</li>
+  <li>Examples compile as INI; no comment lines inside fenced blocks; demonstrate OR/AND semantics where relevant</li>
+  <li>Source Files: base class listed first; all file links are clickable; GMX/Retail paths accurate</li>
+  <li>Changes History covers feature/code changes only; Document Log covers documentation edits only</li>
+  <li>Status block updated (Documentation Status, Last Updated, Certification); Reviewers section has open slots</li>
+  <li>Cross-Usage checklist scanned; discovered interactions reflected in Usage</li>
+  <li>Spot-check link integrity (property anchors and relative paths)</li>
+</ul>
+
+<p>10) Status and reviewers (see “Review and Certification Workflow”)</p>
+<ul>
+  <li>Set Status block; add/update Last Updated</li>
+  <li>Leave at least two reviewer slots</li>
+</ul>
+
+<p>11) Retail-specific TODO (execute now)</p>
+<ul>
+  <li>Set target Retail doc path under <code class="language-plaintext highlighter-rouge">CnC_Generals_Zero_Hour/Docs/...</code> (or Retail Generals path)</li>
+  <li>Port skeleton and sections; strip GMX-only properties/sections/examples</li>
+  <li>Replace version flags with Retail ones; use Retail examples</li>
+  <li>Re-run link pass for Retail paths; update Source Files to Retail-only if needed</li>
+  <li>Run full Final validation checklist for the Retail doc</li>
+  <li>Add Status/Reviewers and Document Log entries for the Retail doc</li>
+</ul>
+
+<h3 id="richness-and-parity-requirements-critical">Richness and Parity Requirements (CRITICAL)</h3>
+<ul>
+  <li>Parity with strongest reference: When documenting a derived/similar entity, mirror the Usage and Notes depth of the richest related doc (e.g., <code class="language-plaintext highlighter-rouge">ImmortalBody</code> should match <code class="language-plaintext highlighter-rouge">ActiveBody</code>’s Usage/Notes scope where behavior is shared). If content is intentionally omitted, add a one-line justification in Notes.</li>
+  <li>Retail↔GMX mirror parity (CRITICAL): For features available in both GMX and Retail, ensure the Retail mirror has equivalent depth to the GMX doc for all shared functionality. Explicitly copy and adapt shared Usage bullets, Notes, and Template inline comments. Differences should only reflect version-specific availability, not content quality.</li>
+  <li>Section completeness gates (block merge if missing):
+    <ul>
+      <li>Overview, Table of Contents</li>
+      <li>Properties (with per-property inline Example lines)</li>
+      <li>Usage with three subsections: Limitations, Conditions, Dependencies</li>
+      <li>Template with concise inline comments for every line</li>
+      <li>Notes</li>
+      <li>Source Files (base class first)</li>
+      <li>Changes History and Document Log</li>
+      <li>Status and Reviewers</li>
+    </ul>
+  </li>
+  <li>Minimum content rules:
+    <ul>
+      <li>Examples: ≥2 for simple modules; 4–5 for complex/base entities</li>
+      <li>Notes: ≥5 bullets for modules with gameplay interactions</li>
+      <li>Usage must include ObjectExtend/ObjectReskin behavior when applicable</li>
+    </ul>
+  </li>
+  <li>Reference doc alignment step: If a doc inherits or shares behavior (e.g., <code class="language-plaintext highlighter-rouge">ImmortalBody</code> → <code class="language-plaintext highlighter-rouge">ActiveBody</code>), copy relevant shared bullets (adapt/adapt the text) into Usage/Notes rather than only linking.</li>
+</ul>
+
+<h3 id="reviewer-checklist-expanded">Reviewer Checklist (Expanded)</h3>
+<ul>
+  <li>Full TODO Flow present and followed (including Retail-specific TODO if applicable)</li>
+  <li>Parity with base/peer doc verified (Usage/Notes richness, examples count, template comments)</li>
+  <li>Per-property examples present; per-line template comments present</li>
+  <li>All internal/external links valid; anchors exist; links outside backticks</li>
+  <li>Version flags and availability lines correct everywhere</li>
+  <li>Retail doc created/updated correctly (Retail-only content, flags, examples)</li>
+  <li>Retail↔GMX parity verified for shared functionality (no “poor content” in Retail mirror)</li>
+  <li>Final Validation checklist items all satisfied; Richness and Parity requirements satisfied</li>
+</ul>
+
+<h3 id="optional-automation-recommended">Optional Automation (Recommended)</h3>
+<ul>
+  <li>Diff-lint for parity: warn when a derived doc is missing sections/bullets present in its base reference doc</li>
+  <li>Line-count/section-count heuristic: flag docs significantly shorter than base/peer without justification</li>
+</ul>
+
+<h3 id="block-merge-policy-critical">Block Merge Policy (CRITICAL)</h3>
+<ul>
+  <li>PRs must be blocked if any of the following fail:
+    <ul>
+      <li>Full TODO Flow step missing or not executed (including Retail-specific TODO when applicable)</li>
+      <li>Section completeness gates not met</li>
+      <li>Richness/Parity audit fails without documented justification</li>
+      <li>Final Validation checklist not fully satisfied</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Execution rule: Generate this TODO in your workspace and follow it immediately without asking for approval. If new findings arise, update the TODO and continue.</p>
+
+<p><strong>CRITICAL VERSION CHECKING PROCESS</strong>:</p>
+<ul>
+  <li><strong>MANDATORY</strong>: Check ALL 4 versions in EXACT order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04</li>
+  <li><strong>DO NOT SKIP ANY VERSION</strong>: Every property and enum must be checked against all 4 versions</li>
+  <li><strong>DO NOT ASSUME</strong>: Just because something exists in GMX Zero Hour does NOT mean it exists in GMX Generals</li>
+  <li><strong>Verification method</strong>: For each property/enum, check the actual source code (header files, parse tables) in each of the 4 version directories</li>
+  <li><strong>Version flags must be accurate</strong>: If a feature is only in GMX Zero Hour, use <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code>, NOT <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Generals, GMX Zero Hour)*</code></li>
+</ul>
+
+<h3 id="required-document-structure-all-docs">Required Document Structure (All Docs)</h3>
+<p>Use this exact section order. Omit a section only if truly inapplicable.</p>
+
+<ul>
+  <li>Title line: <code class="language-plaintext highlighter-rouge"># &lt;Name&gt;</code></li>
+  <li>Status line directly under title with certification stage, e.g.:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Status: AI-generated, 0/2 reviews</code> (update as reviews happen)</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">## Overview</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Table of Contents</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Properties</code>
+    <ul>
+      <li>Group properties under clear categories (e.g., “Basic Settings”, “Area Settings”, “Upgrade Integration”, “Target Selection”).</li>
+      <li>Each property subsection must follow Property Format (below).</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">## Enum Value Lists</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Examples</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Usage</code>
+    <ul>
+      <li>Bold subsections (exact labels):
+        <ul>
+          <li><strong>Limitations</strong></li>
+          <li><strong>Conditions</strong></li>
+          <li><strong>Dependencies</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">## Template</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Notes</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Modder Recommended Use Scenarios</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Source Files</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Changes History</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Status</code></li>
+  <li><code class="language-plaintext highlighter-rouge">### Reviewers</code></li>
+  <li><code class="language-plaintext highlighter-rouge">## Document Log</code></li>
+</ul>
+
+<p><strong>⚠️ CRITICAL REMINDER - AFTER COMPLETING THE DOCUMENT STRUCTURE:</strong> Before considering the documentation complete, you MUST create or update the Retail mirror documentation file if the feature exists in Retail versions. This is a MANDATORY step (see step 5 in “Mandatory Research Workflow” and “Retail Mirror Documentation Files (Mandatory)” section). <strong>DO NOT SKIP THIS STEP.</strong></p>
+
+<h3 id="section-by-section-detailed-requirements">Section-by-Section Detailed Requirements</h3>
+<p>This expands what each section must provide and what to link.</p>
+
+<h4 id="title">Title</h4>
+<ul>
+  <li>Format: <code class="language-plaintext highlighter-rouge"># &lt;Name&gt;</code> (e.g., <code class="language-plaintext highlighter-rouge"># AutoHealBehavior</code>).</li>
+  <li>If the entire feature is GMX-only, append <code class="language-plaintext highlighter-rouge">*(GMX)*</code> to the title.</li>
+  <li>Immediately below add the Status line (see Status section) such as <code class="language-plaintext highlighter-rouge">Status: AI-generated, 0/2 reviews</code>.</li>
+  <li>Visual emphasis rule for GMX-only documents: When a document is entirely GMX-only (no Retail availability), color the title using a baby-blue span for quick recognition:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge"># &lt;span style="color:#5bbcff; font-weight:bold;"&gt;Name&lt;/span&gt;</code></li>
+      <li>Keep the standard availability line under the Overview (e.g., <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code>).</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="overview">Overview</h4>
+<h4 id="section-headings-and-availability">Section Headings and Availability</h4>
+<ul>
+  <li>Use clear, descriptive section names (e.g., “Health Settings”, “Damage Settings”).</li>
+  <li>Place version flags on a new line under each heading or property.</li>
+  <li>Mixed-version documents (contain both GMX and Retail content): For GMX-only sections within these docs, color the section heading to make it stand out. Preferred format:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">### &lt;span style="color:#5bbcff; font-weight:bold;"&gt;Section Name&lt;/span&gt;</code></li>
+      <li>Keep the standard “Available only in:” line immediately under the heading.</li>
+    </ul>
+  </li>
+  <li>GMX-only documents (entire doc is GMX-only): Do NOT color individual section headings. Instead, color only the document title per the Title rule above.</li>
+  <li>2–5 sentences describing what the feature is and the gameplay it affects.</li>
+  <li>State whether it is a one-per-game global block, a list of entries (many entries allowed), or a module added inside <code class="language-plaintext highlighter-rouge">Object</code>.</li>
+  <li>If scope differs by game/version, include a one-line availability on a NEW LINE: <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(GMX)*</code>.</li>
+  <li><strong>CRITICAL</strong>: If something is available in Retail 1.04 (Retail Generals 1.04 or Retail Zero Hour 1.04), it is ALSO available in GMX. Always list both when applicable. Always specify which game variants (Generals vs Zero Hour) are included.</li>
+</ul>
+
+<h4 id="usage">Usage</h4>
+<ul>
+  <li>Specify where the INI lives (root folder name like <code class="language-plaintext highlighter-rouge">Weapon</code>, global block like <code class="language-plaintext highlighter-rouge">GameData</code>, or inside <code class="language-plaintext highlighter-rouge">Object</code>).</li>
+  <li>Clarify how many instances are allowed and how multiple instances interact (combine, overwrite, independent).</li>
+  <li>Reference the Template section: “See Template for correct syntax.”</li>
+  <li>Must include the three bold subsections:
+    <ul>
+      <li><strong>Limitations</strong>: Mechanical boundaries and unsupported behaviors. Do NOT include detailed child entity limitations here - only brief mention with link to child entity documentation.</li>
+      <li><strong>Conditions</strong>: Triggers, lifecycle, and multiple-instances behavior. Do NOT include detailed child entity conditions here - only brief mention with link to child entity documentation.</li>
+      <li><strong>Dependencies</strong>: Required systems/types with links to their Docs pages. Do NOT include child entity dependencies here - child entities are documented separately.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="table-of-contents">Table of Contents</h4>
+<ul>
+  <li>Provide a bulleted list linking to all major sections and each property category.</li>
+  <li>Use GitHub-style anchors and ensure headers are unique and stable.</li>
+  <li>Example entries: <code class="language-plaintext highlighter-rouge">[Overview](#overview)</code>, <code class="language-plaintext highlighter-rouge">[Properties](#properties)</code>, and nested <code class="language-plaintext highlighter-rouge">- [Basic Settings](#basic-settings)</code>.</li>
+</ul>
+
+<h4 id="properties">Properties</h4>
+<ul>
+  <li>Organize properties into meaningful categories. If a category is version-limited, add version flags in the category header.</li>
+  <li>For each property, use the Property Format exactly (header with version flags, Type, Description, Default, Example).</li>
+  <li><strong>CRITICAL</strong>: Verify property names match exactly what appears in the parse table (<code class="language-plaintext highlighter-rouge">buildFieldParse</code> method) - do not use outdated or incorrect names.</li>
+  <li><strong>CRITICAL</strong>: Verify defaults from constructors/member initializers in the source code—do not guess. Read the constructor implementation to see actual initialization values.</li>
+  <li><strong>CRITICAL - Link properties that reference other documented entities</strong>: When a property references another documented entity/type (e.g., upgrade names, weapon names, FXList names, object names, etc.), you MUST link to that entity’s documentation in the Type field. Properties may accept a single name or a list of names — reflect that in the Type text. Examples:
+    <ul>
+      <li>Properties that accept upgrade names (e.g., <code class="language-plaintext highlighter-rouge">TriggeredBy</code>, <code class="language-plaintext highlighter-rouge">ConflictsWith</code>, <code class="language-plaintext highlighter-rouge">RequiredAnyUpgradeOf</code>, <code class="language-plaintext highlighter-rouge">RequiredAllUpgradesOf</code>, <code class="language-plaintext highlighter-rouge">RemovesUpgrades</code>) → link to <a href="../Upgrade.md">Upgrade documentation</a> and indicate singular/list: <code class="language-plaintext highlighter-rouge">Upgrade name or list of upgrade names (see [Upgrade documentation](../Upgrade.md))</code></li>
+      <li>Properties that accept FXList names (e.g., <code class="language-plaintext highlighter-rouge">FXListUpgrade</code>) → link to <a href="../FXList.md">FXList documentation</a>: <code class="language-plaintext highlighter-rouge">FXList</code> (see <a href="../FXList.md">FXList documentation</a>)</li>
+      <li>Properties that accept weapon names → link to <a href="../Weapon.md">Weapon documentation</a> and indicate singular/list where applicable: <code class="language-plaintext highlighter-rouge">Weapon name or list of weapon names (see [Weapon documentation](../Weapon.md))</code></li>
+      <li>Properties that accept object names → link to <a href="../Object.md">Object documentation</a> and indicate singular/list where applicable: <code class="language-plaintext highlighter-rouge">Object name or list of object names (see [Object documentation](../Object.md))</code></li>
+      <li>This applies to ALL properties that reference other documented entities — they must be linked to their respective documentation files, and the Type must state whether the property accepts a single reference or a list.</li>
+    </ul>
+  </li>
+  <li>Link complex types to their Docs pages (e.g., <code class="language-plaintext highlighter-rouge">weapon</code> → <code class="language-plaintext highlighter-rouge">Docs/Weapon.md</code>, <code class="language-plaintext highlighter-rouge">FXList</code> → <code class="language-plaintext highlighter-rouge">Docs/FXList.md</code>).</li>
+  <li>If a property uses an enum, add “Available Values: see <a href="#enumname-values">EnumName Values</a>”.</li>
+</ul>
+
+<h4 id="inheritance-rules-mandatory">Inheritance Rules (Mandatory)</h4>
+<ul>
+  <li><strong>CRITICAL</strong>: Modders do not need to understand inheritance or base classes. Documentation must be self-contained and complete.</li>
+  <li>If the documented class/module/entity inherits from a base that defines INI properties, the derived doc MUST include ALL base class properties with FULL documentation (Type, Description, Default, Example, Available Values for enums) exactly as they appear in the base class documentation.
+    <ul>
+      <li>Example: <code class="language-plaintext highlighter-rouge">WeaponComponent</code> inherits <code class="language-plaintext highlighter-rouge">Component</code> → <code class="language-plaintext highlighter-rouge">WeaponComponent.md</code> must duplicate every property from <code class="language-plaintext highlighter-rouge">Component.md</code> with complete details (not just a list or link), plus any <code class="language-plaintext highlighter-rouge">WeaponComponent</code>-specific properties.</li>
+      <li><strong>Do NOT mention “inherited from”, “base class”, or “inherited properties” anywhere in the Properties section.</strong> Present all properties as if they belong directly to the documented class/module/entity.</li>
+      <li><strong>Include full enum value lists</strong> in the derived doc (copy from base), do NOT link to base enum sections. Modders should see all enum values directly.</li>
+      <li>Apply this rule to all feature types: global entities, entry catalogs, modules, components, and any nested templates.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">## Source Files</code>, list the base class first (for developer reference only, not for modder consumption).</li>
+  <li>If multiple bases define properties, include properties from each base (group by category to keep clarity, but do not label them as “inherited” or mention base classes).</li>
+  <li>When a base property is overridden or behaves differently in the derived class, clearly state the differences under the derived property without referencing the base.</li>
+  <li>Property categories should describe functionality (e.g., “Health Settings”, “Damage Settings”) not inheritance structure.</li>
+</ul>
+
+<h3 id="cross-usage-research--mandatory">Cross-Usage Research — Mandatory</h3>
+<ul>
+  <li><strong>CRITICAL</strong>: You MUST comprehensively research where the class/module/entity is USED throughout the ENTIRE codebase. Missing even one system interaction makes the documentation incomplete and misleading for modders.</li>
+  <li>Search strategy — use MULTIPLE approaches:
+    <ol>
+      <li><strong>Direct name searches</strong>: Search for the class/type name across all systems.</li>
+      <li><strong>Method/function searches</strong>: Search for methods that use the class (e.g., lookup methods, status checks, modification methods, interaction handlers).</li>
+      <li><strong>Property searches</strong>: Search for INI property names that reference the class (e.g., properties that accept entity names, properties that check entity status, properties that configure entity interactions).</li>
+      <li><strong>Interface searches</strong>: Search for interfaces/abstract classes the feature implements or extends.</li>
+      <li><strong>Grep for patterns</strong>: Use grep to find all call sites, not just declarations.</li>
+    </ol>
+  </li>
+  <li><strong>Research patterns to identify</strong>:
+    <ul>
+      <li><strong>Direct usage</strong>: Other systems that directly reference or call methods on the documented entity.</li>
+      <li><strong>Property-based references</strong>: INI properties in other entities that reference the documented entity by name or type.</li>
+      <li><strong>State checks</strong>: Systems that check the status, state, or condition of the documented entity.</li>
+      <li><strong>Modification interactions</strong>: Systems that modify, heal, damage, enable, disable, or otherwise alter the documented entity.</li>
+      <li><strong>GUI/Command integration</strong>: Commands or GUI elements that interact with the documented entity.</li>
+      <li><strong>Prerequisite/Requirement systems</strong>: Systems that check for the existence, absence, or status of the documented entity.</li>
+      <li><strong>Visual/Display systems</strong>: Systems that display or render information about the documented entity.</li>
+      <li><strong>Specialized interactions</strong>: Version-specific or feature-specific interactions (e.g., jamming, repair, upgrade systems).</li>
+    </ul>
+  </li>
+  <li><strong>CRITICAL - Getter/Setter and indirection awareness</strong>: Do not assume properties are only used where parsed. Always scan for getter/setter methods and indirections that access the parsed data (e.g., <code class="language-plaintext highlighter-rouge">getX</code>, <code class="language-plaintext highlighter-rouge">setX</code>, <code class="language-plaintext highlighter-rouge">hasX</code>, <code class="language-plaintext highlighter-rouge">consumeX</code>, UI queries). Many systems interact only through these accessors. Document behaviors discovered via these methods.</li>
+  <li><strong>For each discovered interaction</strong>, determine whether it’s a <strong>Limitation</strong>, <strong>Condition</strong>, or <strong>Dependency</strong> and document accordingly.</li>
+</ul>
+
+<h3 id="cross-usage-interactions-checklist-mandatory">Cross-Usage Interactions Checklist (Mandatory)</h3>
+<p>Before finalizing any doc, validate interactions with these common systems and add findings to Usage (Limitations/Conditions/Dependencies) with links:</p>
+<ul>
+  <li>Weapons: Inventory use via <code class="language-plaintext highlighter-rouge">ConsumeInventory</code> (see <a href="../Weapon.md">Weapon documentation</a>); clip reload effects and ammo pips.</li>
+  <li>Locomotor: Fuel consumption via <code class="language-plaintext highlighter-rouge">ConsumeItem</code> and <code class="language-plaintext highlighter-rouge">ConsumeRate</code> (see <a href="../Locomotor.md">Locomotor</a>).</li>
+  <li>AI/Updates: Movement/flight logic (e.g., <a href="../ObjectUpdates/JetAIUpdate.md">JetAIUpdate</a>) that reacts to inventory/fuel presence.</li>
+  <li>Resupply systems: <a href="../ObjectBehaviorsModules/ParkingPlaceBehavior.md">ParkingPlaceBehavior</a>, <a href="../ObjectBehaviorsModules/AutoSupplyItemBehavior.md">AutoSupplyItemBehavior</a>.</li>
+  <li>Commands/UI: <a href="../CommandButton.md">CommandButton</a> for resupply actions, costs, and availability; control bar UI displays.</li>
+  <li>Game flow glue: Dispatch/handlers that implement resupply or costs (e.g., clip-first then top-up behavior, total cost from per-item cost).</li>
+  <li>Upgrades: <a href="../ObjectUpgrades/InventoryUpgrade.md">InventoryUpgrade</a> that can add items or change costs.</li>
+</ul>
+
+<p>When scanning, search for patterns: the entity name, property strings, and methods like <code class="language-plaintext highlighter-rouge">get*</code>, <code class="language-plaintext highlighter-rouge">set*</code>, <code class="language-plaintext highlighter-rouge">has*</code>, <code class="language-plaintext highlighter-rouge">consume*</code>, <code class="language-plaintext highlighter-rouge">add*</code>, <code class="language-plaintext highlighter-rouge">set*Count</code>, and UI references.</p>
+
+<h3 id="usage-section--required-content-and-categorization">Usage Section — Required Content and Categorization</h3>
+<ul>
+  <li>Reference the [Template] section for syntax.</li>
+  <li>
+    <p>Include three distinct sub-sections with NO duplication between them. Categorize each item correctly:</p>
+  </li>
+  <li><strong>CRITICAL - Internal property linking</strong>: When mentioning properties anywhere in the document (Usage, Overview, Notes, Properties descriptions, Examples text, etc.) — link those property names to their headers within the same document using <code class="language-plaintext highlighter-rouge">[PropertyName](#propertyname)</code>. Do not leave property names as plain text or inside backticks when they should be clickable links. <strong>Exception</strong>: Code snippets (<code class="language-plaintext highlighter-rouge">ini,</code>cpp, etc.) cannot contain markdown links, so property names in code blocks remain as plain text. Example: “when <a href="#triggeredby">TriggeredBy</a> is set” (CORRECT) vs “<code class="language-plaintext highlighter-rouge">TriggeredBy</code>” (WRONG outside code blocks).</li>
+</ul>
+
+<h4 id="limitations">Limitations</h4>
+<ul>
+  <li><strong>What belongs here</strong>: Hard structural requirements that prevent the feature from existing or functioning AT ALL without them, including internal validation and logic constraints.</li>
+  <li><strong>Must document</strong>: Any validation, constraints, or internal logic that can cause the feature to fail, behave incorrectly, or produce unexpected results.</li>
+  <li><strong>CRITICAL METHODOLOGY</strong>: Read the actual parsing code, validation logic, and initialization code for each entity/module carefully. Do NOT follow patterns or assumptions. Each class may have unique behavior that must be discovered by examining:
+    <ul>
+      <li>Parsing functions (<code class="language-plaintext highlighter-rouge">parse*</code> methods) — check for default value assignments, validation checks, empty token handling</li>
+      <li>Initialization code (constructors, <code class="language-plaintext highlighter-rouge">init*</code> methods) — check for constraints, clamping, default behaviors</li>
+      <li>Validation logic (condition checks, range checks, null checks) — check for early returns, error conditions, fallback behaviors</li>
+      <li>Lookup/resolution code (lookup methods, find methods, resolve methods) — check for first-match behavior, duplicate handling, missing item behavior</li>
+    </ul>
+  </li>
+  <li><strong>Discovery process pattern</strong>: When documenting naming rules or property validation, read the actual parsing function in the source file. Look for:
+    <ul>
+      <li>Does it check for empty values and return early?</li>
+      <li>Does it check for null/empty tokens and assign a default?</li>
+      <li>What default value is assigned, if any?</li>
+      <li>Are there uniqueness constraints (e.g., names must be unique within a scope)?</li>
+      <li>Are there format requirements (e.g., naming conventions, reserved names)?</li>
+      <li>This same careful reading applies to ALL properties, not just naming — each may have unique validation, defaults, or constraints.</li>
+    </ul>
+  </li>
+  <li><strong>NOT dependencies</strong>: If something can exist without it (just won’t work well), it’s usually a Condition or Dependency.</li>
+</ul>
+
+<h4 id="conditions">Conditions</h4>
+<ul>
+  <li><strong>What belongs here</strong>: Optional configuration or runtime state that changes HOW the feature behaves, but the feature can still exist/function without it.</li>
+  <li><strong>Pattern examples</strong>:
+    <ul>
+      <li>“If this entity’s name is listed in another entity’s property that references it, the entity’s status affects that system’s behavior” — the entity works fine, but the interaction only occurs if explicitly listed.</li>
+      <li>“When the entity’s state changes (damaged/destroyed/enabled/disabled), visual or behavioral changes occur based on state properties” — runtime behavior based on entity state.</li>
+      <li>“If a property is set to a specific value, the entity behaves differently” — conditional behavior based on configuration.</li>
+    </ul>
+  </li>
+  <li><strong>NOT dependencies</strong>: Optional interactions that modify behavior, not requirements for basic functionality.</li>
+</ul>
+
+<h4 id="dependencies">Dependencies</h4>
+<ul>
+  <li><strong>What belongs here</strong>: External features that MUST exist for this feature to be useful/functional. Without the dependency, the feature is broken or useless.</li>
+  <li><strong>Critical rule</strong>: Each dependency MUST include a description explaining WHY it is needed and what happens if missing.</li>
+  <li><strong>Pattern examples</strong>:
+    <ul>
+      <li><strong>Flag-setting dependency</strong>: “EntityA sets a flag/status, but the actual functionality is handled by EntityB. Without EntityB, EntityA does nothing — the flag is set but never read.”</li>
+      <li><strong>Parent container dependency</strong>: “This child entity requires a parent container entity to exist. Without the parent, the child cannot be parsed or added.”</li>
+      <li><strong>System dependency</strong>: “This feature requires a specific system module to function. Without the system, the feature’s properties are ignored or cause errors.”</li>
+    </ul>
+  </li>
+  <li><strong>Format</strong>:
+    <ul>
+      <li>List the dependency with link to its documentation.</li>
+      <li>Explain WHY it’s needed (what happens if missing).</li>
+      <li>Include exact property names when relevant (e.g., properties that reference the dependency).</li>
+    </ul>
+  </li>
+  <li><strong>DO NOT include</strong>: Optional interactions that just change behavior (those go in Conditions). Requirements for existence (those go in Limitations).</li>
+</ul>
+
+<h3 id="module-placement-and-behavior-rules-mandatory-for-all-modulesbehaviorscomponents">Module Placement and Behavior Rules (Mandatory for All Modules/Behaviors/Components)</h3>
+<p><strong>CRITICAL</strong>: All modules, behaviors, and components must document their placement rules and behavior with Object, ObjectExtend, and ObjectReskin. This is a common pattern that applies to ALL module documentation.</p>
+
+<p><strong>Placement Documentation Requirements</strong>:</p>
+<ul>
+  <li><strong>For all modules/behaviors/components</strong>: Document where they can be placed (Object, ObjectExtend, ObjectReskin) and any restrictions.</li>
+  <li><strong>Placement section format</strong>: Add a “Placement” subsection at the start of the Usage section, immediately after the opening usage statement.</li>
+</ul>
+
+<p><strong>Standard Placement Rules</strong>:</p>
+<ol>
+  <li><strong>Object entries</strong>:
+    <ul>
+      <li><strong>Retail</strong>: All modules can be added to <code class="language-plaintext highlighter-rouge">Object</code> entries.</li>
+      <li><strong>GMX</strong>: All modules can be added to <code class="language-plaintext highlighter-rouge">Object</code> entries.</li>
+      <li><strong>Duplicate module restriction</strong>: Some module types (like body modules) can only exist once per object. If multiple instances of such modules are added, the game will crash with an assertion error (e.g., “Duplicate bodies”, “Duplicate containers”, “DuplicateStealthUpdates!”, etc.). Document this in Limitations if applicable.</li>
+    </ul>
+  </li>
+  <li><strong>ObjectExtend entries</strong> (GMX only):
+    <ul>
+      <li><strong>GMX only</strong>: ObjectExtend exists only in GMX (both Generals and Zero Hour). Do NOT mention ObjectExtend in Retail mirror documentation.</li>
+      <li><strong>Module replacement behavior</strong>: When a module is added to an <code class="language-plaintext highlighter-rouge">ObjectExtend</code> entry with the same <code class="language-plaintext highlighter-rouge">ModuleTag</code> name as the base object, the base object’s module is automatically replaced. ObjectExtend automatically clears modules with matching <code class="language-plaintext highlighter-rouge">ModuleTag</code> names when adding new modules (see <code class="language-plaintext highlighter-rouge">ThingTemplate.cpp</code> lines 345-357).</li>
+      <li><strong>Documentation</strong>: Document in Conditions section: “<strong>ObjectExtend (GMX only)</strong>: When [ModuleName] is added to an <code class="language-plaintext highlighter-rouge">ObjectExtend</code> entry with the same <code class="language-plaintext highlighter-rouge">ModuleTag</code> name as the base object, the base object’s [ModuleName] module is automatically replaced. ObjectExtend automatically clears modules with matching <code class="language-plaintext highlighter-rouge">ModuleTag</code> names when adding new modules.”</li>
+    </ul>
+  </li>
+  <li><strong>ObjectReskin entries</strong> (both Retail and GMX):
+    <ul>
+      <li><strong>Both versions</strong>: ObjectReskin exists in both Retail and GMX.</li>
+      <li><strong>Module behavior</strong>: ObjectReskin uses the same module system as Object. It does NOT support automatic module replacement like ObjectExtend.</li>
+      <li><strong>Duplicate module tag error</strong>: Adding a module to an ObjectReskin entry with the same <code class="language-plaintext highlighter-rouge">ModuleTag</code> name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement.</li>
+      <li><strong>Documentation</strong>: Document in Conditions section: “<strong>ObjectReskin (both Retail and GMX)</strong>: ObjectReskin uses the same module system as Object. Adding [ModuleName] to an ObjectReskin entry with the same <code class="language-plaintext highlighter-rouge">ModuleTag</code> name as the base object will cause a duplicate module tag error, as ObjectReskin does not support automatic module replacement like ObjectExtend.”</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Special Module Type Restrictions</strong>:</p>
+<ul>
+  <li><strong>Body modules</strong> (ActiveBody, InactiveBody, StructureBody, etc.): Only one body module can exist per object. If multiple body modules are added to the same object, the game will crash with a “Duplicate bodies” assertion error during object creation. This restriction applies regardless of <code class="language-plaintext highlighter-rouge">ModuleTag</code> names — the object can only have one body module total (see <code class="language-plaintext highlighter-rouge">Object.cpp</code> lines 349-354 for Retail, lines 460-465 for GMX).</li>
+  <li><strong>Container modules</strong>: Only one container module can exist per object. Multiple containers will cause a “Duplicate containers” assertion error.</li>
+  <li><strong>StealthUpdate</strong>: Only one StealthUpdate can exist per object. Multiple instances will cause a “DuplicateStealthUpdates!” assertion error.</li>
+  <li><strong>AI modules</strong>: Only one AI module can exist per object. Multiple instances will cause an assertion error.</li>
+  <li><strong>PhysicsBehavior</strong>: Only one PhysicsBehavior can exist per object. Multiple instances will cause an assertion error.</li>
+</ul>
+
+<p><strong>Documentation Format Example</strong>:</p>
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">## Usage</span>
+
+Place under <span class="sb">`[ModuleType] = [ModuleName] ModuleTag_XX`</span> inside <span class="sb">`Object`</span> entries. In GMX, [ModuleName] can also be added to <span class="sb">`ObjectExtend`</span> entries. See Template for correct syntax.
+
+<span class="gs">**Placement**</span>:
+<span class="p">-</span> <span class="gs">**Retail**</span>: [ModuleName] can only be added to <span class="sb">`Object`</span> entries .
+<span class="p">-</span> <span class="gs">**GMX**</span>: [ModuleName] can be added to both <span class="sb">`Object`</span> and <span class="sb">`ObjectExtend`</span> entries.
+
+[Additional restrictions for special module types - e.g., "Only one body module can exist per object..."]
+
+<span class="gs">**Limitations**</span>:
+[...]
+
+<span class="gs">**Conditions**</span>:
+<span class="p">-</span> <span class="gs">**ObjectExtend (GMX only)**</span>: When [ModuleName] is added to an <span class="sb">`ObjectExtend`</span> entry with the same <span class="sb">`ModuleTag`</span> name as the base object, the base object's [ModuleName] module is automatically replaced...
+<span class="p">-</span> <span class="gs">**ObjectReskin (both Retail and GMX)**</span>: ObjectReskin uses the same module system as Object. Adding [ModuleName] to an ObjectReskin entry with the same <span class="sb">`ModuleTag`</span> name as the base object will cause a duplicate module tag error...
+</code></pre></div></div>
+
+<p><strong>For Child Entity Documentation</strong> (applies to all parent/child relationships):</p>
+<ul>
+  <li><strong>Placement</strong>: Explicitly list all parent entities that support the child entity with links. Do NOT use “inherit” terminology - modders don’t understand inheritance. Instead, list the parent entities explicitly: “The following parent entities support [ChildEntityName]: <a href="../PathToParentA.md">ParentA</a>, <a href="../PathToParentB.md">ParentB</a>, <a href="../PathToParentC.md">ParentC</a>.”</li>
+  <li><strong>Limitations</strong>: List the same parent entities explicitly with links. Do NOT use “inherit” terminology. Use: “Requires one of the following parent entities: <a href="../PathToParentA.md">ParentA</a>, <a href="../PathToParentB.md">ParentB</a>, <a href="../PathToParentC.md">ParentC</a>; [ChildEntityName] cannot exist outside a parent entity block.”</li>
+  <li><strong>Multiple instances</strong>: State the scope correctly (e.g., “Multiple [ChildEntityName] instances can be added to the same [ParentEntityName]”) - child entities are scoped to their direct parent, not to a grandparent or container.</li>
+  <li><strong>Naming</strong>: Document naming uniqueness requirements (e.g., “[ChildEntityName] names must be unique within the same [ParentEntityName]”) - ensure the scope matches the actual parent/child relationship.</li>
+  <li><strong>Higher-level placement rules</strong>: Do NOT mention ObjectExtend, ObjectReskin, or other higher-level placement rules in child entity documentation if they affect the parent entity, not the child directly. This information belongs in parent entity documentation, not child entity documentation.</li>
+</ul>
+
+<p><strong>For Retail Mirror Documentation</strong>:</p>
+<ul>
+  <li>Remove all ObjectExtend references (GMX only).</li>
+  <li>Keep ObjectReskin references (exists in both Retail and GMX).</li>
+  <li>Adjust placement section to reflect Retail-only capabilities.</li>
+  <li>Do NOT create Retail mirror documentation for GMX-only features (e.g., components are GMX Zero Hour only, so no Retail mirror).</li>
+</ul>
+
+<h3 id="linking-rules-for-cross-usage--mandatory">Linking Rules for Cross-Usage — Mandatory</h3>
+<ul>
+  <li>When you mention another documented feature, link to its documentation file. If the specific property is documented with an anchor, link directly to the property anchor. If not yet documented, link to the top of that doc file until it is completed.</li>
+  <li>Use clear text that includes the INI property name exactly as it appears in the parse table (e.g., <code class="language-plaintext highlighter-rouge">AffectedByComponents</code>, <code class="language-plaintext highlighter-rouge">EngineComponentName</code>, <code class="language-plaintext highlighter-rouge">PrimaryComponentDamage</code>, <code class="language-plaintext highlighter-rouge">SecondaryComponentDamage</code>).</li>
+</ul>
+
+<h3 id="internal-linking--mandatory-within-the-same-document">Internal Linking — Mandatory (Within the Same Document)</h3>
+<ul>
+  <li><strong>CRITICAL RULE</strong>: Whenever you mention a property or enum that is documented in the same file, link to its section header in ALL sections:
+    <ul>
+      <li><strong>Applies to</strong>: Overview, Usage (including Limitations, Conditions, Dependencies), Notes, Properties descriptions, Enum Value Lists descriptions, Examples text, Modder Recommended Use Scenarios, Template comments, etc.</li>
+      <li><strong>Exception</strong>: Code snippets (<code class="language-plaintext highlighter-rouge">ini,</code>cpp, ```python, etc.) cannot contain markdown links, so property/enum names in code blocks remain as plain text without links.</li>
+      <li>Link properties by their header anchor (e.g., <code class="language-plaintext highlighter-rouge">[HealingType](#healingtype-gmx)</code>).</li>
+      <li>Link enum names to their enum section anchors (e.g., <code class="language-plaintext highlighter-rouge">[ComponentHealingType Values](#componenthealingtype-values)</code>).</li>
+    </ul>
+  </li>
+  <li><strong>CRITICAL RULE</strong>: Links must ALWAYS be outside of backticks. Markdown links inside backticks do not work.
+    <ul>
+      <li><strong>INCORRECT</strong>: <code class="language-plaintext highlighter-rouge">`[Object](../Object.md)`</code> or <code class="language-plaintext highlighter-rouge">`[MaxHealth](#maxhealth)`</code></li>
+      <li><strong>CORRECT</strong>: <code class="language-plaintext highlighter-rouge">[Object](../Object.md)</code> or <code class="language-plaintext highlighter-rouge">[MaxHealth](#maxhealth)</code> (link outside backticks, only property/command names inside backticks)</li>
+      <li><strong>Example</strong>: “For <code class="language-plaintext highlighter-rouge">[AutoHealBehavior](../ObjectBehaviorsModules/AutoHealBehavior.md)</code> to heal” → <strong>WRONG</strong> (link inside backticks)</li>
+      <li><strong>Example</strong>: “For <a href="../ObjectBehaviorsModules/AutoHealBehavior.md">AutoHealBehavior</a> to heal” → <strong>CORRECT</strong> (link outside backticks)</li>
+      <li><strong>Example</strong>: “If <a href="#maxhealth">MaxHealth</a> is 0” → <strong>CORRECT</strong> (internal link outside backticks)</li>
+      <li><strong>Example</strong>: “The <code class="language-plaintext highlighter-rouge">MaxHealth</code> property” → <strong>CORRECT</strong> (property name only, no link, so backticks are fine)</li>
+      <li>Only use backticks for property names, command names, enum values, or code snippets that are NOT links.</li>
+    </ul>
+  </li>
+  <li>The goal is effortless navigation for modders - every property/enum mention should be clickable (except in code blocks).</li>
+</ul>
+
+<h3 id="internal-anchors-and-linking-critical">Internal Anchors and Linking (Critical)</h3>
+<ul>
+  <li>Do NOT rely on auto-generated anchors; they vary by renderer and can break when headers change.</li>
+  <li>Always add a manual anchor immediately before any section that will be linked internally.
+    <ul>
+      <li>Format: <code class="language-plaintext highlighter-rouge">&lt;a id="anchor-name"&gt;&lt;/a&gt;</code> on its own line.</li>
+      <li>Example before a header:
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">&lt;a id="hitside-values"&gt;&lt;/a&gt;</code> then <code class="language-plaintext highlighter-rouge">#### </code>HitSide<code class="language-plaintext highlighter-rouge"> Values</code></li>
+          <li><code class="language-plaintext highlighter-rouge">&lt;a id="bodydamagetype-values"&gt;&lt;/a&gt;</code> then <code class="language-plaintext highlighter-rouge">#### </code>BodyDamageType<code class="language-plaintext highlighter-rouge"> Values</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Put version/availability on a NEW LINE directly under the header using the exact text: <code class="language-plaintext highlighter-rouge">Available in: *(...)*</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(...)*</code> (not <code class="language-plaintext highlighter-rouge">Availability:</code>).
+    <ul>
+      <li><strong>CRITICAL</strong>: Always check all 4 versions in order: GMX Zero Hour → Retail Zero Hour → GMX Generals → Retail Generals. Do NOT assume availability.</li>
+      <li><strong>CRITICAL</strong>: Always specify which game variants (Generals vs Zero Hour) are included. Use one of these formats:
+        <ul>
+          <li><strong>Available in 2 or more versions</strong>: <code class="language-plaintext highlighter-rouge">Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*</code> or shorter <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> or <code class="language-plaintext highlighter-rouge">Available in: *(GMX Zero Hour, Retail Zero Hour 1.04)*</code></li>
+          <li><strong>Available only in exactly 1 version</strong>: <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(Retail Generals 1.04)*</code></li>
+        </ul>
+      </li>
+      <li><strong>CRITICAL</strong>: If something is available in Retail 1.04 (Retail Generals 1.04 or Retail Zero Hour 1.04), it is ALSO available in GMX. Always list both when applicable.</li>
+      <li>Example:
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">#### </code>BodyDamageType<code class="language-plaintext highlighter-rouge"> Values</code></li>
+          <li><code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code></li>
+        </ul>
+      </li>
+      <li>For GMX-only features (multiple variants): <code class="language-plaintext highlighter-rouge">Available in: *(GMX Generals, GMX Zero Hour)*</code></li>
+      <li>For GMX-only features (single variant): <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code></li>
+      <li>For Retail-only features (rare): <code class="language-plaintext highlighter-rouge">Available only in: *(Retail 1.04)* (Generals, Zero Hour)</code> (but verify this is truly not in GMX)</li>
+    </ul>
+  </li>
+  <li>When referencing inside the same document, always link as <code class="language-plaintext highlighter-rouge">[text](#anchor-name)</code> using the manual id.</li>
+  <li>Apply manual anchors and <code class="language-plaintext highlighter-rouge">Available in:</code> lines to ALL sections that need version flags (Enums, Properties groups, entire sections, Overview section, etc.), not just enum values.</li>
+</ul>
+
+<h3 id="external-linking--specific-systems">External Linking — Specific Systems</h3>
+<ul>
+  <li>When referencing specific systems, entities, or commands, link to their docs using this pattern: <code class="language-plaintext highlighter-rouge">[SystemOrDocName](relative/path/to/Doc.md)</code>.
+    <ul>
+      <li><strong>CRITICAL RULE</strong>: Links must ALWAYS be outside of backticks. Never put markdown links inside backticks.
+        <ul>
+          <li><strong>INCORRECT</strong>: <code class="language-plaintext highlighter-rouge">`[EntityName](../PathToEntity.md)`</code> (link inside backticks - will not work)</li>
+          <li><strong>CORRECT</strong>: <a href="../PathToEntity.md">EntityName</a> (link outside backticks - will work)</li>
+          <li>If you need to emphasize the link text, use the link alone, or use backticks only for inline code terms (property names, enum values) that are NOT links.</li>
+        </ul>
+      </li>
+      <li><strong>Pattern</strong>: Link every mention of a documented entity, system, or command to its documentation. Examples of when to link:
+        <ul>
+          <li>When mentioning command types or constants that reference the entity.</li>
+          <li>When discussing interactions with other systems that use the entity.</li>
+          <li>When referencing behaviors or modules that interact with the entity.</li>
+          <li>When mentioning properties in other entities that reference the documented entity.</li>
+          <li>When discussing systems that modify, check, or display the entity.</li>
+        </ul>
+      </li>
+      <li>Follow the same linking pattern for all referenced systems — link the entity name, not just the mention.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="enum-value-lists--completeness-gmx-first">Enum Value Lists — Completeness (GMX-first)</h4>
+<ul>
+  <li>For each enum, create a subsection with version flags and a source reference (header path/link).</li>
+  <li>If there is a corresponding string array, note it and maintain the same order as the enum.</li>
+  <li>List EVERY value with individual inline version flags and a short description — do not stop at the Retail set.</li>
+  <li><strong>CRITICAL</strong>: Check all 4 versions in order: GMX Zero Hour → Retail Zero Hour → GMX Generals → Retail Generals. Enumerate the complete GMX set first, then mark which values exist in Retail.</li>
+  <li>GMX-first rule: enumerate the GMX set first; mark GMX-only values with inline format like <code class="language-plaintext highlighter-rouge">*(GMX Zero Hour)*</code> and values that also exist in Retail with <code class="language-plaintext highlighter-rouge">*(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*</code>.</li>
+  <li><strong>Pattern for enum discovery</strong>: Start with the GMX Zero Hour header file that defines the enum. Extract ALL enum values, then check each value against Retail versions to determine availability. Do NOT assume Retail has the same set — GMX may have significantly more values than Retail. For example, if GMX has 48 values and Retail has only 4, document all 48 with proper version flags.</li>
+  <li><strong>Pattern for enum versioning</strong>: If an entire enum exists only in GMX (not in Retail), set the section header to <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code> (or appropriate GMX version) and mark each value with the same version flag. If an enum exists in multiple versions but with different value counts, document all values with individual version flags.</li>
+</ul>
+
+<h4 id="examples">Examples</h4>
+<ul>
+  <li><strong>Minimum example count</strong> (based on property count):
+    <ul>
+      <li><strong>Entities with more than 2 properties</strong>: Provide at least 5 examples to demonstrate various property combinations and usage scenarios.</li>
+      <li><strong>Entities with 2 or fewer properties</strong>: Provide 1-2 examples sufficient to show basic usage.</li>
+      <li><strong>Components/modules with no properties</strong>: Provide 1 example showing the basic structure is enough.</li>
+    </ul>
+  </li>
+  <li><strong>Child entity examples in parent documentation (MANDATORY)</strong>: For each child entity property in the Properties section of parent documentation, you MUST include exactly 1 example directly under the child entity property description. The example should demonstrate basic usage of that child entity type. Do NOT include child entity examples in the Examples section of the document — only in the Properties section under each child entity property. Child entities are documented separately in their own files, but parent documentation should include a brief example for each child entity type to show how they are added. This applies to ALL parent/child relationships found in the codebase. Examples of parent/child patterns include: nested entities within parent entities, list items within container entities, and module blocks within object entries. Additional parent/child patterns may be discovered when documenting other features.</li>
+  <li>Remove all INI comment lines from examples.</li>
+  <li>Prefer GMX examples from <code class="language-plaintext highlighter-rouge">Patches/WW2030/INI</code>, then Retail from <code class="language-plaintext highlighter-rouge">Sources/Generals</code> (Retail Generals 1.04) or <code class="language-plaintext highlighter-rouge">Sources/Zero Hour</code> (Retail Zero Hour 1.04).</li>
+  <li>Examples should illustrate typical usage, edge cases, and property combinations.</li>
+  <li>For catalogs: show multiple entries. For modules: show embedding inside <code class="language-plaintext highlighter-rouge">Object</code> with <code class="language-plaintext highlighter-rouge">ModuleTag_*</code>.</li>
+</ul>
+
+<h4 id="template">Template</h4>
+<ul>
+  <li>Provide a canonical copy-paste block in ```ini fences.</li>
+  <li>Include important properties with default values and concise comments ending with version flags.</li>
+  <li><strong>Child entity references in templates</strong>: Do NOT include detailed child entity templates in parent documentation templates. Instead, include only a brief comment indicating child entities can be added (e.g., <code class="language-plaintext highlighter-rouge">; [ChildEntityName] entries can be added here (see [ChildEntityName] documentation)</code>, with version flags if applicable). Child entities are documented separately in their own files. This applies to ALL parent/child relationships found in the codebase. Examples of parent/child patterns include: nested entities within parent entities, list items within container entities, and module blocks within object entries. Additional parent/child patterns may be discovered when documenting other features.</li>
+  <li>Use the correct opener for modules/components: <code class="language-plaintext highlighter-rouge">Behavior = ...</code>, <code class="language-plaintext highlighter-rouge">Collide = ...</code>, or <code class="language-plaintext highlighter-rouge">SpecialPower = ...</code>.</li>
+  <li>For one-per-game global blocks: wrap with the correct block name such as <code class="language-plaintext highlighter-rouge">AIData</code>, <code class="language-plaintext highlighter-rouge">GameData</code>, or <code class="language-plaintext highlighter-rouge">multiplayer</code>.</li>
+</ul>
+
+<h4 id="notes">Notes</h4>
+<ul>
+  <li>Bullet points with practical tips, caveats, performance considerations, and non-obvious interactions.</li>
+  <li>Avoid repeating Usage; focus on operational knowledge for modders.</li>
+  <li><strong>Child entity notes in parent documentation</strong>: Do NOT include detailed child entity-specific notes in parent documentation. Child entity details belong in child entity documentation files. Only include a brief mention that child entities can be added with a link to child entity documentation. This applies to ALL parent/child relationships found in the codebase. Examples of parent/child patterns include: nested entities within parent entities, list items within container entities, and module blocks within object entries. Additional parent/child patterns may be discovered when documenting other features.</li>
+</ul>
+
+<h4 id="modder-recommended-use-scenarios">Modder Recommended Use Scenarios</h4>
+<ul>
+  <li><strong>Leave empty by default</strong>: This section should be left empty with <code class="language-plaintext highlighter-rouge">(pending modder review)</code> placeholder. Modders will fill this section based on their experience and use cases. Do NOT write scenarios unless explicitly requested.</li>
+</ul>
+
+<h4 id="source-files">Source Files</h4>
+<ul>
+  <li>First line must show the base class (if any): <code class="language-plaintext highlighter-rouge">**Base Class:** [ClassName](../../path/to/header.h)</code>. If the base class exists in both GMX Generals and GMX Zero Hour, list both: <code class="language-plaintext highlighter-rouge">**Base Class:** [ClassName](../../GeneralsMD/path/to/header.h) (GMX Zero Hour), [ClassName](../../Generals/path/to/header.h) (GMX Generals)</code>.</li>
+  <li>Then list GMX header and source files as <strong>clickable links</strong> (relative paths from <code class="language-plaintext highlighter-rouge">Docs/</code>), not just backticks. <strong>CRITICAL</strong>: Include BOTH GMX Generals and GMX Zero Hour source files if they exist in both versions.</li>
+  <li>Format for files that exist in both versions:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- Header (GMX Zero Hour): [FileName.h](../../GeneralsMD/path/to/header.h)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Source (GMX Zero Hour): [FileName.cpp](../../GeneralsMD/path/to/source.cpp)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Header (GMX Generals): [FileName.h](../../Generals/path/to/header.h)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Source (GMX Generals): [FileName.cpp](../../Generals/path/to/source.cpp)</code></li>
+    </ul>
+  </li>
+  <li>Format for files that exist in only one version:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- Header: [FileName.h](../../GeneralsMD/path/to/header.h)</code> (if GMX Zero Hour only)</li>
+      <li><code class="language-plaintext highlighter-rouge">- Header: [FileName.h](../../Generals/path/to/header.h)</code> (if GMX Generals only)</li>
+    </ul>
+  </li>
+  <li><strong>CRITICAL</strong>: Header and source entries must be markdown links <code class="language-plaintext highlighter-rouge">[filename](path)</code>, NOT just backticks. The instruction says “link to header/source paths” — this means actual clickable links.</li>
+  <li>If Retail differs, add a short note of the Retail path or name (no external links for Retail mirror files).</li>
+  <li>Use backticks for inline names of <code class="language-plaintext highlighter-rouge">classes</code> and <code class="language-plaintext highlighter-rouge">functions</code> in descriptions, but file paths should be links.</li>
+</ul>
+
+<h4 id="changes-history">Changes History</h4>
+<ul>
+  <li>Track feature changes/additions in the game code after Retail 1.04 (e.g., GMX-added properties, new sections, extended enums). Do not list documentation edits here.</li>
+</ul>
+
+<h4 id="document-log">Document Log</h4>
+<ul>
+  <li>Track documentation events (initial creation, refactors, link fixes) separate from feature changes.</li>
+</ul>
+
+<h4 id="status">Status</h4>
+<ul>
+  <li>Simple block with:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- Documentation Status: AI-generated | In Review | Certified</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Last Updated: DD/MM/YYYY by @author</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Certification: X/2 reviews</code></li>
+    </ul>
+  </li>
+  <li>Keep this consistent with the status line under the title.</li>
+</ul>
+
+<h4 id="reviewers">Reviewers</h4>
+<ul>
+  <li>Bullet list of reviewers with handle, date, and brief verification note.</li>
+  <li>Example: <code class="language-plaintext highlighter-rouge">- @ReviewerA — 03/11/2025 — Verified defaults and enums</code>.</li>
+</ul>
+
+<h3 id="property-format-mandatory">Property Format (Mandatory)</h3>
+<p>For every property in <code class="language-plaintext highlighter-rouge">## Properties</code>:</p>
+
+<h4 id="propertyname"><code class="language-plaintext highlighter-rouge">PropertyName</code></h4>
+<p>Available in: <em>(version information)</em> or Available only in: <em>(version information)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">&lt;Type&gt;</code> (link to doc for complex types; see Cross-References). <strong>CRITICAL</strong>: Keep the type name in backticks, but put the link OUTSIDE the backticks so the link works. Example: <code class="language-plaintext highlighter-rouge">- **Type**: weapon</code> (see <a href="../Weapon.md">Weapon documentation</a>) — NOT <code class="language-plaintext highlighter-rouge">- **Type**: weapon (see [Weapon documentation](../Weapon.md))</code> (link inside backticks won’t work)</li>
+  <li><strong>Description</strong>: Practical effects, not code internals. For booleans: what happens when Yes vs No. For numbers: impact of larger vs smaller values. For percentages: scale meaning (1.0 vs 100% according to parser). Mention constraints and edge cases.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">&lt;value&gt;</code> as initialized in code (constructor or member init) or parse fallback.</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">PropertyName = &lt;value&gt;</code></li>
+</ul>
+
+<p><strong>CRITICAL</strong>: Version information must be on a NEW LINE directly under the property header, using the exact format:</p>
+<ul>
+  <li><strong>Use “Available in:” when listing 2 or more versions</strong>: <code class="language-plaintext highlighter-rouge">Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*</code> or shorter <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> or <code class="language-plaintext highlighter-rouge">Available in: *(GMX Zero Hour, Retail Zero Hour 1.04)*</code></li>
+  <li><strong>Use “Available only in:” when listing exactly 1 version</strong>: <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(Retail Generals 1.04)*</code></li>
+  <li><strong>CRITICAL</strong>: Always check all 4 versions in order: GMX Zero Hour → Retail Zero Hour → GMX Generals → Retail Generals. Do NOT assume availability. If checking shows it’s in multiple versions, use “Available in:”. If it’s in exactly 1 version, use “Available only in:”.</li>
+</ul>
+
+<p>Always specify which game variants (Generals vs Zero Hour) are included when applicable. Do NOT put version flags inline in the header like <code class="language-plaintext highlighter-rouge">#### PropertyName *(GMX)*</code> — use the “Available in:” or “Available only in:” line format instead.</p>
+
+<p>Category headers should include version flags where the entire category is version-limited, using the same new-line format.</p>
+
+<p>When the property uses an enum or indexed list parser (e.g., <code class="language-plaintext highlighter-rouge">INI::parseIndexList</code>):</p>
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">Available Values: see [EnumName Values](#enumname-values)</code> and ensure the property text links to that section.</li>
+  <li>Clarify that modders must use the string names from the enum name array (e.g., <code class="language-plaintext highlighter-rouge">"PRESERVE_RATIO"</code>) rather than C++ enum tokens. Use the exact spelling/case from the array.</li>
+</ul>
+
+<p>When the property uses a custom parser (not <code class="language-plaintext highlighter-rouge">INI::</code>), summarize its behavior (accepted syntax, lists, complex types, validation/normalization) and link any referenced entities (e.g., <code class="language-plaintext highlighter-rouge">[Object](Object.md)</code>, <code class="language-plaintext highlighter-rouge">[Upgrade](Upgrade.md)</code>).</p>
+
+<h3 id="enum-format-mandatory">Enum Format (Mandatory)</h3>
+<p>In <code class="language-plaintext highlighter-rouge">## Enum Value Lists</code>, for each enum:</p>
+
+<h4 id="enumname-values"><code class="language-plaintext highlighter-rouge">EnumName</code> Values</h4>
+<p>Available in: <em>(version information)</em> or Available only in: <em>(version information)</em></p>
+
+<ul>
+  <li>Source reference: header file path in backticks or a link in the same line.</li>
+  <li>List every value with individual inline version flags and a short description.</li>
+  <li><strong>CRITICAL</strong>: Enum section header uses new-line format (as shown above), but enum values in the list use inline format: <code class="language-plaintext highlighter-rouge">*(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*</code> or <code class="language-plaintext highlighter-rouge">*(GMX Generals, GMX Zero Hour)*</code> or <code class="language-plaintext highlighter-rouge">*(GMX)*</code>.</li>
+  <li>If there is a corresponding string array, ensure order matches the enum declaration.</li>
+</ul>
+
+<p>z #### Special Enum Documentation Files
+<strong>CRITICAL</strong>: Some enums have their own dedicated documentation files and should NOT have their details listed in the Enum Value Lists section of other documents. Instead, link to the dedicated enum documentation file.</p>
+
+<p>The following enums have their own documentation files:</p>
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">KindOfMaskType</code></strong> (KindOf) - See <a href="KindOf.md">KindOf documentation</a></li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ModelConditionFlagType</code></strong> (ModelConditionFlags) - See <a href="ModelConditionFlagType.md">ModelConditionFlagType documentation</a></li>
+</ul>
+
+<p><strong>For new documentation</strong>: When documenting a property that uses one of these enums, do NOT include the enum value list in your document’s <code class="language-plaintext highlighter-rouge">## Enum Value Lists</code> section. Instead:</p>
+<ul>
+  <li>In the property’s <code class="language-plaintext highlighter-rouge">Type</code> field, link to the enum documentation: <code class="language-plaintext highlighter-rouge">KindOfMaskType</code> (see <a href="KindOf.md">KindOf documentation</a>) or <code class="language-plaintext highlighter-rouge">ModelConditionFlagType</code> (see <a href="ModelConditionFlagType.md">ModelConditionFlagType documentation</a>)</li>
+  <li>In the property description, reference the enum documentation when needed</li>
+  <li>Remove any enum value list sections for these enums from your document</li>
+</ul>
+
+<h3 id="versioning-rules-mandatory">Versioning Rules (Mandatory)</h3>
+<ul>
+  <li><strong>CRITICAL</strong>: Version information must be on a NEW LINE for properties, enums, enum sections, and major sections — NOT inline in headers.</li>
+  <li><strong>CRITICAL</strong>: Always specify which game variants (Generals vs Zero Hour) are included. The four versions are:
+    <ul>
+      <li>GMX Generals</li>
+      <li>GMX Zero Hour</li>
+      <li>Retail Generals 1.04</li>
+      <li>Retail Zero Hour 1.04</li>
+    </ul>
+  </li>
+  <li><strong>CRITICAL</strong>: If something is available in Retail 1.04 (Retail Generals 1.04 or Retail Zero Hour 1.04), it is ALSO available in GMX. Always list both when applicable.</li>
+  <li>Use these exact formats:
+    <ul>
+      <li><strong>Available in 2 or more versions</strong>: <code class="language-plaintext highlighter-rouge">Available in: *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)*</code> or shorter <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> or <code class="language-plaintext highlighter-rouge">Available in: *(GMX Zero Hour, Retail Zero Hour 1.04)*</code></li>
+      <li><strong>Available only in exactly 1 version</strong>: <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Zero Hour)*</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(Retail Generals 1.04)*</code></li>
+      <li><strong>Game-specific (multiple versions but same game)</strong>: <code class="language-plaintext highlighter-rouge">Available in: *(GMX Zero Hour, Retail Zero Hour 1.04)*</code> (both Zero Hour variants)</li>
+      <li><strong>CRITICAL</strong>: Use “Available in:” for 2+ versions, “Available only in:” for exactly 1 version. Always check all 4 versions: GMX Zero Hour → Retail Zero Hour → GMX Generals → Retail Generals.</li>
+    </ul>
+  </li>
+  <li>For enum values (inline in list):
+    <ul>
+      <li>Use inline format: <code class="language-plaintext highlighter-rouge">*(GMX, Retail 1.04)*</code> or <code class="language-plaintext highlighter-rouge">*(GMX)*</code> or <code class="language-plaintext highlighter-rouge">*(Retail Zero Hour 1.04 only)*</code></li>
+    </ul>
+  </li>
+  <li>For <code class="language-plaintext highlighter-rouge">Available in:</code> / <code class="language-plaintext highlighter-rouge">Available only in:</code> lines under section headers (enums, property categories, Overview, properties):
+    <ul>
+      <li>Use full new-line format as described above.</li>
+      <li><strong>CRITICAL</strong>: If a feature exists in Retail 1.04, write <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> not just <code class="language-plaintext highlighter-rouge">*(Retail 1.04)*</code>.</li>
+    </ul>
+  </li>
+  <li>At the top of each doc Overview section, include availability if scope differs by game:
+    <ul>
+      <li>Example: <code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(GMX)*</code>.</li>
+    </ul>
+  </li>
+  <li>When an entire entity/template is GMX-only, clearly mark the title line with <code class="language-plaintext highlighter-rouge">*(GMX)*</code> and use <code class="language-plaintext highlighter-rouge">Available only in: *(GMX)*</code> or <code class="language-plaintext highlighter-rouge">Available only in: *(GMX Generals, GMX Zero Hour)*</code> in the Overview.</li>
+</ul>
+
+<h3 id="cross-references-mandatory">Cross-References (Mandatory)</h3>
+<ul>
+  <li>When a property references another documented class/type, link to the documentation in <code class="language-plaintext highlighter-rouge">Docs/</code> using relative paths, not the source code. Example:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- **Type**: weapon</code> (see <a href="../Weapon.md">Weapon documentation</a>) - Note: the type name is in backticks, but the link is OUTSIDE the backticks so it works</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">## Source Files</code>, link to header/source paths for GMX (and note Retail paths if relevant).</li>
+  <li>Use backticks for file/class/function names inline.</li>
+  <li><strong>Internal property linking</strong>: When a property or enum is mentioned anywhere in the document (Overview, Usage, Notes, Properties descriptions, Enum descriptions, Examples text, etc.), link it internally using <code class="language-plaintext highlighter-rouge">[PropertyName](#propertyname)</code> format. This applies to ALL sections of the document. <strong>Exception</strong>: Code snippets (<code class="language-plaintext highlighter-rouge">ini,</code>cpp, etc.) cannot contain markdown links, so property/enum names in code blocks remain as plain text. <strong>CRITICAL</strong>: Keep links OUTSIDE backticks so they work. Example: If <a href="#initialhealth">InitialHealth</a> exceeds <a href="#maxhealth">MaxHealth</a>, the value is clamped. In this example, the links are outside any backticks, while code values like <code class="language-plaintext highlighter-rouge">0.0</code> stay in backticks. <strong>WRONG</strong>: <code class="language-plaintext highlighter-rouge">`[InitialHealth](#initialhealth)`</code> or <code class="language-plaintext highlighter-rouge">`If [InitialHealth](#initialhealth) exceeds [MaxHealth](#maxhealth)`</code> (links inside backticks won’t work). Use backticks only for code-like values like <code class="language-plaintext highlighter-rouge">0.0</code> or <code class="language-plaintext highlighter-rouge">Yes</code>, not for links.</li>
+  <li><strong>External system references</strong>:
+    <ul>
+      <li>Use <code class="language-plaintext highlighter-rouge">[Locomotor](../Locomotor.md)</code> instead of <code class="language-plaintext highlighter-rouge">LocomotorTemplate</code> - modders don’t know about template/data object structure, only the main entity name.</li>
+      <li>Use correct relative paths for update modules: <code class="language-plaintext highlighter-rouge">[JetAIUpdate](../ObjectUpdates/JetAIUpdate.md)</code> (not <code class="language-plaintext highlighter-rouge">ObjectModules</code>).</li>
+    </ul>
+  </li>
+  <li>Link every mention of a documented entity/module/component everywhere in the doc (Overview, Usage, Properties, Enum Value Lists, Notes, Modder Scenarios). Do not leave raw names unlinked. Examples:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">[Object](Object.md)</code>, <code class="language-plaintext highlighter-rouge">[Upgrade](Upgrade.md)</code>, <code class="language-plaintext highlighter-rouge">[Weapon](Weapon.md)</code>, <code class="language-plaintext highlighter-rouge">[AutoHealBehavior](ObjectBehaviorsModules/AutoHealBehavior.md)</code>, <code class="language-plaintext highlighter-rouge">[FireWeaponCollide](ObjectModules/FireWeaponCollide.md)</code>.</li>
+    </ul>
+  </li>
+  <li>In Properties, if the description mentions another type or module (e.g., uses an <code class="language-plaintext highlighter-rouge">FXList</code> or requires <code class="language-plaintext highlighter-rouge">ActiveBody</code>), link those names in-line to their Docs pages.</li>
+  <li>For enum-using properties, link the property’s Available Values line to the enum section, and add a short note in the enum section mentioning which properties consume it.</li>
+</ul>
+
+<h3 id="reference-property-error-semantics-mandatory">Reference Property Error Semantics (MANDATORY)</h3>
+<ul>
+  <li>For any property that references other entities (Object, Science, Upgrade, KindOf, Component, Item names), include a concise “Invalid references handling (from code)” note in Limitations/Notes. Use these rules:
+    <ul>
+      <li>Science: invalid names cause a hard load error (throws INI_INVALID_DATA) and prevent game start.</li>
+      <li>Upgrade: invalid names cause a hard load error (throws INI_INVALID_DATA).</li>
+      <li>Object template: invalid names trigger a debug assertion during name resolution; in non-debug builds behavior is undefined and may crash later (e.g., when generating requirement/conflict text). Treat as fatal; require valid names.</li>
+      <li>KindOf: invalid names abort parsing via index scanning; treat as fatal.</li>
+      <li>Inventory item names (free-form): not validated at load; conditions simply never match at runtime (effectively ignored).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="property-parsing-and-validation-critical">Property Parsing and Validation (Critical)</h3>
+<ul>
+  <li>Document how each property is parsed, referencing the specific field parse line when possible.</li>
+  <li>Common parser patterns:
+    <ul>
+      <li>Numeric/string: <code class="language-plaintext highlighter-rouge">INI::parseReal</code>, <code class="language-plaintext highlighter-rouge">INI::parseInt</code>, <code class="language-plaintext highlighter-rouge">INI::parseUnsignedInt</code>, <code class="language-plaintext highlighter-rouge">INI::parseAsciiString</code>.</li>
+      <li>Time/frames: <code class="language-plaintext highlighter-rouge">INI::parseDurationUnsignedInt</code> (milliseconds or frames; reflect units in docs).</li>
+      <li>Boolean: <code class="language-plaintext highlighter-rouge">INI::parseBool</code> (values <code class="language-plaintext highlighter-rouge">Yes</code>/<code class="language-plaintext highlighter-rouge">No</code>).</li>
+      <li>Enum/index: <code class="language-plaintext highlighter-rouge">INI::parseIndexList</code> (paired with a name array like <code class="language-plaintext highlighter-rouge">TheMaxHealthChangeTypeNames</code>). Modders must use the string names from the array.</li>
+      <li>Complex/custom: e.g., <code class="language-plaintext highlighter-rouge">ObjectPrerequisite::parseObjectPrerequisites</code> (may parse lists, complex blocks, and perform validation/normalization). Summarize accepted syntax and link referenced entities.</li>
+    </ul>
+  </li>
+  <li>Include parser-driven constraints in the Description (clamping, defaults when omitted, required presence).</li>
+  <li>For enums, identify the enum in headers (e.g., <code class="language-plaintext highlighter-rouge">MaxHealthChangeType</code>) and the exact name array. Present values using the name array strings and instruct to use those strings in INI.</li>
+  <li>Study both custom parsers and INI built-in parsers in code to fully understand:
+    <ul>
+      <li>Accepted input forms, edge cases, normalization, and validation paths.</li>
+      <li>Which member variables the parser fills (via <code class="language-plaintext highlighter-rouge">offsetof</code>) and how those members are later used in the class’ logic. Reflect this behavior succinctly in the property Description to guide modders on intended use.</li>
+    </ul>
+  </li>
+  <li>If a parser produces or references other entities (objects, upgrades, FX, weapons, etc.), link those entities in-line to their Docs pages everywhere mentioned (e.g., <code class="language-plaintext highlighter-rouge">[Object](Object.md)</code>, <code class="language-plaintext highlighter-rouge">[Upgrade](Upgrade.md)</code>).</li>
+  <li>In addition to parse tables, inspect all call sites where the parsed members are read/used. This is essential to understand how properties impact gameplay across systems (e.g., locomotor speed calculations using component status, weapons applying per-component damage).</li>
+</ul>
+
+<h3 id="examples-rules">Examples (Rules)</h3>
+<ul>
+  <li>Use authentic examples from GMX first (<code class="language-plaintext highlighter-rouge">Patches/WW2030/INI</code>), then Retail sources.</li>
+  <li>Remove all INI comments from examples.</li>
+  <li>Use minimal but complete examples illustrating a specific concept.</li>
+  <li>Provide multiple examples to cover different property combinations; align with complexity.
+    <ul>
+      <li>GMX examples from: <code class="language-plaintext highlighter-rouge">Patches/WW2030/INI/...</code></li>
+      <li>Retail examples from: <code class="language-plaintext highlighter-rouge">e:\Games\Command and Conquer - Generals - Work\Generals Source\Sources\Generals\...\INI\...</code> (Retail Generals 1.04) or <code class="language-plaintext highlighter-rouge">e:\Games\Command and Conquer - Generals - Work\Generals Source\Sources\Zero Hour\...\INI\...</code> (Retail Zero Hour 1.04)</li>
+    </ul>
+  </li>
+  <li>Include, where useful, side-by-side examples or notes highlighting differences between GMX and Retail (Generals/Zero Hour) to build a comprehensive picture of usage.</li>
+</ul>
+
+<h3 id="template-rules">Template (Rules)</h3>
+<ul>
+  <li>Wrap with ```ini code fences.</li>
+  <li>Show all important properties with default values from code where applicable.</li>
+  <li>Include concise inline comments describing each property and add version flags at the end of the comment, e.g.:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Property = default_value      ; // description *(v1.04)*</code></li>
+    </ul>
+  </li>
+  <li>For modules embedded in <code class="language-plaintext highlighter-rouge">Object</code>, use the exact module line format:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Behavior = &lt;BehaviorName&gt; ModuleTag_XX</code> or <code class="language-plaintext highlighter-rouge">Collide = &lt;ModuleName&gt; ModuleTag_XX</code> or <code class="language-plaintext highlighter-rouge">SpecialPower = &lt;ModuleName&gt; ModuleTag_XX</code> as appropriate.</li>
+    </ul>
+  </li>
+  <li>If the feature supports per-veterancy or per-level lists (e.g., <code class="language-plaintext highlighter-rouge">FireFX</code>), demonstrate the per-level pattern succinctly.</li>
+</ul>
+
+<h3 id="usage-section-rules">Usage Section (Rules)</h3>
+<ul>
+  <li>Refer to the <code class="language-plaintext highlighter-rouge">## Template</code> for syntax; keep Usage concise.</li>
+  <li>Include these three subsections under Usage:
+    <ul>
+      <li><strong>Limitations</strong>: What cannot be done or boundaries.</li>
+      <li><strong>Conditions</strong>: How/when it operates, multiple instances behavior.</li>
+      <li><strong>Dependencies</strong>: Other systems/types needed (e.g., <code class="language-plaintext highlighter-rouge">ActiveBody</code>, <code class="language-plaintext highlighter-rouge">UpgradeMux</code>).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="review-and-certification-workflow-mandatory">Review and Certification Workflow (Mandatory)</h3>
+<ol>
+  <li>Draft creation: Mark <code class="language-plaintext highlighter-rouge">Status: AI-generated, 0/2 reviews</code>.</li>
+  <li>At least two modders review for correctness and completeness:
+    <ul>
+      <li>Validate properties, defaults, enums, examples, and version flags against code and INI.</li>
+      <li>Ensure cross-links are correct and examples build logically.</li>
+    </ul>
+  </li>
+  <li>After each review, update the Status line and add the reviewer to <code class="language-plaintext highlighter-rouge">### Reviewers</code> with date and brief note.
+    <ul>
+      <li>Example reviewer line: <code class="language-plaintext highlighter-rouge">- @ReviewerName — 03/11/2025 — Verified properties, added GMX flags</code></li>
+    </ul>
+  </li>
+  <li>When two independent reviewers approve, set: <code class="language-plaintext highlighter-rouge">Status: Certified, 2/2 reviews</code>.</li>
+  <li>If further revisions occur later, increment the denominator and numerator (e.g., <code class="language-plaintext highlighter-rouge">3/3</code>) and keep a brief note in <code class="language-plaintext highlighter-rouge">## Changes History</code>.</li>
+</ol>
+
+<h3 id="changes-history-rules">Changes History (Rules)</h3>
+<ul>
+  <li>Maintain chronological entries with date, author, and short description.</li>
+  <li>Use present tense: “Adds”, “Fixes”, “Clarifies”.</li>
+  <li>For GMX code changes that alter enums/properties, ensure the doc is updated in the same change set.</li>
+</ul>
+
+<h3 id="writing-and-style-conventions">Writing and Style Conventions</h3>
+<ul>
+  <li>Match the surrounding legacy style; prefer concise, practical descriptions for modders.</li>
+  <li>Use backticks for <code class="language-plaintext highlighter-rouge">files</code>, <code class="language-plaintext highlighter-rouge">directories</code>, <code class="language-plaintext highlighter-rouge">classes</code>, <code class="language-plaintext highlighter-rouge">functions</code>, property names, command names, enum values, and code snippets that are NOT links.</li>
+  <li><strong>CRITICAL</strong>: Never put markdown links inside backticks. Links must be outside backticks to work.
+    <ul>
+      <li><strong>INCORRECT</strong>: <code class="language-plaintext highlighter-rouge">`[Object](../Object.md)`</code>, <code class="language-plaintext highlighter-rouge">`[MaxHealth](#maxhealth)`</code>, <code class="language-plaintext highlighter-rouge">`[CommandButton](../CommandButton.md)`</code></li>
+      <li><strong>CORRECT</strong>: <code class="language-plaintext highlighter-rouge">[Object](../Object.md)</code>, <code class="language-plaintext highlighter-rouge">[MaxHealth](#maxhealth)</code>, <code class="language-plaintext highlighter-rouge">[CommandButton](../CommandButton.md)</code> (link outside backticks)</li>
+      <li>Use backticks only for non-link text like property names: “The <code class="language-plaintext highlighter-rouge">MaxHealth</code> property” or “Use <code class="language-plaintext highlighter-rouge">COMMAND_REPLACE_COMPONENT</code>”</li>
+    </ul>
+  </li>
+  <li>No executable code in docs; only references and INI snippets.</li>
+  <li>Avoid speculative statements; only document behavior confirmed by code or shipped INI.</li>
+  <li>Use consistent category names across similar modules.</li>
+  <li>Avoid developer jargon; prefer modder-friendly wording everywhere:
+    <ul>
+      <li>Say “one-per-game global block” instead of “singleton”.</li>
+      <li>Say “list of entries” instead of “catalog”.</li>
+      <li>Say “module added inside Object” instead of “embedded module”.</li>
+    </ul>
+  </li>
+  <li>Always link documented entities/modules/components wherever they are mentioned across all sections (Overview, Usage, Properties, Enum Value Lists, Notes, Modder Scenarios). Avoid bare names.</li>
+</ul>
+
+<h3 id="special-notes-per-doc-family">Special Notes per Doc Family</h3>
+<ul>
+  <li>Global config (one block per game) (e.g., <code class="language-plaintext highlighter-rouge">AIData</code>, <code class="language-plaintext highlighter-rouge">GameData</code>, <code class="language-plaintext highlighter-rouge">multiplayer</code>):
+    <ul>
+      <li>Emphasize: one block per game; document defaults and common fields compactly.</li>
+      <li>Examples should show partial edits rather than redefining the whole file.</li>
+    </ul>
+  </li>
+  <li>Entry lists (e.g., <code class="language-plaintext highlighter-rouge">Science</code>, <code class="language-plaintext highlighter-rouge">ParticleSystem</code>, <code class="language-plaintext highlighter-rouge">Weapon</code>):
+    <ul>
+      <li>Clarify that multiple entries can exist; include examples for defining several.</li>
+      <li>For <code class="language-plaintext highlighter-rouge">Weapon</code>, note GMX differences if structure diverged from Retail and mark them.</li>
+    </ul>
+  </li>
+  <li>Modules/behaviors/components:
+    <ul>
+      <li>Must state they are added inside <code class="language-plaintext highlighter-rouge">Object</code> entries and cannot be standalone unless explicitly allowed by code.</li>
+      <li>Include base class line in <code class="language-plaintext highlighter-rouge">## Source Files</code> first.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="version-flag-examples-apply-everywhere">Version Flag Examples (Apply Everywhere)</h3>
+<ul>
+  <li>Property header with new-line format:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">#### </code>SkipSelfForHealing``</li>
+      <li><code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Zero Hour only)</code></li>
+    </ul>
+  </li>
+  <li>GMX-only property:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">#### </code>RadiusDamageAffectsMaxSimultaneous``</li>
+      <li><code class="language-plaintext highlighter-rouge">Available only in: *(GMX Generals, GMX Zero Hour)*</code></li>
+    </ul>
+  </li>
+  <li>Enum section header with new-line format:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">#### </code>WeaponPrefireType<code class="language-plaintext highlighter-rouge"> Values</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Available in: *(GMX, Retail 1.04)* (Generals, Zero Hour)</code></li>
+    </ul>
+  </li>
+  <li>Enum value (inline format):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- **</code>PER_SHOT<code class="language-plaintext highlighter-rouge">** *(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)* — Prefire delay for every shot</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="minimal-author-checklist-pre-pr">Minimal Author Checklist (Pre-PR)</h3>
+
+<p><strong>⚠️ CRITICAL FINAL CHECK BEFORE SUBMITTING: Did you create/update the Retail mirror documentation file? If the feature exists in Retail versions, you MUST create or update the Retail mirror file. This is MANDATORY, not optional.</strong></p>
+
+<ul>
+  <li><strong>I read the entire instruction file completely from start to finish</strong> before creating/editing the documentation.</li>
+  <li>I checked all 4 versions in order (GMX Zero Hour → Retail Zero Hour → GMX Generals → Retail Generals) for properties and enums.</li>
+  <li>I confirmed defaults and types directly in headers/sources.</li>
+  <li>I added version flags to every property and enum/value.</li>
+  <li>I linked to related Docs for all cross-referenced types, including properties that reference other documented entities (e.g., upgrade names, weapon names, FXList names, object names) - these must be linked in the Type field.</li>
+  <li><strong>I verified all links are OUTSIDE of backticks</strong> - markdown links inside backticks do not work. Check all internal property links (e.g., <code class="language-plaintext highlighter-rouge">[MaxHealth](#maxhealth)</code>) and external system links (e.g., <code class="language-plaintext highlighter-rouge">[ActiveBody](../ObjectModules/ActiveBody.md)</code>) are not inside backticks.</li>
+  <li>I included multiple real examples without comments.</li>
+  <li>I added a full <code class="language-plaintext highlighter-rouge">## Template</code> with defaults and flags.</li>
+  <li>I wrote <code class="language-plaintext highlighter-rouge">## Notes</code> and <code class="language-plaintext highlighter-rouge">## Modder Recommended Use Scenarios</code>.</li>
+  <li>I filled <code class="language-plaintext highlighter-rouge">## Source Files</code> with header/source links and base class line first.</li>
+  <li>I duplicated and included inherited INI properties in derived docs (modules, entities, components).</li>
+  <li><strong>I scanned for getters/setters and indirect usage</strong> of properties (e.g., <code class="language-plaintext highlighter-rouge">get*</code>, <code class="language-plaintext highlighter-rouge">set*</code>, <code class="language-plaintext highlighter-rouge">has*</code>, <code class="language-plaintext highlighter-rouge">consume*</code>) across the codebase and documented discovered behaviors in Usage (Limitations/Conditions/Dependencies) as needed.</li>
+  <li><strong>I completed the Cross-Usage Interactions Checklist</strong> (Weapons, Locomotor, AI/Updates, Resupply systems, Commands/UI, Game flow glue/dispatch, Upgrades) and added all relevant interactions with links.</li>
+  <li><strong>⚠️ I created/updated Retail Mirror Documentation files (MANDATORY if Retail features exist)</strong> - This is a MANDATORY step. If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), I created or updated the Retail mirror file at <code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...</code> (see step 5 in “Mandatory Research Workflow” and “Retail Mirror Documentation Files (Mandatory)” section). <strong>DO NOT SKIP THIS STEP.</strong></li>
+</ul>
+
+<h3 id="submission-gate-hard-requirements--block-merge-if-any-fail">Submission Gate (Hard Requirements — Block Merge if any fail)</h3>
+<ul>
+  <li>Version matrix completed for ALL properties/enums/entities across the four versions in order: GMX Zero Hour → Retail Zero Hour 1.04 → GMX Generals → Retail Generals 1.04.</li>
+  <li>Availability lines present and correct in Overview and each property category; GMX-only sections use colored heading ONLY in mixed-version docs; GMX-only docs color title only.</li>
+  <li>Retail document created/updated when Retail features exist, with Retail-only content (no GMX properties) and Retail paths.</li>
+  <li>Internal property linking applied in ALL sections (except code blocks). Cross-entity Type fields link to their docs and specify “name or list of names” where applicable.</li>
+  <li>Changes History lists ONLY feature/code changes; Document Log lists documentation events.</li>
+  <li>Cross-Usage checklist completed; getter/setter and indirect usages scanned and reflected in Usage (Limitations/Conditions/Dependencies).</li>
+</ul>
+
+<h3 id="example-status-and-reviewers-blocks">Example Status and Reviewers Blocks</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">## Status</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- Documentation Status: AI-generated</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Last Updated: 03/11/2025 by @&lt;author&gt;</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- Certification: 1/2 reviews</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">### Reviewers</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">- @ReviewerOne — 03/11/2025 — Validated defaults</code></li>
+      <li><code class="language-plaintext highlighter-rouge">- @ReviewerTwo — 05/11/2025 — Cross-checked enums</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="common-research-hotspots">Common Research Hotspots</h3>
+<ul>
+  <li>Parse tables: <code class="language-plaintext highlighter-rouge">The&lt;Thing&gt;FieldParseTable</code> or <code class="language-plaintext highlighter-rouge">INI::&lt;parse&gt;</code> in <code class="language-plaintext highlighter-rouge">.../Source/...</code>.</li>
+  <li>Enums: headers in <code class="language-plaintext highlighter-rouge">Include/...</code>, string arrays in corresponding <code class="language-plaintext highlighter-rouge">.cpp</code>.</li>
+  <li>Base classes: <code class="language-plaintext highlighter-rouge">Include/GameLogic/Module/</code> for behaviors, <code class="language-plaintext highlighter-rouge">Include/GameLogic/</code> for entities.</li>
+</ul>
+
+<h3 id="prohibitions">Prohibitions</h3>
+<ul>
+  <li>Do not guess behavior; if uncertain, research more.</li>
+  <li>Do not include executable code; only INI inside fenced blocks is allowed.</li>
+  <li>Do not omit version flags even if availability seems obvious.</li>
+  <li><strong>⚠️ DO NOT skip creating/updating Retail mirror documentation files</strong> - This is a MANDATORY requirement, not optional. If Retail features exist, you MUST create or update the Retail mirror file.</li>
+</ul>
+
+<hr />
+
+<p><strong>🚨 FINAL REMINDER BEFORE SUBMITTING: Did you create/update the Retail mirror documentation file? If the feature exists in Retail versions (Retail Generals 1.04 or Retail Zero Hour 1.04), you MUST create or update the Retail mirror file at <code class="language-plaintext highlighter-rouge">E:\Games\Command and Conquer - Generals - Work\Generals Source\CnC_Generals_Zero_Hour\ModdingDocs\...</code>. This is a MANDATORY requirement, not optional. DO NOT SUBMIT DOCUMENTATION WITHOUT COMPLETING THIS STEP IF RETAIL FEATURES EXIST.</strong></p>
+
+<p>Adhering to this guide ensures consistent, accurate, and reviewer-certifiable documentation that modders can trust.</p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

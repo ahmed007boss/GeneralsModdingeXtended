@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>InventoryStorageComponent (GMX) | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="InventoryStorageComponent (GMX)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="InventoryStorageComponent (GMX)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"InventoryStorageComponent (GMX)","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">InventoryStorageComponent (GMX)</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="inventorystoragecomponent-gmx"><span style="color:#5bbcff; font-weight:bold;">InventoryStorageComponent</span> <em>(GMX)</em></h1>
+
+<p>Status: AI-generated, 0/2 reviews</p>
+
+<h2 id="overview">Overview</h2>
+<p>InventoryStorageComponent models inventory storage systems (e.g., fuel tanks, cargo bays) attached via body modules. When destroyed, it clears stored inventory items and can restrict inventory item replenishment. InventoryStorageComponent inherits all properties from <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component</a> and adds inventory storage properties. This is a module added inside <code class="language-plaintext highlighter-rouge">Object</code> entries.</p>
+
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#properties">Properties</a>
+    <ul>
+      <li><a href="#health-settings">Health Settings</a></li>
+      <li><a href="#healing-and-damage-settings">Healing and Damage Settings</a></li>
+      <li><a href="#replacement-settings">Replacement Settings</a></li>
+      <li><a href="#visual-appearance-settings">Visual Appearance Settings</a></li>
+      <li><a href="#status-icon-settings">Status Icon Settings</a></li>
+      <li><a href="#storage-settings">Storage Settings</a></li>
+    </ul>
+  </li>
+  <li><a href="#enum-value-lists">Enum Value Lists</a></li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#template">Template</a></li>
+  <li><a href="#notes">Notes</a></li>
+  <li><a href="#modder-recommended-use-scenarios">Modder Recommended Use Scenarios</a></li>
+  <li><a href="#source-files">Source Files</a></li>
+  <li><a href="#changes-history">Changes History</a></li>
+  <li><a href="#status">Status</a></li>
+  <li><a href="#reviewers">Reviewers</a></li>
+</ul>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="health-settings">Health Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="maxhealth"></a></p>
+<h4 id="maxhealth"><code class="language-plaintext highlighter-rouge">MaxHealth</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (can include <code class="language-plaintext highlighter-rouge">%</code> suffix for percentage of main object health)</li>
+  <li><strong>Description</strong>: Maximum health for this inventory storage component. Higher values increase durability. Can be specified as absolute value (e.g., <code class="language-plaintext highlighter-rouge">100.0</code>) or percentage of main object’s max health (e.g., <code class="language-plaintext highlighter-rouge">50%</code>). If percentage is used (contains <code class="language-plaintext highlighter-rouge">%</code> suffix), <a href="#maxhealthvaluetype">MaxHealthValueType</a> is automatically set to <code class="language-plaintext highlighter-rouge">PERCENTAGE</code> during parsing. At initialization, percentage values are calculated as a percentage of the main object’s max health.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0.0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">MaxHealth = 60.0</code> or <code class="language-plaintext highlighter-rouge">MaxHealth = 50%</code></li>
+</ul>
+
+<p><a id="initialhealth"></a></p>
+<h4 id="initialhealth"><code class="language-plaintext highlighter-rouge">InitialHealth</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (can include <code class="language-plaintext highlighter-rouge">%</code> suffix for percentage of main object health)</li>
+  <li><strong>Description</strong>: Starting health for this inventory storage component when the object is created. Can be specified as absolute value or percentage of main object’s max health. If percentage is used (contains <code class="language-plaintext highlighter-rouge">%</code> suffix), <a href="#initialhealthvaluetype">InitialHealthValueType</a> is automatically set to <code class="language-plaintext highlighter-rouge">PERCENTAGE</code> during parsing. At initialization, percentage values are calculated as a percentage of the main object’s max health. Automatically clamped to <a href="#maxhealth">MaxHealth</a> and <code class="language-plaintext highlighter-rouge">0.0</code> during component initialization when the object is created.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0.0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">InitialHealth = 60.0</code> or <code class="language-plaintext highlighter-rouge">InitialHealth = 50%</code></li>
+</ul>
+
+<p><a id="maxhealthvaluetype"></a></p>
+<h4 id="maxhealthvaluetype"><code class="language-plaintext highlighter-rouge">MaxHealthValueType</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ValueType</code> (see ValueType documentation)</li>
+  <li><strong>Description</strong>: How <a href="#maxhealth">MaxHealth</a> is calculated — <code class="language-plaintext highlighter-rouge">ABSOLUTE</code> for fixed values or <code class="language-plaintext highlighter-rouge">PERCENTAGE</code> for percentage of main object health. Automatically set when <a href="#maxhealth">MaxHealth</a> includes <code class="language-plaintext highlighter-rouge">%</code> suffix during parsing. If not explicitly set and <a href="#maxhealth">MaxHealth</a> has no <code class="language-plaintext highlighter-rouge">%</code> suffix, defaults to <code class="language-plaintext highlighter-rouge">ABSOLUTE</code>.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">ABSOLUTE</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">MaxHealthValueType = PERCENTAGE</code></li>
+</ul>
+
+<p><a id="initialhealthvaluetype"></a></p>
+<h4 id="initialhealthvaluetype"><code class="language-plaintext highlighter-rouge">InitialHealthValueType</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ValueType</code> (see ValueType documentation)</li>
+  <li><strong>Description</strong>: How <a href="#initialhealth">InitialHealth</a> is calculated — <code class="language-plaintext highlighter-rouge">ABSOLUTE</code> for fixed values or <code class="language-plaintext highlighter-rouge">PERCENTAGE</code> for percentage of main object health. Automatically set when <a href="#initialhealth">InitialHealth</a> includes <code class="language-plaintext highlighter-rouge">%</code> suffix during parsing. If not explicitly set and <a href="#initialhealth">InitialHealth</a> has no <code class="language-plaintext highlighter-rouge">%</code> suffix, defaults to <code class="language-plaintext highlighter-rouge">ABSOLUTE</code>.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">ABSOLUTE</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">InitialHealthValueType = PERCENTAGE</code></li>
+</ul>
+
+<h3 id="healing-and-damage-settings">Healing and Damage Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="healingtype"></a></p>
+<h4 id="healingtype"><code class="language-plaintext highlighter-rouge">HealingType</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ComponentHealingType</code> (see <a href="#componenthealingtype-values">ComponentHealingType Values</a>)</li>
+  <li><strong>Description</strong>: Controls how the inventory storage component can be healed. Different types restrict healing to specific health ranges or require replacement for full healing. <code class="language-plaintext highlighter-rouge">NORMAL</code> allows full healing from destroyed to max. <code class="language-plaintext highlighter-rouge">PARTIAL_ONLY</code> prevents healing when destroyed. <code class="language-plaintext highlighter-rouge">PARTIAL_DESTROYED</code> allows healing from destroyed only to partially working (50%). <code class="language-plaintext highlighter-rouge">PARTIAL_LIMITED</code> allows healing only to partially working (50%) when not destroyed, and prevents healing when destroyed. <code class="language-plaintext highlighter-rouge">REPLACEMENT_ONLY</code> prevents all normal healing and requires GUI replacement.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">NORMAL</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">HealingType = NORMAL</code></li>
+  <li><strong>Available Values</strong>: see <a href="#componenthealingtype-values">ComponentHealingType Values</a></li>
+</ul>
+
+<p><a id="damageonsides"></a></p>
+<h4 id="damageonsides"><code class="language-plaintext highlighter-rouge">DamageOnSides</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">HitSideFlags</code> (list of <a href="#hitside-values">HitSide Values</a>)</li>
+  <li><strong>Description</strong>: Which hit sides can damage this inventory storage component. If empty, all sides can damage the component. If specified, only listed sides can cause damage. Used for side-specific armor on components. Parsed using full hit side names with “HIT_SIDE_” prefix: <code class="language-plaintext highlighter-rouge">HIT_SIDE_FRONT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_BACK</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_LEFT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_RIGHT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_TOP</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_BOTTOM</code>. Note: <code class="language-plaintext highlighter-rouge">HIT_SIDE_UNKNOWN</code> exists in the enum but is not parseable for this property.</li>
+  <li><strong>Default</strong>: Empty (all sides)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DamageOnSides = HIT_SIDE_BACK HIT_SIDE_BOTTOM</code> or <code class="language-plaintext highlighter-rouge">DamageOnSides = HIT_SIDE_LEFT HIT_SIDE_RIGHT</code></li>
+  <li><strong>Available Values</strong>: <code class="language-plaintext highlighter-rouge">HIT_SIDE_FRONT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_BACK</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_LEFT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_RIGHT</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_TOP</code>, <code class="language-plaintext highlighter-rouge">HIT_SIDE_BOTTOM</code> (see <a href="#hitside-values">HitSide Values</a> for full enum list)</li>
+</ul>
+
+<h3 id="replacement-settings">Replacement Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="replacementcost"></a></p>
+<h4 id="replacementcost"><code class="language-plaintext highlighter-rouge">ReplacementCost</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code></li>
+  <li><strong>Description</strong>: Money cost to fully replace this inventory storage component via GUI command system. At 0 (default), the component cannot be replaced via GUI commands. Replacement fully restores component health to maximum.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ReplacementCost = 150</code></li>
+</ul>
+
+<p><a id="forcereturnondestroy"></a></p>
+<h4 id="forcereturnondestroy"><code class="language-plaintext highlighter-rouge">ForceReturnOnDestroy</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether the unit should be forced to return to base when this inventory storage component is destroyed. When <code class="language-plaintext highlighter-rouge">Yes</code>, aircraft will automatically return to base when this component is destroyed (checked by <a href="../ObjectUpdates/JetAIUpdate.md">JetAIUpdate</a>). When <code class="language-plaintext highlighter-rouge">No</code>, component destruction does not trigger return behavior. Often used for fuel tanks on aircraft to force return when fuel storage is destroyed.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">No</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ForceReturnOnDestroy = Yes</code></li>
+</ul>
+
+<h3 id="visual-appearance-settings">Visual Appearance Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="damagedstatustype"></a></p>
+<h4 id="damagedstatustype"><code class="language-plaintext highlighter-rouge">DamagedStatusType</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">BodyDamageType</code> (see <a href="#bodydamagetype-values">BodyDamageType Values</a>)</li>
+  <li><strong>Description</strong>: Body damage state to set when the inventory storage component is damaged (10% - 50% health, which corresponds to partially functional status). Controls visual appearance of the object model. Set to one of the <a href="#bodydamagetype-values">BodyDamageType Values</a> or leave empty/unset (0) for no visual change. The damage state is applied to the main object’s body when component health falls within this range.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code> (no change)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DamagedStatusType = DAMAGED</code></li>
+  <li><strong>Available Values</strong>: see <a href="#bodydamagetype-values">BodyDamageType Values</a></li>
+</ul>
+
+<p><a id="destroyedstatustype"></a></p>
+<h4 id="destroyedstatustype"><code class="language-plaintext highlighter-rouge">DestroyedStatusType</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">BodyDamageType</code> (see <a href="#bodydamagetype-values">BodyDamageType Values</a>)</li>
+  <li><strong>Description</strong>: Body damage state to set when the inventory storage component is destroyed (0% - 10% health, which corresponds to downed status). Controls visual appearance of the object model. Set to one of the <a href="#bodydamagetype-values">BodyDamageType Values</a> or leave empty/unset (0) for no visual change. The damage state is applied to the main object’s body when component health falls within this range.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code> (no change)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DestroyedStatusType = REALLYDAMAGED</code></li>
+  <li><strong>Available Values</strong>: see <a href="#bodydamagetype-values">BodyDamageType Values</a></li>
+</ul>
+
+<h3 id="status-icon-settings">Status Icon Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="partiallyfunctionalicon"></a></p>
+<h4 id="partiallyfunctionalicon"><code class="language-plaintext highlighter-rouge">PartiallyFunctionalIcon</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code> (see <a href="../Animation2d.md">Animation2d</a>)</li>
+  <li><strong>Description</strong>: Animation icon template name displayed in GUI when inventory storage component is partially functional (10% - 50% health). References an animation template defined in <a href="../Animation2d.md">Animation2d</a> configuration.</li>
+  <li><strong>Default</strong>: Empty (no icon)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">PartiallyFunctionalIcon = StorageDamagedIcon</code></li>
+</ul>
+
+<p><a id="downedicon"></a></p>
+<h4 id="downedicon"><code class="language-plaintext highlighter-rouge">DownedIcon</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code> (see <a href="../Animation2d.md">Animation2d</a>)</li>
+  <li><strong>Description</strong>: Animation icon template name displayed in GUI when inventory storage component is downed (0% - 10% health). References an animation template defined in <a href="../Animation2d.md">Animation2d</a> configuration.</li>
+  <li><strong>Default</strong>: Empty (no icon)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DownedIcon = StorageDestroyedIcon</code></li>
+</ul>
+
+<p><a id="userdisabledicon"></a></p>
+<h4 id="userdisabledicon"><code class="language-plaintext highlighter-rouge">UserDisabledIcon</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code> (see <a href="../Animation2d.md">Animation2d</a>)</li>
+  <li><strong>Description</strong>: Animation icon template name displayed in GUI when inventory storage component is user-disabled. References an animation template defined in <a href="../Animation2d.md">Animation2d</a> configuration.</li>
+  <li><strong>Default</strong>: Empty (no icon)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">UserDisabledIcon = StorageDisabledIcon</code></li>
+</ul>
+
+<h3 id="storage-settings">Storage Settings</h3>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><a id="inventoryitem"></a></p>
+<h4 id="inventoryitem"><code class="language-plaintext highlighter-rouge">InventoryItem</code></h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the inventory item type this storage component is associated with. When the component is destroyed, stored items are cleared and replenishment may be restricted. If empty (default), the component affects all inventory items when destroyed (clears all items and restricts replenishment for all items). If set to a specific item name, the component only affects that specific item type when destroyed (clears only that item and restricts replenishment only for that item). References an inventory item defined in <a href="../ObjectBehaviorsModules/InventoryBehavior.md">InventoryBehavior</a> configuration.</li>
+  <li><strong>Default</strong>: Empty (affects all items)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">InventoryItem = JetFuel</code> or <code class="language-plaintext highlighter-rouge">InventoryItem = Ammunition</code></li>
+</ul>
+
+<h2 id="enum-value-lists">Enum Value Lists</h2>
+
+<p><a id="componenthealingtype-values"></a></p>
+<h4 id="componenthealingtype-values"><code class="language-plaintext highlighter-rouge">ComponentHealingType</code> Values</h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><strong>Source:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/Component.h#63">Component.h</a> - <code class="language-plaintext highlighter-rouge">ComponentHealingType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">NORMAL</code></strong> <em>(GMX Zero Hour)</em> - Can be healed from destroyed to max normally</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PARTIAL_ONLY</code></strong> <em>(GMX Zero Hour)</em> - Can be healed if not destroyed to max normally, but cannot be healed from destroyed state</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PARTIAL_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Can be healed from destroyed to partially working (50% health) normally, but to max needs replacement</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PARTIAL_LIMITED</code></strong> <em>(GMX Zero Hour)</em> - Can be healed if not destroyed to partially working (50% health) normally, but to max needs replacement, and cannot be healed when destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REPLACEMENT_ONLY</code></strong> <em>(GMX Zero Hour)</em> - Cannot be healed normally, needs replacement via GUI command</li>
+</ul>
+
+<p><a id="hitside-values"></a></p>
+<h4 id="hitside-values"><code class="language-plaintext highlighter-rouge">HitSide</code> Values</h4>
+<p>Available only in: <em>(GMX Zero Hour)</em></p>
+
+<p><strong>Source:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Damage.h#186">Damage.h</a> - <code class="language-plaintext highlighter-rouge">HitSide</code> enum definition; string names from <code class="language-plaintext highlighter-rouge">TheHitSideNames[]</code></p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_FRONT</code></strong> <em>(GMX Zero Hour)</em> - Front side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_BACK</code></strong> <em>(GMX Zero Hour)</em> - Back side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_LEFT</code></strong> <em>(GMX Zero Hour)</em> - Left side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_RIGHT</code></strong> <em>(GMX Zero Hour)</em> - Right side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_TOP</code></strong> <em>(GMX Zero Hour)</em> - Top side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_BOTTOM</code></strong> <em>(GMX Zero Hour)</em> - Bottom side of the object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIT_SIDE_UNKNOWN</code></strong> <em>(GMX Zero Hour)</em> - Used when hit side cannot be determined</li>
+</ul>
+
+<p><a id="bodydamagetype-values"></a></p>
+<h4 id="bodydamagetype-values"><code class="language-plaintext highlighter-rouge">BodyDamageType</code> Values</h4>
+<p>Available in: <em>(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em></p>
+
+<p><strong>Source:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BodyModule.h#54">BodyModule.h</a> - <code class="language-plaintext highlighter-rouge">BodyDamageType</code> enum definition; string names from <code class="language-plaintext highlighter-rouge">TheBodyDamageTypeNames[]</code></p>
+
+<p><strong>Retail 1.04 Values</strong> <em>(available in GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em>:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">PRISTINE</code></strong> <em>(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em> - Unit should appear in pristine condition</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DAMAGED</code></strong> <em>(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em> - Unit has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">REALLYDAMAGED</code></strong> <em>(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em> - Unit is extremely damaged / nearly destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RUBBLE</code></strong> <em>(GMX Generals, GMX Zero Hour, Retail Generals 1.04, Retail Zero Hour 1.04)</em> - Unit has been reduced to rubble/corpse/exploded-hulk, etc</li>
+</ul>
+
+<p><strong>GMX Component-Specific Values</strong> <em>(available only in GMX Zero Hour)</em>:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_ENGINE_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Engine component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_ENGINE_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Engine component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_TURRET_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Turret component has been destroyed</li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">COMPONENT_TURRET_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Turret component has been damaged</p>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_A_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot A component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_B_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot B component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_C_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot C component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_D_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot D component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_E_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot E component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_F_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot F component has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_G_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot G component has been destroyed</li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_H_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot H component has been destroyed</p>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_A_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot A component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_B_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot B component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_C_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot C component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_D_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot D component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_E_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot E component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_F_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot F component has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_G_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot G component has been damaged</li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">COMPONENT_WEAPON_H_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Weapon slot H component has been damaged</p>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_A_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component A has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_B_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component B has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_C_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component C has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_D_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component D has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_E_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component E has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_F_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component F has been destroyed</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_G_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component G has been destroyed</li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">COMPONENT_H_DESTROYED</code></strong> <em>(GMX Zero Hour)</em> - Component H has been destroyed</p>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_A_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component A has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_B_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component B has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_C_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component C has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_D_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component D has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_E_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component E has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_F_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component F has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_G_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component G has been damaged</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMPONENT_H_DAMAGED</code></strong> <em>(GMX Zero Hour)</em> - Component H has been damaged</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">FuelTank</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">60.0</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">60.0</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">NORMAL</span>
+  <span class="py">ReplacementCost</span> <span class="p">=</span> <span class="s">150</span>
+  <span class="py">ForceReturnOnDestroy</span> <span class="p">=</span> <span class="s">Yes</span>
+  <span class="py">InventoryItem</span> <span class="p">=</span> <span class="s">JetFuel</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">CargoBay</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">100.0</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">100.0</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">PARTIAL_ONLY</span>
+  <span class="py">DamageOnSides</span> <span class="p">=</span> <span class="s">HIT_SIDE_BACK HIT_SIDE_BOTTOM</span>
+  <span class="py">ReplacementCost</span> <span class="p">=</span> <span class="s">200</span>
+  <span class="py">InventoryItem</span> <span class="p">=</span> <span class="s">Ammunition</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">MainStorage</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">50%</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">50%</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">NORMAL</span>
+  <span class="py">ReplacementCost</span> <span class="p">=</span> <span class="s">180</span>
+  <span class="py">ForceReturnOnDestroy</span> <span class="p">=</span> <span class="s">No</span>
+  <span class="py">PartiallyFunctionalIcon</span> <span class="p">=</span> <span class="s">StorageDamagedIcon</span>
+  <span class="py">DownedIcon</span> <span class="p">=</span> <span class="s">StorageDestroyedIcon</span>
+  <span class="py">InventoryItem</span> <span class="p">=</span> <span class="s">Supplies</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">UniversalStorage</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">80.0</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">80.0</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">REPLACEMENT_ONLY</span>
+  <span class="py">ReplacementCost</span> <span class="p">=</span> <span class="s">250</span>
+  <span class="py">DamagedStatusType</span> <span class="p">=</span> <span class="s">DAMAGED</span>
+  <span class="py">DestroyedStatusType</span> <span class="p">=</span> <span class="s">REALLYDAMAGED</span>
+  <span class="py">InventoryItem</span> <span class="p">=</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">FuelTankPrimary</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">70.0</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">70.0</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">NORMAL</span>
+  <span class="py">DamageOnSides</span> <span class="p">=</span> <span class="s">HIT_SIDE_BACK HIT_SIDE_LEFT HIT_SIDE_RIGHT</span>
+  <span class="py">ReplacementCost</span> <span class="p">=</span> <span class="s">160</span>
+  <span class="py">ForceReturnOnDestroy</span> <span class="p">=</span> <span class="s">Yes</span>
+  <span class="py">PartiallyFunctionalIcon</span> <span class="p">=</span> <span class="s">FuelTankDamagedIcon</span>
+  <span class="py">DownedIcon</span> <span class="p">=</span> <span class="s">FuelTankDestroyedIcon</span>
+  <span class="py">UserDisabledIcon</span> <span class="p">=</span> <span class="s">FuelTankDisabledIcon</span>
+  <span class="py">InventoryItem</span> <span class="p">=</span> <span class="s">JetFuel</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="usage">Usage</h2>
+<p>Place under a body module (e.g., <code class="language-plaintext highlighter-rouge">Body = ActiveBody</code>, <code class="language-plaintext highlighter-rouge">Body = StructureBody</code>) to make inventory storage systems damageable, healable, replaceable, and affect inventory item storage and replenishment. See Template for correct syntax.</p>
+
+<p>Multiple component instances can be added to the same body. Each component operates independently with its own health tracking and inventory item association. Component names must be unique within the same body.</p>
+
+<p><strong>Placement</strong>:</p>
+<ul>
+  <li>Components can only be added to <code class="language-plaintext highlighter-rouge">Body</code> entries. The following body modules support components: <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a>.</li>
+</ul>
+
+<p><strong>Limitations</strong>:</p>
+<ul>
+  <li>Requires one of the following body modules: <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a>, <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a>, or <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a>; components cannot exist outside a body module block.</li>
+  <li>Component names must be unique within the same body. If multiple components share the same name, systems that look up components by name (weapons via <code class="language-plaintext highlighter-rouge">PrimaryComponentDamage</code>/<code class="language-plaintext highlighter-rouge">SecondaryComponentDamage</code>, locomotor via <code class="language-plaintext highlighter-rouge">AffectedByComponents</code>/<code class="language-plaintext highlighter-rouge">EngineComponentName</code>, GUI commands, prerequisites) will only find the first matching component, causing unpredictable behavior where the wrong component may be targeted.</li>
+  <li>Name is required for this type. If the name token is omitted/empty, the component is skipped during parsing and not added to the body.</li>
+  <li>If <a href="#maxhealth">MaxHealth</a> is 0 or negative, the component does not function and cannot be damaged, healed, or accessed by any systems.</li>
+  <li><a href="#initialhealth">InitialHealth</a> is automatically clamped during component initialization: if it exceeds <a href="#maxhealth">MaxHealth</a>, it is set to <a href="#maxhealth">MaxHealth</a>; if negative, it is set to <code class="language-plaintext highlighter-rouge">0.0</code>. This clamping occurs when the object is created.</li>
+  <li>When the component is destroyed, stored inventory items are automatically cleared. If <a href="#inventoryitem">InventoryItem</a> is empty, all inventory items are cleared. If <a href="#inventoryitem">InventoryItem</a> has a value, only that specific item type is cleared.</li>
+</ul>
+
+<p><strong>Conditions</strong>:</p>
+<ul>
+  <li>To receive damage from weapons, the weapon must list this component by name in <code class="language-plaintext highlighter-rouge">PrimaryComponentDamage</code> or <code class="language-plaintext highlighter-rouge">SecondaryComponentDamage</code> (see <a href="../Weapon.md">Weapon</a>). If not listed, weapons will not damage this component.</li>
+  <li>For <a href="../ObjectBehaviorsModules/AutoHealBehavior.md">AutoHealBehavior</a> to heal this component, the behavior must have <code class="language-plaintext highlighter-rouge">ComponentHealingAmount</code> set. Component healing respects this component’s <a href="#healingtype">HealingType</a> setting, which may restrict healing based on component health state.</li>
+  <li>If this component’s name is listed in <code class="language-plaintext highlighter-rouge">LocomotorTemplate.AffectedByComponents</code> (see <a href="../Locomotor.md">Locomotor</a> documentation), component status (damaged/destroyed) can reduce movement capabilities (speed/turn/accel). If not listed, component status has no effect on movement.</li>
+  <li>Component status (damaged/destroyed) affects object visual appearance via <a href="#damagedstatustype">DamagedStatusType</a>/<a href="#destroyedstatustype">DestroyedStatusType</a> settings, which control the body damage state displayed on the model. The damage state is determined based on component health ratio.</li>
+  <li>Component status icons are displayed in the GUI health bar area when the component is damaged, destroyed, or user-disabled. Icons reference animation templates defined in <a href="../Animation2d.md">Animation2d</a> configuration.</li>
+  <li>If <a href="#forcereturnondestroy">ForceReturnOnDestroy</a> is <code class="language-plaintext highlighter-rouge">Yes</code>, aircraft will automatically return to base when this component is destroyed (checked by <a href="../ObjectUpdates/JetAIUpdate.md">JetAIUpdate</a>). This is often used for fuel tanks on aircraft to force return when fuel storage is destroyed.</li>
+  <li>Component status can be checked by the prerequisite system for command button availability (e.g., requiring component to exist, be working, or be disabled) (see <code class="language-plaintext highlighter-rouge">ObjectPrerequisite</code> in docs when available).</li>
+  <li>Components can be replaced via command buttons using <code class="language-plaintext highlighter-rouge">COMMAND_REPLACE_COMPONENT</code> (see <a href="../CommandButton.md">CommandButton</a>), or toggled on/off via a component toggle command, if configured. Replacement requires <a href="#replacementcost">ReplacementCost</a> &gt; 0.</li>
+  <li>Components can be restored by <a href="../ObjectBehaviorsModules/ParkingPlaceBehavior.md">ParkingPlaceBehavior</a> if the behavior’s restore list includes this component’s name, or by crate interactions that restore damaged components.</li>
+  <li>When the component is destroyed, stored inventory items are automatically cleared. If <a href="#inventoryitem">InventoryItem</a> is empty, all inventory items are cleared. If <a href="#inventoryitem">InventoryItem</a> has a value, only that specific item type is cleared.</li>
+  <li>When the component is destroyed, inventory item replenishment is restricted. If <a href="#inventoryitem">InventoryItem</a> is empty, replenishment is restricted for all inventory items. If <a href="#inventoryitem">InventoryItem</a> has a value, replenishment is restricted only for that specific item type. This prevents replenishment of items when their storage component is destroyed.</li>
+</ul>
+
+<p><strong>Dependencies</strong>:</p>
+<ul>
+  <li>None. This component can function independently as a health-bearing part with replacement capabilities and inventory storage effects. All interactions with weapons, locomotor, healing systems, GUI commands, prerequisites, and behaviors are optional enhancements controlled by configuration, not hard requirements. However, for the component to affect inventory items, the object must have <a href="../ObjectBehaviorsModules/InventoryBehavior.md">InventoryBehavior</a> configured with inventory items that match <a href="#inventoryitem">InventoryItem</a> (or any items if <a href="#inventoryitem">InventoryItem</a> is empty).</li>
+</ul>
+
+<h2 id="template">Template</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">InventoryStorageComponent</span> <span class="err">NAME</span>
+  <span class="py">MaxHealth</span> <span class="p">=</span> <span class="s">0.0                 ; // maximum health (absolute or percentage with %) *(GMX Zero Hour)*</span>
+  <span class="py">InitialHealth</span> <span class="p">=</span> <span class="s">0.0             ; // starting health (absolute or percentage with %) *(GMX Zero Hour)*</span>
+  <span class="py">MaxHealthValueType</span> <span class="p">=</span> <span class="s">ABSOLUTE   ; // how MaxHealth is calculated *(GMX Zero Hour)*</span>
+  <span class="py">InitialHealthValueType</span> <span class="p">=</span> <span class="s">ABSOLUTE ; // how InitialHealth is calculated *(GMX Zero Hour)*</span>
+  <span class="py">HealingType</span> <span class="p">=</span> <span class="s">NORMAL            ; // healing behavior type *(GMX Zero Hour)*</span>
+  <span class="py">DamageOnSides</span> <span class="p">=</span>                 <span class="c">; // hit sides that can damage this component (HIT_SIDE_FRONT HIT_SIDE_BACK etc, empty = all sides) *(GMX Zero Hour)*
+</span>  <span class="s">ReplacementCost = 0             ; // cost to replace via GUI *(GMX Zero Hour)*</span>
+  <span class="py">ForceReturnOnDestroy</span> <span class="p">=</span> <span class="s">No       ; // force return to base when destroyed *(GMX Zero Hour)*</span>
+  <span class="py">DamagedStatusType</span> <span class="p">=</span>             <span class="c">; // body damage state when damaged *(GMX Zero Hour)*
+</span>  <span class="s">DestroyedStatusType =           ; // body damage state when destroyed *(GMX Zero Hour)*</span>
+  <span class="py">PartiallyFunctionalIcon</span> <span class="p">=</span>       <span class="c">; // icon template name for partially functional status *(GMX Zero Hour)*
+</span>  <span class="s">DownedIcon =                    ; // icon template name for downed status *(GMX Zero Hour)*</span>
+  <span class="py">UserDisabledIcon</span> <span class="p">=</span>              <span class="c">; // icon template name for user disabled status *(GMX Zero Hour)*
+</span>  <span class="s">InventoryItem =                 ; // name of inventory item type (empty = affects all items) *(GMX Zero Hour)*</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: <code class="language-plaintext highlighter-rouge">NAME</code> is required for this component type. If omitted/empty, the component is skipped during parsing and not added to the body.</p>
+
+<h2 id="notes">Notes</h2>
+<ul>
+  <li>Inventory storage components represent storage systems that can be damaged and affect inventory item storage and replenishment.</li>
+  <li>When the component is destroyed, stored inventory items are automatically cleared. If <a href="#inventoryitem">InventoryItem</a> is empty, all inventory items are cleared. If <a href="#inventoryitem">InventoryItem</a> has a value, only that specific item type is cleared.</li>
+  <li>When the component is destroyed, inventory item replenishment is restricted. If <a href="#inventoryitem">InventoryItem</a> is empty, replenishment is restricted for all inventory items (prevents all item replenishment). If <a href="#inventoryitem">InventoryItem</a> has a value, replenishment is restricted only for that specific item type. This prevents replenishment of items when their storage component is destroyed.</li>
+  <li>Use <a href="#inventoryitem">InventoryItem</a> to link the component to a specific inventory item type. Leave it empty to affect all inventory items when destroyed.</li>
+  <li>Use <a href="#forcereturnondestroy">ForceReturnOnDestroy</a> = <code class="language-plaintext highlighter-rouge">Yes</code> for critical storage like fuel tanks on aircraft to force return when fuel storage is destroyed.</li>
+  <li>Component names must be unique within the same body to avoid lookup conflicts in systems that reference components by name (weapons, locomotor, GUI commands, prerequisites).</li>
+</ul>
+
+<h2 id="modder-recommended-use-scenarios">Modder Recommended Use Scenarios</h2>
+
+<p>(pending modder review)</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<p><strong>Base Class:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/Component.h">Component</a></p>
+
+<ul>
+  <li>Header: <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Components/InventoryStorageComponent.h">InventoryStorageComponent.h</a></li>
+  <li>Source: <a href="../../GeneralsMD/Code/GameEngine/Source/GameLogic/Components/InventoryStorageComponent.cpp">InventoryStorageComponent.cpp</a></li>
+</ul>
+
+<h2 id="changes-history">Changes History</h2>
+
+<ul>
+  <li>GMX Zero Hour — Adds InventoryStorageComponent (new GMX-only component type for inventory storage effects).</li>
+</ul>
+
+<h2 id="document-log">Document Log</h2>
+
+<ul>
+  <li>16/12/2025 — AI — Initial document created and fully reconstructed per instruction guide (inherited properties, version flags, enum completeness, storage properties, placement, links).</li>
+</ul>
+
+<h2 id="status">Status</h2>
+
+<ul>
+  <li>Documentation Status: AI-generated</li>
+  <li>Last Updated: 16/12/2025 by AI</li>
+  <li>Certification: 0/2 reviews</li>
+</ul>
+
+<h3 id="reviewers">Reviewers</h3>
+
+<ul>
+  <li>(pending)</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

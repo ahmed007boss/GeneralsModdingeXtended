@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SlowDeathBehavior | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="SlowDeathBehavior" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SlowDeathBehavior" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"SlowDeathBehavior","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">SlowDeathBehavior</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="slowdeathbehavior">SlowDeathBehavior</h1>
+
+<p>SlowDeathBehavior provides extended death sequences for objects with multiple phases, animations, and special effects.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">SlowDeathBehavior</code> class manages complex death sequences that occur over time with multiple phases (initial, midpoint, final). It handles sinking into terrain, flinging objects through the air, visual effects, object creation, and weapon firing during different death phases. The behavior is commonly used for vehicles, structures, and units that need elaborate destruction animations.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Used by objects that need elaborate death sequences with multiple phases, animations, and special effects. This is a <strong>behavior module</strong> that must be embedded within object definitions. Use the <a href="#template">Template</a> below by copying it into your object definition. Then, customize it as needed, making sure to review any limitations, conditions, or dependencies related to its usage.</p>
+
+<p><strong>Limitations</strong>:</p>
+<ul>
+  <li>Effects only trigger when the object dies or is destroyed</li>
+  <li>Death sequences are affected by game LOD (Level of Detail) settings for performance optimization</li>
+  <li>Objects with physics can be flung and will bounce and collide during death sequences</li>
+  <li>Infantry objects automatically disable shadows when sinking to prevent visual artifacts</li>
+</ul>
+
+<p><strong>Conditions</strong>:</p>
+<ul>
+  <li>Death sequences are conditional based on death type, veterancy level, and upgrade state</li>
+  <li>Multiple SlowDeathBehavior instances can exist on the same object with different probability modifiers</li>
+  <li><strong>Multiple instances behavior</strong>: Each instance operates independently with its own probability calculation; effects combine if multiple instances trigger simultaneously</li>
+  <li>Death sequences can create objects, fire weapons, and play visual effects at different phases</li>
+  <li>The behavior integrates with the death system for conditional activation based on death types</li>
+</ul>
+
+<p><strong>Dependencies</strong>:</p>
+<ul>
+  <li>Requires proper FXList, ObjectCreationList, and Weapon definitions to function correctly</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#properties">Properties</a>
+    <ul>
+      <li><a href="#death-timing-settings">Death Timing Settings</a></li>
+      <li><a href="#probability-settings">Probability Settings</a></li>
+      <li><a href="#sinking-settings">Sinking Settings</a></li>
+      <li><a href="#destruction-settings">Destruction Settings</a></li>
+      <li><a href="#flinging-settings">Flinging Settings</a></li>
+      <li><a href="#phase-effects">Phase Effects</a></li>
+      <li><a href="#death-conditions">Death Conditions</a></li>
+    </ul>
+  </li>
+  <li><a href="#enum-value-lists">Enum Value Lists</a></li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#template">Template</a></li>
+  <li><a href="#notes">Notes</a></li>
+</ul>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="death-timing-settings">Death Timing Settings</h3>
+
+<h4 id="sinkdelay-v104"><code class="language-plaintext highlighter-rouge">SinkDelay</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Time delay before the object starts sinking into the terrain</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SinkDelay = 2000</code></li>
+</ul>
+
+<h4 id="sinkdelayvariance-v104"><code class="language-plaintext highlighter-rouge">SinkDelayVariance</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Random variance added to SinkDelay for variation</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SinkDelayVariance = 500</code></li>
+</ul>
+
+<h4 id="destructiondelay-v104"><code class="language-plaintext highlighter-rouge">DestructionDelay</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Time delay before the object is completely destroyed</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DestructionDelay = 8000</code></li>
+</ul>
+
+<h4 id="destructiondelayvariance-v104"><code class="language-plaintext highlighter-rouge">DestructionDelayVariance</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Random variance added to DestructionDelay for variation</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DestructionDelayVariance = 1000</code></li>
+</ul>
+
+<h3 id="probability-settings">Probability Settings</h3>
+
+<h4 id="probabilitymodifier-v104"><code class="language-plaintext highlighter-rouge">ProbabilityModifier</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Int</code></li>
+  <li><strong>Description</strong>: Base probability modifier for this death behavior when multiple exist</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ProbabilityModifier = 10</code></li>
+</ul>
+
+<h4 id="modifierbonusperoverkillpercent-v104"><code class="language-plaintext highlighter-rouge">ModifierBonusPerOverkillPercent</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (percentage)</li>
+  <li><strong>Description</strong>: Additional probability bonus per percentage of overkill damage</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ModifierBonusPerOverkillPercent = 5.0</code></li>
+</ul>
+
+<h3 id="sinking-settings">Sinking Settings</h3>
+
+<h4 id="sinkrate-v104"><code class="language-plaintext highlighter-rouge">SinkRate</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (velocity)</li>
+  <li><strong>Description</strong>: Rate at which the object sinks into the terrain (units per frame)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SinkRate = 0.5</code></li>
+</ul>
+
+<h3 id="destruction-settings">Destruction Settings</h3>
+
+<h4 id="destructionaltitude-v104"><code class="language-plaintext highlighter-rouge">DestructionAltitude</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (distance)</li>
+  <li><strong>Description</strong>: Altitude below which the object is considered destroyed</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DestructionAltitude = -10.0</code></li>
+</ul>
+
+<h3 id="flinging-settings">Flinging Settings</h3>
+
+<h4 id="flingforce-v104"><code class="language-plaintext highlighter-rouge">FlingForce</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (force)</li>
+  <li><strong>Description</strong>: Base force applied to fling the object through the air</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FlingForce = 15.0</code></li>
+</ul>
+
+<h4 id="flingforcevariance-v104"><code class="language-plaintext highlighter-rouge">FlingForceVariance</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (force)</li>
+  <li><strong>Description</strong>: Random variance added to FlingForce for variation</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FlingForceVariance = 5.0</code></li>
+</ul>
+
+<h4 id="flingpitch-v104"><code class="language-plaintext highlighter-rouge">FlingPitch</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (angle)</li>
+  <li><strong>Description</strong>: Base pitch angle for flinging the object</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FlingPitch = 45.0</code></li>
+</ul>
+
+<h4 id="flingpitchvariance-v104"><code class="language-plaintext highlighter-rouge">FlingPitchVariance</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (angle)</li>
+  <li><strong>Description</strong>: Random variance added to FlingPitch for variation</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FlingPitchVariance = 15.0</code></li>
+</ul>
+
+<h3 id="phase-effects">Phase Effects</h3>
+
+<h4 id="fx-v104"><code class="language-plaintext highlighter-rouge">FX</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">FXList</code> (multiple entries per phase)</li>
+  <li><strong>Description</strong>: Visual effects played during specific death phases (see <a href="#slowdeathphase-values">SlowDeathPhase Values</a> section)</li>
+  <li><strong>Example</strong>:
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_BigTruckDeathFX</span>
+<span class="py">FX</span> <span class="p">=</span> <span class="s">FINAL FX_BuggyNewDeathExplosion</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="ocl-v104"><code class="language-plaintext highlighter-rouge">OCL</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ObjectCreationList</code> (multiple entries per phase)</li>
+  <li><strong>Description</strong>: Objects created during specific death phases (see <a href="#slowdeathphase-values">SlowDeathPhase Values</a> section)</li>
+  <li><strong>Example</strong>:
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">OCL</span> <span class="p">=</span> <span class="s">INITIAL OCL_ExplosionDebris</span>
+<span class="py">OCL</span> <span class="p">=</span> <span class="s">FINAL OCL_RadarVanDeathEffect</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="weapon-v104"><code class="language-plaintext highlighter-rouge">Weapon</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Weapon</code> (multiple entries per phase)</li>
+  <li><strong>Description</strong>: Weapons fired during specific death phases (see <a href="#slowdeathphase-values">SlowDeathPhase Values</a> section)</li>
+  <li><strong>Example</strong>:
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Weapon</span> <span class="p">=</span> <span class="s">INITIAL Weapon_DeathExplosion</span>
+<span class="py">Weapon</span> <span class="p">=</span> <span class="s">FINAL Weapon_FinalBlast</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="death-conditions">Death Conditions</h3>
+
+<h4 id="deathtypes-v104"><code class="language-plaintext highlighter-rouge">DeathTypes</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">DeathTypeFlags</code> (bit flags) (see <a href="#deathtype-values">DeathType Values</a> section)</li>
+  <li><strong>Description</strong>: Death types that trigger this slow death behavior</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DeathTypes = ALL -CRUSHED -SPLATTED -POISONED</code></li>
+</ul>
+
+<h4 id="veterancylevels-v104"><code class="language-plaintext highlighter-rouge">VeterancyLevels</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">VeterancyLevelFlags</code> (bit flags)</li>
+  <li><strong>Description</strong>: Veterancy levels that trigger this slow death behavior</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">VeterancyLevels = VETERAN +ELITE</code></li>
+</ul>
+
+<h4 id="exemptstatus-v104"><code class="language-plaintext highlighter-rouge">ExemptStatus</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ObjectStatusMaskType</code> (bit flags)</li>
+  <li><strong>Description</strong>: Object status bits that prevent this slow death behavior from triggering</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ExemptStatus = OBJECT_STATUS_SOLD</code></li>
+</ul>
+
+<h4 id="requiredstatus-v104"><code class="language-plaintext highlighter-rouge">RequiredStatus</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ObjectStatusMaskType</code> (bit flags)</li>
+  <li><strong>Description</strong>: Object status bits that must be set for this slow death behavior to trigger</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RequiredStatus = OBJECT_STATUS_UNDER_CONSTRUCTION</code></li>
+</ul>
+
+<h2 id="enum-value-lists">Enum Value Lists</h2>
+
+<h4 id="slowdeathphase-values-v104"><code class="language-plaintext highlighter-rouge">SlowDeathPhase</code> Values <em>(v1.04)</em></h4>
+<p><strong>Source:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SlowDeathBehavior.h#51">SlowDeathBehavior.h</a> - <code class="language-plaintext highlighter-rouge">SlowDeathPhaseType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">INITIAL</code></strong> <em>(v1.04)</em> - Initial death phase (begins immediately when death starts)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MIDPOINT</code></strong> <em>(v1.04)</em> - Midpoint death phase (occurs between 35% and 65% of death duration)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FINAL</code></strong> <em>(v1.04)</em> - Final death phase (occurs at the end before destruction)</li>
+</ul>
+
+<h4 id="deathtype-values-v104"><code class="language-plaintext highlighter-rouge">DeathType</code> Values <em>(v1.04)</em></h4>
+<p><strong>Source:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Damage.h#187">Damage.h</a> - <code class="language-plaintext highlighter-rouge">DeathType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_NORMAL</code></strong> <em>(v1.04)</em> - Normal death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_NONE</code></strong> <em>(v1.04)</em> - No death (special case)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_CRUSHED</code></strong> <em>(v1.04)</em> - Crushed death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_BURNED</code></strong> <em>(v1.04)</em> - Burned death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXPLODED</code></strong> <em>(v1.04)</em> - Exploded death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_POISONED</code></strong> <em>(v1.04)</em> - Poisoned death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_SUICIDED</code></strong> <em>(v1.04)</em> - Suicide death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_RUBBLE</code></strong> <em>(v1.04)</em> - Rubble death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_FADED</code></strong> <em>(v1.04)</em> - Faded death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_KNOCKBACK</code></strong> <em>(v1.04)</em> - Knockback death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_LAVA</code></strong> <em>(v1.04)</em> - Lava death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_DETONATED</code></strong> <em>(v1.04)</em> - Detonated death</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXTRA_1</code></strong> <em>(v1.04)</em> - Extra death type 1</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXTRA_2</code></strong> <em>(v1.04)</em> - Extra death type 2</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXTRA_3</code></strong> <em>(v1.04)</em> - Extra death type 3</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXTRA_4</code></strong> <em>(v1.04)</em> - Extra death type 4</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DEATH_EXTRA_5</code></strong> <em>(v1.04)</em> - Extra death type 5</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="scout-van-slow-death-with-sinking">Scout Van Slow Death with Sinking</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">SlowDeathBehavior DeathTag_01</span>
+  <span class="py">DeathTypes</span> <span class="p">=</span> <span class="s">ALL -CRUSHED -SPLATTED -POISONED -POISONED_BETA -EXTRA_8</span>
+  <span class="py">SinkRate</span> <span class="p">=</span> <span class="s">0.5</span>
+  <span class="py">SinkDelay</span> <span class="p">=</span> <span class="s">2000</span>
+  <span class="py">SinkDelayVariance</span> <span class="p">=</span> <span class="s">500</span>
+  <span class="py">DestructionDelay</span> <span class="p">=</span> <span class="s">8000</span>
+  <span class="py">DestructionDelayVariance</span> <span class="p">=</span> <span class="s">1000</span>
+  <span class="py">DestructionAltitude</span> <span class="p">=</span> <span class="s">-10.0</span>
+  <span class="py">ProbabilityModifier</span> <span class="p">=</span> <span class="s">10</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_BigTruckDeathFX</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">FINAL FX_BuggyNewDeathExplosion</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">FINAL OCL_RadarVanDeathEffect</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="vehicle-with-flinging-death">Vehicle with Flinging Death</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">SlowDeathBehavior DeathTag_Fling</span>
+  <span class="py">DeathTypes</span> <span class="p">=</span> <span class="s">ALL -CRUSHED -SPLATTED</span>
+  <span class="py">FlingForce</span> <span class="p">=</span> <span class="s">15.0</span>
+  <span class="py">FlingForceVariance</span> <span class="p">=</span> <span class="s">5.0</span>
+  <span class="py">FlingPitch</span> <span class="p">=</span> <span class="s">45.0</span>
+  <span class="py">FlingPitchVariance</span> <span class="p">=</span> <span class="s">15.0</span>
+  <span class="py">DestructionDelay</span> <span class="p">=</span> <span class="s">5000</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_VehicleExplosion</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">MIDPOINT FX_VehicleSmoke</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">FINAL FX_VehicleFinalBlast</span>
+  <span class="py">Weapon</span> <span class="p">=</span> <span class="s">FINAL Weapon_DeathExplosion</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="high-probability-death-for-overkill">High Probability Death for Overkill</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">SlowDeathBehavior DeathTag_Spectacular</span>
+  <span class="py">DeathTypes</span> <span class="p">=</span> <span class="s">ALL -CRUSHED -SPLATTED</span>
+  <span class="py">ProbabilityModifier</span> <span class="p">=</span> <span class="s">5</span>
+  <span class="py">ModifierBonusPerOverkillPercent</span> <span class="p">=</span> <span class="s">10.0</span>
+  <span class="py">DestructionDelay</span> <span class="p">=</span> <span class="s">12000</span>
+  <span class="py">DestructionDelayVariance</span> <span class="p">=</span> <span class="s">2000</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_SpectacularExplosion</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">MIDPOINT FX_FireAndSmoke</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">FINAL FX_FinalBlast</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">FINAL OCL_ExplosionDebris</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="infantry-sinking-death">Infantry Sinking Death</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">SlowDeathBehavior DeathTag_Infantry</span>
+  <span class="py">DeathTypes</span> <span class="p">=</span> <span class="s">ALL -CRUSHED -SPLATTED</span>
+  <span class="py">SinkRate</span> <span class="p">=</span> <span class="s">0.3</span>
+  <span class="py">SinkDelay</span> <span class="p">=</span> <span class="s">1000</span>
+  <span class="py">DestructionDelay</span> <span class="p">=</span> <span class="s">4000</span>
+  <span class="py">DestructionAltitude</span> <span class="p">=</span> <span class="s">-5.0</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_InfantryDeath</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">FINAL OCL_InfantryCorpse</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="template">Template</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">Behavior</span> <span class="p">=</span> <span class="s">SlowDeathBehavior ModuleTag_XX</span>
+  <span class="c">; Death Timing Settings
+</span>  <span class="py">SinkDelay</span> <span class="p">=</span> <span class="s">2000                   ; // milliseconds before sinking starts *(v1.04)*</span>
+  <span class="py">SinkDelayVariance</span> <span class="p">=</span> <span class="s">500            ; // random variance for sink delay *(v1.04)*</span>
+  <span class="py">DestructionDelay</span> <span class="p">=</span> <span class="s">8000            ; // milliseconds before destruction *(v1.04)*</span>
+  <span class="py">DestructionDelayVariance</span> <span class="p">=</span> <span class="s">1000    ; // random variance for destruction delay *(v1.04)*</span>
+
+  <span class="c">; Probability Settings
+</span>  <span class="py">ProbabilityModifier</span> <span class="p">=</span> <span class="s">10           ; // base probability modifier *(v1.04)*</span>
+  <span class="py">ModifierBonusPerOverkillPercent</span> <span class="p">=</span> <span class="s">0.0 ; // bonus per overkill percentage *(v1.04)*</span>
+
+  <span class="c">; Sinking Settings
+</span>  <span class="py">SinkRate</span> <span class="p">=</span> <span class="s">0.5                     ; // rate of sinking into terrain *(v1.04)*</span>
+  <span class="py">DestructionAltitude</span> <span class="p">=</span> <span class="s">-10.0        ; // altitude for destruction *(v1.04)*</span>
+
+  <span class="c">; Flinging Settings
+</span>  <span class="py">FlingForce</span> <span class="p">=</span> <span class="s">0.0                   ; // force to fling object *(v1.04)*</span>
+  <span class="py">FlingForceVariance</span> <span class="p">=</span> <span class="s">0.0           ; // variance for fling force *(v1.04)*</span>
+  <span class="py">FlingPitch</span> <span class="p">=</span> <span class="s">0.0                   ; // pitch angle for flinging *(v1.04)*</span>
+  <span class="py">FlingPitchVariance</span> <span class="p">=</span> <span class="s">0.0           ; // variance for fling pitch *(v1.04)*</span>
+
+  <span class="c">; Phase Effects
+</span>  <span class="py">FX</span> <span class="p">=</span> <span class="s">INITIAL FX_InitialEffect      ; // initial phase effect *(v1.04)*</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">MIDPOINT FX_MidpointEffect    ; // midpoint phase effect *(v1.04)*</span>
+  <span class="py">FX</span> <span class="p">=</span> <span class="s">FINAL FX_FinalEffect          ; // final phase effect *(v1.04)*</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">INITIAL OCL_InitialObjects   ; // initial phase objects *(v1.04)*</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">MIDPOINT OCL_MidpointObjects ; // midpoint phase objects *(v1.04)*</span>
+  <span class="py">OCL</span> <span class="p">=</span> <span class="s">FINAL OCL_FinalObjects       ; // final phase objects *(v1.04)*</span>
+  <span class="py">Weapon</span> <span class="p">=</span> <span class="s">INITIAL Weapon_Initial    ; // initial phase weapon *(v1.04)*</span>
+  <span class="py">Weapon</span> <span class="p">=</span> <span class="s">MIDPOINT Weapon_Midpoint  ; // midpoint phase weapon *(v1.04)*</span>
+  <span class="py">Weapon</span> <span class="p">=</span> <span class="s">FINAL Weapon_Final        ; // final phase weapon *(v1.04)*</span>
+
+  <span class="c">; Death Conditions
+</span>  <span class="py">DeathTypes</span> <span class="p">=</span> <span class="s">ALL                   ; // death types that trigger behavior *(v1.04)*</span>
+  <span class="py">VeterancyLevels</span> <span class="p">=</span>                  <span class="c">; // veterancy levels that trigger behavior *(v1.04)*
+</span>  <span class="s">ExemptStatus =                     ; // status bits that prevent triggering *(v1.04)*</span>
+  <span class="py">RequiredStatus</span> <span class="p">=</span>                   <span class="c">; // required status bits for triggering *(v1.04)*
+</span><span class="s">End</span>
+</code></pre></div></div>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>SlowDeathBehavior creates multi-phase death sequences with initial, midpoint, and final phases</li>
+  <li>Objects can sink into terrain, be flung through the air, or follow other death patterns</li>
+  <li>Multiple SlowDeathBehavior instances can exist on the same object with different probability modifiers</li>
+  <li>Death sequences are affected by game LOD (Level of Detail) settings for performance optimization</li>
+  <li>Overkill damage increases the probability of spectacular death sequences</li>
+  <li>Objects with physics can be flung and will bounce and collide during death sequences</li>
+  <li>Infantry objects automatically disable shadows when sinking to prevent visual artifacts</li>
+  <li>Death sequences can create objects, fire weapons, and play visual effects at different phases</li>
+  <li>The behavior integrates with the death system for conditional activation based on death types</li>
+</ul>
+
+<h2 id="source-files">Source Files</h2>
+
+<p><strong>Base Class:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h"><code class="language-plaintext highlighter-rouge">UpdateModule</code></a>, <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h"><code class="language-plaintext highlighter-rouge">DieModuleInterface</code></a>, <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SlowDeathBehavior.h"><code class="language-plaintext highlighter-rouge">SlowDeathBehaviorInterface</code></a></p>
+
+<ul>
+  <li>Header: <a href="../../GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SlowDeathBehavior.h"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SlowDeathBehavior.h</code></a></li>
+  <li>Source: <a href="../../GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp</code></a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

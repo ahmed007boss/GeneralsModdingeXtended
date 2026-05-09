@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CommandButton INI Documentation | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="CommandButton INI Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CommandButton INI Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"CommandButton INI Documentation","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">CommandButton INI Documentation</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="commandbutton-ini-documentation">CommandButton INI Documentation</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">CommandButton</code> class represents a single command button in the game’s user interface. These buttons appear in the control bar and allow players to execute various commands such as building units, constructing structures, using special powers, and more.</p>
+
+<p><strong>CommandButtons</strong> are INI-based configuration entries that define the clickable buttons used to trigger player actions. They represent the core <strong>user interface elements</strong> that connect the player’s input to in-game functionality.</p>
+
+<p>Each CommandButton specifies what happens when clicked—such as training a unit, constructing a building, activating a special power, or toggling a mode. They can also control costs, prerequisites, tooltips, and associated sounds or animations.</p>
+
+<p>CommandButtons are typically grouped into <strong><a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSets</a></strong> , which assign collections of buttons to units, structures, or command bars</p>
+
+<h2 id="source-files">Source Files</h2>
+
+<ul>
+  <li>Header: <a href="../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h</code></a> - <code class="language-plaintext highlighter-rouge">CommandButton</code> class definition</li>
+  <li>Source: <a href="../GeneralsMD/Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar.cpp"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar.cpp</code></a> - <code class="language-plaintext highlighter-rouge">CommandButton</code> parsing logic</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<p>A CommandButton is defined inside an .ini file located in the CommandButton folder (e.g., CommandButton\MyCustomButtons.ini).
+This structure is introduced by GMX — in the vanilla game, all CommandButtons are hardcoded in a single CommandButton.ini file.</p>
+
+<p>When GMX is used, the engine automatically loads all .ini files from the CommandButton directory and merges them at runtime. This allows modders to keep buttons organized across multiple files (per faction, unit type, or feature) instead of maintaining one massive file.</p>
+
+<p>A CommandButton definition on its own does nothing. It only becomes visible and usable when:</p>
+
+<ul>
+  <li>Added to a <strong><a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSets</a></strong> → attached to a unit, building, or interface slot.</li>
+  <li>Linked to a sidebar shortcut → such as the right-side quick action buttons.</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#properties">Properties</a>
+    <ul>
+      <li><a href="#basic-properties">Basic Properties</a></li>
+      <li><a href="#display-properties">Display Properties</a></li>
+      <li><a href="#overlay-image-properties">Overlay Image Properties</a></li>
+      <li><a href="#prerequisites-and-requirements">Prerequisites and Requirements</a></li>
+      <li><a href="#modifier-key-and-click-type-buttons">Modifier Key and Click Type Buttons</a></li>
+      <li><a href="#alternative-command-buttons-prerequisite-based-replacement">Alternative Command Buttons (Prerequisite-Based Replacement)</a>
+        <ul>
+          <li><a href="#available-prerequisite-types">Available Prerequisite Types</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#enum-value-lists">Enum Value Lists</a>
+    <ul>
+      <li><a href="#command-values-guicommandtype">Command Values (GUICommandType)</a></li>
+      <li><a href="#weaponslot-values-weaponslottype">WeaponSlot Values (WeaponSlotType)</a></li>
+      <li><a href="#buttonbordertype-values-commandbuttonmappedbordertype">ButtonBorderType Values (CommandButtonMappedBorderType)</a></li>
+      <li><a href="#radiuscursortype-values">RadiusCursorType Values</a></li>
+      <li><a href="#commandoption-enum-values">CommandOption Enum Values</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a>
+    <ul>
+      <li><a href="#basic-unit-build-button">Basic Unit Build Button</a></li>
+      <li><a href="#player-upgrade-button">Player Upgrade Button</a></li>
+      <li><a href="#object-upgrade-button">Object Upgrade Button</a></li>
+      <li><a href="#special-power-button">Special Power Button</a></li>
+      <li><a href="#weapon-switching-button">Weapon Switching Button</a></li>
+      <li><a href="#science-purchase-button">Science Purchase Button</a></li>
+      <li><a href="#complex-prerequisites-example">Complex Prerequisites Example</a></li>
+      <li><a href="#command-button-with-overlay-images-new-feature">Command Button with Overlay Images (New Feature)</a></li>
+      <li><a href="#alternative-command-buttons-new-feature">Alternative Command Buttons (New Feature)</a></li>
+      <li><a href="#modifier-key-button-example">Modifier Key Button Example</a></li>
+      <li><a href="#fire-weapon-button">Fire Weapon Button</a></li>
+    </ul>
+  </li>
+  <li><a href="#best-practices">Best Practices</a>
+    <ul>
+      <li><a href="#command-button-design">Command Button Design</a></li>
+      <li><a href="#prerequisites-and-requirements-1">Prerequisites and Requirements</a></li>
+      <li><a href="#alternative-buttons">Alternative Buttons</a></li>
+      <li><a href="#display-and-ui">Display and UI</a></li>
+      <li><a href="#performance-and-maintenance">Performance and Maintenance</a></li>
+    </ul>
+  </li>
+  <li><a href="#template">Template</a></li>
+  <li><a href="#notes">Notes</a></li>
+  <li><a href="#source-files">Source Files</a></li>
+  <li><a href="#changes-history">Changes History</a></li>
+  <li><a href="#status">Status</a>
+    <ul>
+      <li><a href="#modder-reviews">Reviews (0)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="basic-properties">Basic Properties</h3>
+
+<h4 id="command-v104"><code class="language-plaintext highlighter-rouge">Command</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">GUICommandType</code></li>
+  <li><strong>Description</strong>: Defines the type of command this button executes</li>
+  <li><strong>Values</strong>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">UNIT_BUILD</code> - Build a unit</li>
+      <li><code class="language-plaintext highlighter-rouge">DOZER_CONSTRUCT</code> - Construct a building</li>
+      <li><code class="language-plaintext highlighter-rouge">OBJECT_UPGRADE</code> - Upgrade an object</li>
+      <li><code class="language-plaintext highlighter-rouge">PLAYER_UPGRADE</code> - Research a player upgrade</li>
+      <li><code class="language-plaintext highlighter-rouge">SPECIAL_POWER</code> - Use a special power</li>
+      <li><code class="language-plaintext highlighter-rouge">WEAPON_FIRE</code> - Fire a weapon</li>
+      <li><a href="#command-values-guicommandtype">And many more…</a></li>
+    </ul>
+  </li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Command = UNIT_BUILD</code></li>
+</ul>
+
+<h4 id="options-v104"><code class="language-plaintext highlighter-rouge">Options</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">CommandOptionMaskType</code> (bit flags)</li>
+  <li><strong>Description</strong>: Various behavioral options for the command button. Accepts multiple options separated by spaces</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Options = NEED_TARGET_POS OK_FOR_MULTI_SELECT</code></li>
+  <li><strong>Available Options</strong>: See <a href="#commandoption-enum-values">CommandOption Enum Values</a> section below</li>
+</ul>
+
+<h4 id="object-v104"><code class="language-plaintext highlighter-rouge">Object</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">object</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object documentation</a>)</li>
+  <li><strong>Description</strong>: The object/unit template this button creates or targets</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Object = USAInfantry</code></li>
+</ul>
+
+<h4 id="upgrade-v104"><code class="language-plaintext highlighter-rouge">Upgrade</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">upgrade</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade documentation</a>)</li>
+  <li><strong>Description</strong>: The upgrade template this button researches</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Upgrade = USAUpgradeInfantryWeapons</code></li>
+</ul>
+
+<h4 id="weaponslot-v104"><code class="language-plaintext highlighter-rouge">WeaponSlot</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">WeaponSlotType</code></li>
+  <li><strong>Description</strong>: Which weapon slot to use when firing</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">WeaponSlot = PRIMARY_WEAPON</code></li>
+  <li><strong>Available Values</strong>: See <a href="#weaponslot-values-weaponslottype">WeaponSlot Values</a> section below</li>
+</ul>
+
+<h4 id="maxshotstofire-v104"><code class="language-plaintext highlighter-rouge">MaxShotsToFire</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Int</code></li>
+  <li><strong>Description</strong>: Maximum number of shots to fire when using this command</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">MaxShotsToFire = 3</code></li>
+</ul>
+
+<h4 id="science-v104"><code class="language-plaintext highlighter-rouge">Science</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ScienceType</code> (vector)</li>
+  <li><strong>Description</strong>: Science requirements for this button to be available</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Science = USAAdvancedWeapons</code></li>
+</ul>
+
+<h4 id="specialpower-v104"><code class="language-plaintext highlighter-rouge">SpecialPower</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">specialPower</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower documentation</a>)</li>
+  <li><strong>Description</strong>: The special power this button activates</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">SpecialPower = USACarpetBomb</code></li>
+</ul>
+
+<h3 id="display-properties">Display Properties</h3>
+
+<h4 id="textlabel-v104"><code class="language-plaintext highlighter-rouge">TextLabel</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Localized text key displayed on the button</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">CONTROLBAR:KeyName</code> (e.g., <code class="language-plaintext highlighter-rouge">CONTROLBAR:ToolTipGLABuildBlackMarketDomestic</code>)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">TextLabel = "CONTROLBAR:BuildInfantry"</code></li>
+</ul>
+
+<h4 id="descriptlabel-v104"><code class="language-plaintext highlighter-rouge">DescriptLabel</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Localized description text key shown in tooltips</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">CONTROLBAR:KeyName</code> (e.g., <code class="language-plaintext highlighter-rouge">CONTROLBAR:ConstructGLADomesticTrade</code>)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">DescriptLabel = "CONTROLBAR:BuildInfantryDesc"</code></li>
+</ul>
+
+<h4 id="purchasedlabel-v104"><code class="language-plaintext highlighter-rouge">PurchasedLabel</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Localized text key shown when the item is already purchased/owned</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">CONTROLBAR:KeyName</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">PurchasedLabel = "CONTROLBAR:AlreadyOwned"</code></li>
+</ul>
+
+<h4 id="conflictinglabel-v104"><code class="language-plaintext highlighter-rouge">ConflictingLabel</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Localized text key shown when there are conflicting requirements</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">CONTROLBAR:KeyName</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ConflictingLabel = "CONTROLBAR:ConflictsWithUpgrade"</code></li>
+</ul>
+
+<h3 id="overlay-image-properties">Overlay Image Properties</h3>
+
+<h4 id="buttonimage-v104"><code class="language-plaintext highlighter-rouge">ButtonImage</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">MappedImage</code></li>
+  <li><strong>Description</strong>: Image reference for the button icon (defined as MappedImage, not direct file path)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ButtonImage = "USAInfantry_ic"</code></li>
+</ul>
+
+<h4 id="overlayimage-gmx-upcoming"><code class="language-plaintext highlighter-rouge">OverlayImage</code> <em>(GMX Upcoming)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">MappedImage</code></li>
+  <li><strong>Description</strong>: Additional overlay image drawn on top of the button for visual indicators (special abilities, status effects, etc.)</li>
+  <li><strong>Default</strong>: Empty (no overlay)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">OverlayImage = "SpecialAbilityOverlay"</code></li>
+  <li><strong>Usage</strong>: Used for displaying additional visual information like special abilities, cooldown indicators, or status effects</li>
+</ul>
+
+<h4 id="overlayimage2-gmx-upcoming"><code class="language-plaintext highlighter-rouge">OverlayImage2</code> <em>(GMX Upcoming)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">MappedImage</code></li>
+  <li><strong>Description</strong>: Second additional overlay image drawn on top of the button for visual indicators</li>
+  <li><strong>Default</strong>: Empty (no overlay)</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">OverlayImage2 = "StatusEffectOverlay"</code></li>
+  <li><strong>Usage</strong>: Used for displaying a second layer of visual information, such as multiple status effects or additional indicators</li>
+</ul>
+
+<h4 id="cursorname-v104"><code class="language-plaintext highlighter-rouge">CursorName</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Cursor to show when hovering over valid targets</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">CursorName = "Attack"</code></li>
+</ul>
+
+<h4 id="invalidcursorname-v104"><code class="language-plaintext highlighter-rouge">InvalidCursorName</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Cursor to show when hovering over invalid targets</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">InvalidCursorName = "Invalid"</code></li>
+</ul>
+
+<h4 id="buttonbordertype-v104"><code class="language-plaintext highlighter-rouge">ButtonBorderType</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">CommandButtonMappedBorderType</code></li>
+  <li><strong>Description</strong>: Visual border type for the button</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ButtonBorderType = BUILD</code></li>
+  <li><strong>Available Values</strong>: See <a href="#buttonbordertype-values-commandbuttonmappedbordertype">ButtonBorderType Values</a> section below</li>
+</ul>
+
+<h4 id="radiuscursortype-v104"><code class="language-plaintext highlighter-rouge">RadiusCursorType</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">RadiusCursorType</code></li>
+  <li><strong>Description</strong>: Type of radius cursor for area-effect commands</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RadiusCursorType = ATTACK</code></li>
+  <li><strong>Available Values</strong>: See <a href="#radiuscursortype-values">RadiusCursorType Values</a> section below</li>
+</ul>
+
+<h4 id="unitspecificsound-v104"><code class="language-plaintext highlighter-rouge">UnitSpecificSound</code> <em>(v1.04)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AudioEventRTS</code></li>
+  <li><strong>Description</strong>: Sound to play when this command is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">UnitSpecificSound = USAInfantryVoiceAttack</code></li>
+</ul>
+
+<h3 id="prerequisites-and-requirements">Prerequisites and Requirements</h3>
+
+<h4 id="requireelectronics-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RequireElectronics</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether this command requires electronics to function</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RequireElectronics = true</code></li>
+</ul>
+
+<h4 id="requiredupgradetoappear-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RequiredUpgradeToAppear</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">upgrade</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade documentation</a>)</li>
+  <li><strong>Description</strong>: Upgrade required for this button to appear</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RequiredUpgradeToAppear = USAAdvancedWeapons</code></li>
+</ul>
+
+<h4 id="conflictupgradetodisappear-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">ConflictUpgradeToDisappear</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">upgrade</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade documentation</a>)</li>
+  <li><strong>Description</strong>: Upgrade that causes this button to disappear</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ConflictUpgradeToDisappear = USAOldWeapons</code></li>
+</ul>
+
+<h4 id="requiredupgradetoenable-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RequiredUpgradeToEnable</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">upgrade</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade documentation</a>)</li>
+  <li><strong>Description</strong>: Upgrade required for this button to be enabled</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RequiredUpgradeToEnable = USAAdvancedWeapons</code></li>
+</ul>
+
+<h4 id="conflictupgradetodisable-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">ConflictUpgradeToDisable</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">upgrade</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade documentation</a>)</li>
+  <li><strong>Description</strong>: Upgrade that disables this button</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">ConflictUpgradeToDisable = USAOldWeapons</code></li>
+</ul>
+
+<h4 id="enableprerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">EnablePrerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite documentation</a>)</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for this button to be enabled</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EnablePrerequisites
+    Science = SCIENCE_AdvancedWeapons
+    Upgrade = Upgrade_InfantryWeapons
+End
+</code></pre></div></div>
+
+<h4 id="visibleprerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">VisiblePrerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite documentation</a>)</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for this button to be visible</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VisiblePrerequisites
+    Science = SCIENCE_AdvancedWeapons
+    Upgrade = Upgrade_InfantryWeapons
+End
+</code></pre></div></div>
+
+<h3 id="modifier-key-and-click-type-buttons-v104-generals-zero-hour-only">Modifier Key and Click Type Buttons <em>(v1.04, Generals Zero Hour only)</em></h3>
+
+<h4 id="leftclickctrlbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickCtrlButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickCtrlButton = "Command_AdvancedInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickaltbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickAltButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Alt+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickAltButton = "Command_EliteInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Shift+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickShiftButton = "Command_VeteranInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickctrlaltbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickCtrlAltButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Alt+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickCtrlAltButton = "Command_HeroInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickctrlshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickCtrlShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Shift+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickCtrlShiftButton = "Command_AdvancedVeteranInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickaltshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickAltShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Alt+Shift+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickAltShiftButton = "Command_EliteVeteranInfantry"</code></li>
+</ul>
+
+<h4 id="leftclickctrlaltshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">LeftClickCtrlAltShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Alt+Shift+Left-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">LeftClickCtrlAltShiftButton = "Command_UltimateInfantry"</code></li>
+</ul>
+
+<h4 id="rightclickbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickButton = "Command_InfantryAttack"</code></li>
+</ul>
+
+<h4 id="rightclickctrlbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickCtrlButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickCtrlButton = "Command_InfantryDefend"</code></li>
+</ul>
+
+<h4 id="rightclickaltbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickAltButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Alt+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickAltButton = "Command_InfantryPatrol"</code></li>
+</ul>
+
+<h4 id="rightclickshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Shift+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickShiftButton = "Command_InfantryGuard"</code></li>
+</ul>
+
+<h4 id="rightclickctrlaltbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickCtrlAltButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Alt+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickCtrlAltButton = "Command_InfantrySpecial"</code></li>
+</ul>
+
+<h4 id="rightclickctrlshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickCtrlShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Shift+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickCtrlShiftButton = "Command_InfantryAdvanced"</code></li>
+</ul>
+
+<h4 id="rightclickaltshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickAltShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Alt+Shift+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickAltShiftButton = "Command_InfantryElite"</code></li>
+</ul>
+
+<h4 id="rightclickctrlaltshiftbutton-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">RightClickCtrlAltShiftButton</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the button that replaces this button when Ctrl+Alt+Shift+Right-Click is used</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RightClickCtrlAltShiftButton = "Command_InfantryUltimate"</code></li>
+</ul>
+
+<h3 id="alternative-command-buttons-prerequisite-based-replacement-v104-generals-zero-hour-only">Alternative Command Buttons (Prerequisite-Based Replacement) <em>(v1.04, Generals Zero Hour only)</em></h3>
+
+<h4 id="alternativebutton1-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton1</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the first alternative button that completely replaces this button when prerequisites are satisfied</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">AlternativeButton1 = "AdvancedInfantry"</code></li>
+</ul>
+
+<h4 id="alternativebutton2-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton2</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the second alternative button that completely replaces this button when prerequisites are satisfied</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">AlternativeButton2 = "EliteInfantry"</code></li>
+</ul>
+
+<h4 id="alternativebutton3-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton3</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the third alternative button that completely replaces this button when prerequisites are satisfied</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">AlternativeButton3 = "VeteranInfantry"</code></li>
+</ul>
+
+<h4 id="alternativebutton4-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton4</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the fourth alternative button that completely replaces this button when prerequisites are satisfied</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">AlternativeButton4 = "HeroInfantry"</code></li>
+</ul>
+
+<h4 id="alternativebutton1prerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton1Prerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for AlternativeButton1 to replace the original</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AlternativeButton1Prerequisites
+    Upgrade = Upgrade_SecondEcoL2
+    ObjectNotExist = Upgrade_SecondEcoL1
+End
+</code></pre></div></div>
+
+<h4 id="alternativebutton2prerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton2Prerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for AlternativeButton2 to replace the original</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AlternativeButton2Prerequisites
+    Science = SCIENCE_AdvancedWeapons
+    UpgradeNotExist = Upgrade_BasicWeapons
+End
+</code></pre></div></div>
+
+<h4 id="alternativebutton3prerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton3Prerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for AlternativeButton3 to replace the original</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AlternativeButton3Prerequisites
+    Upgrade = Upgrade_EliteTraining
+    Science = SCIENCE_EliteForces
+End
+</code></pre></div></div>
+
+<h4 id="alternativebutton4prerequisites-v104-generals-zero-hour-only"><code class="language-plaintext highlighter-rouge">AlternativeButton4Prerequisites</code> <em>(v1.04, Generals Zero Hour only)</em></h4>
+
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ProductionPrerequisite</code> block</li>
+  <li><strong>Description</strong>: Prerequisites that must be satisfied for AlternativeButton4 to replace the original</li>
+  <li><strong>Format</strong>: Block format with specific prerequisite types</li>
+  <li><strong>Example</strong>:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AlternativeButton4Prerequisites
+    Science = SCIENCE_HeroForces
+    Upgrade = Upgrade_HeroTraining
+    ObjectNotExist = Upgrade_BasicTraining
+End
+</code></pre></div></div>
+
+<h4 id="available-prerequisite-types">Available Prerequisite Types</h4>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">Upgrade</code></strong> - Requires specific upgrade to be researched</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ObjectNotExist</code></strong> - Requires object/upgrade to not exist</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Science</code></strong> - Requires specific science to be researched</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">UpgradeNotExist</code></strong> - Requires upgrade to not exist</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Object</code></strong> - Requires specific object to exist</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ObjectCount</code></strong> - Requires specific number of objects</li>
+  <li><strong>And many more…</strong> - See <a href="#productionprerequisite-types">ProductionPrerequisite documentation</a> for complete list</li>
+</ul>
+
+<h2 id="enum-value-lists">Enum Value Lists</h2>
+
+<h4 id="command-values-guicommandtype">Command Values (GUICommandType)</h4>
+
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h">ControlBar.h</a> - <code class="language-plaintext highlighter-rouge">GUICommandType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">NONE</code></strong> <em>(v1.04)</em> - Invalid command</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DOZER_CONSTRUCT</code></strong> <em>(v1.04)</em> - Dozer construct</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">DOZER_CONSTRUCT_CANCEL</code></strong> <em>(v1.04)</em> - Cancel a dozer construction process</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">UNIT_BUILD</code></strong> <em>(v1.04)</em> - Build a unit</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CANCEL_UNIT_BUILD</code></strong> <em>(v1.04)</em> - Cancel a unit build</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PLAYER_UPGRADE</code></strong> <em>(v1.04)</em> - Put an upgrade that applies to the player in the queue</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OBJECT_UPGRADE</code></strong> <em>(v1.04)</em> - Put an object upgrade in the queue</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CANCEL_UPGRADE</code></strong> <em>(v1.04)</em> - Cancel an upgrade</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ATTACK_MOVE</code></strong> <em>(v1.04)</em> - Attack move command</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">GUARD</code></strong> <em>(v1.04)</em> - Guard command</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">GUARD_WITHOUT_PURSUIT</code></strong> <em>(v1.04)</em> - Guard command, no pursuit out of guard area</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">GUARD_FLYING_UNITS_ONLY</code></strong> <em>(v1.04)</em> - Guard command, ignore nonflyers</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">STOP</code></strong> <em>(v1.04)</em> - Stop moving</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">WAYPOINTS</code></strong> <em>(v1.04)</em> - Create a set of waypoints for this unit</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EXIT_CONTAINER</code></strong> <em>(v1.04)</em> - An inventory box for a container like a structure or transport</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EVACUATE</code></strong> <em>(v1.04)</em> - Dump all our contents</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">EXECUTE_RAILED_TRANSPORT</code></strong> <em>(v1.04)</em> - Execute railed transport sequence</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BEACON_DELETE</code></strong> <em>(v1.04)</em> - Delete a beacon</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SET_RALLY_POINT</code></strong> <em>(v1.04)</em> - Set rally point for a structure</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SELL</code></strong> <em>(v1.04)</em> - Sell a structure</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">FIRE_WEAPON</code></strong> <em>(v1.04)</em> - Fire a weapon</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SPECIAL_POWER</code></strong> <em>(v1.04)</em> - Do a special power</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PURCHASE_SCIENCE</code></strong> <em>(v1.04)</em> - Purchase science</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HACK_INTERNET</code></strong> <em>(v1.04)</em> - Gain income from the ether (by hacking the internet)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TOGGLE_OVERCHARGE</code></strong> <em>(v1.04)</em> - Overcharge command for power plants</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">POW_RETURN_TO_PRISON</code></strong> <em>(v1.04)</em> - POW Truck, return to prison</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMBATDROP</code></strong> <em>(v1.04)</em> - Rappel contents to ground or building</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SWITCH_WEAPON</code></strong> <em>(v1.04)</em> - Switch weapon use</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">HIJACK_VEHICLE</code></strong> <em>(v1.04)</em> - Context sensitive command mode</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CONVERT_TO_CARBOMB</code></strong> <em>(v1.04)</em> - Context sensitive command mode</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SABOTAGE_BUILDING</code></strong> <em>(v1.04)</em> - Context sensitive command mode</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PICK_UP_PRISONER</code></strong> <em>(v1.04)</em> - POW Truck assigned to pick up a specific prisoner</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">PLACE_BEACON</code></strong> <em>(v1.04)</em> - Context-insensitive command mode</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SPECIAL_POWER_FROM_SHORTCUT</code></strong> <em>(v1.04)</em> - Do a special power from localPlayer’s command center, regardless of selection</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SPECIAL_POWER_CONSTRUCT</code></strong> <em>(v1.04)</em> - Do a special power using the construct building interface</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SPECIAL_POWER_CONSTRUCT_FROM_SHORTCUT</code></strong> <em>(v1.04)</em> - Do a shortcut special power using the construct building interface</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SELECT_ALL_UNITS_OF_TYPE</code></strong> <em>(v1.04)</em> - Select all units of type</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_SWITCH_COMMAND_SET</code></strong> <em>(v1.04)</em> - Switch command set</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_SWITCH_COMMAND_SET2</code></strong> <em>(v1.04)</em> - Switch command set 2</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_SWITCH_COMMAND_SET3</code></strong> <em>(v1.04)</em> - Switch command set 3</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_SWITCH_COMMAND_SET4</code></strong> <em>(v1.04)</em> - Switch command set 4</li>
+</ul>
+
+<h4 id="weaponslot-values-weaponslottype">WeaponSlot Values (WeaponSlotType)</h4>
+
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Include/GameLogic/Weapon.h">Weapon.h</a> - <code class="language-plaintext highlighter-rouge">WeaponSlotType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">PRIMARY_WEAPON</code></strong> <em>(v1.04)</em> - Primary weapon slot</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SECONDARY_WEAPON</code></strong> <em>(v1.04)</em> - Secondary weapon slot</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">TERTIARY_WEAPON</code></strong> <em>(v1.04)</em> - Tertiary weapon slot</li>
+</ul>
+
+<h4 id="buttonbordertype-values-commandbuttonmappedbordertype">ButtonBorderType Values (CommandButtonMappedBorderType)</h4>
+
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h">ControlBar.h</a> - <code class="language-plaintext highlighter-rouge">CommandButtonMappedBorderType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">NONE</code></strong> <em>(v1.04)</em> - No border</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">BUILD</code></strong> <em>(v1.04)</em> - Build button border</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">UPGRADE</code></strong> <em>(v1.04)</em> - Upgrade button border</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ACTION</code></strong> <em>(v1.04)</em> - Action button border</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SYSTEM</code></strong> <em>(v1.04)</em> - System/special power button border</li>
+</ul>
+
+<h4 id="radiuscursortype-values">RadiusCursorType Values</h4>
+
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h">ControlBar.h</a> - <code class="language-plaintext highlighter-rouge">RadiusCursorType</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_NONE</code></strong> <em>(v1.04)</em> - No radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_ATTACK_DAMAGE_AREA</code></strong> <em>(v1.04)</em> - Attack damage area radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_ATTACK_SCATTER_AREA</code></strong> <em>(v1.04)</em> - Attack scatter area radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_ATTACK_CONTINUE_AREA</code></strong> <em>(v1.04)</em> - Attack continue area radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_GUARD_AREA</code></strong> <em>(v1.04)</em> - Guard area radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_EMERGENCY_REPAIR</code></strong> <em>(v1.04)</em> - Emergency repair radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_FRIENDLY_SPECIALPOWER</code></strong> <em>(v1.04)</em> - Friendly special power radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_OFFENSIVE_SPECIALPOWER</code></strong> <em>(v1.04)</em> - Offensive special power radius cursor</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">RADIUSCURSOR_SUPERWEAPON_SCATTER_AREA</code></strong> <em>(v1.04)</em> - Superweapon scatter area radius cursor</li>
+</ul>
+
+<h4 id="commandoption-enum-values">CommandOption Enum Values</h4>
+
+<p><strong>Source:</strong> <a href="../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h">ControlBar.h</a> - <code class="language-plaintext highlighter-rouge">CommandOption</code> enum definition</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_OPTION_NONE</code></strong> <em>(v1.04)</em> - No special options</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_TARGET_ENEMY_OBJECT</code></strong> <em>(v1.04)</em> - Command needs user to select enemy target</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_TARGET_NEUTRAL_OBJECT</code></strong> <em>(v1.04)</em> - Command needs user to select neutral target</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_TARGET_ALLY_OBJECT</code></strong> <em>(v1.04)</em> - Command needs user to select ally target</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_TARGET_PRISONER</code></strong> <em>(v1.04)</em> - Needs user to select prisoner object</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ALLOW_SHRUBBERY_TARGET</code></strong> <em>(v1.04)</em> - Allow neutral shrubbery as a target</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_TARGET_POS</code></strong> <em>(v1.04)</em> - Command needs user to select target position</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_UPGRADE</code></strong> <em>(v1.04)</em> - Command requires upgrade to be enabled</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_SPECIAL_POWER_SCIENCE</code></strong> <em>(v1.04)</em> - Command requires a science in the special power specified</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OK_FOR_MULTI_SELECT</code></strong> <em>(v1.04)</em> - Command is ok to show when multiple objects selected</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CONTEXTMODE_COMMAND</code></strong> <em>(v1.04)</em> - Context sensitive command mode that requires code to determine cursor validity</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CHECK_LIKE</code></strong> <em>(v1.04)</em> - Dynamically change the UI element push button to be “check like”</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ALLOW_MINE_TARGET</code></strong> <em>(v1.04)</em> - Allow (land)mines as a target</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ATTACK_OBJECTS_POSITION</code></strong> <em>(v1.04)</em> - For weapons that need an object target but attack the position indirectly</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OPTION_ONE</code></strong> <em>(v1.04)</em> - User data option 1</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OPTION_TWO</code></strong> <em>(v1.04)</em> - User data option 2</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OPTION_THREE</code></strong> <em>(v1.04)</em> - User data option 3</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NOT_QUEUEABLE</code></strong> <em>(v1.04)</em> - Option not build queueable (can only build when queue is empty)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SINGLE_USE_COMMAND</code></strong> <em>(v1.04)</em> - Once used, it can never be used again</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">COMMAND_FIRED_BY_SCRIPT</code></strong> <em>(v1.04)</em> - Used only by code to tell special powers they have been fired by a script</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">SCRIPT_ONLY</code></strong> <em>(v1.04)</em> - Only a script can use this command (not by users)</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">IGNORES_UNDERPOWERED</code></strong> <em>(v1.04)</em> - Button isn’t disabled if its object is merely underpowered</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">USES_MINE_CLEARING_WEAPONSET</code></strong> <em>(v1.04)</em> - Uses the special mine-clearing weaponset, even if not current</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">CAN_USE_WAYPOINTS</code></strong> <em>(v1.04)</em> - Button has option to use a waypoint path</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">MUST_BE_STOPPED</code></strong> <em>(v1.04)</em> - Unit must be stopped in order to be able to use button</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">NEED_UPGRADE_TO_APPEAR</code></strong> <em>(v1.04)</em> - Command requires upgrade to be enabled</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="basic-unit-build-button">Basic Unit Build Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_ConstructChinaTank99
+  Command       = UNIT_BUILD
+  Object        = ChinaTankType99
+  TextLabel     = CONTROLBAR:ConstructChinaTank99
+  ButtonImage   = Type99_ic_L
+  ButtonBorderType        = BUILD
+  DescriptLabel           = CONTROLBAR:ToolTipChinaBuildT99
+End
+</code></pre></div></div>
+
+<h3 id="player-upgrade-button">Player Upgrade Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_UpgradeChinaFanaticism
+  Command       = PLAYER_UPGRADE
+  Upgrade       = Upgrade_Fanaticism
+  Science       = SCIENCE_ChinaNationalism
+  TextLabel     = CONTROLBAR:UpgradeChinaFanaticism
+  ButtonImage   = SSNationalism
+  ButtonBorderType        = UPGRADE
+  DescriptLabel           = CONTROLBAR:TooltipChinaUpgradeFanaticism
+End
+</code></pre></div></div>
+
+<h3 id="object-upgrade-button">Object Upgrade Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_UpgradeEMPMines
+  Command       = OBJECT_UPGRADE
+  Upgrade       = Upgrade_ChinaEMPMines
+  TextLabel     = CONTROLBAR:UpgradeEMPMines
+  ButtonImage   = SNEMPMine
+  ButtonBorderType        = UPGRADE
+  DescriptLabel           = CONTROLBAR:ToolTipUpgradeChinaEMPMines
+End
+</code></pre></div></div>
+
+<h3 id="special-power-button">Special Power Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_China_RadarPusleEmission
+  Command           = FIRE_WEAPON
+  MaxShotsToFire    = 9999
+  WeaponSlot        = PRIMARY_WEAPON
+  SpecialPower      = Radar_FE
+  Options           = NEED_SPECIAL_POWER_SCIENCE NEED_TARGET_POS CONTEXTMODE_COMMAND OK_FOR_MULTI_SELECT
+  TextLabel         = CONTROLBAR:RadarDirectionalPulseEmission
+  ButtonBorderType  = ACTION
+  ButtonImage       = China_PusleEmission
+  DescriptLabel     = CONTROLBAR:ToolTipRadarDirectionalPulseEmission
+  CursorName        = LaserGuidedMissiles
+  RadiusCursorType  = RADIUSCURSOR_OFFENSIVE_SPECIALPOWER
+End
+</code></pre></div></div>
+
+<h3 id="weapon-switching-button">Weapon Switching Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_HJ9firemode1
+  Command = SWITCH_WEAPON
+  WeaponSlot = PRIMARY_WEAPON
+  Options = CHECK_LIKE OK_FOR_MULTI_SELECT
+  TextLabel = CONTROLBAR:HJ9Switchtotosfiremode1
+  ButtonImage  = HJ9FM1_ic
+  ButtonBorderType = ACTION
+  DescriptLabel  = CONTROLBAR:ToolTipHJ9Switchtotosfiremode1
+End
+</code></pre></div></div>
+
+<h3 id="science-purchase-button">Science Purchase Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_PurchaseScienceNationalism
+  Command           = PURCHASE_SCIENCE
+  Science           = SCIENCE_ChinaNationalism
+  ButtonImage       = ChinaNationalism_ic
+  ButtonBorderType  = UPGRADE
+  UnitSpecificSound = UnitPromoted
+End
+</code></pre></div></div>
+
+<h3 id="complex-prerequisites-example">Complex Prerequisites Example</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_UpgradeChinaHelixPropagandaTower
+  Command       = OBJECT_UPGRADE
+  Upgrade       = Upgrade_GenericObject600
+  Science       = SCIENCE_ChinaNationalism
+  Options       = OK_FOR_MULTI_SELECT NOT_QUEUEABLE
+  TextLabel     = CONTROLBAR:UpgradeChinaHelixPropagandaTower
+  ButtonImage   = SNHelixUp02
+  ButtonBorderType        = UPGRADE
+  DescriptLabel           = CONTROLBAR:TooltipUpgradeChinaHelixPropagandaTower
+  UnitSpecificSound       = HelixVoiceModeSpeakerTower
+End
+</code></pre></div></div>
+
+<h3 id="command-button-with-overlay-images-new-feature">Command Button with Overlay Images (New Feature)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_SpecialUnitWithOverlays
+  Command       = UNIT_BUILD
+  Object        = SpecialEliteUnit
+  TextLabel     = CONTROLBAR:BuildSpecialEliteUnit
+  ButtonImage   = EliteUnit_ic_L
+  OverlayImage  = VeterancyOverlay
+  OverlayImage2 = SpecialAbilityOverlay
+  ButtonBorderType        = BUILD
+  DescriptLabel           = CONTROLBAR:ToolTipBuildSpecialEliteUnit
+End
+</code></pre></div></div>
+
+<h3 id="alternative-command-buttons-new-feature">Alternative Command Buttons (New Feature)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_ConstructChinaInfantryRedguard
+  Command       = UNIT_BUILD
+  Object        = ChinaInfantryRedguard
+  TextLabel     = CONTROLBAR:ConstructChinaInfantryRedguard
+  ButtonImage   = Redguard_ic_L
+  ButtonBorderType        = BUILD
+  DescriptLabel           = CONTROLBAR:ToolTipChinaBuildRedguard
+  
+  ; Alternative buttons based on prerequisites
+  AlternativeButton1 = "Command_ConstructChinaInfantryRedguardMMF"
+  AlternativeButton1Prerequisites
+      Upgrade = Upgrade_MMF
+      Science = SCIENCE_AdvancedInfantry
+  End
+  
+  ; Alternative buttons for modifier keys (existing feature)
+  RightClickButton = "Command_ConstructChinaInfantryRedguard"
+  RightClickCtrlButton = "Command_ConstructChinaInfantryRedguardMMF"
+End
+</code></pre></div></div>
+
+<h3 id="modifier-key-button-example">Modifier Key Button Example</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_ConstructChinaInfantryRedguard
+  Command       = UNIT_BUILD
+  Object        = ChinaInfantryRedguard
+  TextLabel     = CONTROLBAR:ConstructChinaInfantryRedguard
+  ButtonImage   = Redguard_ic_L
+  ButtonBorderType        = BUILD
+  DescriptLabel           = CONTROLBAR:ToolTipChinaBuildRedguard
+  
+  ; Different behavior for modifier keys
+  RightClickButton = "Command_ConstructChinaInfantryRedguard"
+  RightClickCtrlButton = "Command_ConstructChinaInfantryRedguardMMF"
+  RightClickAltButton = "Command_ConstructChinaInfantryRedguardDFF"
+End
+</code></pre></div></div>
+
+<h3 id="fire-weapon-button">Fire Weapon Button</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CommandButton Command_DF21FireWeapon
+  Command             = FIRE_WEAPON
+  WeaponSlot          = SECONDARY_WEAPON
+  MaxShotsToFire      = 1
+  Options             = NEED_SPECIAL_POWER_SCIENCE NEED_TARGET_POS CONTEXTMODE_COMMAND OK_FOR_MULTI_SELECT
+  TextLabel           = CONTROLBAR:MissileAttack
+  ButtonImage         = BallisticMissileFire_L
+  ButtonBorderType    = ACTION
+  SpecialPower        = DF21GroundAttack
+  RadiusCursorType    = RADIUSCURSOR_ATTACK_DAMAGE_AREA
+  UnitSpecificSound   = DF21Launch
+End
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="command-button-design">Command Button Design</h3>
+
+<ol>
+  <li><strong>Use descriptive names</strong> - Command button names should clearly indicate their function</li>
+  <li><strong>Consistent naming conventions</strong> - Follow established patterns (e.g., <code class="language-plaintext highlighter-rouge">Command_Construct</code>, <code class="language-plaintext highlighter-rouge">Command_Upgrade</code>)</li>
+  <li><strong>Proper localization</strong> - Always use <code class="language-plaintext highlighter-rouge">CONTROLBAR:KeyName</code> format for text labels</li>
+  <li><strong>Appropriate button borders</strong> - Use correct border types (BUILD, UPGRADE, ACTION, SYSTEM)</li>
+</ol>
+
+<h3 id="prerequisites-and-requirements-1">Prerequisites and Requirements</h3>
+
+<ol>
+  <li><strong>Logical prerequisite chains</strong> - Design prerequisites that make sense in gameplay progression</li>
+  <li><strong>Clear conflict resolution</strong> - Use <code class="language-plaintext highlighter-rouge">ConflictUpgradeToDisable</code> to prevent conflicting upgrades</li>
+  <li><strong>Progressive unlocking</strong> - Use <code class="language-plaintext highlighter-rouge">RequiredUpgradeToAppear</code> for natural progression</li>
+  <li><strong>Block format consistency</strong> - Always use proper block format for prerequisites</li>
+</ol>
+
+<h3 id="alternative-buttons">Alternative Buttons</h3>
+
+<ol>
+  <li><strong>Meaningful alternatives</strong> - Alternative buttons should provide clear gameplay benefits</li>
+  <li><strong>Consistent prerequisite patterns</strong> - Use similar prerequisite structures across related buttons</li>
+  <li><strong>Modifier key logic</strong> - Design modifier key combinations that are intuitive for players</li>
+  <li><strong>Performance consideration</strong> - Don’t overuse alternative buttons as they increase complexity</li>
+</ol>
+
+<h3 id="display-and-ui">Display and UI</h3>
+
+<ol>
+  <li><strong>Clear visual indicators</strong> - Use appropriate button images and border types</li>
+  <li><strong>Helpful tooltips</strong> - Provide descriptive text that explains button functionality</li>
+  <li><strong>Consistent cursor behavior</strong> - Use appropriate cursor types for different command types</li>
+  <li><strong>Sound feedback</strong> - Add unit-specific sounds for better player feedback</li>
+  <li><strong>Overlay Image Guidelines</strong> - Use overlay images sparingly to avoid visual clutter
+    <ul>
+      <li>Reserve <code class="language-plaintext highlighter-rouge">OverlayImage</code> for primary additional indicators (veterancy, special abilities)</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">OverlayImage2</code> for secondary indicators (status effects, cooldowns)</li>
+      <li>Ensure overlay images are semi-transparent or small enough not to obscure the main button</li>
+      <li>Test overlay combinations to ensure they remain readable</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="performance-and-maintenance">Performance and Maintenance</h3>
+
+<ol>
+  <li><strong>Efficient prerequisite checks</strong> - Keep prerequisite logic simple and fast</li>
+  <li><strong>Avoid circular dependencies</strong> - Ensure prerequisite chains don’t create loops</li>
+  <li><strong>Documentation</strong> - Comment complex prerequisite logic for future maintenance</li>
+  <li><strong>Testing</strong> - Test all alternative button combinations and prerequisite scenarios</li>
+</ol>
+
+<h2 id="template">Template</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">CommandButton</span> <span class="err">CommandButtonName</span>
+    <span class="py">Command</span> <span class="p">=</span> <span class="s">NONE                           ; // Command type (UNIT_BUILD/PLAYER_UPGRADE/etc.) *(v1.04)*</span>
+    <span class="py">Object</span> <span class="p">=</span> <span class="s">ObjectName                      ; // Object to create or target *(v1.04)*</span>
+    <span class="py">Upgrade</span> <span class="p">=</span> <span class="s">UpgradeName                    ; // Upgrade to research *(v1.04)*</span>
+    <span class="py">SpecialPower</span> <span class="p">=</span> <span class="s">SpecialPowerName          ; // Special power to activate *(v1.04)*</span>
+    <span class="py">Science</span> <span class="p">=</span> <span class="s">ScienceName                    ; // Science requirement *(v1.04)*</span>
+    <span class="py">WeaponSlot</span> <span class="p">=</span> <span class="s">PRIMARY_WEAPON              ; // Weapon slot to use *(v1.04)*</span>
+    <span class="py">MaxShotsToFire</span> <span class="p">=</span> <span class="s">1                       ; // Maximum shots to fire *(v1.04)*</span>
+    <span class="py">Options</span> <span class="p">=</span> <span class="s">NONE                           ; // Command options (NEED_TARGET_POS/etc.) *(v1.04)*</span>
+    <span class="py">TextLabel</span> <span class="p">=</span> <span class="s">CONTROLBAR:ButtonText        ; // Button text label *(v1.04)*</span>
+    <span class="py">DescriptLabel</span> <span class="p">=</span> <span class="s">CONTROLBAR:ButtonDesc    ; // Button description *(v1.04)*</span>
+    <span class="py">ButtonImage</span> <span class="p">=</span> <span class="s">ButtonIcon                 ; // Button icon image *(v1.04)*</span>
+    <span class="py">OverlayImage</span> <span class="p">=</span> <span class="s">OverlayIcon1              ; // First overlay image *(GMX Upcoming)*</span>
+    <span class="py">OverlayImage2</span> <span class="p">=</span> <span class="s">OverlayIcon2             ; // Second overlay image *(GMX Upcoming)*</span>
+    <span class="py">ButtonBorderType</span> <span class="p">=</span> <span class="s">BUILD                 ; // Button border type *(v1.04)*</span>
+    <span class="py">CursorName</span> <span class="p">=</span> <span class="s">Attack                      ; // Valid target cursor *(v1.04)*</span>
+    <span class="py">InvalidCursorName</span> <span class="p">=</span> <span class="s">Invalid              ; // Invalid target cursor *(v1.04)*</span>
+    <span class="py">RadiusCursorType</span> <span class="p">=</span> <span class="s">RADIUSCURSOR_NONE     ; // Radius cursor type *(v1.04)*</span>
+    <span class="py">UnitSpecificSound</span> <span class="p">=</span> <span class="s">SoundEvent           ; // Sound to play *(v1.04)*</span>
+    <span class="c">; Zero Hour only properties:
+</span>    <span class="py">RequireElectronics</span> <span class="p">=</span> <span class="s">false               ; // Requires electronics *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">RequiredUpgradeToAppear</span> <span class="p">=</span> <span class="s">UpgradeName    ; // Upgrade required to appear *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">ConflictUpgradeToDisappear</span> <span class="p">=</span> <span class="s">UpgradeName ; // Upgrade that makes button disappear *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">RequiredUpgradeToEnable</span> <span class="p">=</span> <span class="s">UpgradeName    ; // Upgrade required to enable *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">ConflictUpgradeToDisable</span> <span class="p">=</span> <span class="s">UpgradeName   ; // Upgrade that disables button *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">LeftClickCtrlButton</span> <span class="p">=</span> <span class="s">ButtonName         ; // Ctrl+Left-Click alternative *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">LeftClickAltButton</span> <span class="p">=</span> <span class="s">ButtonName          ; // Alt+Left-Click alternative *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">LeftClickShiftButton</span> <span class="p">=</span> <span class="s">ButtonName        ; // Shift+Left-Click alternative *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">RightClickButton</span> <span class="p">=</span> <span class="s">ButtonName            ; // Right-Click alternative *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">AlternativeButton1</span> <span class="p">=</span> <span class="s">ButtonName          ; // First alternative button *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">AlternativeButton2</span> <span class="p">=</span> <span class="s">ButtonName          ; // Second alternative button *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">AlternativeButton3</span> <span class="p">=</span> <span class="s">ButtonName          ; // Third alternative button *(v1.04, Generals Zero Hour only)*</span>
+    <span class="py">AlternativeButton4</span> <span class="p">=</span> <span class="s">ButtonName          ; // Fourth alternative button *(v1.04, Generals Zero Hour only)*</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>CommandButtons provide user interface elements for player actions and game commands</li>
+  <li>The configuration manages button appearance, behavior, and functionality for different game contexts</li>
+  <li>Command operations create interactive elements that connect player input to game functionality</li>
+  <li>Command management ensures intuitive and responsive user interface experiences</li>
+  <li>This configuration is essential for user interface design and player interaction</li>
+  <li>Command coordination creates consistent button behavior across different game modes</li>
+  <li>Button properties control visual appearance, text labels, and interaction behavior</li>
+  <li>Prerequisite systems manage button availability based on game state and player progress</li>
+  <li>Alternative buttons provide dynamic button replacement based on modifiers or prerequisites</li>
+  <li>Command options control specific behaviors like target requirements and multi-select support</li>
+  <li>Button images are defined as MappedImage references, not direct file paths</li>
+  <li>All text labels support localization through the game’s text system</li>
+  <li>Each CommandButton must have a unique name across all INI files</li>
+  <li>CommandButtons are defined in <code class="language-plaintext highlighter-rouge">.ini</code> files within the game’s data directories in a root folder called “CommandButton”</li>
+  <li><strong>GMX Feature</strong>: Multiple <code class="language-plaintext highlighter-rouge">.ini</code> files in the CommandButton directory are automatically merged at runtime (vs. vanilla single CommandButton.ini file)</li>
+  <li>Multiple CommandButtons can be grouped into <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSets</a> for different contexts</li>
+  <li><strong>Version Compatibility</strong>: All properties marked with <code class="language-plaintext highlighter-rouge">*(v1.04)*</code> are available in Generals Zero Hour; <code class="language-plaintext highlighter-rouge">*(v1.04, Generals Zero Hour only)*</code> indicates features unique to Zero Hour vs. original Generals</li>
+  <li>CommandButtons integrate with the game’s command system for executing player actions</li>
+  <li>Button borders provide visual categorization (BUILD, UPGRADE, ACTION, SYSTEM)</li>
+  <li>Cursor systems provide visual feedback for valid and invalid targets</li>
+  <li>Sound systems provide audio feedback for button interactions</li>
+</ul>
+
+<h2 id="source-files-1">Source Files</h2>
+
+<p><strong>Base Class:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h">CommandButton</a></p>
+<ul>
+  <li>Header: <a href="../../GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h</code></a></li>
+  <li>Source: <a href="../../GeneralsMD/Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar.cpp"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar.cpp</code></a></li>
+</ul>
+
+<h2 id="changes-history">Changes History</h2>
+
+<ul>
+  <li><strong>GMX Upcoming</strong>: Added <code class="language-plaintext highlighter-rouge">OverlayImage</code> and <code class="language-plaintext highlighter-rouge">OverlayImage2</code> properties for additional visual indicators on command buttons</li>
+  <li>No Changes done since 1.04</li>
+</ul>
+
+<h2 id="status">Status</h2>
+
+<ul>
+  <li><strong>Documentation Status</strong>: AI Generated - Updated with Overlay Image Properties</li>
+  <li><strong>Last Updated</strong>: 27/06/2025 by @ahmed Salah using AI</li>
+</ul>
+
+<h3 id="modder-reviews">Modder Reviews</h3>
+<ul>
+  <li>No Reviews done yet</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

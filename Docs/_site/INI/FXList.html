@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>FXList INI Documentation | Generals Modding eXtended Documentation</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="FXList INI Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for Generals Modding eXtended." />
+<meta property="og:description" content="Documentation for Generals Modding eXtended." />
+<link rel="canonical" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html" />
+<meta property="og:url" content="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html" />
+<meta property="og:site_name" content="Generals Modding eXtended Documentation" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="FXList INI Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Documentation for Generals Modding eXtended.","headline":"FXList INI Documentation","url":"https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://ahmed007boss.github.io/https://ahmed007boss.github.io/GeneralsModdingeXtended/feed.xml" title="Generals Modding eXtended Documentation" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/">Generals Modding eXtended Documentation</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/about/">About</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/DocAuthoringGuide.html">GMX Documentation Authoring Guide (Prompt/Instructions)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AIData.html">AIData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Animation2d.html">Animation2d INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Armor.html">Armor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/AudioSettings.html">AudioSettings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Campaign.html">Campaign INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ChallengeMode.html">ChallengeMode INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandButton.html">CommandButton INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMap.html">CommandMap INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDebug.html">CommandMapDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandMapDemo.html">CommandMapDemo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/CommandSet.html">CommandSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Crate.html">Crate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Credits.html">Credits INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DamageFX.html">DamageFX INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/DrawGroupInfo.html">DrawGroupInfo INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Eva.html">Eva INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameData.html">GameData INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameDataDebug.html">GameDataDebug INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLOD.html">GameLOD INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/GameLODPresets.html">GameLODPresets INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Index.html">INI Documentation Index</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Locomotor.html">Locomotor INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/MiscAudio.html">MiscAudio INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Mouse.html">Mouse INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Music.html">Music INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object.html">Object INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoHealBehavior.html">AutoHealBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/AutoSupplyItemBehavior.html">AutoSupplyItemBehavior (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BaikonurLaunchPower.html">BaikonurLaunchPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BattleBusSlowDeathBehavior.html">BattleBusSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeBehavior.html">BridgeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeScaffoldBehavior.html">BridgeScaffoldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BridgeTowerBehavior.html">BridgeTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/BunkerBusterBehavior.html">BunkerBusterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashBountyPower.html">CashBountyPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CashHackSpecialPower.html">CashHackSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CleanupAreaPower.html">CleanupAreaPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CollideModule.html">CollideModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CountermeasuresBehavior.html">CountermeasuresBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateCrateDie.html">CreateCrateDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CreateObjectDie.html">CreateObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/CrushDie.html">CrushDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DamDie.html">DamDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DefectorSpecialPower.html">DefectorSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgrade.html">DelayedUpgrade Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DelayedUpgradeBehavior.html">DelayedUpgradeBehavior Module Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DemoralizeSpecialPower.html">DemoralizeSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyDie.html">DestroyDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/DumbProjectileBehavior.html">DumbProjectileBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/EjectPilotDie.html">EjectPilotDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FXListDie.html">FXListDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponCollide.html">FireWeaponCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponPower.html">FireWeaponPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDamagedBehavior.html">FireWeaponWhenDamagedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FireWeaponWhenDeadBehavior.html">FireWeaponWhenDeadBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/FlightDeckBehavior.html">FlightDeckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GenerateMinefieldBehavior.html">GenerateMinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantStealthBehavior.html">GrantStealthBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InstantDeathBehavior.html">InstantDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/InventoryBehavior.html">InventoryBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/JetSlowDeathBehavior.html">JetSlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/KeepObjectDie.html">KeepObjectDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/LockWeaponCreate.html">LockWeaponCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/MinefieldBehavior.html">MinefieldBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutonBlastBehavior.html">NeutonBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronBlastBehavior.html">NeutronBlastBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OCLSpecialPower.html">OCLSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/OverchargeBehavior.html">OverchargeBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/POWTruckBehavior.html">POWTruckBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/ParkingPlaceBehavior.html">ParkingPlaceBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PoisonedBehavior.html">PoisonedBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PreorderCreate.html">PreorderCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PrisonBehavior.html">PrisonBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaCenterBehavior.html">PropagandaCenterBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/PropagandaTowerBehavior.html">PropagandaTowerBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RadiusDecalBehavior.html">RadiusDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleBehavior.html">RebuildHoleBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/RebuildHoleExposeDie.html">RebuildHoleExposeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SlowDeathBehavior.html">SlowDeathBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpawnBehavior.html">SpawnBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialAbility.html">SpecialAbility</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCompletionDie.html">SpecialPowerCompletionDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerCreate.html">SpecialPowerCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpecialPowerModule.html">SpecialPowerModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SpyVisionSpecialPower.html">SpyVisionSpecialPower</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SquishCollide.html">SquishCollide</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyCenterCreate.html">SupplyCenterCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCreate.html">SupplyWarehouseCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/SupplyWarehouseCripplingBehavior.html">SupplyWarehouseCripplingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TechBuildingBehavior.html">TechBuildingBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/TransitionDamageFX.html">TransitionDamageFX</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/UpgradeDie.html">UpgradeDie</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/VeterancyGainCreate.html">VeterancyGainCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BehaviorsModules/WeaponRangeDecalBehavior.html">WeaponRangeDecalBehavior</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ActiveBody.html">ActiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HighlanderBody.html">HighlanderBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/HiveStructureBody.html">HiveStructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ImmortalBody.html">ImmortalBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/InactiveBody.html">InactiveBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/CommunicationComponent.html">CommunicationComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/Component.html">Component (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/ElectronicsComponent.html">ElectronicsComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/EngineComponent.html">EngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/InventoryStorageComponent.html">InventoryStorageComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/JetEngineComponent.html">JetEngineComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/PowerComponent.html">PowerComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/RemoteControlComponent.html">RemoteControlComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/SensorComponent.html">SensorComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/TurretComponent.html">TurretComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/VisionComponent.html">VisionComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/ObjectComponents/WeaponComponent.html">WeaponComponent (GMX)</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/StructureBody.html">StructureBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/BodyModules/UndeadBody.html">UndeadBody</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/KindOf.html">KindOf</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ModelConditionFlagType.html">ModelConditionFlagType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Enums/ObjectStatusTypes.html">ObjectStatusTypes</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/AIUpdate.html">AIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/BodyModule.html">BodyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/CreateModule.html">CreateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DamageModule.html">DamageModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DestroyModule.html">DestroyModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/DieModule.html">DieModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/ModuleBase/Module.html">Module</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ObjectPrerequisite.html">ObjectPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/PlayerPrerequisite.html">PlayerPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/Prerequisites/ProductionPrerequisite.html">ProductionPrerequisite</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AnimationSteeringUpdate.html">AnimationSteeringUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssaultTransportAIUpdate.html">AssaultTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AssistedTargetingUpdate.html">AssistedTargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoDepositUpdate.html">AutoDepositUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/AutoFindHealingUpdate.html">AutoFindHealingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BaseRenerateUpdate.html">BaseRenerateUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BattlePlanUpdate.html">BattlePlanUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/BoneFXUpdate.html">BoneFXUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CheckpointUpdate.html">CheckpointUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ChinookAIUpdate.html">ChinookAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CleanupHazardUpdate.html">CleanupHazardUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/CommandButtonHuntUpdate.html">CommandButtonHuntUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DefaultProductionExitUpdate.html">DefaultProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeletionUpdate.html">DeletionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeliverPayloadAIUpdate.html">DeliverPayloadAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DemoTrapUpdate.html">DemoTrapUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DeployStyleAIUpdate.html">DeployStyleAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DockUpdate.html">DockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DozerAIUpdate.html">DozerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicGeometryInfoUpdate.html">DynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/DynamicShroudClearingRangeUpdate.html">DynamicShroudClearingRangeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EMPUpdate.html">EMPUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/EnemyNearUpdate.html">EnemyNearUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireOCLAfterWeaponCooldownUpdate.html">FireOCLAfterWeaponCooldownUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireSpreadUpdate.html">FireSpreadUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FireWeaponUpdate.html">FireWeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FirestormDynamicGeometryInfoUpdate.html">FirestormDynamicGeometryInfoUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FlammableUpdate.html">FlammableUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/FloatUpdate.html">FloatUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HackInternetAIUpdate.html">HackInternetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HeightDieUpdate.html">HeightDieUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HelicopterSlowDeathUpdate.html">HelicopterSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HijackerUpdate.html">HijackerUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/HordeUpdate.html">HordeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/JetAIUpdate.html">JetAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LaserUpdate.html">LaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/LifetimeUpdate.html">LifetimeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileAIUpdate.html">MissileAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MissileLauncherBuildingUpdate.html">MissileLauncherBuildingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/MobMemberSlavedUpdate.html">MobMemberSlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileSlowDeathUpdate.html">NeutronMissileSlowDeathUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/NeutronMissileUpdate.html">NeutronMissileUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/OCLUpdate.html">OCLUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/POWTruckAIUpdate.html">POWTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ParticleUplinkCannonUpdate.html">ParticleUplinkCannonUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PhysicsUpdate.html">PhysicsUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PilotFindVehicleUpdate.html">PilotFindVehicleUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PointDefenseLaserUpdate.html">PointDefenseLaserUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PowerPlantUpdate.html">PowerPlantUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/PrisonDockUpdate.html">PrisonDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProductionUpdate.html">ProductionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProjectileStreamUpdate.html">ProjectileStreamUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ProneUpdate.html">ProneUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/QueueProductionExitUpdate.html">QueueProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadarUpdate.html">RadarUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RadiusDecalUpdate.html">RadiusDecalUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportAIUpdate.html">RailedTransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailedTransportDockUpdate.html">RailedTransportDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RailroadGuideAIUpdate.html">RailroadGuideAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/RepairDockUpdate.html">RepairDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SlavedUpdate.html">SlavedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SmartBombTargetHomingUpdate.html">SmartBombTargetHomingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpawnPointProductionExitUpdate.html">SpawnPointProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialAbilityUpdate.html">SpecialAbilityUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpecialPowerUpdateModule.html">SpecialPowerUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipDeploymentUpdate.html">SpectreGunshipDeploymentUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpectreGunshipUpdate.html">SpectreGunshipUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SpyVisionUpdate.html">SpyVisionUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthDetectorUpdate.html">StealthDetectorUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StealthUpdate.html">StealthUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/StunnedUpdate.html">StunnedUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterDockUpdate.html">SupplyCenterDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterProductionExitUpdate.html">SupplyCenterProductionExitUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyCenterUpdate.html">SupplyCenterUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyTruckAIUpdate.html">SupplyTruckAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseDockUpdate.html">SupplyWarehouseDockUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/SupplyWarehouseUpdate.html">SupplyWarehouseUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TargetingUpdate.html">TargetingUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/ThiefUpdate.html">ThiefUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportAIUpdate.html">TransportAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TransportUpdate.html">TransportUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/TunnelNetworkUpdate.html">TunnelNetworkUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpdateModule.html">UpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/UpgradeUpdate.html">UpgradeUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WanderAIUpdate.html">WanderAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponBonusUpdate.html">WeaponBonusUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSetUpdate.html">WeaponSetUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponSlotUpdate.html">WeaponSlotUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdate.html">WeaponUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WeaponUpdateModule.html">WeaponUpdateModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpdatesModules/WorkerAIUpdate.html">WorkerAIUpdate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ActiveShroudUpgrade.html">ActiveShroudUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ArmorUpgrade.html">ArmorUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/AttributeModifierUpgrade.html">AttributeModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/BeaconUpgrade.html">BeaconUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CashUpgrade.html">CashUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CommandSetUpgrade.html">CommandSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/CostModifierUpgrade.html">CostModifierUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/DisplayNameUpgrade.html">DisplayNameUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceScalarUpgrade.html">ExperienceScalarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ExperienceUpgrade.html">ExperienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GenericUpgrade.html">GenericUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantScienceUpgrade.html">GrantScienceUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/GrantUpgradeCreate.html">GrantUpgradeCreate</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/HealUpgrade.html">HealUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InventoryUpgrade.html">InventoryUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/InvisibilityUpgrade.html">InvisibilityUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/LocomotorSetUpgrade.html">LocomotorSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/MaxHealthUpgrade.html">MaxHealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ModelConditionUpgrade.html">ModelConditionUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ObjectCreationUpgrade.html">ObjectCreationUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RadarUpgrade.html">RadarUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RangeUpgrade.html">RangeUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/RateOfFireUpgrade.html">RateOfFireUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ReplaceObjectUpgrade.html">ReplaceObjectUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/ShroudClearingUpgrade.html">ShroudClearingUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SpeedUpgrade.html">SpeedUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StatusBitsUpgrade.html">StatusBitsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/StealthUpgrade.html">StealthUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/SubObjectsUpgrade.html">SubObjectsUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UnpauseSpecialPowerUpgrade.html">UnpauseSpecialPowerUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/UpgradeModule.html">UpgradeModule</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponBonusUpgrade.html">WeaponBonusUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponSetUpgrade.html">WeaponSetUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Object/UpgradesModules/WeaponUpgrade.html">WeaponUpgrade</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectCreationList.html">ObjectCreationList INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ObjectExtend.html">ObjectExtend INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ParticleSystem.html">ParticleSystem INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/PlayerTemplate.html">PlayerTemplate INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ProductionPrerequisite.html">ProductionPrerequisite INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Rank.html">Rank INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Roads.html">Roads INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Science.html">Science INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/ShellMenuScheme.html">ShellMenuScheme INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SoundEffects.html">SoundEffects INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/SpecialPower.html">SpecialPower INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Speech.html">Speech INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/TechBuildings.html">TechBuildings INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Terrain.html">Terrain INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Upgrade.html">Upgrade INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Video.html">Video INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Voice.html">Voice INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Water.html">Water INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Enum/DamageType.html">DamageType</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weapon/Weapon.html">Weapon</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WeaponSet.html">WeaponSet INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Weather.html">Weather INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/Webpages.html">Webpages INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/WindowTransitions.html">WindowTransitions INI Documentation</a><a class="page-link" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/multiplayer.html">multiplayer INI Documentation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">FXList INI Documentation</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="fxlist-ini-documentation">FXList INI Documentation</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">FXList</code> INI file contains FX list configuration settings and parameters for visual effects, audio effects, and particle systems. FX lists are collections of effect nuggets that create combined audio-visual effects for weapons, damage, explosions, and other game events.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>FX list templates are defined in INI files and specify the visual and audio effects that play during specific game events. This is a <strong>template configuration system</strong> that defines combined audio-visual effects. The FX list system provides visual and audio feedback for combat, explosions, and other game events.</p>
+
+<p><strong>Limitations</strong>:</p>
+<ul>
+  <li>FX lists are limited to predefined effect nugget types</li>
+  <li>Effects are fixed and cannot be dynamically modified during runtime</li>
+  <li>Effect timing is controlled by fixed parameters</li>
+  <li>Visual effects depend on proper graphics system configuration</li>
+</ul>
+
+<p><strong>Conditions</strong>:</p>
+<ul>
+  <li>FX lists manage combined audio-visual effects for game events</li>
+  <li>The configuration handles effect types, parameters, and positioning</li>
+  <li>FX list operations provide visual and audio feedback for combat and events</li>
+  <li>FX list management ensures appropriate effects for different game situations</li>
+  <li><strong>Multiple instances behavior</strong>: FX lists are shared between multiple objects</li>
+</ul>
+
+<p><strong>Dependencies</strong>:</p>
+<ul>
+  <li>Uses graphics system for visual effects and particle systems</li>
+  <li>Uses audio system for sound effects</li>
+  <li>Integrates with the game’s effect rendering system</li>
+  <li>Uses particle system templates for visual effects</li>
+  <li>Referenced by weapons, damage systems, and other game objects</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#properties">Properties</a>
+    <ul>
+      <li><a href="#sound-effects">Sound Effects</a></li>
+      <li><a href="#ray-effects">Ray Effects</a></li>
+      <li><a href="#tracer-effects">Tracer Effects</a></li>
+      <li><a href="#light-pulse-effects">Light Pulse Effects</a></li>
+      <li><a href="#view-shake-effects">View Shake Effects</a></li>
+      <li><a href="#terrain-scorch-effects">Terrain Scorch Effects</a></li>
+      <li><a href="#particle-system-effects">Particle System Effects</a></li>
+      <li><a href="#fx-list-at-bone-position-effects">FX List at Bone Position Effects</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#template">Template</a></li>
+  <li><a href="#notes">Notes</a></li>
+  <li><a href="#source-files">Source Files</a></li>
+  <li><a href="#changes-history">Changes History</a></li>
+  <li><a href="#status">Status</a>
+    <ul>
+      <li><a href="#modder-reviews">Reviews (0)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="properties">Properties</h2>
+
+<h3 id="sound-effects-v104">Sound Effects <em>(v1.04)</em></h3>
+
+<h4 id="sound-v104"><code class="language-plaintext highlighter-rouge">Sound</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Sound</code> block</li>
+  <li><strong>Description</strong>: Audio effect to play when the FX list is triggered. Provides sound feedback for the effect.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sound
+    Name = WeaponFireSound
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="sound-properties-v104">Sound Properties <em>(v1.04)</em></h4>
+
+<h5 id="name-v104"><code class="language-plaintext highlighter-rouge">Name</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the audio event to play. Must reference a valid audio event defined in the audio system.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Name = ExplosionMOAB</code> // Plays the MOAB explosion sound</li>
+</ul>
+
+<h3 id="ray-effects-v104">Ray Effects <em>(v1.04)</em></h3>
+
+<h4 id="rayeffect-v104"><code class="language-plaintext highlighter-rouge">RayEffect</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">RayEffect</code> block</li>
+  <li><strong>Description</strong>: Ray-based visual effect that creates a line or beam between two points. Used for lasers, energy beams, and similar effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RayEffect
+    Name = LaserBeamEffect
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="ray-effect-properties-v104">Ray Effect Properties <em>(v1.04)</em></h4>
+
+<h5 id="name-v104-1"><code class="language-plaintext highlighter-rouge">Name</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the ray effect template to use.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Name = LaserBeamRay</code> // Uses the laser beam ray effect</li>
+</ul>
+
+<h3 id="tracer-effects-v104">Tracer Effects <em>(v1.04)</em></h3>
+
+<h4 id="tracer-v104"><code class="language-plaintext highlighter-rouge">Tracer</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Tracer</code> block</li>
+  <li><strong>Description</strong>: Tracer effect that creates a visible trail for projectiles. Shows the path of bullets, missiles, and other projectiles.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tracer
+    Name = BulletTracerEffect
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="tracer-properties-v104">Tracer Properties <em>(v1.04)</em></h4>
+
+<h5 id="name-v104-2"><code class="language-plaintext highlighter-rouge">Name</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the tracer effect template to use.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Name = BulletTracer</code> // Uses the bullet tracer effect</li>
+</ul>
+
+<h3 id="light-pulse-effects-v104">Light Pulse Effects <em>(v1.04)</em></h3>
+
+<h4 id="lightpulse-v104"><code class="language-plaintext highlighter-rouge">LightPulse</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">LightPulse</code> block</li>
+  <li><strong>Description</strong>: Light pulse effect that creates a brief flash of light. Used for explosions, muzzle flashes, and other bright effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LightPulse
+    Name = ExplosionFlash
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="light-pulse-properties-v104">Light Pulse Properties <em>(v1.04)</em></h4>
+
+<h5 id="name-v104-3"><code class="language-plaintext highlighter-rouge">Name</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the light pulse effect template to use.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Name = MuzzleFlash</code> // Uses the muzzle flash light effect</li>
+</ul>
+
+<h3 id="view-shake-effects-v104">View Shake Effects <em>(v1.04)</em></h3>
+
+<h4 id="viewshake-v104"><code class="language-plaintext highlighter-rouge">ViewShake</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ViewShake</code> block</li>
+  <li><strong>Description</strong>: View shake effect that causes the camera to shake. Used for explosions, impacts, and other powerful effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ViewShake
+    Type = SEVERE
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="view-shake-properties-v104">View Shake Properties <em>(v1.04)</em></h4>
+
+<h5 id="type-v104"><code class="language-plaintext highlighter-rouge">Type</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ViewShakeType</code></li>
+  <li><strong>Description</strong>: Intensity of the camera shake effect.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">SUBTLE</code></li>
+  <li><strong>Available Values</strong>: <code class="language-plaintext highlighter-rouge">SUBTLE</code>, <code class="language-plaintext highlighter-rouge">STRONG</code>, <code class="language-plaintext highlighter-rouge">SEVERE</code>, <code class="language-plaintext highlighter-rouge">CINE_INSANE</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Type = SEVERE</code> // Strong camera shake for major explosions</li>
+</ul>
+
+<h3 id="terrain-scorch-effects-v104">Terrain Scorch Effects <em>(v1.04)</em></h3>
+
+<h4 id="terrainscorch-v104"><code class="language-plaintext highlighter-rouge">TerrainScorch</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">TerrainScorch</code> block</li>
+  <li><strong>Description</strong>: Terrain scorch effect that creates burn marks or damage on the terrain. Used for explosions, fires, and other destructive effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TerrainScorch
+    Type = RANDOM
+    Radius = 30
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="terrain-scorch-properties-v104">Terrain Scorch Properties <em>(v1.04)</em></h4>
+
+<h5 id="type-v104-1"><code class="language-plaintext highlighter-rouge">Type</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">TerrainScorchType</code></li>
+  <li><strong>Description</strong>: Type of terrain damage to apply.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">RANDOM</code></li>
+  <li><strong>Available Values</strong>: <code class="language-plaintext highlighter-rouge">RANDOM</code>, <code class="language-plaintext highlighter-rouge">CRATER</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Type = RANDOM</code> // Creates random burn marks</li>
+</ul>
+
+<h5 id="radius-v104"><code class="language-plaintext highlighter-rouge">Radius</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code></li>
+  <li><strong>Description</strong>: Radius of the terrain damage area in world units.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">10</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Radius = 30</code> // 30-unit radius damage area</li>
+</ul>
+
+<h3 id="particle-system-effects-v104">Particle System Effects <em>(v1.04)</em></h3>
+
+<h4 id="particlesystem-v104"><code class="language-plaintext highlighter-rouge">ParticleSystem</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">ParticleSystem</code> block</li>
+  <li><strong>Description</strong>: Particle system effect that creates particle-based visual effects. Used for smoke, fire, sparks, and other particle effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ParticleSystem
+    Name = ExplosionParticles
+    Offset = X:0 Y:0 Z:10
+    Count = 3
+    Radius = 15 30 UNIFORM
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="particle-system-properties-v104">Particle System Properties <em>(v1.04)</em></h4>
+
+<h5 id="name-v104-4"><code class="language-plaintext highlighter-rouge">Name</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the particle system template to use. Must reference a valid particle system template.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Name = ArtilleryBlowUpLight</code> // Uses the artillery light particle system</li>
+</ul>
+
+<h5 id="offset-v104"><code class="language-plaintext highlighter-rouge">Offset</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Coord3D</code></li>
+  <li><strong>Description</strong>: Position offset for the particle system relative to the trigger location.</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">Offset = X:value Y:value Z:value</code></li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">X:0 Y:0 Z:0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Offset = X:5 Y:0 Z:5</code> // 5 units forward and up</li>
+</ul>
+
+<h5 id="count-v104"><code class="language-plaintext highlighter-rouge">Count</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedInt</code></li>
+  <li><strong>Description</strong>: Number of particle system instances to create. Used for multiple effects at random positions.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">1</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Count = 3</code> // Creates 3 particle system instances</li>
+</ul>
+
+<h5 id="radius-v104-1"><code class="language-plaintext highlighter-rouge">Radius</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> or <code class="language-plaintext highlighter-rouge">RealRange</code></li>
+  <li><strong>Description</strong>: Radius for random positioning of multiple particle system instances.</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">Radius = min max UNIFORM</code> or <code class="language-plaintext highlighter-rouge">Radius = value</code></li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Radius = 15 30 UNIFORM</code> // Random radius between 15 and 30 units</li>
+</ul>
+
+<h5 id="height-v104"><code class="language-plaintext highlighter-rouge">Height</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> or <code class="language-plaintext highlighter-rouge">RealRange</code></li>
+  <li><strong>Description</strong>: Height variation for random positioning of multiple particle system instances.</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">Height = min max UNIFORM</code> or <code class="language-plaintext highlighter-rouge">Height = value</code></li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Height = 0 20 UNIFORM</code> // Random height between 0 and 20 units</li>
+</ul>
+
+<h5 id="initialdelay-v104"><code class="language-plaintext highlighter-rouge">InitialDelay</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">UnsignedIntRange</code> (milliseconds)</li>
+  <li><strong>Description</strong>: Delay before the particle system starts playing.</li>
+  <li><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">InitialDelay = min max UNIFORM</code></li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">InitialDelay = 100 120 UNIFORM</code> // Delay between 100-120ms</li>
+</ul>
+
+<h5 id="orienttoobject-v104"><code class="language-plaintext highlighter-rouge">OrientToObject</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Bool</code></li>
+  <li><strong>Description</strong>: Whether the particle system should orient itself to the object’s rotation.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">No</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">OrientToObject = Yes</code> // Particle system follows object rotation</li>
+</ul>
+
+<h5 id="rotatey-v104"><code class="language-plaintext highlighter-rouge">RotateY</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">Real</code> (degrees)</li>
+  <li><strong>Description</strong>: Y-axis rotation offset for the particle system.</li>
+  <li><strong>Default</strong>: <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">RotateY = 90</code> // Rotate 90 degrees around Y-axis</li>
+</ul>
+
+<h3 id="fx-list-at-bone-position-effects-v104">FX List at Bone Position Effects <em>(v1.04)</em></h3>
+
+<h4 id="fxlistatbonepos-v104"><code class="language-plaintext highlighter-rouge">FXListAtBonePos</code> <em>(v1.04)</em></h4>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">FXListAtBonePos</code> block</li>
+  <li><strong>Description</strong>: Effect that plays another FX list at a specific bone position on an object. Used for weapon muzzle flashes, engine effects, and other bone-attached effects.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FXListAtBonePos
+    FX = MuzzleFlashEffect
+    Bone = MuzzleBone
+End
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="fx-list-at-bone-position-properties-v104">FX List at Bone Position Properties <em>(v1.04)</em></h4>
+
+<h5 id="fx-v104"><code class="language-plaintext highlighter-rouge">FX</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">FXList</code> (see <a href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/INI/FXList.html">FXList documentation</a>)</li>
+  <li><strong>Description</strong>: Name of the FX list to play at the bone position.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">FX = MuzzleFlashFX</code> // Plays the muzzle flash effect</li>
+</ul>
+
+<h5 id="bone-v104"><code class="language-plaintext highlighter-rouge">Bone</code> <em>(v1.04)</em></h5>
+<ul>
+  <li><strong>Type</strong>: <code class="language-plaintext highlighter-rouge">AsciiString</code></li>
+  <li><strong>Description</strong>: Name of the bone on the object where the effect should be played.</li>
+  <li><strong>Default</strong>: None</li>
+  <li><strong>Example</strong>: <code class="language-plaintext highlighter-rouge">Bone = MuzzleBone</code> // Plays effect at the muzzle bone</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="simple-sound-effect">Simple Sound Effect</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">FX_USA_Helipad_Complete</span>
+    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">EVAAmericaConstructionComplete</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="complex-explosion-effect-real-example">Complex Explosion Effect (Real Example)</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">PCL191MissileDetonation</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ArtilleryBlowUpLight</span>
+        <span class="py">Count</span> <span class="p">=</span> <span class="s">1</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:-30 Y:0 Z:00</span>
+    <span class="err">End</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ArtilleryExplosion_Stage01</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Stage02: Shockwave
+</span>    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HeavySAM_Explosion_Shockwave</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">20 25 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:18.0</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Stage03: Sparks
+</span>    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HeavyAntiAirExplosionSparks</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">28 35 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:20.0</span>
+    <span class="err">End</span>
+    
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HeavyAntiAirExplosionSparks2</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">40 45 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:10.0</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Stage04: Explosion Bright Small
+</span>    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">TEODHeavyAirExplosion</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">45 52 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:10.0</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Stage05: Explosion Bright Big
+</span>    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HeavyAntiAirExplosionSmoke</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">80 90 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:10.0</span>
+    <span class="err">End</span>
+    
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ScudMissleLauncherExplosionArms</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">45 52 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:5.0</span>
+    <span class="err">End</span>
+    
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ScudMissleLauncherExplosionTrailArms</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">45 52 UNIFORM</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:10.0</span>
+    <span class="err">End</span>
+    
+    <span class="err">TerrainScorch</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">RANDOM</span>
+        <span class="py">Radius</span> <span class="p">=</span> <span class="s">30</span>
+    <span class="err">End</span>
+    
+    <span class="err">ViewShake</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">SEVERE</span>
+    <span class="err">End</span>
+    
+    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">CarDie</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="helicopter-delivery-effect">Helicopter Delivery Effect</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">FX_HelicopterDeliversObject_Dust</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HelicopterDeliverObjectDust</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:5 Y:0 Z:5</span>
+    <span class="err">End</span>
+    <span class="err">ViewShake</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">SUBTLE</span>
+    <span class="err">End</span>
+    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">PlaceBuilding</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="vehicle-damage-transition-effect">Vehicle Damage Transition Effect</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">FX_HumveeDamageTransition</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">HumveeTransitionExplosion1</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0 Y:0 Z:10</span>
+    <span class="err">End</span>
+    <span class="err">ViewShake</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">SUBTLE</span>
+    <span class="err">End</span>
+    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">VehicleDamagedState</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="multiple-sound-effects">Multiple Sound Effects</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">FX_ComancheBladeExplosion</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">TankStruckSparks</span>
+        <span class="py">Count</span> <span class="p">=</span> <span class="s">5</span>
+        <span class="py">Radius</span> <span class="p">=</span> <span class="s">5 5 UNIFORM</span>
+    <span class="err">End</span>
+    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ComancheSpinExplosion</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h3 id="missile-launch-effect">Missile Launch Effect</h3>
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">WeaponFX_BastionMissileIgnition</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">BastionRearSmoke</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:-10.0</span>
+        <span class="py">OrientToObject</span> <span class="p">=</span> <span class="s">Yes</span>
+        <span class="py">RotateY</span> <span class="p">=</span> <span class="s">90</span>
+    <span class="err">End</span>
+    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">BlowUpLight</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0.0 Y:0.0 Z:0.0</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">0 0 UNIFORM</span>
+        <span class="py">OrientToObject</span> <span class="p">=</span> <span class="s">Yes</span>
+    <span class="err">End</span>
+<span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="effect-combination-design">Effect Combination Design</h3>
+
+<ol>
+  <li><strong>Layered Effects</strong>: Combine multiple effect types for rich visual and audio feedback</li>
+  <li><strong>Performance Balance</strong>: Balance visual quality with performance impact</li>
+  <li><strong>Effect Timing</strong>: Synchronize audio and visual effects for maximum impact</li>
+  <li><strong>Resource Management</strong>: Reuse common effects across multiple FX lists</li>
+</ol>
+
+<h3 id="audio-visual-synchronization">Audio-Visual Synchronization</h3>
+
+<ol>
+  <li><strong>Sound Timing</strong>: Ensure sound effects match visual effect timing</li>
+  <li><strong>Volume Balance</strong>: Balance sound effect volumes with visual impact</li>
+  <li><strong>Effect Duration</strong>: Match audio and visual effect durations</li>
+  <li><strong>Spatial Audio</strong>: Use appropriate audio positioning for 3D effects</li>
+</ol>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+
+<ol>
+  <li><strong>Effect Complexity</strong>: Use appropriate complexity for the intended use case</li>
+  <li><strong>Particle Count</strong>: Limit particle system complexity for better performance</li>
+  <li><strong>Effect Culling</strong>: Use appropriate culling for distant effects</li>
+  <li><strong>Memory Usage</strong>: Minimize memory usage for frequently used effects</li>
+</ol>
+
+<h3 id="visual-effect-design">Visual Effect Design</h3>
+
+<ol>
+  <li><strong>Color Coordination</strong>: Use consistent color schemes across related effects</li>
+  <li><strong>Scale Appropriateness</strong>: Ensure effects are appropriately sized for their context</li>
+  <li><strong>Duration Matching</strong>: Match effect duration to the triggering event</li>
+  <li><strong>Impact Clarity</strong>: Ensure effects clearly communicate the event that triggered them</li>
+</ol>
+
+<h3 id="effect-categories">Effect Categories</h3>
+
+<ol>
+  <li><strong>Weapon Effects</strong>: Group weapon-related effects for consistency</li>
+  <li><strong>Explosion Effects</strong>: Use consistent explosion effect patterns</li>
+  <li><strong>Environmental Effects</strong>: Create reusable environmental effect templates</li>
+  <li><strong>Special Effects</strong>: Design unique effects for special abilities and powers</li>
+</ol>
+
+<h2 id="template">Template</h2>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">FXList</span> <span class="err">FXListName</span>
+    <span class="c">; Audio effects:
+</span>    <span class="err">Sound</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">AudioEventName               ; // Audio event name *(v1.04)*</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Particle system effects:
+</span>    <span class="err">ParticleSystem</span>
+        <span class="py">Name</span> <span class="p">=</span> <span class="s">ParticleSystemName           ; // Particle system template *(v1.04)*</span>
+        <span class="py">Offset</span> <span class="p">=</span> <span class="s">X:0 Y:0 Z:0                ; // Position offset *(v1.04)*</span>
+        <span class="py">Count</span> <span class="p">=</span> <span class="s">1                           ; // Number of instances *(v1.04)*</span>
+        <span class="py">Radius</span> <span class="p">=</span> <span class="s">0                          ; // Random radius *(v1.04)*</span>
+        <span class="py">Height</span> <span class="p">=</span> <span class="s">0                          ; // Random height *(v1.04)*</span>
+        <span class="py">InitialDelay</span> <span class="p">=</span> <span class="s">0 0 UNIFORM          ; // Start delay (ms) *(v1.04)*</span>
+        <span class="py">OrientToObject</span> <span class="p">=</span> <span class="s">No                 ; // Follow object rotation *(v1.04)*</span>
+        <span class="py">RotateY</span> <span class="p">=</span> <span class="s">0                         ; // Y-axis rotation (degrees) *(v1.04)*</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Camera shake effects:
+</span>    <span class="err">ViewShake</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">SUBTLE                       ; // Shake intensity *(v1.04)*</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Terrain damage effects:
+</span>    <span class="err">TerrainScorch</span>
+        <span class="py">Type</span> <span class="p">=</span> <span class="s">RANDOM                       ; // Scorch type *(v1.04)*</span>
+        <span class="py">Radius</span> <span class="p">=</span> <span class="s">10                         ; // Damage radius *(v1.04)*</span>
+    <span class="err">End</span>
+    
+    <span class="c">; Additional effects (if needed):
+</span>    <span class="c">; RayEffect
+</span>    <span class="c">;     Name = RayEffectName              ; // Ray-based effect *(v1.04)*
+</span>    <span class="c">; End
+</span>    <span class="c">; 
+</span>    <span class="c">; Tracer
+</span>    <span class="c">;     Name = TracerName                 ; // Tracer effect *(v1.04)*
+</span>    <span class="c">; End
+</span>    <span class="c">; 
+</span>    <span class="c">; LightPulse
+</span>    <span class="c">;     Name = LightPulseName             ; // Light flash effect *(v1.04)*
+</span>    <span class="c">; End
+</span>    <span class="c">; 
+</span>    <span class="c">; FXListAtBonePos
+</span>    <span class="c">;     FX = BoneFXListName               ; // Bone-attached effect *(v1.04)*
+</span>    <span class="c">;     Bone = BoneName                   ; // Bone name *(v1.04)*
+</span>    <span class="c">; End
+</span><span class="err">End</span>
+</code></pre></div></div>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>FX lists provide combined audio-visual effects for weapons, damage, explosions, and other game events</li>
+  <li>The configuration manages effect types, parameters, and positioning for immersive feedback</li>
+  <li>FX list operations create rich visual and audio experiences for combat and events</li>
+  <li>FX list management ensures appropriate effects for different game situations and contexts</li>
+  <li>This configuration is essential for creating immersive and engaging gameplay experiences</li>
+  <li>FX list coordination creates consistent effect patterns across different game events</li>
+  <li>Effect nuggets can be combined in various ways to create unique and compelling effects</li>
+  <li>The system supports multiple effect types working together for maximum visual and audio impact</li>
+  <li>FX lists are shared between multiple objects to optimize memory usage and performance</li>
+  <li>Effects are triggered by game events and provide immediate feedback to players</li>
+  <li>Visual effects are rendered through the game’s graphics system and particle engine</li>
+  <li>Audio effects are played through the game’s audio system with appropriate positioning</li>
+  <li>The system integrates with weapons, damage systems, and other game objects</li>
+  <li>FX list templates are defined in INI files and loaded by the FX list system</li>
+  <li>Effect parameters can be adjusted to balance visual impact with performance</li>
+  <li>The system supports complex effect combinations for special abilities and powers</li>
+  <li>FX lists provide critical feedback that helps players understand game events and combat results</li>
+  <li>Effect timing and synchronization are crucial for creating convincing and impactful effects</li>
+  <li>The system can be optimized for different performance levels and hardware capabilities</li>
+  <li>FX lists enhance immersion and provide clear visual and audio cues for important events</li>
+</ul>
+
+<h2 id="source-files">Source Files</h2>
+
+<p><strong>Base Class:</strong> <a href="../../GeneralsMD/Code/GameEngine/Include/GameClient/FXList.h">FXList</a></p>
+<ul>
+  <li>Header: <a href="../../GeneralsMD/Code/GameEngine/Include/GameClient/FXList.h"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Include/GameClient/FXList.h</code></a></li>
+  <li>Source: <a href="../../GeneralsMD/Code/GameEngine/Source/GameClient/FXList.cpp"><code class="language-plaintext highlighter-rouge">GeneralsMD/Code/GameEngine/Source/GameClient/FXList.cpp</code></a></li>
+</ul>
+
+<h2 id="changes-history">Changes History</h2>
+
+<ul>
+  <li>No Changes done since 1.04</li>
+</ul>
+
+<h2 id="status">Status</h2>
+
+<ul>
+  <li><strong>Documentation Status</strong>: AI Generated Pending Reviews</li>
+  <li><strong>Last Updated</strong>: [Current Date] by @ahmed Salah using AI</li>
+</ul>
+
+<h3 id="modder-reviews">Modder Reviews</h3>
+<ul>
+  <li>No Reviews done yet</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Generals Modding eXtended Documentation</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Generals Modding eXtended Documentation</li><li><a class="u-email" href="mailto:info@generalsmodding.com">info@generalsmodding.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ahmed007boss</span></a></li><li><a href="https://www.twitter.com/ahmed007boss"><svg class="svg-icon"><use xlink:href="/https://ahmed007boss.github.io/GeneralsModdingeXtended/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">ahmed007boss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Documentation for Generals Modding eXtended.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

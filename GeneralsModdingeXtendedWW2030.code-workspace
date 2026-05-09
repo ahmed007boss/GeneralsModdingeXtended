@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "E:/Games/Command and Conquer - Generals - Work/Patches/WW2030"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"Generals/**": true,
+			"build/**": true,
+			".vscode/**": true,
+			".vs/**": true,
+			".github/**": true,
+			"resources/**": true,
+			"scripts/**": true,
+			"GeneralsReplays/**": true,
+			"Dependencies/**": true,
+			"cmake/**": true,
+			
+		},
+		"search.exclude": {
+			"Generals/**": true,
+			"build/**": true,
+			".vscode/**": true,
+			".vs/**": true,
+			".github/**": true,
+			"resources/**": true,
+			"scripts/**": true,
+			"GeneralsReplays/**": true,
+			"Dependencies/**": true,
+			"cmake/**": true,
+			
+		},
+		"powershell.cwd": "GeneralsModdingeXtended"
+	}
+}
